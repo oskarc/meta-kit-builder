@@ -1,0 +1,202 @@
+# MANIFEST.yaml
+# Instance data for this kit. Governed by SKILL.md in the same directory.
+# Updated only through the skill-builder process with developer approval.
+
+kit_identity:
+  kit_name: base-building-kit
+  kit_type: base
+  category: base
+  version: 0.4
+  parent_kit: null
+  status: active
+
+nodes:
+
+  - id: base-contract
+    concern: Contract before execution — three-tier proposal, approval gate, standard evolution report
+    skill_file: meta-contract-before-execution/SKILL.md
+    layer: meta
+    phase: [pre-build, post-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Proposal format not yet templated for non-developer legibility
+      - No guidance on handling partial approvals
+
+  - id: base-skill-builder
+    concern: Abstraction loop — classifying learnings, updating skills, raising the standard
+    skill_file: meta-skill-builder/SKILL.md
+    layer: meta
+    phase: [post-build]
+    status: mature
+    dependencies: [base-contract]
+    open_gaps:
+      - No guidance on deprecating outdated nodes
+      - Conflict resolution between two nodes covering overlapping concerns not addressed
+
+  - id: base-manifest
+    concern: Kit topology — node registry, coverage map, gap tracking, self-organisation
+    skill_file: meta-manifest/SKILL.md
+    data_file: meta-manifest/MANIFEST.yaml
+    layer: meta
+    phase: [pre-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Library forking process not defined
+      - No versioning strategy for breaking changes to node schema
+
+  # --- Type-category nodes (to be built through use) ---
+  # Naming convention: [layer]-[name]/SKILL.md
+  # Layer prefixes: principle- | pattern- | implementation- | meta-
+  # The folder carries layer identity. The file is always SKILL.md.
+  # Manifest skill_file field uses the joined form: pattern-foo/SKILL.md
+  #
+  # Uncomment and fill when a node is created:
+  #
+  # - id: [concern-id]
+  #   concern: [what area this node owns — be precise]
+  #   skill_file: [layer]-[name]/SKILL.md
+  #   layer: [principle | pattern | implementation | meta]
+  #   phase: [pre-build | during-build | post-build]
+  #   status: [mature | thin | missing]
+  #   dependencies: [list of node ids this depends on]
+  #   open_gaps:
+  #     - [known hole or empty]
+
+coverage_map:
+  - concern: Contract & proposal
+    node_id: base-contract
+    layer: meta
+    phase: pre/post
+    status: mature
+
+  - concern: Skill evolution
+    node_id: base-skill-builder
+    layer: meta
+    phase: post
+    status: mature
+
+  - concern: Kit topology
+    node_id: base-manifest
+    layer: meta
+    phase: pre
+    status: mature
+
+  - concern: Information architecture
+    node_id: null
+    layer: principle
+    phase: pre-build
+    status: missing
+
+  - concern: Component structure
+    node_id: null
+    layer: pattern
+    phase: pre/during
+    status: missing
+
+  - concern: Cognitive load & layout
+    node_id: null
+    layer: principle
+    phase: pre-build
+    status: missing
+
+  - concern: Navigation & IA decisions
+    node_id: null
+    layer: pattern
+    phase: pre-build
+    status: missing
+
+  - concern: State management
+    node_id: null
+    layer: pattern
+    phase: during-build
+    status: missing
+
+  - concern: Separation of concerns
+    node_id: null
+    layer: implementation
+    phase: during-build
+    status: missing
+
+  - concern: Design system & feel
+    node_id: null
+    layer: principle
+    phase: pre-build
+    status: missing
+
+  - concern: Error & edge case handling
+    node_id: null
+    layer: pattern
+    phase: during-build
+    status: missing
+
+  - concern: Verification & completion criteria
+    node_id: null
+    layer: pattern
+    phase: post-build
+    status: missing
+
+gap_queue:
+  - gap_id: gap-001
+    concern: Manifest — doc/data co-location
+    surfaced_by: contract-before-execution
+    surfaced_in: base-kit first use
+    description: Single manifest file mixed governance prose with instance data, causing merge conflicts on template updates
+    candidate_level: pattern
+    priority: high
+    status: resolved
+    resolved_by: base-manifest split into meta-manifest/SKILL.md + MANIFEST.yaml
+
+  - gap_id: gap-002
+    concern: Naming convention — layer prefix vs loader auto-discovery
+    surfaced_by: contract-before-execution
+    surfaced_in: base-kit rename pass
+    description: meta-skill-builder instructed flat file naming (meta-[name].md) which conflicts with Claude Code loader requiring SKILL.md. Convention was unstated — a reader following it literally would get a silent load failure.
+    candidate_level: pattern
+    priority: high
+    status: resolved
+    resolved_by: Convention clarified — folder carries layer prefix, file is always SKILL.md, manifest uses joined form
+
+  - gap_id: gap-003
+    concern: Template drift — exemplars and template blocks edited independently
+    surfaced_by: contract-before-execution
+    surfaced_in: base-kit rename pass
+    description: After renaming filled nodes to folder/SKILL.md form, template comment block still showed old flat-file form. Standard contradicted itself within one file.
+    candidate_level: principle
+    priority: medium
+    status: resolved
+    resolved_by: Template drift added as anti-pattern to meta-skill-builder
+
+  - gap_id: gap-004
+    concern: Incomplete resolution — gap-003 marked resolved while exemplars still contained the bug
+    surfaced_by: manual
+    surfaced_in: base-kit review after gap-003 resolution
+    description: Template comment block was corrected to joined form but three filled exemplars still used flat form. gap-003 was marked resolved prematurely — the resolution fixed the anti-pattern definition but not the instance of it in the same file.
+    candidate_level: principle
+    priority: high
+    status: resolved
+    resolved_by: Exemplar skill_file paths updated to folder/SKILL.md form. Note — this is a second instance of template drift, suggesting the anti-pattern should include an explicit self-check step after any resolution.
+  #
+  # - gap_id: gap-NNN
+  #   concern: [area]
+  #   surfaced_by: [contract-before-execution | skill-builder | manual]
+  #   surfaced_in: [session or feature]
+  #   description: [what the agent had to improvise]
+  #   candidate_level: [principle | pattern | implementation | unknown]
+  #   priority: [high | medium | low]
+  #   status: [open | in-progress | resolved]
+  #   resolved_by: [skill or node that closed this, when resolved]
+
+library_entry: null
+# Filled at promotion time:
+#
+# library_entry:
+#   kit_name: [name]
+#   category: [assignment type]
+#   description: [one sentence]
+#   built_from: [parent kit or null]
+#   node_count: [number of mature nodes]
+#   known_limitations: [what this kit does not cover]
+#   recommended_for: [system types this handles well]
+#   not_recommended_for: [system types outside scope]
