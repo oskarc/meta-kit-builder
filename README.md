@@ -66,6 +66,9 @@ Over time, **the kit builds itself through use**. Gaps surface via post-implemen
 meta-foundation/
   SKILL.md          — Philosophical foundation, governing aspects, human and agent roles
 
+meta-bootstrap/
+  SKILL.md          — First-run onboarding — introduces the practice, establishes authority, orients to project
+
 meta-contract-before-execution/
   SKILL.md          — Three-tier proposal, approval gate, Standard Evolution Report
 
@@ -86,6 +89,8 @@ An agent starting a session loads in this order:
 3. `meta-contract-before-execution/SKILL.md` — build loop
 4. `meta-skill-builder/SKILL.md` — evolution loop
 
+`meta-bootstrap` runs once on first install. After that it is not part of the regular load order.
+
 ### Naming Convention
 
 All skills follow `[layer]-[name]/SKILL.md`. The folder carries layer identity. The file is always `SKILL.md` for loader auto-discovery. The manifest `skill_file` field uses the joined form: `pattern-foo/SKILL.md`.
@@ -98,28 +103,28 @@ Layer prefixes:
 
 ---
 
-## Precedence
+## Getting Started
 
-1. **Foundation** — `meta-foundation` governs what this work is and how the agent orients to the human. Absolute precedence.
-2. **Base building kit** — meta skills that govern how the standard is built and upheld
-3. **Type-category kit** — domain-specific nodes for the current assignment type
-4. **Project instructions** — product knowledge, specific constraints, one-off context
-5. **Session input** — what the developer adds in the current prompt
+Add the kit files to your project, then tell your agent:
 
-When a conflict arises, adhere to the higher level and surface the conflict explicitly — never resolve it silently.
+> "Run meta-bootstrap."
+
+The agent will introduce the practice to you from the foundation, establish the kit as load-bearing in your environment, orient to your project, and create your project manifest. You do not need to read every skill file first — the bootstrap will walk you through what matters before anything else happens.
+
+**The bootstrap will not proceed past each step without your confirmation.** You are being asked to understand what you are participating in before the kit becomes active in your project.
 
 ---
 
 ## Building With the Kit
 
-**Starting a new system type:**
+**Once installed:**
 
-1. Load the base kit into your agent environment
-2. Read `meta-foundation` — understand what you are participating in before any other step
-3. Create a `MANIFEST.yaml` for your new kit, forked from the base template
-4. Begin building features using `meta-contract-before-execution`
-5. Process each Standard Evolution Report through `meta-skill-builder`
-6. New nodes emerge — each prefixed by layer, each added to the manifest
+1. Every feature begins with a three-tier proposal from the agent
+2. You approve, redirect, or refine — no code is written until the proposal is accepted
+3. Implementation proceeds against the approved proposal
+4. The agent produces a Standard Evolution Report after each implementation
+5. You decide what enters the standard — principle, pattern, or product detail
+6. New nodes emerge, each prefixed by layer, each added to the manifest
 7. The coverage map fills in. Gap frequency drops. The kit matures.
 
 **When the kit is ready to reuse**, fill the `library_entry` field in `MANIFEST.yaml`. A non-developer with the kit and product knowledge should be able to produce a proposal that requires no flagged gaps and no judgment calls outside the standard.

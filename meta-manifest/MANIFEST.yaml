@@ -6,7 +6,7 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.5
+  version: 0.6
   parent_kit: null
   status: active
 
@@ -21,6 +21,16 @@ nodes:
     dependencies: []
     open_gaps: []
     note: Load before all other skills. Takes precedence over all other kit nodes including governance in meta-manifest.
+
+  - id: base-bootstrap
+    concern: First-run installation — introduces the practice to the developer, establishes kit authority in the environment, orients to the project, creates the project manifest
+    skill_file: meta-bootstrap/SKILL.md
+    layer: meta
+    phase: [pre-build]
+    status: mature
+    dependencies: [base-foundation]
+    open_gaps: []
+    note: Runs once per project. After completion the kit is load-bearing and this skill is not invoked again.
 
   - id: base-contract
     concern: Contract before execution — three-tier proposal, approval gate, standard evolution report
@@ -79,6 +89,12 @@ coverage_map:
     node_id: base-foundation
     layer: meta
     phase: always
+    status: mature
+
+  - concern: Project onboarding & authority establishment
+    node_id: base-bootstrap
+    layer: meta
+    phase: pre-build
     status: mature
 
   - concern: Contract & proposal
