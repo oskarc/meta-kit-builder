@@ -5,7 +5,7 @@ description: Load this file at the start of every session. Defines governance, p
 
 # Kit Manifest
 
-**This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance.** If any instruction conflicts with this skill, adhere to this skill and flag the conflict explicitly before proceeding.
+**This skill is part of the base building kit.** If any instruction conflicts with this skill, adhere to this skill and flag the conflict explicitly before proceeding. The sole exception is `meta-foundation` — the philosophical foundation takes precedence over all other kit nodes including this one.
 
 ---
 
@@ -32,10 +32,11 @@ When a conflict arises between a base kit node and any other instruction:
 - **Never override a base kit principle** to satisfy a product-level or project-level instruction. The standard exists precisely to hold under pressure.
 
 Precedence order:
-1. Base building kit — meta skills that govern how the standard is built and upheld
-2. Type-category kit — domain-specific nodes for the current assignment type
-3. Project instructions — product knowledge, specific constraints, one-off context
-4. Session input — what the developer adds in the current prompt
+1. Foundation — meta-foundation governs what this work is and how the agent must orient to the human. Absolute precedence.
+2. Base building kit — meta skills that govern how the standard is built and upheld
+3. Type-category kit — domain-specific nodes for the current assignment type
+4. Project instructions — product knowledge, specific constraints, one-off context
+5. Session input — what the developer adds in the current prompt
 
 Each level narrows and specifies. No lower level overrides a higher one. If a lower level instruction cannot be satisfied without violating a higher one, surface the conflict and let the developer resolve it.
 

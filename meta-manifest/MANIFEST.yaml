@@ -6,11 +6,21 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.4
+  version: 0.5
   parent_kit: null
   status: active
 
 nodes:
+
+  - id: base-foundation
+    concern: Philosophical foundation and operational frame — what this work is, the human's role, the agent's role, the governing aspects
+    skill_file: meta-foundation/SKILL.md
+    layer: meta
+    phase: [pre-build, during-build, post-build]
+    status: mature
+    dependencies: []
+    open_gaps: []
+    note: Load before all other skills. Takes precedence over all other kit nodes including governance in meta-manifest.
 
   - id: base-contract
     concern: Contract before execution — three-tier proposal, approval gate, standard evolution report
@@ -65,6 +75,12 @@ nodes:
   #     - [known hole or empty]
 
 coverage_map:
+  - concern: Philosophical foundation & governing aspects
+    node_id: base-foundation
+    layer: meta
+    phase: always
+    status: mature
+
   - concern: Contract & proposal
     node_id: base-contract
     layer: meta
