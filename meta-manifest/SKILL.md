@@ -15,7 +15,7 @@ The manifest always consists of two files in the same directory:
 
 | File | Purpose | Changes when |
 |---|---|---|
-| `SKILL.md` | Governance, precedence, reading guide, update protocol, library promotion | The standard itself evolves |
+| `SKILL.md` | Governance, precedence, schema reference, reading guide, update protocol, library promotion | The standard itself evolves |
 | `MANIFEST.yaml` | Kit identity, node registry, coverage map, gap queue | Any node is added, updated, or resolved |
 
 **The agent reads MANIFEST.yaml for topology. It reads SKILL.md for governance.** Never merge them. A template update to SKILL.md must never overwrite project-specific data in MANIFEST.yaml — they are separate files for this reason.
@@ -64,6 +64,46 @@ Every non-base node carries inheritance markers so the lifecycle stays visible a
 | `tier: type-category` or `tier: project` | Set by the developer during skill-builder. Determines whether the node is extractable. Base nodes do not carry this — they are meta. |
 
 These fields are the contract between generations. `meta-extract` reads them to decide which nodes pass through, which carry forward with modifications absorbed, and which stay behind as project-specific.
+
+---
+
+## Schema Reference
+
+### Phase vocabulary
+
+Use exact values only — no ad-hoc shorthand:
+
+| Value | Meaning | Form |
+|---|---|---|
+| `always` | Active in all phases | bare string |
+| `pre-build` | Governs before implementation begins | bare string |
+| `during-build` | Governs during implementation | bare string |
+| `post-build` | Governs after implementation completes | bare string |
+| `[pre-build, post-build]` | Active in two or more specific phases | YAML array |
+
+Single-phase values use bare strings. Multi-phase values use YAML array form. The coverage_map uses the same vocabulary. Do not use shorthand (`pre`, `post`, `pre/post`).
+
+### Tier vocabulary
+
+Required on every non-base node:
+
+| Value | Meaning |
+|---|---|
+| `base` | Base building kit node — governs the kit itself. Does not carry `tier` field. |
+| `type-category` | Transferable standard for a class of system — library extraction candidate |
+| `project` | Project-specific — does not travel to the library |
+
+### Node field requirements
+
+Every node entry requires: `id`, `concern`, `skill_file`, `layer`, `phase`, `status`, `dependencies`, `open_gaps`
+
+Type-category and project nodes also require: `tier`, `inherited`
+
+Inherited nodes also require: `inherited_from`
+
+### data_file convention
+
+The `data_file` field uses the path relative to `.claude/skills/`. For the manifest node this is always `meta-manifest/MANIFEST.yaml`.
 
 ---
 

@@ -1,4 +1,4 @@
-# meta-kit-builder
+# base-building-kit
 
 A methodology and base kit for building deterministic, standard-driven software systems using AI agents. Designed for teams who want to encode their judgment into a transferable standard — so the kit, not the person, becomes the dominant force in what gets built.
 
@@ -56,20 +56,20 @@ No code is written without an approved proposal. This eliminates half-implementa
 
 After implementation, the agent produces a **Standard Evolution Report** — structured classification proposals identifying what the kit should absorb from this session. Each learning is proposed at the right level — principle, pattern, or product detail — with evidence and reasoning. The developer decides what enters the standard.
 
-Over time, **the kit builds itself through use**. Gaps surface via post-implementation reports. The standard grows in depth, not just length. The measure of a mature kit is gap frequency approaching zero.
+Over time, **the kit builds itself through use**. Gaps surface via post-implementation reports. The standard grows in depth, not just length. The maturity signal is the Standard Evolution Reports going quiet — when sessions produce few or no evolution candidates, the standard has learned to anticipate what it needs.
 
 ---
 
 ## Kit Structure
 
-### This Repository (the base building kit)
+This is the base-building-kit repo layout:
 
 ```
 meta-foundation/
   SKILL.md          — Philosophical foundation, governing aspects, human and agent roles
 
 meta-bootstrap/
-  SKILL.md          — First-run onboarding — introduces the practice, checks library, establishes authority, creates project manifest
+  SKILL.md          — First-run onboarding — installs kit, introduces practice, creates project manifest
 
 meta-contract-before-execution/
   SKILL.md          — Three-tier proposal, approval gate, Standard Evolution Report
@@ -77,20 +77,41 @@ meta-contract-before-execution/
 meta-skill-builder/
   SKILL.md          — Abstraction loop for classifying learnings and evolving the standard
 
+meta-antidrift/
+  SKILL.md          — Post-output drift scoring against governing aspects and active skills
+
+meta-antidrift-expand/
+  SKILL.md          — Session-level drift analysis, invoked by the human
+
 meta-extract/
-  SKILL.md          — Extracts mature type-category nodes into a portable library artifact at end of project
+  SKILL.md          — Extracts mature type-category nodes into a portable library artifact
 
 meta-manifest/
-  SKILL.md          — Governance, tier definitions, precedence rules, update protocol
-  MANIFEST.yaml     — Node registry, coverage map, gap queue, kit identity (this repo's own manifest)
+  SKILL.md          — Governance, schema, tier definitions, precedence rules, update protocol
+  MANIFEST.yaml     — Node registry, coverage map, gap queue, kit identity
 
 templates/
-  MANIFEST.template.yaml  — Agent-readable template forked by meta-bootstrap for each new consumer project
+  MANIFEST.template.yaml  — Agent-readable template used by meta-bootstrap to create the project manifest
 ```
 
-### A Consumer Project After Install
+### Load Order
 
-The developer copies the kit folders above into their project under `.claude/skills/`. After `meta-bootstrap` runs, the project looks like this:
+An agent starting a session loads in this order:
+
+1. `meta-foundation/SKILL.md` — absolute precedence, orients the agent to the work and the human
+2. `meta-manifest/SKILL.md` + `MANIFEST.yaml` — governance and topology
+3. `meta-contract-before-execution/SKILL.md` — build loop
+4. `meta-skill-builder/SKILL.md` — evolution loop
+5. `meta-antidrift/SKILL.md` — runs after every output
+
+Invoked explicitly, not loaded continuously:
+- `meta-bootstrap` — runs once on first install, not again
+- `meta-extract` — run when type-category nodes are ready for extraction
+- `meta-antidrift-expand` — run when human requests session-level drift analysis
+
+### Consumer Project Layout
+
+After meta-bootstrap runs, a project using the kit has this structure:
 
 ```
 .claude/
@@ -99,31 +120,23 @@ The developer copies the kit folders above into their project under `.claude/ski
     meta-bootstrap/SKILL.md
     meta-contract-before-execution/SKILL.md
     meta-skill-builder/SKILL.md
+    meta-antidrift/SKILL.md
+    meta-antidrift-expand/SKILL.md
     meta-extract/SKILL.md
     meta-manifest/
       SKILL.md
-      MANIFEST.yaml             — this project's manifest, created by meta-bootstrap
-    [type-category skill folders, if a library kit was integrated]
-    [project skill folders, as they emerge through use]
-
-  library/                       — only used at startup (bootstrap) and end (extract)
-    [kit-type]/                  — extracted kit dropped here by the developer for a future project
-      META.yaml                  — kit identity, coverage, known gaps, generation
+      MANIFEST.yaml        ← project manifest created here by bootstrap
+    templates/
+      MANIFEST.template.yaml
+    [type-category nodes discovered through use]
+  library/
+    [category]/            ← placed here by the developer from their library
+      META.yaml
       [skill files]
+  CLAUDE.md                ← load order declared here by bootstrap
 ```
 
-The `library/` is dormant during normal development. `meta-bootstrap` reads from it once at project start; `meta-extract` writes to it once at project end.
-
-### Load Order
-
-An agent starting a session in a consumer project loads in this order:
-
-1. `meta-foundation/SKILL.md` — absolute precedence, orients the agent to the work and the human
-2. `meta-manifest/SKILL.md` + `meta-manifest/MANIFEST.yaml` — governance and topology
-3. `meta-contract-before-execution/SKILL.md` — build loop
-4. `meta-skill-builder/SKILL.md` — evolution loop
-
-All paths above are relative to `.claude/skills/`. `meta-bootstrap` and `meta-extract` are not in the regular load order — they are invoked deliberately once each, at project start and end respectively.
+All paths in the kit — bootstrap, extract, manifest — reference this layout. The manifest always lives at `.claude/skills/meta-manifest/MANIFEST.yaml`. The library always lives at `.claude/library/[category]/`. The template always lives at `.claude/skills/templates/MANIFEST.template.yaml`.
 
 ### Naming Convention
 
@@ -139,13 +152,30 @@ Layer prefixes:
 
 ## Getting Started
 
-Add the kit files to your project, then tell your agent:
+**1. Copy all kit contents into your project's `.claude/skills/` folder:**
+
+Everything in this repo — all `meta-*/` skill folders and the `templates/` folder — goes directly into `.claude/skills/` in your consumer project.
+
+```
+your-project/
+  .claude/
+    skills/
+      meta-foundation/
+      meta-bootstrap/
+      meta-contract-before-execution/
+      meta-skill-builder/
+      meta-antidrift/
+      meta-antidrift-expand/
+      meta-extract/
+      meta-manifest/
+      templates/
+```
+
+**2. Tell your agent:**
 
 > "Run meta-bootstrap."
 
-The agent will introduce the practice to you from the foundation, establish the kit as load-bearing in your environment, orient to your project, and create your project manifest. You do not need to read every skill file first — the bootstrap will walk you through what matters before anything else happens.
-
-**The bootstrap will not proceed past each step without your confirmation.** You are being asked to understand what you are participating in before the kit becomes active in your project.
+Bootstrap will introduce the practice, establish the kit as load-bearing in your environment, orient to your project, and create your project manifest. It will not proceed past each step without your confirmation.
 
 ---
 
@@ -194,6 +224,6 @@ When the reports go quiet, run `meta-extract`. The mature type-category nodes ar
 
 ## Status
 
-The base building kit is at **v0.7** — actively used and evolving. Type-category kits (Blazor web app, integration API, and others) are in early development, being built through use as described.
+The base building kit is at **v0.8** — actively used and evolving.
 
 Contributions, forks, and field reports welcome.

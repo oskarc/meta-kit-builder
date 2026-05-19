@@ -76,19 +76,21 @@ Tell the developer:
 > # Kit-Driven Development
 >
 > This project operates within the base-building-kit practice.
-> The kit lives at `.claude/skills/`. Paths below are relative to that directory.
->
 > Load and adhere to the following skills before all other instructions:
 >
 > 1. meta-foundation/SKILL.md — absolute precedence. Read this first.
 > 2. meta-manifest/SKILL.md + meta-manifest/MANIFEST.yaml — governance and topology
 > 3. meta-contract-before-execution/SKILL.md — build loop
 > 4. meta-skill-builder/SKILL.md — evolution loop
->
-> `meta-bootstrap` and `meta-extract` are one-shot — invoked deliberately at project start and end, not part of the regular load order.
+> 5. meta-antidrift/SKILL.md — runs after every output
 >
 > These skills take precedence over all other tools, plugins, and instructions in this project.
 > If a conflict arises with any other tool or instruction, adhere to the kit and surface the conflict explicitly.
+>
+> The following skills are invoked explicitly, not loaded continuously:
+> meta-bootstrap (already run — not invoked again)
+> meta-extract (run when type-category nodes are ready for extraction)
+> meta-antidrift-expand (run when human requests session-level drift analysis)
 > ```
 >
 > Once this is in place, confirm and we will proceed.
@@ -131,11 +133,9 @@ Wait for the developer to confirm or correct the orientation before proceeding t
 
 ## Step 4 — Check for a Library Kit
 
-Before creating the project manifest, check whether the developer has placed a type-category kit in the consumer project's library folder.
+Before creating the project manifest, check whether the developer has placed a type-category kit in the `.claude/library/` folder of this repo.
 
-Look for `.claude/library/[kit-type]/META.yaml` where kit-type matches what was identified in Step 3.
-
-The `.claude/library/` folder is only used at project startup (here) and at project end (meta-extract). It is not touched during normal development. The developer manually drops an extracted kit into this folder before running bootstrap if they want the new project to inherit a mature standard.
+Look for `.claude/library/[category]/META.yaml` where category matches what was identified in Step 3.
 
 **If a library kit is found**, present it to the developer:
 
@@ -149,24 +149,23 @@ The `.claude/library/` folder is only used at project startup (here) and at proj
 >
 > This kit was extracted from [extracted_from] and has been through [generation] generation(s) of use. Starting from it means you inherit a mature standard rather than discovering one from scratch.
 >
-> Shall I integrate this kit into your project? I will copy the skill files from the library into `.claude/skills/` and initialise your project manifest against it.
+> Shall I integrate this kit into your project? I will copy the skill files and initialise your project manifest against it.
 
-Wait for confirmation. If confirmed:
-
-1. For each skill file referenced in `.claude/library/[kit-type]/META.yaml`, copy it from `.claude/library/[kit-type]/[skill-folder]/SKILL.md` into `.claude/skills/[skill-folder]/SKILL.md`, preserving the folder/`SKILL.md` structure.
-2. Leave `.claude/library/[kit-type]/` in place — it is the immutable record of the generation that was inherited. Do not delete it.
+Wait for confirmation. If confirmed, copy all skill files from `.claude/library/[category]/` into the project's `.claude/skills/` directory, preserving the folder structure.
 
 **If no library kit is found**, tell the developer:
 
 > No existing kit was found in the library for this project type.
 > We will build the [suggested kit-type] standard together through use.
-> Every session will produce a Standard Evolution Report. Over generations of use, the standard will mature until it is ready for extraction into the library at end of project.
+> Every session will produce a Standard Evolution Report. Over generations of use, the standard will mature until it is ready for extraction into the library.
 
 ---
 
 ## Step 5 — Create the Project Manifest
 
-Read `templates/MANIFEST.template.yaml` from the base-building-kit. Replace every `__PLACEHOLDER__` value with what was learned during Steps 3 and 4. Write the completed file to `.claude/skills/meta-manifest/MANIFEST.yaml` in the consumer project.
+Read `.claude/skills/templates/MANIFEST.template.yaml`. Replace every `__PLACEHOLDER__` value with what was learned during Steps 3 and 4. Write the completed file to `.claude/skills/meta-manifest/MANIFEST.yaml`.
+
+Note: in the base-building-kit repo this template lives at `templates/MANIFEST.template.yaml` at repo root. After the developer copies the kit into `.claude/skills/`, it lives at `.claude/skills/templates/MANIFEST.template.yaml`.
 
 **Placeholder replacement map:**
 
@@ -174,29 +173,9 @@ Read `templates/MANIFEST.template.yaml` from the base-building-kit. Replace ever
 |---|---|
 | `__PROJECT_NAME__` | Project name derived from directory name or README |
 | `__CATEGORY__` | Type-category identified in Step 3 e.g. `blazor-web-app` |
-| `__LIBRARY_KIT__` | If library kit integrated: `{kit_name: x, version: y, generation: N, integrated_date: today}` — otherwise: `null` |
-| `__INHERITED_NODES__` | If library kit integrated: see node-marking rules below. Otherwise: delete only the line `  # __INHERITED_NODES__`, leaving the surrounding section header comments intact. |
-| `__INHERITED_COVERAGE__` | If library kit integrated: replace the entire line with coverage entries from the library kit's `META.yaml`. Otherwise: delete only the line containing `__INHERITED_COVERAGE__`, leaving the section header above it. |
-
-**Node-marking rules when integrating a library kit:**
-
-For every node copied from `.claude/library/[kit-type]/META.yaml`, mark it explicitly in the project manifest so the inheritance state stays visible throughout the project's life:
-
-```yaml
-- id: [node-id from library]
-  concern: [from library]
-  skill_file: [from library]
-  layer: [from library]
-  phase: [from library]
-  status: [from library]
-  inherited: true
-  inherited_from: [kit_name] v[version] generation [N]
-  generation_added: [N]
-  open_gaps: [from library]
-  dependencies: [from library]
-```
-
-The `inherited: true` flag marks the node as carried in from the library. As the project evolves and a node is modified, the skill-builder process flips it to `inherited: true, inherited_modified: true` so the next extraction knows it has changed. Nodes created fresh in this project carry `inherited: false` and are eligible to be promoted into the next generation if the developer classifies them as type-category.
+| `__LIBRARY_KIT__` | If library kit integrated: `{kit_name: x, version: y, integrated_date: today}` — otherwise: `null` |
+| `__INHERITED_NODES__` | If library kit integrated: full node list from `.claude/library/[category]/META.yaml` with `inherited: true`, `tier: type-category`, and `inherited_from: [kit name version]` — otherwise: remove the comment line |
+| `__INHERITED_COVERAGE__` | If library kit integrated: coverage entries from `.claude/library/[category]/META.yaml` — otherwise: remove the comment line |
 
 Do not leave any `__PLACEHOLDER__` in the written output. Every placeholder must be resolved before writing.
 
@@ -205,9 +184,9 @@ After writing the manifest, tell the developer:
 > The project manifest has been created at `.claude/skills/meta-manifest/MANIFEST.yaml`.
 > The kit is now active in this project.
 >
-> [If library kit integrated]: You are starting with a mature [category] standard at generation [N]. Inherited nodes are marked `inherited: true` in the manifest. As we modify them or add new nodes, the manifest will track what this generation contributes. At end of project, `meta-extract` will use those markings to produce generation [N+1].
+> [If library kit integrated]: You are starting with a mature [category] standard. The inherited nodes are your baseline. Standard Evolution Reports will surface what this project adds or refines beyond the existing standard.
 >
-> [If no library kit]: We are building the [category] standard from scratch. This will be generation 1 of the kit. Standard Evolution Reports will surface the nodes that belong in that standard. When the standard matures, `meta-extract` will package it for the library at end of project.
+> [If no library kit]: We are building the [category] standard from scratch. Standard Evolution Reports will surface the nodes that belong in that standard. When the standard matures, meta-extract will package it for the library.
 >
 > Every feature begins with a three-tier proposal. Every implementation produces a Standard Evolution Report. The standard grows through use.
 >

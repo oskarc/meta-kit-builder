@@ -72,7 +72,7 @@ Only the human can distinguish their judgment model from a one-off decision.
 If the update touches a node currently marked `inherited: true` in the manifest, the change is not silent. The skill-builder must:
 
 1. Flip the manifest entry to `inherited_modified: true` so the next `meta-extract` knows this generation evolved the node.
-2. Record a one-line summary of what changed in the node's `open_gaps` or in a new `evolution_notes` field. This is what the next developer reads to understand why the node looks different from the previous generation.
+2. Record a one-line summary of what changed in the node's `open_gaps` field. This is what the next developer reads to understand why the node looks different from the previous generation.
 3. Confirm with the developer that the change *should* propagate to the next generation. If the modification is project-specific (e.g. patching the inherited rule with this project's domain language), the inherited skill file stays untouched and the project carries an override at the project layer instead. Only changes that should travel forward modify the inherited node itself.
 
 A project that ships without a single `inherited_modified: true` flag has either inherited a perfect kit or hidden its evolutions. Both are worth asking about at extraction time.
