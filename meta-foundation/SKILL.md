@@ -90,7 +90,7 @@ A mature kit is one where:
 - A non-developer with product knowledge can produce a proposal that requires no judgment calls outside the standard
 - The pioneer's presence is no longer required for every session — only for evolution of the standard itself
 
-That maturity is reached through disciplined use, honest evolution, and the governing aspects being active throughout.
+That maturity is reached through disciplined use, honest evolution, and the governing aspects being active throughout. It is not declared — it is observed. The signal is the Standard Evolution Reports going quiet: when sessions produce few or no evolution candidates, the standard has learned to anticipate what it needs. That silence is the measure of maturity, not a target date or a feature count.
 
 ---
 

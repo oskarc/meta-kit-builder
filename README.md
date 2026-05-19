@@ -62,12 +62,14 @@ Over time, **the kit builds itself through use**. Gaps surface via post-implemen
 
 ## Kit Structure
 
+### This Repository (the base building kit)
+
 ```
 meta-foundation/
   SKILL.md          — Philosophical foundation, governing aspects, human and agent roles
 
 meta-bootstrap/
-  SKILL.md          — First-run onboarding — introduces the practice, establishes authority, orients to project
+  SKILL.md          — First-run onboarding — introduces the practice, checks library, establishes authority, creates project manifest
 
 meta-contract-before-execution/
   SKILL.md          — Three-tier proposal, approval gate, Standard Evolution Report
@@ -75,21 +77,53 @@ meta-contract-before-execution/
 meta-skill-builder/
   SKILL.md          — Abstraction loop for classifying learnings and evolving the standard
 
+meta-extract/
+  SKILL.md          — Extracts mature type-category nodes into a portable library artifact at end of project
+
 meta-manifest/
-  SKILL.md          — Governance, precedence rules, update protocol
-  MANIFEST.yaml     — Node registry, coverage map, gap queue, kit identity
+  SKILL.md          — Governance, tier definitions, precedence rules, update protocol
+  MANIFEST.yaml     — Node registry, coverage map, gap queue, kit identity (this repo's own manifest)
+
+templates/
+  MANIFEST.template.yaml  — Agent-readable template forked by meta-bootstrap for each new consumer project
 ```
+
+### A Consumer Project After Install
+
+The developer copies the kit folders above into their project under `.claude/skills/`. After `meta-bootstrap` runs, the project looks like this:
+
+```
+.claude/
+  skills/
+    meta-foundation/SKILL.md
+    meta-bootstrap/SKILL.md
+    meta-contract-before-execution/SKILL.md
+    meta-skill-builder/SKILL.md
+    meta-extract/SKILL.md
+    meta-manifest/
+      SKILL.md
+      MANIFEST.yaml             — this project's manifest, created by meta-bootstrap
+    [type-category skill folders, if a library kit was integrated]
+    [project skill folders, as they emerge through use]
+
+  library/                       — only used at startup (bootstrap) and end (extract)
+    [kit-type]/                  — extracted kit dropped here by the developer for a future project
+      META.yaml                  — kit identity, coverage, known gaps, generation
+      [skill files]
+```
+
+The `library/` is dormant during normal development. `meta-bootstrap` reads from it once at project start; `meta-extract` writes to it once at project end.
 
 ### Load Order
 
-An agent starting a session loads in this order:
+An agent starting a session in a consumer project loads in this order:
 
 1. `meta-foundation/SKILL.md` — absolute precedence, orients the agent to the work and the human
-2. `meta-manifest/SKILL.md` + `MANIFEST.yaml` — governance and topology
+2. `meta-manifest/SKILL.md` + `meta-manifest/MANIFEST.yaml` — governance and topology
 3. `meta-contract-before-execution/SKILL.md` — build loop
 4. `meta-skill-builder/SKILL.md` — evolution loop
 
-`meta-bootstrap` runs once on first install. After that it is not part of the regular load order.
+All paths above are relative to `.claude/skills/`. `meta-bootstrap` and `meta-extract` are not in the regular load order — they are invoked deliberately once each, at project start and end respectively.
 
 ### Naming Convention
 
@@ -115,6 +149,23 @@ The agent will introduce the practice to you from the foundation, establish the 
 
 ---
 
+## The Kit Lifecycle
+
+Kit-driven development operates across three phases:
+
+**Phase 1 — Discovery**
+A new project, no type-category kit exists yet. Every session builds the system and evolves the emerging standard simultaneously. Type-category nodes are discovered, not inherited. The standard grows through use.
+
+**Phase 2 — Maturity**
+Through use, the type-category layer separates from the project layer. Nodes graduate from thin to mature. The gap queue shrinks. Standard Evolution Reports produce fewer candidates. The standard is learning to anticipate what it needs.
+
+**Phase 3 — Extraction**
+When the reports go quiet, run `meta-extract`. The mature type-category nodes are separated from project-specific nodes and packaged into a portable library artifact. The developer places it in their library. The next project of the same type inherits the maturity of this generation and builds further from it.
+
+**The non-developer milestone** is not a roadmap item. It is reached when the standard has matured enough through generations that reports go silent and the governing aspects are fully encoded. That silence is the measure — not a date, not a feature count.
+
+---
+
 ## Building With the Kit
 
 **Once installed:**
@@ -123,21 +174,11 @@ The agent will introduce the practice to you from the foundation, establish the 
 2. You approve, redirect, or refine — no code is written until the proposal is accepted
 3. Implementation proceeds against the approved proposal
 4. The agent produces a Standard Evolution Report after each implementation
-5. You decide what enters the standard — principle, pattern, or product detail
+5. You decide what enters the standard — and at which tier: type-category or project
 6. New nodes emerge, each prefixed by layer, each added to the manifest
 7. The coverage map fills in. Gap frequency drops. The kit matures.
 
-**When the kit is ready to reuse**, fill the `library_entry` field in `MANIFEST.yaml`. A non-developer with the kit and product knowledge should be able to produce a proposal that requires no flagged gaps and no judgment calls outside the standard.
-
----
-
-## The Non-Developer Use Case
-
-A mature type-category kit built on this base can be handed to a non-developer. They bring product knowledge. The kit brings the standard. The agent produces a three-tier proposal. The developer audits the proposal — not the code.
-
-This is the long-term goal: **executable judgment**. The developer's accumulated understanding of good software, encoded precisely enough that an agent can act on it without the developer present.
-
-The pioneer's ultimate task is to encode their judgment into the standard completely enough that the standard can sustain itself — so that a developer who was not present for the discovery can work within it at the same quality as the one who built it.
+**When reports go quiet**, run `meta-extract`. The type-category kit becomes a library artifact. The next project inherits the generation.
 
 ---
 
@@ -153,6 +194,6 @@ The pioneer's ultimate task is to encode their judgment into the standard comple
 
 ## Status
 
-The base building kit is at **v0.5** — actively used and evolving. Type-category kits (Blazor web app, integration API, and others) are in early development, being built through use as described.
+The base building kit is at **v0.7** — actively used and evolving. Type-category kits (Blazor web app, integration API, and others) are in early development, being built through use as described.
 
 Contributions, forks, and field reports welcome.
