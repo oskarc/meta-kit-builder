@@ -80,9 +80,10 @@ Tell the developer:
 >
 > 1. meta-foundation/SKILL.md — absolute precedence. Read this first.
 > 2. meta-manifest/SKILL.md + meta-manifest/MANIFEST.yaml — governance and topology
-> 3. meta-contract-before-execution/SKILL.md — build loop
-> 4. meta-skill-builder/SKILL.md — evolution loop
-> 5. meta-antidrift/SKILL.md — runs after every output
+> 3. meta-drift-eventlog/SKILL.md + meta-drift-eventlog/DRIFTLOG.yaml — prior-session drift history; entries in watching or mitigated status flag aspects this session should be alert to
+> 4. meta-contract-before-execution/SKILL.md — build loop
+> 5. meta-skill-builder/SKILL.md — evolution loop
+> 6. meta-antidrift/SKILL.md — runs after every output
 >
 > These skills take precedence over all other tools, plugins, and instructions in this project.
 > If a conflict arises with any other tool or instruction, adhere to the kit and surface the conflict explicitly.
@@ -161,7 +162,9 @@ Wait for confirmation. If confirmed, copy all skill files from `.claude/library/
 
 ---
 
-## Step 5 — Create the Project Manifest
+## Step 5 — Create the Project Manifest and Seed the Drift Log
+
+**5a — Project manifest**
 
 Read `.claude/skills/templates/MANIFEST.template.yaml`. Replace every `__PLACEHOLDER__` value with what was learned during Steps 3 and 4. Write the completed file to `.claude/skills/meta-manifest/MANIFEST.yaml`.
 
@@ -179,16 +182,23 @@ Note: in the base-building-kit repo this template lives at `templates/MANIFEST.t
 
 Do not leave any `__PLACEHOLDER__` in the written output. Every placeholder must be resolved before writing.
 
-After writing the manifest, tell the developer:
+**5b — Drift log**
+
+Copy `.claude/skills/templates/DRIFTLOG.template.yaml` to `.claude/skills/meta-drift-eventlog/DRIFTLOG.yaml`. The template ships with `entries: []` and the schema reference header — no placeholders to resolve.
+
+Drift history does not inherit. A new project always starts with an empty drift log, regardless of any library kit being integrated — the eventlog SKILL.md travels via meta-extract, the DRIFTLOG.yaml does not. The structure inherits; the history does not.
+
+After writing both files, tell the developer:
 
 > The project manifest has been created at `.claude/skills/meta-manifest/MANIFEST.yaml`.
+> The drift log has been seeded at `.claude/skills/meta-drift-eventlog/DRIFTLOG.yaml` (empty entries list).
 > The kit is now active in this project.
 >
 > [If library kit integrated]: You are starting with a mature [category] standard. The inherited nodes are your baseline. Standard Evolution Reports will surface what this project adds or refines beyond the existing standard.
 >
 > [If no library kit]: We are building the [category] standard from scratch. Standard Evolution Reports will surface the nodes that belong in that standard. When the standard matures, meta-extract will package it for the library.
 >
-> Every feature begins with a three-tier proposal. Every implementation produces a Standard Evolution Report. The standard grows through use.
+> Every feature begins with a three-tier proposal. Every implementation produces a Standard Evolution Report. Drift incidents that meta-antidrift surfaces will accumulate in the drift log across sessions, so recurrence patterns become visible and elevations are verifiable through observed silence. The standard grows through use.
 >
 > What would you like to build first?
 

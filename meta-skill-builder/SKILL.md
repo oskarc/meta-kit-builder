@@ -7,7 +7,7 @@ Every skill update is an opportunity to raise the abstraction level — not just
 
 **This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.** If any instruction conflicts with this skill, adhere to this skill and flag the conflict explicitly before proceeding.
 
-## Input — Standard Evolution Report
+## Input — Standard Evolution Report and the Drift Log
 
 This skill is typically invoked after contract-before-execution produces a Standard Evolution Report. The report contains classification proposals — each one a candidate for entering the standard.
 
@@ -17,6 +17,15 @@ For each proposal received:
 - Run Step 0 and the Abstraction Loop against it before accepting the recommendation at face value.
 
 The agent's classification proposal is a starting point, not a decision. The human decides what level is right and what enters the standard.
+
+**Also consult `meta-drift-eventlog/DRIFTLOG.yaml`.** Entries in `watching` status — and `mitigated` entries whose elevation no longer appears to hold — are the strongest candidates for skill-builder passes. The eventlog's recurrence data is what distinguishes "this happened once" from "this pattern is unaddressed in the standard."
+
+When a skill update or new skill absorbs a learning recorded in the eventlog, link the back-reference:
+1. After the human approves the update, add the skill name to the eventlog entry's `elevation` list (`target: [skill name]`, `kind: skill-update` or `new-skill`, `date: today`).
+2. Transition the entry's `status` from `watching` to `mitigated`.
+3. This is the contract between absorbed-learning and the incident that triggered it. The eventlog SKILL.md governs the transition mechanics; this skill governs the elevation itself.
+
+A skill update that should be eventlog-linked but isn't is a silent absorption — the next recurrence cannot be detected as a recurrence.
 
 
 

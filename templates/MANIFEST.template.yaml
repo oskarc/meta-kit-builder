@@ -100,6 +100,17 @@ nodes:
     open_gaps: []
     note: Invoked explicitly by the human for re-orientation conversations and skill-builder passes.
 
+  - id: base-drift-eventlog
+    concern: Persistent drift log — durable cross-session record of flagged incidents, their evidence, the in-session reaction, and the lifecycle of any elevation that absorbed the learning
+    skill_file: meta-drift-eventlog/SKILL.md
+    data_file: meta-drift-eventlog/DRIFTLOG.yaml
+    layer: meta
+    phase: always
+    status: mature
+    dependencies: [base-antidrift, base-foundation]
+    open_gaps: []
+    note: DRIFTLOG.yaml is read at session start alongside MANIFEST.yaml. Entries are written only at end-of-session or on human-flagged drift — never silently.
+
   # ─── Inherited type-category nodes ────────────────────────────────────────
   # Populated by meta-bootstrap if a library kit was integrated.
   # Each node is copied from .claude/library/[category]/META.yaml.
@@ -189,6 +200,12 @@ coverage_map:
     node_id: base-antidrift-expand
     layer: meta
     phase: post-build
+    status: mature
+
+  - concern: Persistent cross-session drift log
+    node_id: base-drift-eventlog
+    layer: meta
+    phase: always
     status: mature
 
   # ─── Type-category & project coverage ────────────────────────────────────

@@ -66,10 +66,21 @@ ABSENT on the same aspect across multiple consecutive outputs is a pattern. The 
 
 ---
 
+## Persistence Across Sessions
+
+The drift score block lives in the chat transcript and dies when the session closes. When an output's score flags drift the human or agent considers worth keeping — typically anything other than a clean all-aspects-present score, or any unauthorised skill deviation — the incident is recorded in `meta-drift-eventlog/DRIFTLOG.yaml`.
+
+The eventlog captures what the per-output score block surfaces: the cited evidence, the in-session reaction, the lifecycle of any elevation that absorbs the learning. Recurrence across sessions becomes visible there, not here.
+
+This skill does not write to the eventlog. It produces the evidence the eventlog records. End-of-session entry creation, lifecycle transitions, and recurrence tracking are governed by `meta-drift-eventlog/SKILL.md`.
+
+---
+
 ## What This Skill Does Not Do
 
 - It does not self-correct — it scores and stops
 - It does not produce analysis or explanation of the score — that is antidrift-expand
+- It does not persist scores across sessions — that is meta-drift-eventlog
 - It does not decide whether drift is acceptable — the human decides
 - It does not replace the governing aspects — it makes adherence to them visible
 - It does not run on its own output — the drift score block is not itself scored

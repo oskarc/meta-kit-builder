@@ -83,6 +83,10 @@ meta-antidrift/
 meta-antidrift-expand/
   SKILL.md          — Session-level drift analysis, invoked by the human
 
+meta-drift-eventlog/
+  SKILL.md          — Governance for the persistent drift log — schema, lifecycle, update protocol
+  DRIFTLOG.yaml     — Instance data — one entry per drift incident, cumulative across sessions
+
 meta-extract/
   SKILL.md          — Extracts mature type-category nodes into a portable library artifact
 
@@ -92,6 +96,7 @@ meta-manifest/
 
 templates/
   MANIFEST.template.yaml  — Agent-readable template used by meta-bootstrap to create the project manifest
+  DRIFTLOG.template.yaml  — Agent-readable template used by meta-bootstrap to seed an empty drift log
 ```
 
 ### Load Order
@@ -100,9 +105,10 @@ An agent starting a session loads in this order:
 
 1. `meta-foundation/SKILL.md` — absolute precedence, orients the agent to the work and the human
 2. `meta-manifest/SKILL.md` + `MANIFEST.yaml` — governance and topology
-3. `meta-contract-before-execution/SKILL.md` — build loop
-4. `meta-skill-builder/SKILL.md` — evolution loop
-5. `meta-antidrift/SKILL.md` — runs after every output
+3. `meta-drift-eventlog/SKILL.md` + `DRIFTLOG.yaml` — governance and prior-session drift history; entries in `watching` or `mitigated` status flag aspects the current session should be alert to
+4. `meta-contract-before-execution/SKILL.md` — build loop
+5. `meta-skill-builder/SKILL.md` — evolution loop
+6. `meta-antidrift/SKILL.md` — runs after every output
 
 Invoked explicitly, not loaded continuously:
 - `meta-bootstrap` — runs once on first install, not again
@@ -126,8 +132,12 @@ After meta-bootstrap runs, a project using the kit has this structure:
     meta-manifest/
       SKILL.md
       MANIFEST.yaml        ← project manifest created here by bootstrap
+    meta-drift-eventlog/
+      SKILL.md
+      DRIFTLOG.yaml        ← empty drift log seeded here by bootstrap
     templates/
       MANIFEST.template.yaml
+      DRIFTLOG.template.yaml
     [type-category nodes discovered through use]
   library/
     [category]/            ← placed here by the developer from their library
@@ -136,7 +146,7 @@ After meta-bootstrap runs, a project using the kit has this structure:
   CLAUDE.md                ← load order declared here by bootstrap
 ```
 
-All paths in the kit — bootstrap, extract, manifest — reference this layout. The manifest always lives at `.claude/skills/meta-manifest/MANIFEST.yaml`. The library always lives at `.claude/library/[category]/`. The template always lives at `.claude/skills/templates/MANIFEST.template.yaml`.
+All paths in the kit — bootstrap, extract, manifest — reference this layout. The manifest always lives at `.claude/skills/meta-manifest/MANIFEST.yaml`. The drift log always lives at `.claude/skills/meta-drift-eventlog/DRIFTLOG.yaml`. The library always lives at `.claude/library/[category]/`. Templates always live under `.claude/skills/templates/`.
 
 ### Naming Convention
 
@@ -166,6 +176,7 @@ your-project/
       meta-skill-builder/
       meta-antidrift/
       meta-antidrift-expand/
+      meta-drift-eventlog/
       meta-extract/
       meta-manifest/
       templates/
@@ -224,6 +235,6 @@ When the reports go quiet, run `meta-extract`. The mature type-category nodes ar
 
 ## Status
 
-The base building kit is at **v0.8** — actively used and evolving.
+The base building kit is at **v0.9** — actively used and evolving.
 
 Contributions, forks, and field reports welcome.

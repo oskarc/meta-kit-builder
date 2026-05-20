@@ -125,10 +125,25 @@ Then stop. The human decides whether to accept the re-orientation or correct it.
 
 ---
 
+## Cross-Session Context — Reading the Drift Log
+
+Before producing the analysis, read `meta-drift-eventlog/DRIFTLOG.yaml`. Entries in `watching` or `mitigated` status touching aspects that drifted in this session are not background — they are the recurrence frame for the analysis.
+
+When a pattern in section 2 matches an existing entry's aspect + shape:
+- Surface the recurrence explicitly in the section: "Aspect X drifted again — see drift-NNN, previously `mitigated` via [elevation target]."
+- Note in section 6 that the elevation didn't hold — the analysis is no longer a single-session view, it is evidence for the eventlog's recurrence transition (`mitigated → watching`) and a strong signal for the next skill-builder pass.
+
+When the analysis surfaces a drift that has no matching entry, propose a new eventlog entry as part of the output. The eventlog SKILL.md governs entry creation and lifecycle transitions — this skill produces the evidence, the eventlog absorbs it.
+
+The analysis is recurrence-aware, not session-isolated.
+
+---
+
 ## What This Skill Does Not Do
 
 - It does not propose skill updates — it produces the evidence for skill-builder to act on
 - It does not self-correct the session — the session happened, the analysis names it
 - It does not evaluate whether drift was acceptable — the human decides that
+- It does not write to the eventlog silently — it proposes entries and transitions; meta-drift-eventlog governs the writes
 - It does not run antidrift on its own output — the expanded analysis is not itself scored
 - It does not propose fixes for the problems it surfaces — diagnosis only
