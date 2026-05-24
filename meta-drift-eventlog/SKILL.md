@@ -40,7 +40,11 @@ Every entry requires:
 - drift_id: drift-NNN                  # sequential, never reused
   surfaced_in: YYYY-MM-DD / topic      # session date + one-line topic
   surfaced_by: human | self | post-hoc # who/what flagged the drift
-  aspect: lay-of-the-land | stop-when-falls | partner-mirror | elevation-not-recovery | meta
+  # aspect — one of the following:
+  #   agent aspects: lay-of-the-land | stop-on-triggers | partner-mirror | elevation-not-recovery | evidence-as-work
+  #   human aspects: exercise-judgment | closeness | distance | re-orient | approval-gate
+  #   meta:          meta
+  aspect: lay-of-the-land
   description: |
     Concrete, non-evaluative statement of what happened.
     Describe the action and the discipline-aligned alternative.
@@ -59,7 +63,9 @@ Every entry requires:
   related_drifts: []                   # cluster pointers to similar drift_ids
 ```
 
-Optional `aspect: meta` is for drifts about the meta layer itself — for example, a skill failing to surface its own breach. These are valid; they trigger separate skill-builder consideration.
+**Agent vs human aspects in entries.** Agent aspects drift when the agent fails them (e.g. continued past a named trigger). Human aspects drift when the human fails them (e.g. watched antidrift scores degrade across multiple outputs without calling for re-orientation). Both are valid entries. The agent proposes either kind; the human approves either kind. Human-side entries are typically surfaced by the human or surfaced post-hoc during a `meta-antidrift-expand` pass.
+
+Optional `aspect: meta` is for drifts about the meta layer itself — for example, a skill failing to surface its own breach, or the eventlog schema being insufficient to capture a real incident. These trigger separate skill-builder consideration.
 
 ---
 
@@ -125,7 +131,7 @@ This mirrors how `gap_queue: []` resets per project — the structure inherits, 
 ## Cross-References With Other Skills
 
 - **`meta-antidrift`** produces the per-output score block that frequently triggers new entries. The two skills together cover ephemeral (antidrift) and persistent (eventlog) views of the same phenomenon.
-- **`meta-antidrift-expand`** mines prior entries during deep-dive analysis. The expand skill's "Discipline Fall Point" section becomes recurrence-aware via this log.
+- **`meta-antidrift-expand`** mines prior entries during deep-dive analysis. The expand skill's "Drift Onset Point" section becomes recurrence-aware via this log.
 - **`meta-skill-builder`** consumes entries that elevated to skill or memory updates — the `elevation` field is the back-reference from incident to absorbed-learning.
 - **`meta-manifest`** carries the kit topology including this node; its `library_entry` field signals when the kit extracts. The drift log itself does not extract.
 

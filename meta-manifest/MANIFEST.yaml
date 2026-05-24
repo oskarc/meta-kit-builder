@@ -6,7 +6,7 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.9
+  version: 0.9.1
   parent_kit: null
   status: active
 
@@ -71,7 +71,7 @@ nodes:
     note: Runs after every output. Must be in the continuous load order.
 
   - id: base-antidrift-expand
-    concern: Session-level drift analysis — full pattern mapping, implicit approval accumulation, discipline fall point, elevation vs recovery assessment
+    concern: Session-level drift analysis — full pattern mapping, implicit approval accumulation, drift onset point, elevation vs recovery assessment
     skill_file: meta-antidrift-expand/SKILL.md
     layer: meta
     phase: post-build

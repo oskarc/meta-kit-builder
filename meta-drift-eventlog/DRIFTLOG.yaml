@@ -7,7 +7,11 @@
 #   - drift_id: drift-NNN                  # sequential, never reused
 #     surfaced_in: YYYY-MM-DD / topic
 #     surfaced_by: human | self | post-hoc
-#     aspect: lay-of-the-land | stop-when-falls | partner-mirror | elevation-not-recovery | meta
+#     # aspect — one of:
+#     #   agent: lay-of-the-land | stop-on-triggers | partner-mirror | elevation-not-recovery | evidence-as-work
+#     #   human: exercise-judgment | closeness | distance | re-orient | approval-gate
+#     #   meta:  meta
+#     aspect: lay-of-the-land
 #     description: |
 #       Concrete, non-evaluative statement of what happened.
 #     evidence: |

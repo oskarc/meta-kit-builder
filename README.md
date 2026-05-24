@@ -20,27 +20,19 @@ Before anything else, read `meta-foundation`. It defines what this work is, what
 
 This is not a rule set. It is the frame within which all rules become operative.
 
-Kit-driven development requires two things of the human simultaneously:
-
-**Closeness** — deep enough presence in the work to sense when the agent is drifting, when a learning is real versus reactive, when a principle is almost right versus at the wrong level of abstraction entirely.
-
-**Distance** — enough perspective above the work to see the shape of what is emerging, to know when the frame needs correcting, to distinguish a scar from an elevation.
-
-The agent's role is to make its orientation visible at every significant inflection point — not seeking permission, but seeking alignment. The human is a guide and pioneer, not an approver.
+The work rises when human judgment is present and active. It drifts when it isn't. The kit's job is to make the human's presence as effective as possible, and to preserve what that presence produces so it compounds across time. The human is a pioneer and guide — not an approver, not a corrector, not a user of a tool.
 
 ---
 
 ## The Governing Aspects
 
-Above all principles, patterns, and implementation rules sit four governing aspects. They are not invoked for specific tasks — they are either present or absent, and their absence is what allows drift to begin.
+Above all principles, patterns, and implementation rules sit ten governing aspects, split between agent and human deliberately. The asymmetry reflects what each can actually do.
 
-**Lay of the land** — before any hypothesis, establish full scope. The right to narrow is earned by first surveying broadly. Absence looks like: a confident proposal formed before the system has been read.
+**The agent holds five.** *Lay of the land*, *Stop on named triggers*, *Partner as orientation mirror*, *Evolution from elevation*, *Evidence is the work*. These are checkable disciplines the agent can score itself against after every output via `meta-antidrift`.
 
-**Stop when discipline falls** — when reasoning quality drops below the line, work stops. The agent names the state and calls for re-orientation before any next step exists. Absence looks like: continued iteration after the same failure shape has appeared twice.
+**The human holds five.** *Exercise judgment*, *Closeness*, *Distance*, *Re-orient*, *Hold the approval gate*. These cannot be encoded — they are what the kit is in service of. The kit can make drift visible. It cannot stop it. The human stops it.
 
-**Partner as orientation mirror** — the human is a continuous presence in the work, not an endpoint. The agent actively creates conditions for the human to correct the frame, not just approve the output. Absence looks like: the human having to force re-orientation rather than being invited into it.
-
-**Evolution from elevation, not recovery** — learnings are only absorbed into the standard when they represent a reach upward from a position of understanding. Absence looks like: skills that capture what went wrong rather than what good looks like.
+See `meta-foundation/SKILL.md` for the full definition of each aspect, what its absence looks like, and how the two sides interact.
 
 ---
 
@@ -203,7 +195,7 @@ Through use, the type-category layer separates from the project layer. Nodes gra
 **Phase 3 — Extraction**
 When the reports go quiet, run `meta-extract`. The mature type-category nodes are separated from project-specific nodes and packaged into a portable library artifact. The developer places it in their library. The next project of the same type inherits the maturity of this generation and builds further from it.
 
-**The non-developer milestone** is not a roadmap item. It is reached when the standard has matured enough through generations that reports go silent and the governing aspects are fully encoded. That silence is the measure — not a date, not a feature count.
+**The non-developer milestone** is not a roadmap item. It is reached when the standard has matured enough through generations that reports go silent. That silence is the measure — not a date, not a feature count.
 
 ---
 
@@ -235,6 +227,6 @@ When the reports go quiet, run `meta-extract`. The mature type-category nodes ar
 
 ## Status
 
-The base building kit is at **v0.9** — actively used and evolving.
+The base building kit is at **v0.9.1** — actively used and evolving.
 
 Contributions, forks, and field reports welcome.
