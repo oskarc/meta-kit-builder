@@ -92,7 +92,7 @@ Tell the developer:
 > 1. meta-foundation/SKILL.md — absolute precedence. Read this first.
 > 2. meta-manifest/SKILL.md + meta-manifest/MANIFEST.yaml — governance and topology
 > 3. meta-drift-eventlog/SKILL.md + meta-drift-eventlog/DRIFTLOG.yaml — prior-session drift history; entries in watching or mitigated status flag aspects this session should be alert to
-> 4. meta-contract-before-execution/SKILL.md — build loop
+> 4. meta-contract-before-execution/SKILL.md + meta-contract-before-execution/CONTRACT-LOG.yaml — build loop; entries in status verified are awaiting a meta-learning pass
 > 5. meta-skill-builder/SKILL.md — evolution loop
 > 6. meta-antidrift/SKILL.md — runs after every output
 >
@@ -103,6 +103,8 @@ Tell the developer:
 > meta-bootstrap (already run — not invoked again)
 > meta-extract (run when type-category nodes are ready for extraction)
 > meta-antidrift-expand (run when human requests session-level drift analysis)
+> meta-learning (run to diff contracted vs verified for any contract in CONTRACT-LOG.yaml with status
+>   verified — check for these at session start alongside the manifest and drift log)
 > ```
 >
 > Once this is in place, confirm and we will proceed.
@@ -199,17 +201,29 @@ Copy `.claude/skills/templates/DRIFTLOG.template.yaml` to `.claude/skills/meta-d
 
 Drift history does not inherit. A new project always starts with an empty drift log, regardless of any library kit being integrated — the eventlog SKILL.md travels via meta-extract, the DRIFTLOG.yaml does not. The structure inherits; the history does not.
 
-After writing both files, tell the developer:
+**5c — Contract log**
+
+Copy `.claude/skills/templates/CONTRACT-LOG.template.yaml` to `.claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml`. Ships with `contracts: []` — no placeholders.
+
+**5d — Learning log**
+
+Copy `.claude/skills/templates/LEARNINGLOG.template.yaml` to `.claude/skills/meta-learning/LEARNINGLOG.yaml`. Ships with `entries: []` — no placeholders.
+
+Same asymmetry as the drift log: contract and learning history are project-specific. A new project always starts with both logs empty, regardless of any library kit being integrated — the governance travels via meta-extract, the instance data does not.
+
+After writing all four files, tell the developer:
 
 > The project manifest has been created at `.claude/skills/meta-manifest/MANIFEST.yaml`.
 > The drift log has been seeded at `.claude/skills/meta-drift-eventlog/DRIFTLOG.yaml` (empty entries list).
+> The contract log has been seeded at `.claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml` (empty contracts list).
+> The learning log has been seeded at `.claude/skills/meta-learning/LEARNINGLOG.yaml` (empty entries list).
 > The kit is now active in this project.
 >
 > [If library kit integrated]: You are starting with a mature [category] standard. The inherited nodes are your baseline. Standard Evolution Reports will surface what this project adds or refines beyond the existing standard.
 >
 > [If no library kit]: We are building the [category] standard from scratch. Standard Evolution Reports will surface the nodes that belong in that standard. When the standard matures, meta-extract will package it for the library.
 >
-> Every feature begins with a three-tier proposal. Every implementation produces a Standard Evolution Report. Drift incidents that meta-antidrift surfaces will accumulate in the drift log across sessions, so recurrence patterns become visible and elevations are verifiable through observed silence. The standard grows through use.
+> Every feature begins with a three-tier proposal, and every approved one is persisted to the contract log. Every implementation produces a Standard Evolution Report. Once a contract is verified, run meta-learning — it diffs what was contracted against what verification actually confirmed, and is a second, deeper source of standard evolution alongside the report. Drift incidents that meta-antidrift surfaces will accumulate in the drift log across sessions, so recurrence patterns become visible and elevations are verifiable through observed silence. The standard grows through use.
 >
 > What would you like to build first?
 

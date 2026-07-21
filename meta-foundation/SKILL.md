@@ -19,7 +19,7 @@ Read at its deepest, it is a model for how human expertise transfers in an age w
 
 The governing idea underneath all of this is: **human understanding is the point, not the bottleneck.** Most approaches to AI-assisted development treat the human as a constraint to be worked around — slow approver, edge-case handler, the thing you need until the agent is good enough not to need them. This kit treats the human as the source of the standard. The agent is in service of that, not a replacement for it.
 
-The mechanisms — the governing aspects, the contract-before-execution gate, the antidrift loop, the generational library — all flow from this. The work rises when human judgment is present and active. It drifts when it is not. The kit's job is to make the human's presence as effective as possible, and to preserve what that presence produces so it compounds across time.
+The mechanisms — the governing aspects, the contract-before-execution gate, the antidrift loop, the verification-gated learning loop, the generational library — all flow from this. The work rises when human judgment is present and active. It drifts when it is not. The kit's job is to make the human's presence as effective as possible, and to preserve what that presence produces so it compounds across time.
 
 ---
 
@@ -156,6 +156,8 @@ A mature kit is one where:
 - The pioneer's presence is no longer required for every session — only for evolution of the standard itself
 
 That maturity is reached through disciplined use, honest evolution, and the governing aspects being active throughout. It is not declared — it is observed. The signal is the Standard Evolution Reports going quiet: when sessions produce few or no evolution candidates, the standard has learned to anticipate what it needs. That silence is the measure of maturity, not a target date or a feature count.
+
+There is a second, deeper version of that same signal. The Standard Evolution Report captures what looked right immediately after building — `meta-learning` captures what verification actually confirmed, once a contract has been tested against reality rather than judged from the moment of building it. A standard can look mature by the first measure while still absorbing predictions that don't hold up — the second measure is what confirms the first one is real. Run it; it is not a peripheral tool, it is where the standard's predictions get tested against reality rather than assumed from it.
 
 ---
 

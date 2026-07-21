@@ -214,8 +214,10 @@ Base kit nodes that pair a `SKILL.md` (governance) with a YAML data file (instan
 |---|---|---|---|
 | meta-manifest | extracts as kit topology | `MANIFEST.yaml` does not extract | Manifest is regenerated per project by meta-bootstrap |
 | meta-drift-eventlog | extracts as drift-tracking governance | `DRIFTLOG.yaml` does not extract | Drift history is specific to the developer + agent collaboration that produced it, not transferable |
+| meta-contract-before-execution | extracts as the contract/proposal loop | `CONTRACT-LOG.yaml` does not extract | Contract history is specific to this project's features, not transferable |
+| meta-learning | extracts as the verification-gated learning loop | `LEARNINGLOG.yaml` does not extract | Learning entries diff this project's own contracted-vs-verified outcomes, not transferable |
 
-A new project bootstrapped from any extracted kit starts with empty instance state — `MANIFEST.yaml` from the template with `gap_queue: []`, `DRIFTLOG.yaml` from the template with `entries: []`. Structure inherits across generations; instance history does not.
+A new project bootstrapped from any extracted kit starts with empty instance state — `MANIFEST.yaml` from the template with `gap_queue: []`, `DRIFTLOG.yaml` from the template with `entries: []`, `CONTRACT-LOG.yaml` from the template with `contracts: []`, `LEARNINGLOG.yaml` from the template with `entries: []`. Structure inherits across generations; instance history does not.
 
 If a future paired skill is added to the base kit, default to this same asymmetry unless the data file is explicitly stateless governance.
 
