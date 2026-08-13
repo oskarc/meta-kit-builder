@@ -30,5 +30,10 @@
 #
 # Only approved contracts are logged. Unauthorized mid-run deviation from an approved contract is not
 # recorded here — it belongs in meta-drift-eventlog/DRIFTLOG.yaml instead.
+#
+# Optional artifact-delivery fields (present only when meta-contract-artifact is in use): `file` (stored
+# HTML path), `artifact` (published URL), `type` (contract | analysis-report — reports use a report-NNN
+# id space alongside contract-NNN), `led_to` / `follows` (cross-links between a report and the contract
+# it led to). See meta-contract-artifact/SKILL.md.
 
 contracts: []

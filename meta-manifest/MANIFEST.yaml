@@ -6,7 +6,7 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.10
+  version: 0.12
   parent_kit: null
   status: active
 
@@ -33,7 +33,7 @@ nodes:
     note: Runs once per project. Not part of the regular load order after first run.
 
   - id: base-contract
-    concern: Contract before execution — three-tier proposal, approval gate, standard evolution report
+    concern: Contract before execution — spec lock (design-heavy features), three-tier proposal, approval gate, standard evolution report
     skill_file: meta-contract-before-execution/SKILL.md
     data_file: meta-contract-before-execution/CONTRACT-LOG.yaml
     layer: meta
@@ -41,7 +41,19 @@ nodes:
     status: mature
     dependencies: []
     open_gaps: []
-    note: CONTRACT-LOG.yaml persists every approved contract and its status lifecycle (approved/implemented/verified/learned). Read at session start alongside MANIFEST.yaml and DRIFTLOG.yaml to surface any entries awaiting a meta-learning pass.
+    note: CONTRACT-LOG.yaml persists every approved contract and its status lifecycle (approved/implemented/verified/learned). Read at session start alongside MANIFEST.yaml and DRIFTLOG.yaml to surface any entries awaiting a meta-learning pass. Contract Log schema also documents optional artifact-delivery fields used when base-contract-artifact is active.
+
+  - id: base-contract-artifact
+    concern: Contract delivery — every approved contract is also published as an artifact, stored as HTML, and registered with verification status (Verified/Corrected/Open) visible at a glance. Two templates — Analysis Report (findings, ends in a verdict) and Execution Contract (a plan, ends in a gate).
+    skill_file: meta-contract-artifact/SKILL.md
+    layer: meta
+    phase: [pre-build, post-build]
+    status: mature
+    dependencies: [base-contract]
+    open_gaps:
+      - Both templates have exactly one real instance of use so far — not yet battle-tested across a range of feature shapes.
+      - Requires the Artifact-publishing capability to be available in the environment; an agent/environment without it cannot fulfill the "published" leg of the rule and should flag that gap rather than silently skip it.
+    note: Adds two additive fields (file, artifact) plus type/led_to/follows to CONTRACT-LOG.yaml's existing schema — see meta-contract-before-execution/SKILL.md's Contract Log section. Does not require its own data file or template.
 
   - id: base-skill-builder
     concern: Abstraction loop — classifying learnings, updating skills, raising the standard
@@ -130,6 +142,12 @@ coverage_map:
 
   - concern: Contract & proposal
     node_id: base-contract
+    layer: meta
+    phase: [pre-build, post-build]
+    status: mature
+
+  - concern: Contract delivery — artifact publication and verification-status visibility
+    node_id: base-contract-artifact
     layer: meta
     phase: [pre-build, post-build]
     status: mature

@@ -38,13 +38,15 @@ See `meta-foundation/SKILL.md` for the full definition of each aspect, what its 
 
 ## How It Works
 
+For features with meaningful design ambiguity, the three-tier proposal is preceded by a **spec lock** — a separate turn that resolves *what* the feature is (via `AskUserQuestion` on the load-bearing choices) before the three-tier resolves *how* it gets built. Skipping it on design-heavy work is what produces a mid-implementation redirect: a design question buried inside a Tier 2 use case costs more to surface than an explicit lock-step would have.
+
 Every implementation starts with a **contract before execution** — a three-tier proposal the agent produces and the developer approves before any code is written:
 
 1. **User scenario** — what the user is trying to accomplish, in plain language
 2. **Use cases** — discrete, testable actions derived from the scenario
 3. **Technical guardrails** — constraints the implementation must uphold, traceable to the use cases
 
-No code is written without an approved proposal. This eliminates half-implementation, silent assumptions, and drift from the standard. Every approved contract — full text, not a summary — is persisted to `CONTRACT-LOG.yaml`, so it outlives the conversation that produced it.
+No code is written without an approved proposal. This eliminates half-implementation, silent assumptions, and drift from the standard. Every approved contract — full text, not a summary — is persisted to `CONTRACT-LOG.yaml`, so it outlives the conversation that produced it. Where **`meta-contract-artifact`** is active, the same contract is also published and stored as HTML, with every claim carrying visible verification status — verified, corrected, or open — so a reader can tell what was checked from what was judged without reading a word.
 
 After implementation, the agent produces a **Standard Evolution Report** — structured classification proposals identifying what the kit should absorb from this session. Each learning is proposed at the right level — principle, pattern, or product detail — with evidence and reasoning. The developer decides what enters the standard.
 
@@ -66,9 +68,15 @@ meta-bootstrap/
   SKILL.md          — First-run onboarding — installs kit, introduces practice, creates project manifest
 
 meta-contract-before-execution/
-  SKILL.md          — Three-tier proposal, approval gate, Standard Evolution Report
+  SKILL.md          — Spec lock (design-heavy features), three-tier proposal, approval gate,
+                       Standard Evolution Report
   CONTRACT-LOG.yaml — Instance data — every approved contract, full text, status lifecycle
                        (approved/implemented/verified/learned)
+
+meta-contract-artifact/
+  SKILL.md          — Every approved contract is also published as an artifact, stored as HTML,
+                       and registered with verification status (Verified/Corrected/Open) visible
+                       at a glance. Two templates — Analysis Report and Execution Contract.
 
 meta-skill-builder/
   SKILL.md          — Abstraction loop for classifying learnings and evolving the standard
@@ -107,9 +115,10 @@ An agent starting a session loads in this order:
 1. `meta-foundation/SKILL.md` — absolute precedence, orients the agent to the work and the human
 2. `meta-manifest/SKILL.md` + `MANIFEST.yaml` — governance and topology
 3. `meta-drift-eventlog/SKILL.md` + `DRIFTLOG.yaml` — governance and prior-session drift history; entries in `watching` or `mitigated` status flag aspects the current session should be alert to
-4. `meta-contract-before-execution/SKILL.md` + `CONTRACT-LOG.yaml` — build loop; entries in `status: verified` are awaiting a `meta-learning` pass — surface the count
-5. `meta-skill-builder/SKILL.md` — evolution loop
-6. `meta-antidrift/SKILL.md` — runs after every output
+4. `meta-contract-before-execution/SKILL.md` + `CONTRACT-LOG.yaml` — spec lock + build loop; entries in `status: verified` are awaiting a `meta-learning` pass — surface the count
+5. `meta-contract-artifact/SKILL.md` — every approved contract is also published, stored, and registered with verification status visible at a glance
+6. `meta-skill-builder/SKILL.md` — evolution loop
+7. `meta-antidrift/SKILL.md` — runs after every output
 
 Invoked explicitly, not loaded continuously:
 - `meta-bootstrap` — runs once on first install, not again
@@ -129,6 +138,7 @@ After meta-bootstrap runs, a project using the kit has this structure:
     meta-contract-before-execution/
       SKILL.md
       CONTRACT-LOG.yaml   ← empty contract log seeded here by bootstrap
+    meta-contract-artifact/SKILL.md
     meta-skill-builder/SKILL.md
     meta-learning/
       SKILL.md
@@ -182,6 +192,7 @@ your-project/
       meta-foundation/
       meta-bootstrap/
       meta-contract-before-execution/
+      meta-contract-artifact/
       meta-skill-builder/
       meta-learning/
       meta-antidrift/
@@ -245,6 +256,6 @@ When the reports go quiet, run `meta-extract`. The mature type-category nodes ar
 
 ## Status
 
-The base building kit is at **v0.10** — actively used and evolving.
+The base building kit is at **v0.12** — actively used and evolving.
 
 Contributions, forks, and field reports welcome.

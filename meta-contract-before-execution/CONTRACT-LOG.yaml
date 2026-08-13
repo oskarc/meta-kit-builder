@@ -33,5 +33,10 @@
 #
 # meta-learning sweeps this file for every entry in `status: verified` when invoked. It does not target
 # a single named contract.
+#
+# Optional artifact-delivery fields (present only when meta-contract-artifact is in use): `file` (stored
+# HTML path), `artifact` (published URL), `type` (contract | analysis-report — reports use a report-NNN
+# id space alongside contract-NNN), `led_to` / `follows` (cross-links between a report and the contract
+# it led to). See meta-contract-artifact/SKILL.md.
 
 contracts: []

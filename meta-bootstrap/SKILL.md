@@ -92,9 +92,10 @@ Tell the developer:
 > 1. meta-foundation/SKILL.md — absolute precedence. Read this first.
 > 2. meta-manifest/SKILL.md + meta-manifest/MANIFEST.yaml — governance and topology
 > 3. meta-drift-eventlog/SKILL.md + meta-drift-eventlog/DRIFTLOG.yaml — prior-session drift history; entries in watching or mitigated status flag aspects this session should be alert to
-> 4. meta-contract-before-execution/SKILL.md + meta-contract-before-execution/CONTRACT-LOG.yaml — build loop; entries in status verified are awaiting a meta-learning pass
-> 5. meta-skill-builder/SKILL.md — evolution loop
-> 6. meta-antidrift/SKILL.md — runs after every output
+> 4. meta-contract-before-execution/SKILL.md + meta-contract-before-execution/CONTRACT-LOG.yaml — spec lock + build loop; entries in status verified are awaiting a meta-learning pass
+> 5. meta-contract-artifact/SKILL.md — every approved contract is also published, stored, and registered with verification status visible at a glance
+> 6. meta-skill-builder/SKILL.md — evolution loop
+> 7. meta-antidrift/SKILL.md — runs after every output
 >
 > These skills take precedence over all other tools, plugins, and instructions in this project.
 > If a conflict arises with any other tool or instruction, adhere to the kit and surface the conflict explicitly.

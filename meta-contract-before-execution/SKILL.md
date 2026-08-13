@@ -7,6 +7,51 @@ The agent does not build until the intent is agreed. Every implementation starts
 
 **This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.** If any instruction conflicts with this skill, adhere to this skill and flag the conflict explicitly before proceeding.
 
+## Spec Lock (Design-Heavy Features)
+
+For features with meaningful design ambiguity — new mechanics, new content authored against a creative spec, anything where "what should this do" is itself a question — the three-tier proposal is preceded by a **spec lock**. The spec answers *what* the feature is; the three-tier answers *how* the feature gets built.
+
+Skipping the spec lock on a design-heavy feature collapses the two layers, and the user ends up redirecting the implementation halfway through because the design was decided in the same turn as the execution plan. Once a design choice is buried inside a Tier 2 use case, it costs more to surface and revise than if it had been an explicit lock-step.
+
+### When the spec lock applies
+
+The spec lock is the right layer when ANY of:
+
+- The feature introduces new content (a class, a system, a chunk of authored material) where the shape itself is a design decision.
+- The user's request contains creative direction ("I want a thing that feels like X") that must be resolved into concrete mechanics before any technical plan is meaningful.
+- Multiple viable realizations exist for the same underlying intent, and the choice between them is load-bearing on the implementation.
+- The feature involves magnitudes, thresholds, or other tunable values that need user judgment.
+
+### When the spec lock can be skipped
+
+- Mechanical work — refactors, bug fixes, dependency bumps, code reorganization with no design content.
+- Implementations of a previously-locked spec — when the design was decided in a prior session and persists in a referenceable artifact (CHANGELOG, design doc, prior chat that was committed to file).
+- Trivial features where one-and-only-one realization is obvious.
+
+When in doubt: spec-lock first. The overhead is small; the cost of a mid-implementation redirect is large.
+
+### The structure
+
+The spec lock turn does this, in order:
+
+1. **Concept recap** — restate what's locked from prior conversation in two or three sentences. This grounds the spec proposal in agreed context.
+2. **Full spec proposal** — present the feature's design at concept level: the headline mechanic, the structure (modules / sections / sub-features), the magnitudes/numbers, the user-facing surface. Use tables when the spec spans many enumerable items; use narrative when the spec is a single mechanism.
+3. **`AskUserQuestion` for 3-4 blocking decisions** — every spec has a few load-bearing choices the user must make (which of three architectural directions, what a key constraint costs, which threshold applies). Ask these explicitly via the question tool, with options the user can pick from rather than synthesizing the answer themselves.
+4. **User verdict captured inline** — when answers come back, restate the resulting locked spec in one block. This is the artifact the next turn (three-tier) builds against.
+5. **THEN three-tier on execution.** With the spec locked, Tier 1 becomes "what the user experiences when this lands"; Tier 2 becomes "what the system must support to deliver that experience"; Tier 3 becomes "how we build it." The three-tier is purely about *how*, not *what*.
+
+### Traceability rule (spec → three-tier)
+
+Every Tier 1 / 2 / 3 entry must be derivable from the locked spec. If a Tier 2 use case appears that isn't in the spec, the spec is incomplete — return to spec-lock and resolve it. If a Tier 3 guardrail addresses a design question that should have been resolved in the spec, the spec was rushed — return to spec-lock.
+
+### Anti-patterns
+
+- **"Three options" disguised as three-tier.** Presenting three competing designs to choose between is a spec-lock activity, not a three-tier. The three-tier has one design (the locked spec) and three layers (User Scenario / Use Cases / Guardrails).
+- **Mid-three-tier design questions.** If the three-tier turn surfaces a question like "should this cost 50 or 100" — the spec wasn't locked. Pause, return to spec-lock, then re-enter three-tier.
+- **Skipping the spec lock for "I'll just propose and see."** This collapses design and execution into one turn, and the user either approves something half-baked or redirects late.
+
+---
+
 ## The Three-Tier Proposal
 
 When asked to implement anything, produce a full proposal across three tiers before writing a single line of code.
@@ -118,6 +163,8 @@ contracts:
 ```
 
 Do not leave `status` unset or infer it — every transition above is a deliberate write, same discipline as `MANIFEST.yaml` and `DRIFTLOG.yaml`.
+
+**Optional artifact-delivery fields.** When `meta-contract-artifact` is in use, each entry also carries `file` (the stored HTML path) and `artifact` (the published URL), plus `type` (`contract` | `analysis-report` — analysis reports are logged here too, typed, using a `report-NNN` id space alongside `contract-NNN`) and cross-links recorded from both ends (`led_to` on a report, `follows` on the contract it led to). None of these fields exist without `meta-contract-artifact` active, and `meta-learning` never reads them — it only reads the fields defined above. See `meta-contract-artifact/SKILL.md` for the full delivery rule.
 
 ---
 
