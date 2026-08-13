@@ -104,8 +104,10 @@ meta-manifest/
   MANIFEST.yaml     — Node registry, coverage map, gap queue, kit identity
 
 templates/
-  MANIFEST.template.yaml  — Agent-readable template used by meta-bootstrap to create the project manifest
-  DRIFTLOG.template.yaml  — Agent-readable template used by meta-bootstrap to seed an empty drift log
+  MANIFEST.template.yaml     — Agent-readable template used by meta-bootstrap to create the project manifest
+  DRIFTLOG.template.yaml     — Agent-readable template used by meta-bootstrap to seed an empty drift log
+  CONTRACT-LOG.template.yaml — Agent-readable template used by meta-bootstrap to seed an empty contract log
+  LEARNINGLOG.template.yaml  — Agent-readable template used by meta-bootstrap to seed an empty learning log
 ```
 
 ### Load Order
@@ -219,12 +221,12 @@ Kit-driven development operates across three phases:
 A new project, no type-category kit exists yet. Every session builds the system and evolves the emerging standard simultaneously. Type-category nodes are discovered, not inherited. The standard grows through use.
 
 **Phase 2 — Maturity**
-Through use, the type-category layer separates from the project layer. Nodes graduate from thin to mature. The gap queue shrinks. Standard Evolution Reports produce fewer candidates. The standard is learning to anticipate what it needs.
+Through use, the type-category layer separates from the project layer. Nodes graduate from thin to mature. The gap queue shrinks. Standard Evolution Reports produce fewer candidates, and meta-learning's verification diffs increasingly confirm rather than correct what was contracted. The standard is learning to anticipate what it needs.
 
 **Phase 3 — Extraction**
-When the reports go quiet, run `meta-extract`. The mature type-category nodes are separated from project-specific nodes and packaged into a portable library artifact. The developer places it in their library. The next project of the same type inherits the maturity of this generation and builds further from it.
+When both signals go quiet — the Standard Evolution Reports and meta-learning's diffs — run `meta-extract`. The mature type-category nodes are separated from project-specific nodes and packaged into a portable library artifact. The developer places it in their library. The next project of the same type inherits the maturity of this generation and builds further from it.
 
-**The non-developer milestone** is not a roadmap item. It is reached when the standard has matured enough through generations that reports go silent. That silence is the measure — not a date, not a feature count.
+**The non-developer milestone** is not a roadmap item. It is reached when the standard has matured enough through generations that both signals go silent. That silence is the measure — not a date, not a feature count.
 
 ---
 
@@ -232,15 +234,18 @@ When the reports go quiet, run `meta-extract`. The mature type-category nodes ar
 
 **Once installed:**
 
-1. Every feature begins with a three-tier proposal from the agent
-2. You approve, redirect, or refine — no code is written until the proposal is accepted
-3. Implementation proceeds against the approved proposal
-4. The agent produces a Standard Evolution Report after each implementation
-5. You decide what enters the standard — and at which tier: type-category or project
-6. New nodes emerge, each prefixed by layer, each added to the manifest
-7. The coverage map fills in. Gap frequency drops. The kit matures.
+1. For design-ambiguous features, a spec lock resolves *what* the feature is before any three-tier proposal is drawn
+2. Every feature begins with a three-tier proposal from the agent
+3. You approve, redirect, or refine — no code is written until the proposal is accepted
+4. The approved contract is persisted to `CONTRACT-LOG.yaml` in full — and, where `meta-contract-artifact` is active, published and stored with verification status visible at a glance
+5. Implementation proceeds against the approved proposal
+6. The agent produces a Standard Evolution Report after each implementation
+7. Once the contract is verified, `meta-learning` diffs what was contracted against what verification showed, surfacing a second, deeper round of candidates
+8. You decide what enters the standard — and at which tier: type-category or project
+9. New nodes emerge, each prefixed by layer, each added to the manifest
+10. The coverage map fills in. Gap frequency drops. The kit matures.
 
-**When reports go quiet**, run `meta-extract`. The type-category kit becomes a library artifact. The next project inherits the generation.
+**When both signals go quiet** — the Standard Evolution Reports and `meta-learning`'s diffs — run `meta-extract`. The type-category kit becomes a library artifact. The next project inherits the generation.
 
 ---
 
