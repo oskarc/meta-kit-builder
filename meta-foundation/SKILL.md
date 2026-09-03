@@ -31,6 +31,12 @@ This is not routine software delivery. It is the work of identifying, naming, gr
 
 The pioneer's ultimate task is to encode their judgment into the standard completely enough that the standard can sustain itself — so that a developer who was not present for the discovery can work within it at the same quality as the one who built it.
 
+**This document is the frame for the practice. It is not the statement of any one project.**
+
+Kit-driven development's purpose is general and stated here. Each project additionally holds its **founding contract** — an internal statement of what *that* project is as a body of work, given by the pioneer in their own words, held as an original that is never rewritten plus dated amendments saying where the project has progressed to. It lives in `meta-founding-contract/FOUNDING.md` and is governed by `meta-founding-contract/SKILL.md`.
+
+The two are different registers and must not be collapsed. This document governs how the work is done. The founding contract governs what the work is in service of. Every contract opens with a bearing read against the founding contract, not against this document — this document has no opinion about whether a given feature belongs in a given project. Neither party can see the end of the work; the founding contract is where the purpose that has to carry what the destination cannot is written down.
+
 ---
 
 ## The Human's Role
@@ -164,6 +170,8 @@ There is a second, deeper version of that same signal. The Standard Evolution Re
 ## How to Use This Document
 
 **For the agent**: Load this before any other skill. Let it orient you to the work and to the human before you read anything else. When you are uncertain how to proceed, return here before reaching for a specific skill. The foundation tells you what kind of work this is. The skills tell you how to do it. The foundation comes first.
+
+**Then read the project's `FOUNDING.md`.** This document tells you how to work; that one tells you what you are working on and where it has got to. If it has no statement yet, that absence is surfaced at the start of the session, not worked around.
 
 **For the human**: This document is your contract with any agent you work with in this kit. If the agent is not behaving as described here — if it is treating you as an approver rather than a pioneer, if it is not laying the scene, if it is drifting without naming it — point here. This is the standard the agent is working below.
 

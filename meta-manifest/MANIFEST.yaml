@@ -6,7 +6,7 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.12
+  version: 0.13
   parent_kit: null
   status: active
 
@@ -22,8 +22,20 @@ nodes:
     open_gaps: []
     note: Load before all other skills. Takes precedence over all other kit nodes.
 
+  - id: base-founding-contract
+    concern: The project's own statement of what it is — held as an original that is never rewritten plus dated amendments (each naming its cause and what it now binds); the two-sentence bearing every contract opens with; the two grades of correction (redraw within a correct direction, reevaluation when the direction is off)
+    skill_file: meta-founding-contract/SKILL.md
+    data_file: meta-founding-contract/FOUNDING.md
+    layer: meta
+    phase: always
+    status: thin
+    dependencies: [base-foundation]
+    open_gaps:
+      - Ported from a downstream kit on 2026-09-03 where it had one instance of use. The bearing and correction-grade rules are prose in meta-contract-before-execution; nothing enforces that a contract carries a bearing or that an amendment carries a cause and a binding clause. The form is enforceable and should be — a check is the next elevation.
+    note: Load immediately after meta-foundation. FOUNDING.md is instance data — seeded from templates/FOUNDING.template.md by meta-bootstrap Step 4, never copied from another project, never extracted. The content is unmeasurable and reached by reflection; only the form is enforceable.
+
   - id: base-bootstrap
-    concern: First-run installation — introduces the practice, checks library for existing type-category kit, establishes kit authority, orients to the project, creates project-level manifest from template
+    concern: First-run installation — introduces the practice, establishes kit authority, orients to the project, records the pioneer's founding contract verbatim, checks library for existing type-category kit, creates project-level manifest and seeds all instance files from templates
     skill_file: meta-bootstrap/SKILL.md
     layer: meta
     phase: pre-build
@@ -33,13 +45,13 @@ nodes:
     note: Runs once per project. Not part of the regular load order after first run.
 
   - id: base-contract
-    concern: Contract before execution — spec lock (design-heavy features), three-tier proposal, approval gate, standard evolution report
+    concern: Contract before execution — bearing (read against the founding contract), spec lock (design-heavy features), three-tier proposal, approval gate with redraw/reevaluation correction grades, standard evolution report
     skill_file: meta-contract-before-execution/SKILL.md
     data_file: meta-contract-before-execution/CONTRACT-LOG.yaml
     layer: meta
     phase: [pre-build, post-build]
     status: mature
-    dependencies: []
+    dependencies: [base-founding-contract]
     open_gaps: []
     note: CONTRACT-LOG.yaml persists every approved contract and its status lifecycle (approved/implemented/verified/learned). Read at session start alongside MANIFEST.yaml and DRIFTLOG.yaml to surface any entries awaiting a meta-learning pass. Contract Log schema also documents optional artifact-delivery fields used when base-contract-artifact is active.
 
@@ -133,6 +145,12 @@ coverage_map:
     layer: meta
     phase: always
     status: mature
+
+  - concern: Founding contract & contract bearing
+    node_id: base-founding-contract
+    layer: meta
+    phase: always
+    status: thin
 
   - concern: Project onboarding & authority establishment
     node_id: base-bootstrap
@@ -278,6 +296,36 @@ gap_queue:
     priority: high
     status: resolved
     resolved_by: Full clean rewrite from template shape. Lay of the land violated — file was not read in full before being modified.
+
+  - gap_id: gap-009
+    concern: Founding contract — form is prose only, not enforced
+    surfaced_by: manual
+    surfaced_in: 2026-09-03 port of meta-founding-contract from the Classes kit
+    description: Nothing checks that a contract carries a two-sentence bearing, that FOUNDING.md's original block is unchanged, or that an amendment carries a date, a cause, and a binding clause. The skill itself says the form is enforceable and should be.
+    candidate_level: implementation
+    priority: medium
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-010
+    concern: Sixth agent aspect — discipline is the work, not overhead on it
+    surfaced_by: manual
+    surfaced_in: 2026-09-03 review of the Classes kit fork (its drift-003 — ceremonies skipped during routine-feeling work)
+    description: The downstream kit added a sixth agent aspect sitting across the other five, plus a format-compliance self-check line in the antidrift block that reports DEGRADED when the block is abbreviated or prose-substituted. Deliberately not ported wholesale — needs restating against the ten-aspect split here rather than the fork's four-aspect frame.
+    candidate_level: principle
+    priority: medium
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-011
+    concern: Contract close — "How was the run?" routing question, and recurrence-triggered enforcement-layer elevation
+    surfaced_by: manual
+    surfaced_in: 2026-09-03 review of the Classes kit fork (its drift-006 and contract-close section)
+    description: Two further downstream evolutions not ported. (1) Every contract closes with an open question to the human whose answer routes to drift log, skill-builder, or nothing. (2) When the same drift root-cause recurs across prose-level elevations, the next elevation must descend to a check that fires without anyone remembering. Each wants its own contract and its own commit.
+    candidate_level: pattern
+    priority: low
+    status: open
+    resolved_by: null
 
   # Add new gaps below as they surface:
   #

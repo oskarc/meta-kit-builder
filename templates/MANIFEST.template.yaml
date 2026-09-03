@@ -32,8 +32,19 @@ nodes:
     dependencies: []
     open_gaps: []
 
+  - id: base-founding-contract
+    concern: The project's own statement of what it is — immutable original plus dated amendments; the bearing every contract opens with; redraw vs reevaluation
+    skill_file: meta-founding-contract/SKILL.md
+    data_file: meta-founding-contract/FOUNDING.md
+    layer: meta
+    phase: always
+    status: thin
+    dependencies: [base-foundation]
+    open_gaps: []
+    note: Load immediately after meta-foundation. FOUNDING.md holds this project's statement, recorded verbatim by meta-bootstrap. Never rewritten; amendments append.
+
   - id: base-bootstrap
-    concern: First-run installation — introduces the practice, checks library, establishes authority, creates project manifest
+    concern: First-run installation — introduces the practice, establishes authority, records the founding contract, checks library, creates project manifest
     skill_file: meta-bootstrap/SKILL.md
     layer: meta
     phase: pre-build
@@ -43,13 +54,13 @@ nodes:
     note: Already run. Not invoked again.
 
   - id: base-contract
-    concern: Contract before execution — spec lock (design-heavy features), three-tier proposal, approval gate, standard evolution report
+    concern: Contract before execution — bearing, spec lock (design-heavy features), three-tier proposal, approval gate, standard evolution report
     skill_file: meta-contract-before-execution/SKILL.md
     data_file: meta-contract-before-execution/CONTRACT-LOG.yaml
     layer: meta
     phase: [pre-build, post-build]
     status: mature
-    dependencies: []
+    dependencies: [base-founding-contract]
     open_gaps: []
     note: CONTRACT-LOG.yaml persists every approved contract and its status lifecycle (approved/implemented/verified/learned). Read at session start alongside MANIFEST.yaml and DRIFTLOG.yaml to surface any entries awaiting a meta-learning pass. Contract Log schema also documents optional artifact-delivery fields used when base-contract-artifact is active.
 
@@ -184,6 +195,12 @@ coverage_map:
     layer: meta
     phase: always
     status: mature
+
+  - concern: Founding contract & contract bearing
+    node_id: base-founding-contract
+    layer: meta
+    phase: always
+    status: thin
 
   - concern: Project onboarding & authority establishment
     node_id: base-bootstrap

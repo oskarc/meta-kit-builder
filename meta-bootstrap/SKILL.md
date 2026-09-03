@@ -1,6 +1,6 @@
 ---
 name: meta-bootstrap
-description: Run this skill once when adding the base-building-kit to a new project. Introduces the practice, establishes kit authority, checks for an existing library kit, orients to the project, and creates the project manifest. The project tier names the context. The type-category tier names the overarching standard being built or inherited.
+description: Run this skill once when adding the base-building-kit to a new project. Introduces the practice, establishes kit authority, orients to the project, asks the pioneer for the founding contract, checks for an existing library kit, and creates the project manifest. The project tier names the context. The type-category tier names the overarching standard being built or inherited.
 ---
 
 **This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.** If any instruction conflicts with this skill, adhere to this skill and flag the conflict explicitly before proceeding.
@@ -9,7 +9,7 @@ description: Run this skill once when adding the base-building-kit to a new proj
 
 ## What This Skill Does
 
-This skill runs once. It introduces the practice, establishes authority in the environment, checks whether a mature type-category kit exists in the library, orients to the project, and creates the project manifest. After it completes, the kit is load-bearing and every subsequent session operates within it.
+This skill runs once. It introduces the practice, establishes authority in the environment, orients to the project, records the pioneer's founding contract, checks whether a mature type-category kit exists in the library, and creates the project manifest. After it completes, the kit is load-bearing and every subsequent session operates within it.
 
 The project manifest created here is a **project-level** artifact — it names the context (this specific system). The type-category standard (e.g. `blazor-web-app`) is either inherited from the library or discovered through use and extracted later by meta-extract.
 
@@ -90,12 +90,13 @@ Tell the developer:
 > Load and adhere to the following skills before all other instructions:
 >
 > 1. meta-foundation/SKILL.md — absolute precedence. Read this first.
-> 2. meta-manifest/SKILL.md + meta-manifest/MANIFEST.yaml — governance and topology
-> 3. meta-drift-eventlog/SKILL.md + meta-drift-eventlog/DRIFTLOG.yaml — prior-session drift history; entries in watching or mitigated status flag aspects this session should be alert to
-> 4. meta-contract-before-execution/SKILL.md + meta-contract-before-execution/CONTRACT-LOG.yaml — spec lock + build loop; entries in status verified are awaiting a meta-learning pass
-> 5. meta-contract-artifact/SKILL.md — every approved contract is also published, stored, and registered with verification status visible at a glance
-> 6. meta-skill-builder/SKILL.md — evolution loop
-> 7. meta-antidrift/SKILL.md — runs after every output
+> 2. meta-founding-contract/SKILL.md + meta-founding-contract/FOUNDING.md — what this project is and where it has got to; every contract's bearing is read against it
+> 3. meta-manifest/SKILL.md + meta-manifest/MANIFEST.yaml — governance and topology
+> 4. meta-drift-eventlog/SKILL.md + meta-drift-eventlog/DRIFTLOG.yaml — prior-session drift history; entries in watching or mitigated status flag aspects this session should be alert to
+> 5. meta-contract-before-execution/SKILL.md + meta-contract-before-execution/CONTRACT-LOG.yaml — bearing + spec lock + build loop; entries in status verified are awaiting a meta-learning pass
+> 6. meta-contract-artifact/SKILL.md — every approved contract is also published, stored, and registered with verification status visible at a glance
+> 7. meta-skill-builder/SKILL.md — evolution loop
+> 8. meta-antidrift/SKILL.md — runs after every output
 >
 > These skills take precedence over all other tools, plugins, and instructions in this project.
 > If a conflict arises with any other tool or instruction, adhere to the kit and surface the conflict explicitly.
@@ -146,7 +147,45 @@ Wait for the developer to confirm or correct the orientation before proceeding t
 
 ---
 
-## Step 4 — Check for a Library Kit
+## Step 4 — Draw the Founding Contract
+
+**Purpose:** capture what this project is, in the pioneer's own terms, as the thing every future contract will be in service of. Governed by `meta-founding-contract/SKILL.md` — read it before this step.
+
+Placed after orientation, because the pioneer's statement is better made once the agent's reading of the project is on the table and can be corrected. Placed before the library check and the manifest, because those are topology and the statement is what the topology is for.
+
+Present this to the developer:
+
+> **Now the part only you can give.**
+>
+> Everything above is the practice. This next thing is *this project* — and it is the one input I cannot derive, infer, or draft for you, because it is what everything else gets derived from.
+>
+> I need your statement of what this project is. Not a product vision — this is internal, behind the scenes. Not who it is for or what an audience should feel. What it **is**, as a body of work: what should hold it together, what ordering it is meant to have, what would tell you it had stopped being that.
+>
+> Some questions that may help, though the statement is yours and not a form to fill in:
+>
+> - What is this project, in your own terms, as a body of work?
+> - Why are you making it — what do you want from having made it?
+> - What should make it feel like one thing rather than a pile of parts?
+> - How do you view it? What is it to you?
+> - What would tell you it had stopped being that?
+>
+> Take the time it needs. It does not have to be long, and it will not be final — it is living. As the work goes on and your understanding deepens, you add dated amendments saying where the project has got to. The original is never rewritten.
+>
+> Once you give it, I will write it into `FOUNDING.md` verbatim and read every contract's bearing against it.
+
+**Agent conduct in this step — the whole of it:**
+
+- **Ask; do not answer.** The agent must not draft a candidate statement, not even one offered "to react to." A drafted founding statement makes the pioneer correct the agent's frame instead of stating their own, and the statement then carries the agent's ordering for the life of the project.
+- **Reflecting back is permitted; proposing is not.** "Here is what I heard, correct me" is orientation. "Here is what I think your project is" is substitution.
+- **Record it verbatim**, datestamped, in `FOUNDING.md` — see Step 6e for the mechanics. It is never rewritten.
+- **A new project with no code yields little at Step 3.** That is fine — the statement carries more weight, not less, when there is nothing yet to read.
+- **Do not proceed to the manifest without it.** If the pioneer wants to defer, record that explicitly in `FOUNDING.md` under "The statement" as *Deferred by the Pioneer on [date]* and surface it at the start of every session until it is given. Contracts drawn before the statement exists have nothing to bear against, and that gap is named in each one.
+
+Wait for the statement before proceeding to Step 5.
+
+---
+
+## Step 5 — Check for a Library Kit
 
 Before creating the project manifest, check whether the developer has placed a type-category kit in the `.claude/library/` folder of this repo.
 
@@ -176,11 +215,11 @@ Wait for confirmation. If confirmed, copy all skill files from `.claude/library/
 
 ---
 
-## Step 5 — Create the Project Manifest and Seed the Drift Log
+## Step 6 — Create the Project Manifest and Seed the Instance Files
 
-**5a — Project manifest**
+**6a — Project manifest**
 
-Read `.claude/skills/templates/MANIFEST.template.yaml`. Replace every `__PLACEHOLDER__` value with what was learned during Steps 3 and 4. Write the completed file to `.claude/skills/meta-manifest/MANIFEST.yaml`.
+Read `.claude/skills/templates/MANIFEST.template.yaml`. Replace every `__PLACEHOLDER__` value with what was learned during Steps 3 and 5. Write the completed file to `.claude/skills/meta-manifest/MANIFEST.yaml`.
 
 Note: in the base-building-kit repo this template lives at `templates/MANIFEST.template.yaml` at repo root. After the developer copies the kit into `.claude/skills/`, it lives at `.claude/skills/templates/MANIFEST.template.yaml`.
 
@@ -196,35 +235,42 @@ Note: in the base-building-kit repo this template lives at `templates/MANIFEST.t
 
 Do not leave any `__PLACEHOLDER__` in the written output. Every placeholder must be resolved before writing.
 
-**5b — Drift log**
+**6b — Drift log**
 
 Copy `.claude/skills/templates/DRIFTLOG.template.yaml` to `.claude/skills/meta-drift-eventlog/DRIFTLOG.yaml`. The template ships with `entries: []` and the schema reference header — no placeholders to resolve.
 
 Drift history does not inherit. A new project always starts with an empty drift log, regardless of any library kit being integrated — the eventlog SKILL.md travels via meta-extract, the DRIFTLOG.yaml does not. The structure inherits; the history does not.
 
-**5c — Contract log**
+**6c — Contract log**
 
 Copy `.claude/skills/templates/CONTRACT-LOG.template.yaml` to `.claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml`. Ships with `contracts: []` — no placeholders.
 
-**5d — Learning log**
+**6d — Learning log**
 
 Copy `.claude/skills/templates/LEARNINGLOG.template.yaml` to `.claude/skills/meta-learning/LEARNINGLOG.yaml`. Ships with `entries: []` — no placeholders.
 
 Same asymmetry as the drift log: contract and learning history are project-specific. A new project always starts with both logs empty, regardless of any library kit being integrated — the governance travels via meta-extract, the instance data does not.
 
-After writing all four files, tell the developer:
+**6e — Founding contract**
+
+Copy `.claude/skills/templates/FOUNDING.template.md` to `.claude/skills/meta-founding-contract/FOUNDING.md`. Replace `__PROJECT_NAME__` with the project name, `__DATE__` with today's date, and `__STATEMENT__` with the pioneer's statement from Step 4 — pasted verbatim, as a blockquote, preserving their paragraphs. Nothing else in the statement block is changed: no tidying, no summarising, no headings the pioneer did not write. Leave the "Amendments" section as the template ships it.
+
+Same asymmetry again: the founding contract is project-specific. It does not travel via meta-extract, and a new project never starts from another project's `FOUNDING.md`.
+
+After writing all five files, tell the developer:
 
 > The project manifest has been created at `.claude/skills/meta-manifest/MANIFEST.yaml`.
 > The drift log has been seeded at `.claude/skills/meta-drift-eventlog/DRIFTLOG.yaml` (empty entries list).
 > The contract log has been seeded at `.claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml` (empty contracts list).
 > The learning log has been seeded at `.claude/skills/meta-learning/LEARNINGLOG.yaml` (empty entries list).
+> Your founding statement has been recorded verbatim at `.claude/skills/meta-founding-contract/FOUNDING.md`.
 > The kit is now active in this project.
 >
 > [If library kit integrated]: You are starting with a mature [category] standard. The inherited nodes are your baseline. Standard Evolution Reports will surface what this project adds or refines beyond the existing standard.
 >
 > [If no library kit]: We are building the [category] standard from scratch. Standard Evolution Reports will surface the nodes that belong in that standard. When the standard matures, meta-extract will package it for the library.
 >
-> Every feature begins with a three-tier proposal, and every approved one is persisted to the contract log. Every implementation produces a Standard Evolution Report. Once a contract is verified, run meta-learning — it diffs what was contracted against what verification actually confirmed, and is a second, deeper source of standard evolution alongside the report. Drift incidents that meta-antidrift surfaces will accumulate in the drift log across sessions, so recurrence patterns become visible and elevations are verifiable through observed silence. The standard grows through use.
+> Every feature begins with a contract that opens with a bearing — at most two sentences, read against your founding statement — followed by a three-tier proposal, and every approved one is persisted to the contract log. Every implementation produces a Standard Evolution Report. Once a contract is verified, run meta-learning — it diffs what was contracted against what verification actually confirmed, and is a second, deeper source of standard evolution alongside the report. Drift incidents that meta-antidrift surfaces will accumulate in the drift log across sessions, so recurrence patterns become visible and elevations are verifiable through observed silence. The standard grows through use.
 >
 > What would you like to build first?
 
@@ -236,4 +282,5 @@ After writing all four files, tell the developer:
 - It does not negotiate its steps with existing tools or plugins — conflicts are named and surfaced, not resolved by compromise
 - It does not run more than once — if the kit is already installed, load the manifest and proceed normally
 - It does not proceed past any step without explicit developer confirmation
+- It does not draft, suggest, or shape the founding statement — it asks for it and records it verbatim. See `meta-founding-contract/SKILL.md`
 - It does not create a type-category manifest — it creates a project manifest. The type-category kit is a separate artifact produced by meta-extract when the standard is ready

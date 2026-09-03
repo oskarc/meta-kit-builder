@@ -52,9 +52,24 @@ Every Tier 1 / 2 / 3 entry must be derivable from the locked spec. If a Tier 2 u
 
 ---
 
+## The Bearing
+
+**Every contract opens with a statement of at most two sentences: what the point of the contract is, and how it shows direction.** It is in service of the project's founding contract (`meta-founding-contract/FOUNDING.md`). It is the first thing drawn and the first thing read — before the spec lock recap, before Tier 1.
+
+- **It must be capable of being wrong.** A bearing that cannot be disagreed with cannot steer. It states a change of state, never a list of work. "This contract adds X, Y and Z" is a manifest, not a bearing.
+- **It must expose its bet.** The pull is to phrase it so it sounds obviously right; a maximally agreeable bearing is not neutral, it is inert. Whatever the contract is wagering belongs on the first line.
+- **If the bearing and the tiers disagree, the bearing wins** and the tiers are wrong. It is not a preface.
+- **Foundational and feature contracts bear differently.** A foundational contract's bearing says what becomes *governable* — what stops being renegotiated case by case. A feature contract's bearing says what becomes *possible*. Judging the first by the second's measure is the characteristic misreading; see `meta-founding-contract/SKILL.md`.
+
+If the agent finds that the bearing it is about to draw sits outside the founding statement as written, that is a finding to surface, and a useful one. Proposing that the statement change so the contract fits is not the agent's move — amending is a pioneer act.
+
+If the project has no founding statement yet, the bearing is still drawn, and the contract names that it is bearing against nothing. The gap is visible, not absorbed.
+
+---
+
 ## The Three-Tier Proposal
 
-When asked to implement anything, produce a full proposal across three tiers before writing a single line of code.
+When asked to implement anything, produce a full proposal across three tiers before writing a single line of code. The three tiers follow the bearing.
 
 ---
 
@@ -107,7 +122,16 @@ Ask explicitly:
 
 **If approved** — implement strictly against the approved proposal. Do not deviate. If a deviation becomes necessary during implementation, stop and surface it before continuing. If the human authorizes the deviation explicitly, record it against the contract's log entry — see Contract Log below. If implementation proceeds past a deviation without that authorising statement, it is a stop-on-triggers violation, not a contract revision — it belongs in `meta-drift-eventlog/DRIFTLOG.yaml`, not in the contract's own record.
 
-**If declined with input** — revise the proposal incorporating the input. Present the full revised proposal. Do not partially implement while waiting.
+**If declined with input** — there are two grades of correction, and they are not the same move:
+
+| The pioneer corrects | Meaning | Consequence |
+|---|---|---|
+| a tier or use case | an adjustment within a direction already correct | **redraw** — the contract is drawn again in full, incorporating the input |
+| the bearing | the direction is off in some respect | **reevaluation** — everything below was derived from it, so it is re-decided, not repaired |
+
+A reevaluation may legitimately end with the contract not existing. A redraw always ends with a contract. Treating a bearing correction as a redraw repairs the tiers and lets the wrong direction survive the correction. In either case, present the full result — do not partially implement while waiting.
+
+A correction is generative, not a veto. The pioneer describes how the contract should better serve the founding statement; that description is the reorientation. It is also where amendments to the founding contract are earned — when reflection shows the statement was incomplete rather than the contract wrong. That is the pioneer's call to make, and `meta-founding-contract/SKILL.md` governs how it is recorded.
 
 **Silence is not approval.** If no clear approval is given, ask again.
 
@@ -123,7 +147,7 @@ Every approved contract is persisted to `meta-contract-before-execution/CONTRACT
 
 | Status | Set when |
 |---|---|
-| `approved` | The entry is created, at the approval gate. `tier_1`, `tier_2`, `tier_3` are recorded in full — the full text is the evidence, not a summary of it. |
+| `approved` | The entry is created, at the approval gate. `bearing`, `tier_1`, `tier_2`, `tier_3` are recorded in full — the full text is the evidence, not a summary of it. |
 | `implemented` | The Standard Evolution Report is produced for this contract. |
 | `verified` | Verification completes — tests pass, the feature is observed working, or a human confirms the output meets the contract. Same definition `meta-learning` uses. |
 | `learned` | `meta-learning` has produced the matching diff in `LEARNINGLOG.yaml` and back-filled `work_id` on this entry. |
@@ -142,6 +166,9 @@ contracts:
     feature: user-authentication
     date_proposed: 2026-07-19
     date_approved: 2026-07-19
+    bearing: |
+      Authentication becomes a boundary the rest of the system can rely on instead of
+      re-checking. The bet is that a single session mechanism is enough for every surface.
     tier_1: |
       As a user, I want to log in securely so that my account and data are protected.
       Success looks like: valid credentials grant access, invalid ones are rejected with

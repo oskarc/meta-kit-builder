@@ -8,6 +8,9 @@
 #     feature: [feature name]
 #     date_proposed: YYYY-MM-DD
 #     date_approved: YYYY-MM-DD
+#     bearing: |
+#       [at most two sentences — the point of the contract and how it shows direction,
+#        read against meta-founding-contract/FOUNDING.md]
 #     tier_1: |
 #       [full user scenario text, as approved]
 #     tier_2: |

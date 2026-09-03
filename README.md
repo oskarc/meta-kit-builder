@@ -36,11 +36,21 @@ See `meta-foundation/SKILL.md` for the full definition of each aspect, what its 
 
 ---
 
+## The Founding Contract
+
+The foundation is the frame for the practice. It is not the statement of any one project. Each project additionally holds its **founding contract** — the pioneer's own statement of what the project *is*, as a body of work: what should hold it together, what ordering it is meant to have, what would tell them it had stopped being that. It is internal, never a product vision, and it is the one input the agent cannot draft — bootstrap asks for it and records it verbatim.
+
+The statement is living, and it grows by addition. The original is never rewritten. Progress is recorded as dated amendments, each naming the work that caused it and what future work must now honour. An amendment that only ratifies work already done is retro-fitting; one that also binds is earned. Amending is a pioneer act: the agent may surface that a contract sits outside the statement, and may not propose that the statement move to accommodate it.
+
+Every contract opens with a **bearing** — at most two sentences, read against the founding contract — and that changes what a correction means. Correcting a tier is a redraw within a direction already correct. Correcting the bearing is a reevaluation: everything below it was derived from it, so it is re-decided, not repaired. See `meta-founding-contract/SKILL.md`.
+
+---
+
 ## How It Works
 
 For features with meaningful design ambiguity, the three-tier proposal is preceded by a **spec lock** — a separate turn that resolves *what* the feature is (via `AskUserQuestion` on the load-bearing choices) before the three-tier resolves *how* it gets built. Skipping it on design-heavy work is what produces a mid-implementation redirect: a design question buried inside a Tier 2 use case costs more to surface than an explicit lock-step would have.
 
-Every implementation starts with a **contract before execution** — a three-tier proposal the agent produces and the developer approves before any code is written:
+Every implementation starts with a **contract before execution** — a bearing of at most two sentences read against the founding contract, then a three-tier proposal the agent produces and the developer approves before any code is written:
 
 1. **User scenario** — what the user is trying to accomplish, in plain language
 2. **Use cases** — discrete, testable actions derived from the scenario
@@ -64,11 +74,17 @@ This is the base-building-kit repo layout:
 meta-foundation/
   SKILL.md          — Philosophical foundation, governing aspects, human and agent roles
 
+meta-founding-contract/
+  SKILL.md          — The project's own statement: immutable original plus dated amendments,
+                       the bearing every contract opens with, redraw vs reevaluation
+  FOUNDING.md       — Instance data — this project's statement, recorded verbatim, never rewritten
+
 meta-bootstrap/
-  SKILL.md          — First-run onboarding — installs kit, introduces practice, creates project manifest
+  SKILL.md          — First-run onboarding — installs kit, introduces practice, asks for the founding
+                       contract, creates project manifest
 
 meta-contract-before-execution/
-  SKILL.md          — Spec lock (design-heavy features), three-tier proposal, approval gate,
+  SKILL.md          — Bearing, spec lock (design-heavy features), three-tier proposal, approval gate,
                        Standard Evolution Report
   CONTRACT-LOG.yaml — Instance data — every approved contract, full text, status lifecycle
                        (approved/implemented/verified/learned)
@@ -108,6 +124,7 @@ templates/
   DRIFTLOG.template.yaml     — Agent-readable template used by meta-bootstrap to seed an empty drift log
   CONTRACT-LOG.template.yaml — Agent-readable template used by meta-bootstrap to seed an empty contract log
   LEARNINGLOG.template.yaml  — Agent-readable template used by meta-bootstrap to seed an empty learning log
+  FOUNDING.template.md       — Agent-readable template used by meta-bootstrap to record the founding contract
 ```
 
 ### Load Order
@@ -115,12 +132,13 @@ templates/
 An agent starting a session loads in this order:
 
 1. `meta-foundation/SKILL.md` — absolute precedence, orients the agent to the work and the human
-2. `meta-manifest/SKILL.md` + `MANIFEST.yaml` — governance and topology
-3. `meta-drift-eventlog/SKILL.md` + `DRIFTLOG.yaml` — governance and prior-session drift history; entries in `watching` or `mitigated` status flag aspects the current session should be alert to
-4. `meta-contract-before-execution/SKILL.md` + `CONTRACT-LOG.yaml` — spec lock + build loop; entries in `status: verified` are awaiting a `meta-learning` pass — surface the count
-5. `meta-contract-artifact/SKILL.md` — every approved contract is also published, stored, and registered with verification status visible at a glance
-6. `meta-skill-builder/SKILL.md` — evolution loop
-7. `meta-antidrift/SKILL.md` — runs after every output
+2. `meta-founding-contract/SKILL.md` + `FOUNDING.md` — what this project is and where it has got to; every contract's bearing is read against it
+3. `meta-manifest/SKILL.md` + `MANIFEST.yaml` — governance and topology
+4. `meta-drift-eventlog/SKILL.md` + `DRIFTLOG.yaml` — governance and prior-session drift history; entries in `watching` or `mitigated` status flag aspects the current session should be alert to
+5. `meta-contract-before-execution/SKILL.md` + `CONTRACT-LOG.yaml` — bearing + spec lock + build loop; entries in `status: verified` are awaiting a `meta-learning` pass — surface the count
+6. `meta-contract-artifact/SKILL.md` — every approved contract is also published, stored, and registered with verification status visible at a glance
+7. `meta-skill-builder/SKILL.md` — evolution loop
+8. `meta-antidrift/SKILL.md` — runs after every output
 
 Invoked explicitly, not loaded continuously:
 - `meta-bootstrap` — runs once on first install, not again
@@ -136,6 +154,9 @@ After meta-bootstrap runs, a project using the kit has this structure:
 .claude/
   skills/
     meta-foundation/SKILL.md
+    meta-founding-contract/
+      SKILL.md
+      FOUNDING.md         ← the pioneer's statement, recorded verbatim by bootstrap
     meta-bootstrap/SKILL.md
     meta-contract-before-execution/
       SKILL.md
@@ -159,6 +180,7 @@ After meta-bootstrap runs, a project using the kit has this structure:
       DRIFTLOG.template.yaml
       CONTRACT-LOG.template.yaml
       LEARNINGLOG.template.yaml
+      FOUNDING.template.md
     [type-category nodes discovered through use]
   library/
     [category]/            ← placed here by the developer from their library
@@ -167,7 +189,7 @@ After meta-bootstrap runs, a project using the kit has this structure:
   CLAUDE.md                ← load order declared here by bootstrap
 ```
 
-All paths in the kit — bootstrap, extract, manifest — reference this layout. The manifest always lives at `.claude/skills/meta-manifest/MANIFEST.yaml`. The drift log always lives at `.claude/skills/meta-drift-eventlog/DRIFTLOG.yaml`. The contract log always lives at `.claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml`. The learning log always lives at `.claude/skills/meta-learning/LEARNINGLOG.yaml`. The library always lives at `.claude/library/[category]/`. Templates always live under `.claude/skills/templates/`.
+All paths in the kit — bootstrap, extract, manifest — reference this layout. The manifest always lives at `.claude/skills/meta-manifest/MANIFEST.yaml`. The drift log always lives at `.claude/skills/meta-drift-eventlog/DRIFTLOG.yaml`. The contract log always lives at `.claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml`. The learning log always lives at `.claude/skills/meta-learning/LEARNINGLOG.yaml`. The founding contract always lives at `.claude/skills/meta-founding-contract/FOUNDING.md`. The library always lives at `.claude/library/[category]/`. Templates always live under `.claude/skills/templates/`.
 
 ### Naming Convention
 
@@ -192,6 +214,7 @@ your-project/
   .claude/
     skills/
       meta-foundation/
+      meta-founding-contract/
       meta-bootstrap/
       meta-contract-before-execution/
       meta-contract-artifact/
@@ -209,7 +232,7 @@ your-project/
 
 > "Run meta-bootstrap."
 
-Bootstrap will introduce the practice, establish the kit as load-bearing in your environment, orient to your project, and create your project manifest. It will not proceed past each step without your confirmation.
+Bootstrap will introduce the practice, establish the kit as load-bearing in your environment, orient to your project, ask you for the founding contract, and create your project manifest. It will not proceed past each step without your confirmation.
 
 ---
 
@@ -235,8 +258,8 @@ When both signals go quiet — the Standard Evolution Reports and meta-learning'
 **Once installed:**
 
 1. For design-ambiguous features, a spec lock resolves *what* the feature is before any three-tier proposal is drawn
-2. Every feature begins with a three-tier proposal from the agent
-3. You approve, redirect, or refine — no code is written until the proposal is accepted
+2. Every feature begins with a contract from the agent: a two-sentence bearing read against your founding contract, then the three-tier proposal
+3. You approve, redirect, or refine — no code is written until the proposal is accepted. Correcting a tier is a redraw; correcting the bearing is a reevaluation
 4. The approved contract is persisted to `CONTRACT-LOG.yaml` in full — and, where `meta-contract-artifact` is active, published and stored with verification status visible at a glance
 5. Implementation proceeds against the approved proposal
 6. The agent produces a Standard Evolution Report after each implementation
