@@ -6,10 +6,13 @@ In a consumer project: `.claude/skills/meta-founding-contract/FOUNDING.md`.
 
 <!--
 AGENT INSTRUCTIONS:
-This file is a template. meta-bootstrap copies it to
-.claude/skills/meta-founding-contract/FOUNDING.md during Step 4, replacing
-__PROJECT_NAME__ and __DATE__ and pasting the pioneer's statement verbatim
-under "The statement". The agent does not draft, edit, tidy, or summarise the
+This file is a template. meta-bootstrap asks for the statement in Step 3 and
+copies this file to .claude/skills/meta-founding-contract/FOUNDING.md in Step 6e,
+replacing __PROJECT_NAME__ and __DATE__ and pasting the pioneer's statement
+verbatim under "The statement". If the pioneer deferred, Step 6e replaces the
+whole statement block — the "Given by the Pioneer" line included — with
+"*Deferred by the Pioneer on [date].*" so the record never claims a statement
+that does not exist. The agent does not draft, edit, tidy, or summarise the
 statement — see meta-founding-contract/SKILL.md, "Amending is a pioneer act".
 
 The founding contract is project-specific. It does not travel via meta-extract.

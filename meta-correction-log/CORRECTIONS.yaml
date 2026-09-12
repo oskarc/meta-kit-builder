@@ -1,0 +1,155 @@
+# CORRECTIONS.yaml
+# Instance data for the base-building-kit repo itself. Governed by meta-correction-log/SKILL.md.
+# Consumer projects are seeded from templates/CORRECTIONS.template.yaml, never from this file.
+# Schema: see templates/CORRECTIONS.template.yaml.
+#
+# C-001 to C-004 were recorded during the session that produced contract-001 (kit v0.14), before the
+# correction log existed as a node; they are written here verbatim from that session.
+
+corrections:
+
+  - corr_id: C-001
+    date: 2026-09-11
+    contract_id: null
+    moment: M-25
+    grade: frame-reset
+    intervention: redirected
+    agent_offered: |
+      "Ten shortcomings, deepest first … The one I'd put first: Points 1 and 2 are the same finding from two
+      sides. The kit records the agent's behaviour exhaustively and the human's judgment barely at all."
+    pioneer_said: |
+      "All issues you stated that are worth the effort is retargeting issues, at some parts the path is to simple
+      or to narrow, the solution is to take a step back, get the lay of the land (and in this case, the land of
+      ideas a real wide lay is wanted) and adjust our perspective and area of focus."
+    reason_given: |
+      "the reason im asking is that there are some parts that lacks instrumentation, for example i found an idea
+      about the SER being held for longer before telling the pioneer, and that each SER candidate gets a scoring
+      for how confindetly it is an improvement."
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+
+  - corr_id: C-002
+    date: 2026-09-11
+    contract_id: contract-001
+    moment: M-04
+    grade: scope
+    intervention: redirected
+    agent_offered: |
+      "'Several at once' builds wide. Each agent is more prose that can decay … add one, watch it hold across
+      real uses, then add the next." — "The verifier comes first." — "I'd pilot in AssetHub … Once one holds,
+      port it up by hand."
+    pioneer_said: |
+      "I want you to create all the agents, here. I will evaluate them later inside the classes repo.
+      I want us to move into the new form, take a big step forward and then iterate and evaluate."
+    reason_given: |
+      "I want us to move into the new form, take a big step forward and then iterate and evaluate."
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+
+  - corr_id: C-003
+    date: 2026-09-11
+    contract_id: contract-001
+    moment: M-05
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      "Agents + their layers (Recommended): All agents plus the map, candidate ledger, correction log and
+      casebook they read and write, hook templates, and the integration edits … Existing skills are edited
+      only where they must point at the new layers."
+    pioneer_said: |
+      "Full retarget"
+    reason_given: |
+      none given
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+
+  - corr_id: C-004
+    date: 2026-09-11
+    contract_id: contract-001
+    moment: M-05
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      "Hooks + commands (Recommended): Deterministic hooks wherever Claude Code allows (verified before
+      building), slash commands for the batch agents (map review, canary rounds), and a hook that blocks reads
+      of the canary answer key."
+    pioneer_said: |
+      "I want the workflow to be handled by the agent, so no commands that needs triggers from the human."
+    reason_given: |
+      none given
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+
+  - corr_id: C-005
+    date: 2026-09-12
+    contract_id: contract-003
+    moment: M-05
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      "Append helper (Recommended): A small `append-observation.sh`, like close-batch.sh: the agent appends
+      an observation without reading the ledger." — with the alternative offered as suspending the work
+      until the batch closes.
+    pioneer_said: |
+      "why not pass it to an agent that is allowed to write there?"
+    reason_given: |
+      none given
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: null
+
+  - corr_id: C-006
+    date: 2026-09-12
+    contract_id: contract-003
+    moment: M-05
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      Three options for the conflict between guarantee G-1 (~8 KB map) and a base map that already filled
+      it: "1. Raise G-1 by revision to ~12 KB — ratifies what I did. 2. Shrink the base map back under
+      ~8 KB — costs entries. 3. Drop the byte cap, make the map prune on entry instead." With the
+      recommendation: "My recommendation is 3: the 8 KB figure was always a proxy for 'don't dilute the
+      context window,' and a prune-on-entry rule survives the map growing in a way a fixed byte count
+      cannot."
+    pioneer_said: |
+      "shrink the map, we cant start with moving our allowance."
+    reason_given: |
+      "we cant start with moving our allowance."
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: null
+
+  - corr_id: C-007
+    date: 2026-09-12
+    contract_id: null            # contract-004 not yet drawn; this shapes its form
+    moment: M-05
+    grade: tier-redraw
+    intervention: redirected
+    agent_offered: |
+      Acceptance tests placed inside tier 3: "Each tier-3 guarantee gets a test that can fail mechanically,
+      written with the contract and frozen at approval."
+    pioneer_said: |
+      "Acceptance tests should be the tier 4 then, and comes after guardrails."
+    reason_given: null           # none given; the placement was stated, not argued
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: null
+
+trajectory:
+  updated: null
+  by_contract: []
+  moments: {}

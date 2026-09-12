@@ -1,7 +1,9 @@
 ---
 name: meta-foundation
-description: Load this document before any other kit skill. It defines what this work is, what the human's role demands, and how the agent must orient itself to that human. It is not a rule set — it is the frame within which all rules become operative. An agent without this foundation will misread the work and misread the human.
+description: Use when unsure what kind of work this is, what the pioneer's role asks of you, or whether to stop (map M-03); when judging whether a learning is elevation or recovery; and when onboarding someone to the practice. The full frame of kit-driven development — what the work is in service of, the human's and the agent's roles, the ten governing aspects. Its distilled core, INTENT.md, is always loaded; this document is the frame within which all rules become operative.
 ---
+
+> **Map:** M-03 · **Load:** on trigger — `INTENT.md` beside this file is always loaded and quotes it · **Recognise it by:** the frame itself is in question, not a step within it · **Not when:** a map entry names the node that governs the step at hand
 
 # Foundation — Kit-Driven Development
 
@@ -161,17 +163,21 @@ A mature kit is one where:
 - A non-developer with product knowledge can produce a proposal that requires no judgment calls outside the standard
 - The pioneer's presence is no longer required for every session — only for evolution of the standard itself
 
-That maturity is reached through disciplined use, honest evolution, and the governing aspects being active throughout. It is not declared — it is observed. The signal is the Standard Evolution Reports going quiet: when sessions produce few or no evolution candidates, the standard has learned to anticipate what it needs. That silence is the measure of maturity, not a target date or a feature count.
+That maturity is reached through disciplined use, honest evolution, and the governing aspects being active throughout. It is not declared — it is observed. The first sign is quiet: sessions that produce few candidates for the standard, because it already anticipates what they need.
 
-There is a second, deeper version of that same signal. The Standard Evolution Report captures what looked right immediately after building — `meta-learning` captures what verification actually confirmed, once a contract has been tested against reality rather than judged from the moment of building it. A standard can look mature by the first measure while still absorbing predictions that don't hold up — the second measure is what confirms the first one is real. Run it; it is not a peripheral tool, it is where the standard's predictions get tested against reality rather than assumed from it.
+Quiet alone proves nothing, and this is where the practice has had to become more honest with itself. A standard stops producing candidates when it has matured — and also when nobody is looking: when sessions go unaudited, when contracts are never verified against outside evidence, when the approval gate stops discriminating. Both look identical in a log of candidate counts. So the signal is read against the instruments that say the discipline is still running (`meta-ledger` → Scores and maturity), and the deepest of them asks the question directly: can the standard, on its own, predict the decisions this pioneer actually made?
+
+The second sign is the verified diff. The Standard Evolution Report captures what looked right immediately after building — `meta-learning` captures what verification actually confirmed, once a contract has been tested against reality rather than judged from the moment of building it. A standard can look mature by the first measure while still absorbing predictions that don't hold up; the second is what confirms the first one is real.
+
+Silence counts only when the instruments say the discipline held. Fewer candidates can mean a standard that anticipates the work — or sessions that stopped being audited, contracts that stopped being verified, and a gate that stopped catching what was planted in it. The kit now keeps those instruments (`meta-ledger` → Scores and maturity). A quiet standard with healthy instruments is maturing; a quiet standard with failing ones has stopped looking.
 
 ---
 
 ## How to Use This Document
 
-**For the agent**: Load this before any other skill. Let it orient you to the work and to the human before you read anything else. When you are uncertain how to proceed, return here before reaching for a specific skill. The foundation tells you what kind of work this is. The skills tell you how to do it. The foundation comes first.
+**For the agent**: `INTENT.md`, beside this file, is loaded at the start of every session and quotes this document's governing lines. Return here in full when you are uncertain what kind of work this is, what the pioneer's role asks of you, or whether to stop (map M-03) — before reaching for a specific skill. The foundation tells you what kind of work this is. The skills tell you how to do it. The foundation comes first; it no longer has to be carried in full to be first.
 
-**Then read the project's `FOUNDING.md`.** This document tells you how to work; that one tells you what you are working on and where it has got to. If it has no statement yet, that absence is surfaced at the start of the session, not worked around.
+**The project's `FOUNDING.md` is loaded beside `INTENT.md`.** This document tells you how to work; that one tells you what you are working on and where it has got to. If it has no statement yet, that absence is surfaced at the start of the session, not worked around.
 
 **For the human**: This document is your contract with any agent you work with in this kit. If the agent is not behaving as described here — if it is treating you as an approver rather than a pioneer, if it is not laying the scene, if it is drifting without naming it — point here. This is the standard the agent is working below.
 

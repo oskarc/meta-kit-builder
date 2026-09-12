@@ -1,16 +1,14 @@
 # LEARNINGLOG.yaml
 # Project instance data for meta-learning. Governed by meta-learning/SKILL.md.
-# Seeded by meta-bootstrap — entries are added only when meta-learning is invoked and sweeps
-# CONTRACT-LOG.yaml for entries in status: verified.
 # In the base-building-kit repo: templates/LEARNINGLOG.template.yaml
 # In a consumer project: .claude/skills/meta-learning/LEARNINGLOG.yaml
 #
 # AGENT INSTRUCTIONS:
-# This file is a template. meta-bootstrap copies it to
-# .claude/skills/meta-learning/LEARNINGLOG.yaml as the empty seed.
-# Learning history is project-specific — it does not travel via meta-extract.
-# A new project always starts with an empty entries list, regardless of any inherited
-# type-category kit.
+# meta-bootstrap copies this file as the empty seed. Entries are written when meta-learning sweeps
+# CONTRACT-LOG.yaml for entries in status: verified — started by the agent when the stop-gate names M-13,
+# never by the pioneer. Each elevation_proposal is also recorded as a ledger observation
+# (source: learning); its human_decision is back-filled at the review-batch reveal with the stage the
+# pioneer chose. Learning history does not travel via meta-extract.
 #
 # Schema reference (full details and a worked example in meta-learning/SKILL.md):
 #
@@ -19,19 +17,32 @@
 #     contract_id: [reference to contract in CONTRACT-LOG.yaml]
 #     surfaced_in: YYYY-MM-DD
 #     states:
-#       contracted: {approach, principles_invoked, patterns_invoked, assumptions}
-#       implemented: {approach, deviations}
-#       verified: {method, result, evidence}
+#       contracted:
+#         approach: [what the contract predicted]
+#         principles_invoked: []
+#         patterns_invoked: []
+#         precedents_invoked: []           # P-NNN applied or distinguished
+#         candidates_cited: []             # K-NNN cited as trial or adopted
+#         assumptions: []
+#       implemented:
+#         approach: [what was actually built]
+#         deviations: [{what, authorized}]
+#       verified:
+#         method: tests | observation | pioneer-confirmation | mixed
+#         verification_ref: [contract_id -> verification, dated]
+#         result: pass | fail | partial
+#         evidence: [clause ids and their recorded evidence — never facts absent from the block]
 #     diffs:
-#       - dimension: [principle | pattern | implementation | stakes]
+#       - dimension: principle | pattern | implementation | stakes
 #         assumption: [...]
 #         discovery: [...]
 #         learning: [...]
-#         node_impact: [{node_id, action}]
+#         node_impact: [{node_id, action}]  # action: verify | update | contradict | new
 #     elevation_proposal:
 #       - target: [node or new skill]
-#         kind: [principle | pattern | implementation]
+#         kind: principle | pattern | implementation
 #         evidence: [...]
-#         human_decision: [pending | approved | declined]
+#         observation: O-NNN
+#         human_decision: pending          # then: trial | adopt | caution | decline | hold | revise
 
 entries: []

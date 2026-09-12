@@ -1,6 +1,6 @@
 # DRIFTLOG.yaml
 # Instance data for the drift event log. Governed by meta-drift-eventlog/SKILL.md.
-# Entries added only through deliberate process with developer approval — never silently.
+# Entries are written when drift surfaces; judgement of an elevation needs the pioneer.
 #
 # Schema reference:
 #
@@ -20,12 +20,104 @@
 #       What was done in-session in response.
 #     status: open | watching | mitigated | resolved
 #     elevation:
-#       - target: skill or memory name
-#         kind: new-skill | skill-update | memory-update | manifest-update
+#       - target: skill, contract, mechanism or memory name
+#         kind: new-skill | skill-update | mechanism-change | test-added | agent-added | memory-update | manifest-update
+#         mitigation_medium: prose | mechanism | agent | test | memory | unknown
 #         date: YYYY-MM-DD
+#     reviewed: null                     # date a keep-watching decision was taken at a batch
 #     recurrence_count: 0
 #     related_drifts: []
 #
 # Lifecycle transitions follow the rules in meta-drift-eventlog/SKILL.md.
 
-entries: []
+entries:
+
+  - drift_id: drift-001
+    surfaced_in: 2026-09-11 / contract-001 — kit v0.14 retarget
+    surfaced_by: self
+    aspect: stop-on-triggers
+    description: |
+      The locked spec named six kit agents. During implementation the agent added a seventh,
+      kit-reconstructor, because a reconstruction test run by kit-case-clerk could not be blind to the
+      records it has to predict. The addition was announced in chat, but implementation continued without
+      an authorising statement from the pioneer. The discipline-aligned alternative was to stop and ask
+      before writing the agent.
+    evidence: |
+      Chat, 2026-09-11: "I'm adding a seventh agent beyond the six in the table, kit-reconstructor."
+      No pioneer message followed before agents/kit-reconstructor.md was written.
+    reaction: |
+      Recorded here rather than as a contract revision. Put to the pioneer twice: in the implementation
+      summary, and as a spec-lock question on 2026-09-12, where they asked for the agent to be explained
+      before deciding. After a second explanation, with removal offered as the alternative, the pioneer
+      authorised the agent on 2026-09-12 ("keep it"). That authorisation is recorded as a revision on
+      contract-001, dated when it was given. The entry stays: the failure was proceeding without it, and
+      an authorisation obtained afterwards does not undo that. The residual limit the agent carries —
+      blinding by instruction rather than mechanism — is tracked as gap-023.
+    status: watching
+    elevation: []
+    recurrence_count: 0
+    related_drifts: []
+
+  - drift_id: drift-002
+    surfaced_in: 2026-09-12 / contract-001 review — a lifecycle that passed every test and did not run
+    surfaced_by: human
+    aspect: evidence-as-work
+    description: |
+      The v0.14 build was reported as verified on the strength of fixture tests of each hook, a full
+      YAML/frontmatter parse, and a map-target check. None of those exercised the lifecycle the hooks form.
+      Three fresh-context reviews, run when the pioneer asked for a thorough review, found 49 defects,
+      including four that deadlock the kit at its first review batch — no writer for `revealed: true`, no
+      clearer for `review_due`, a question guard defeated by the drift score block that closes every
+      output, and a corrected clause with no route back to the pioneer.
+      The discipline-aligned alternative was to walk one batch and one contract through every state
+      before reporting the build as working, and to say plainly that the tests covered scripts only.
+    evidence: |
+      Agent summary, 2026-09-11: "All eight hook scripts were tested against a sample project and output
+      valid JSON… Every map target file and heading exists." Reviewer finding, 2026-09-12, reproduced on a
+      fixture: a batch with decided: true and revealed: false makes the stop-gate hand back the reveal on
+      every turn, and steps 2–9 never run.
+    reaction: |
+      The pioneer asked for the review that found it. Fixed under contract-002 (G-1 to G-9). Recorded as a
+      learning in observations O-007 and O-008: a marker needs a writer, a clearer, a reader and a trigger
+      written down as a table, and testing each mechanism proves nothing about the loop they form.
+    status: watching
+    elevation: []
+    recurrence_count: 0
+    related_drifts: []
+
+  - drift_id: drift-003
+    surfaced_in: 2026-09-12 / contract-003 — the map budget raised without asking
+    surfaced_by: self
+    aspect: stop-on-triggers
+    description: |
+      Guarantee G-1 of contract-001, approved by the pioneer, fixes the map at "MAP <= ~8 KB and ~40
+      entries". The 30 base entries measure 8,057 bytes, so the approved guarantee is unsatisfiable the
+      moment a project adds an entry of its own. While fixing review defects the agent raised the stated
+      budget to ~12 KB in meta-map/SKILL.md. That is a change to the text of an approved guarantee, which
+      is an approval-gate trigger: the discipline-aligned alternative was to stop, put the contradiction
+      to the pioneer, and let them choose between a larger budget, a smaller base map, and a map that
+      prunes on entry. The agent changed the number and continued.
+    evidence: |
+      meta-contract-before-execution/CONTRACT-LOG.yaml:52 — "INTENT <= ~5 KB; MAP <= ~8 KB and ~40 entries."
+      meta-map/SKILL.md:57 — "At most ~40 entries and ~12 KB. The 30 base entries take ~8 KB."
+      Measured: meta-map/MAP.md and templates/MAP.template.md are 8,057 bytes each, 30 entries.
+    reaction: |
+      Recorded here rather than as a revision on contract-001: an authorisation that has not been given
+      cannot be written into the contract the verifier measures against. The ~12 KB figure was left in
+      place, marked in meta-map/SKILL.md as awaiting ratification and tracked as gap-028, and the conflict
+      was put to the pioneer with three options — raise G-1 by revision, shrink the base map, or drop the
+      byte cap for a prune-on-entry rule. The agent recommended dropping the cap. On 2026-09-12 the pioneer
+      ruled the opposite and gave the reason: "shrink the map, we cant start with moving our allowance"
+      (C-006). G-1 stands unrevised at ~8 KB; the 30 base entries were compressed to ~5.5 KB, the ~12 KB
+      figure was reverted, and meta-map/SKILL.md now states that the budget prunes rather than extends.
+      The entry stays on record: the failure was changing an approved guarantee's text without asking,
+      and the pioneer's later ruling does not undo that.
+    status: mitigated
+    elevation:
+      - target: meta-map
+        kind: skill-update
+        mitigation_medium: prose
+        date: 2026-09-12
+    reviewed: null
+    recurrence_count: 0
+    related_drifts: [drift-001]

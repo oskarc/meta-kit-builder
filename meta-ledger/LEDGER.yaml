@@ -1,0 +1,395 @@
+# LEDGER.yaml
+# Instance data for the base-building-kit repo itself. Governed by meta-ledger/SKILL.md.
+# Consumer projects are seeded from templates/LEDGER.template.yaml, never from this file.
+# Schema: see templates/LEDGER.template.yaml.
+#
+# O-001 to O-006 are the Standard Evolution Report for contract-001; O-007 to O-012 for contract-002;
+# O-013 to O-018 for contract-004; O-019 to O-021 for contract-005.
+# Each stated_confidence was written before any checking and is frozen. Nothing is consolidated: the base
+# kit repo does not run its own mechanisms (gap-016), so no consolidator has swept these.
+
+observations:
+
+  - obs_id: O-001
+    date: 2026-09-11
+    source: ser
+    contract_id: contract-001
+    refs: [G-1]
+    statement: |
+      Keep only what routes in continuous context — intent and a map from named moments to pointers — and
+      reach every other node by pointer, by mechanism, or through an agent working offline.
+    level_guess: pattern
+    stated_confidence: 0.70
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-002
+    date: 2026-09-11
+    source: ser
+    contract_id: contract-001
+    refs: [G-5]
+    statement: |
+      Define an agent by what it may not read and where it may write. A role name without read and write
+      limits is vocabulary, not a mechanism. (Carried over from the Classes fork's dashboard-exact pipeline,
+      whose agents are defined as "reports, never fixes" and "never reads the drawing".)
+    level_guess: principle
+    stated_confidence: 0.60
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-003
+    date: 2026-09-11
+    source: ser
+    contract_id: contract-001
+    refs: [G-3]
+    statement: |
+      When scripts read YAML state without a parser, the marker keys need enumerated values. The contract
+      parser took a prose line inside a tier block ("status: this line is prose…") as the entry's status until
+      the accepted values were listed; the fixture test caught it.
+    level_guess: implementation
+    stated_confidence: 0.55
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-004
+    date: 2026-09-11
+    source: ser
+    contract_id: contract-001
+    refs: [G-3]
+    statement: |
+      grep -iF aborts in this Git for Windows build ("Aborted" on a pipe), so portable hook scripts match fixed
+      strings in pure bash (lowercase with tr, then a case pattern).
+    level_guess: implementation
+    stated_confidence: 0.50
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-005
+    date: 2026-09-11
+    source: ser
+    contract_id: contract-001
+    refs: [G-4]
+    statement: |
+      One agent-run kit task per turn, highest priority first, deferred whenever the turn ends in a question,
+      keeps an automated lifecycle from burying the conversation it serves. Untested with a pioneer present.
+    level_guess: pattern
+    stated_confidence: 0.45
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-006
+    date: 2026-09-11
+    source: ser
+    contract_id: contract-001
+    refs: [G-5, G-7]
+    statement: |
+      Blindness enforced on the ordinary path, plus a transcript audit for the rest, is enough for canaries to
+      make the approval gate informative; a full security boundary is not required. Speculative until a batch
+      has run.
+    level_guess: principle
+    stated_confidence: 0.40
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-007
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-002
+    refs: [G-1, drift-002]
+    statement: |
+      A state machine written as prose, file by file, produces flags that have a writer and no clearer. Before
+      the prose is trusted, every marker needs one table naming its writer, its clearer, its reader and the
+      trigger that moves it. Three of the four deadlocks in the v0.14 review were exactly this shape:
+      `revealed`, `review_due` and `awaiting-evidence`.
+    level_guess: principle
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-008
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-002
+    refs: [drift-002]
+    statement: |
+      Testing each mechanism in isolation says nothing about the lifecycle they form. All eight v0.14 hooks
+      passed their fixtures while the loop they compose deadlocked at the first review batch. A mechanism's
+      contract needs a walk-through test: one batch and one contract through every state.
+    level_guess: pattern
+    stated_confidence: 0.70
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-009
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-002
+    refs: [drift-002]
+    statement: |
+      A build's own author cannot review it: three fresh-context reviewers found 49 defects in work its builder
+      had just validated and reported as working. Reached from failure, not from understanding — restate before
+      elevating.
+    level_guess: principle
+    stated_confidence: 0.65
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-010
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-002
+    refs: [G-2]
+    statement: |
+      Hook input arrives with its JSON escapes intact: `last_assistant_message` carries literal \n and \uXXXX
+      sequences. A text check on it must not assume decoded characters — the v0.14 question guard read "0", the
+      last character of "─", instead of the question mark two characters earlier.
+    level_guess: implementation
+    stated_confidence: 0.60
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-011
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-002
+    refs: [G-4, G-6]
+    statement: |
+      An instrument that publishes its own parameters stops measuring. Printing the count of due items let the
+      number of canaries in a batch be derived, and copying real items verbatim let them be identified by their
+      absence from the ledger. Blinding has to cover the inputs the measurement is computed from.
+    level_guess: pattern
+    stated_confidence: 0.55
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-012
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-002
+    refs: [G-5]
+    statement: |
+      Blinding must be structural, not instructed. An agent told to ignore records it can read returns a result
+      nobody can distinguish from a checked one — which is the green light on an unmade judgement the practice
+      exists to prevent. Where the structure cannot enforce it, the limit is stated in the artifact itself.
+    level_guess: principle
+    stated_confidence: 0.50
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+
+  - obs_id: O-013
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-004
+    refs: [G-4, G-5]
+    statement: |
+      The ownership check earns its keep on records, not on skills: an Edit in Claude Code always follows a
+      Read, so a skill file edited without being loaded is nearly impossible, while a record edited without its
+      governing skill is the common case. Ownership of a skill's own file catches only a Write-without-Read.
+    level_guess: implementation
+    stated_confidence: 0.70
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-014
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-004
+    refs: [G-5, G-6]
+    statement: |
+      A bypass line cannot say whether the skill was dead weight (the edit was sound without it) or the map
+      failed to route to it (the edit was wrong). The steward is told to give both readings; telling them apart
+      needs a check of the edit itself, which gap-025's schema check would supply. The signal is collected now
+      so the data exists when that check does.
+    level_guess: principle
+    stated_confidence: 0.80
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-015
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-004
+    refs: [G-5, T-5]
+    statement: |
+      The template seeds manifests in one-line flow form and the kit's own manifest is in block form; every
+      manifest parser in the kit must read both, and until owner-check.sh only kit_installed read the manifest
+      at all. A hook written against the base repo's form alone would have been silent on every real project.
+      The template-form fixture (T-5, state 53) is the only thing that would have caught it.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-016
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-004
+    refs: [G-9, G-12]
+    statement: |
+      M-31 took the map to 7,133 bytes, about 1 KB under G-1 of contract-001. The next lifecycle stage that
+      needs an entry will force the first prune. The map's own retirement rule (an entry with no firing
+      evidence goes before a new one comes in) has never been exercised; it should be, before it is needed.
+    level_guess: map
+    stated_confidence: 0.90
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-017
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-004
+    refs: [G-9]
+    statement: |
+      The rebuild plan's freeze is enforced by nothing but prose and the session auditor: no hook compares
+      REBUILD.yaml to what was written at install. The install baseline (INSTALLED.sha1, bootstrap 6j) already
+      hashes it because 6h precedes 6j; a one-line check against that hash at session start would make the
+      freeze a mechanism instead of a rule. Left out of contract-004 deliberately (UC-9: the kit does nothing
+      else with it yet).
+    level_guess: implementation
+    stated_confidence: 0.80
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+
+  - obs_id: O-018
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-004
+    refs: [T-7, G-7]
+    statement: |
+      On the T-7 fixture the consolidator quoted the contradicted passage exactly and set the pioneer-sourced
+      candidate due at once, but wrote its counters as `counters: {helpful_independent, …}` and `restatements: 0`
+      where the ledger template defines `helpful: {independent, loaded}` and starts restatements at 1. The agent
+      followed its own file and the skill's prose, not the template's schema — nothing checks a candidate
+      against the template (gap-025 again, from the writer's side).
+    level_guess: implementation
+    stated_confidence: 0.80
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+
+  - obs_id: O-019
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-005
+    refs: [G-1, contract-004 T-6]
+    statement: |
+      A later contract can make an earlier contract's test wrong without either being at fault: contract-004's
+      T-6 counted the files allowed to name the ownership count, and contract-005's telemetry blind had to name
+      it to refuse greps for it. The contract text stays frozen (the hash held); the fixture's expectation moved
+      under the follow-up, with the reason beside it. A test's script is the implementation of the test, and the
+      follow-up contract is the only place it may change.
+    level_guess: principle
+    stated_confidence: 0.70
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-020
+    date: 2026-09-12
+    source: ser
+    contract_id: contract-005
+    refs: [G-3, gap-031]
+    statement: |
+      Walking the batch end to end found what the direct-write fixture hid: "due at once" (contract-004 UC-7)
+      sets review_due but the gate still needs three due candidates, so a lone pioneer correction waits. The
+      fixture needed two filler candidates to open the batch — the filler is the finding. A walk that writes the
+      end state directly tests nothing about how the state is reached.
+    level_guess: pattern
+    stated_confidence: 0.80
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+
+  - obs_id: O-021
+    date: 2026-09-12
+    source: verification
+    contract_id: contract-005
+    refs: [G-1, T-1]
+    statement: |
+      A blind written against one tool's field names leaks through the next tool's: batch-blind.sh reads Grep's
+      glob field and not Glob's pattern, so a Glob for telemetry.log with no path passes. It yields a filename,
+      not a line, so nothing is learned — but the verifier found it by reading the hook, not by running the
+      fixtures, which only exercised the fields the author had in mind.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+candidates: []
+
+batches: []
+
+map_proposals: []
+
+audits: []
+
+scores:
+  updated: null
+  contracts: []
+  canary_catch_rate: null
+  brier_stated_confidence: null
+  brier_pioneer_decisions: null

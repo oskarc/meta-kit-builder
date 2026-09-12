@@ -3,6 +3,8 @@ name: meta-contract-artifact
 description: Every contract ships as a published artifact as well as a chat draw. Enhances meta-contract-before-execution by fixing HOW a contract is delivered, not what it contains. Two templates — an ANALYSIS REPORT for work that produces findings and judgement, and an EXECUTION CONTRACT for work that produces a plan. The artifact must separate what was verified from what is judgement from what is undecided, so the reader can act on the first and interrogate the second.
 ---
 
+> **Map:** M-06, M-25 · **Load:** on trigger · **Recognise it by:** a contract was just approved, or the work produces findings rather than a plan · **Not when:** drawing the contract's content (meta-contract-before-execution)
+
 `meta-contract-before-execution` says what a contract contains. This says how it
 is delivered. It changes nothing about the three tiers, the spec lock, or the
 approval gate.
@@ -98,12 +100,22 @@ a learning diff never taken, which is what `meta-learning` sweeps for.
 No status is ever inferred. Each transition is a deliberate write, and
 `verified` in particular means observed working — not built, not compiling.
 
+Where `kit-verifier` has run, its clause verdicts in the log entry's
+`verification` block are the source for a republished artifact's Verified /
+Corrected / Open states. A clause the verifier left open is Open on the page,
+whatever the drafter believes about it.
+
 ## Resolving the tension with "never a file"
 
-This practice already holds that a contract is drawn in chat and **never** lives
-as a file, because a file invites amendment, and a partly-amended contract is
-worse than no contract. That rule stands. The artifact does not weaken it,
-under three conditions:
+The fear behind the old rule — that a contract living as a file invites
+amendment, and a partly-amended contract is worse than no contract — is right,
+and the answer is now structural rather than a prohibition. **The log entry in
+`CONTRACT-LOG.yaml` is the record**: it holds the bearing and all three tiers in
+full, its status transitions are deliberate writes, and its `verification` block
+is written by an agent blind to the builder's account. The chat draw and the
+artifact are both renderings of that record.
+
+So three conditions replace the old rule:
 
 1. **The chat draw is still the primary act.** The artifact renders a contract
    that was drawn in full in the conversation. It is never the place a contract
@@ -111,9 +123,11 @@ under three conditions:
 2. **A change is a full redraw of both.** Redraw the whole contract in chat, then
    republish the whole artifact to the same URL. Never edit one section of a
    published contract; never publish a delta.
-3. **The artifact is a rendering, not a record.** It holds no state the chat does
-   not. If the two ever disagree, the chat is right and the artifact is stale —
-   republish it.
+3. **The artifact is a rendering, not a record.** It holds no state the log does
+   not. If the two disagree, the log entry is right and the artifact is stale —
+   republish it. A page whose verification states contradict the entry's clause
+   verdicts is the case that matters most, because the page is the one a reader
+   trusts.
 
 An artifact that gets amended in place has become the repo doc the original rule
 forbade. The URL staying constant is what makes republishing cheap enough that
@@ -133,7 +147,7 @@ document back, in the place it was most careful to avoid.
 | A plan to build something specific | **B — Execution contract** |
 
 A review, an audit, a feasibility pass, a subagent's output being checked, a
-"which direction should this go" question — all A. A three-tier proposal for a
+"which direction should this go" question — all A. A tiered proposal for a
 feature — B.
 
 When a single piece of work does both — a review that ends in a recommendation
@@ -327,8 +341,10 @@ artifact must contain. Two constraints are specific enough to state here:
 - **Editing a stored contract.** Regenerate it whole from the redraw. A hand-
   corrected file under `docs/contracts/` is the amendable document this practice
   spent a rule forbidding, wearing a version-controlled hat.
-- **A log entry that never leaves `awaiting-approval`.** If code shipped, the
-  status is wrong, and the log is the only place that shows it.
+- **A log entry whose status never moves.** A contract still `approved` while
+  its code ships, or `implemented` with `verification_state: none` long after
+  evidence exists, is a status that is wrong — and the log is the only place
+  that shows it. The stop-gate watches for the second.
 
 ## Composition
 

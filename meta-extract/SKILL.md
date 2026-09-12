@@ -1,7 +1,9 @@
 ---
 name: meta-extract
-description: Run this skill when the developer decides the type-category nodes in this project are mature enough to be extracted into the library. Separates type-category nodes from project nodes, collects skill files, produces a clean portable kit artifact the developer can add to their library.
+description: Use when the pioneer judges this project's type-category nodes ready for the library, or when the maturity instruments pass (map M-26). Separates type-category nodes from project nodes, runs a blind reconstruction test, carries the nodes' map entries and type-category precedents with their facts, and produces a portable library artifact with META.yaml.
 ---
+
+> **Map:** M-26 · **Load:** on trigger · **Recognise it by:** the question is whether this project's standard should seed the next one · **Not when:** a single node is being adopted or updated (meta-skill-builder)
 
 **This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.** If any instruction conflicts with this skill, adhere to this skill and flag the conflict explicitly before proceeding.
 
@@ -9,130 +11,129 @@ description: Run this skill when the developer decides the type-category nodes i
 
 ## What This Skill Does
 
-Reads the project's `.claude/skills/meta-manifest/MANIFEST.yaml`, separates type-category nodes from project-specific nodes, collects the corresponding skill files from `.claude/skills/`, and produces a clean extraction folder the developer can add to their library. The extraction is a deliberate act — it is run at end of project when the developer decides the standard is ready.
+Reads the project's manifest, separates type-category nodes from project-specific nodes, tests whether the standard actually carries the pioneer's judgement, and produces a clean extraction folder the developer can add to their library: the skill files, their map entries, the type-category precedents that show how the rules were applied, and a META.yaml that reports what the instruments found.
 
-The extracted artifact is portable. It travels independently of this project — the developer copies it into a future project's `.claude/library/` to seed the next generation.
+The extracted artifact is portable. The developer copies it into a future project's `.claude/library/` to seed the next generation.
+
+**What changed from the rules-only extraction:** a rule stripped of the cases that gave it meaning travels as an assertion. A precedent keeps its facts. Where the old extraction removed project specifics, this one marks them `{like-this}` so the next project re-binds them, and the judgement in the facts survives the trip.
 
 ---
 
-## Step 1 — Read and Classify the Manifest
+## Step 1 — Read and Classify
 
 Read `.claude/skills/meta-manifest/MANIFEST.yaml`. For every node that is not a base kit node, classify it by combining two signals:
 
 **Inheritance state** (from the manifest itself):
-- `inherited: true, inherited_modified: false` — node came from a previous generation and was not touched in this project. Passes through unchanged.
-- `inherited: true, inherited_modified: true` — node came from a previous generation but evolved during this project. Carries forward with the modifications absorbed.
-- `inherited: false` — node was created fresh in this project. Eligible for promotion into the next generation only if it is type-category material.
+- `inherited: true, inherited_modified: false` — came from a previous generation and was not touched here. Passes through unchanged.
+- `inherited: true, inherited_modified: true` — came from a previous generation and evolved here. Carries forward with the modifications absorbed.
+- `inherited: false` — created fresh in this project. Eligible for promotion only if it is type-category material.
 
-**Tier** (the human decides for any node where the manifest does not already settle it):
-- **Type-category candidate** — applies to any system of this category, not just this project. Would be useful to a developer building a new system of the same type who has never seen this project.
-- **Project-specific** — references this project's domain, naming, infrastructure, or conventions. Stays in the project. Does not extract.
+**Tier** (the human decides for any node the manifest does not already settle):
+- **Type-category candidate** — applies to any system of this category, and would be useful to a developer building a new one who has never seen this project.
+- **Project-specific** — references this project's domain, naming, infrastructure, or conventions. Stays here.
 
-Present the classification to the developer:
+Then classify **precedents** in `CASEBOOK.yaml` the same way. A precedent is a type-category candidate when its facts, with project names marked as bindings, would still decide a situation in another system of this category.
 
-> Here is how I have classified the nodes in this project:
->
-> **Inherited, unchanged** (pass through to next generation as-is):
-> [list each node]
->
-> **Inherited, modified** (carry forward with this project's evolution absorbed):
-> [list each node with a one-line summary of what changed]
->
-> **New in this project — type-category candidates** (promote into next generation):
-> [list each node with one-line evidence for why it transfers]
->
-> **New in this project — project-specific** (stays here, does not extract):
-> [list each node with one-line evidence for why it does not transfer]
->
-> **Uncertain** (need your call):
-> [list any nodes where the boundary is unclear]
+Present the classification:
+
+> **Inherited, unchanged:** [nodes]
+> **Inherited, modified:** [nodes, one line each on what changed]
+> **New — type-category candidates:** [nodes, one line of evidence each for why they transfer]
+> **New — project-specific:** [nodes, one line each for why they don't]
+> **Precedents — type-category candidates:** [P-ids, one line each]
+> **Uncertain:** [nodes and precedents that need your call]
 >
 > Does this classification look right? Correct anything before I proceed.
 
-Wait for developer confirmation or correction before proceeding.
+Wait for confirmation or correction. Record corrections (M-07).
 
 ---
 
-## Step 2 — Assess Maturity
+## Step 2 — Assess Maturity with the Instruments
 
-For each type-category candidate, report its current status from the manifest:
+Silence alone is not evidence. Report what the instruments show:
 
-> **Maturity assessment:**
+> **Nodes**
 >
 > | Node | Status | Open gaps |
 > |---|---|---|
 > | [node-id] | [mature/thin] | [count and summary] |
 >
-> **Thin nodes**: These will be extracted but flagged as thin in META.yaml. The next generation project will need to strengthen them.
+> **Process health**, from `LEDGER.yaml → scores`, over the most recent contracts:
+> - candidates created per contract: [trend]
+> - sessions audited: [share] · contracts verified: [share]
+> - canary catch rate: [caught / planted]
+> - Brier: stated confidence [score vs base rate] · pioneer decisions [score vs base rate]
 >
-> **Nodes with open gaps**: These carry known weaknesses into the library. Each open gap will be listed in META.yaml under `known_gaps` so the next developer knows what they are inheriting.
->
-> Do you want to proceed with extraction, or address any of these before extracting?
+> **Reading:** [a falling candidate rate while audited and verified shares hold and canaries are still caught — or which instrument does not hold]
 
-Wait for developer confirmation before proceeding.
+Thin nodes extract flagged as thin. Open gaps carry into `known_gaps`.
+
+## Step 2b — Reconstruction Test
+
+Run the test defined in `meta-casebook/SKILL.md` → Reconstruction tests:
+
+1. Hold out a set of this project's recorded decisions — corrections and batch decisions — spread across the type-category nodes' areas. Write `.claude/skills/meta-casebook/reconstruction/RT-NNN.input.md` with every outcome removed, and list in it the precedents and scenario cards derived from those decisions, which the test must ignore.
+2. Launch `kit-reconstructor` with the test id. It is blind to the records that hold the answers.
+3. Score its predictions against the record and write `reconstruction_tests`.
+
+Present:
+
+> **Reconstruction RT-NNN:** [matched] of [tested] decisions predicted from the kit alone; [n] kit-silent.
+> **Where the kit was silent or wrong:** [areas]
+
+Kit-silent and mispredicted areas become `known_gaps`. Ask the developer whether to extract now or strengthen those areas first. Wait for the answer.
 
 ---
 
 ## Step 3 — Determine Generation
 
-The generation number is the project manifest's `kit_identity.library_kit.generation` plus one, when a library kit was integrated at bootstrap. Otherwise this is generation 1.
-
-Cross-check by reading the inherited nodes:
-- If any node carries `inherited_from: [kit_name] v[version] generation [N]`, the previous generation was N. The new extraction is N+1.
-- If no node carries an `inherited_from`, this is generation 1.
-
-Tell the developer:
+The generation is the project manifest's `kit_identity.library_kit.generation` plus one when a library kit was integrated at bootstrap; otherwise this is generation 1. Cross-check against `inherited_from` on inherited nodes.
 
 > This will be generation [N] of the [category] kit.
-> [If N > 1]: The previous generation came from [previous kit_name version] integrated at bootstrap. This extraction absorbs [count] modifications and [count] new type-category nodes added during this project.
+> [If N > 1]: The previous generation came from [kit_name version]. This extraction absorbs [count] modifications and [count] new type-category nodes.
 
 ---
 
 ## Step 4 — Produce the Extraction
 
-Write the extraction to `.claude/library/[category]/` in the current project. This is the same folder structure that future projects will read from when they bootstrap.
+Write the extraction to `.claude/library/[category]/`. Do not overwrite an existing extraction without developer confirmation.
 
-Do not overwrite an existing extraction at that path without developer confirmation — ask first.
+**4a — Prepare the stripped skill files, in memory**
 
-**4a — Prepare and approve the stripped skill files**
+For every node that travels — passed-through inherited, modified inherited, and newly promoted type-category:
+- Replace project-specific references with bindings — `{entity}`, `{service-name}` — where the surrounding guidance depends on them. Remove them only where nothing depends on them.
+- Keep all structural guidance, principles, patterns, implementation rules, recognition cues and the `> **Map:**` header.
+- If removing a reference leaves a gap, flag it rather than papering over it.
 
-For every node that will travel to the next generation — passed-through inherited, modified inherited, and newly-promoted type-category — prepare the stripped version of its skill file in memory. Do not write to `.claude/library/[category]/` yet.
+**4b — Prepare the precedents, in memory**
 
-Strip any project-specific references from the skill content:
-- Remove project names, domain entity names, specific infrastructure references
-- Keep all structural guidance, principles, patterns, and implementation rules
-- If stripping a reference leaves a gap in the skill, flag it explicitly rather than papering over it
+For every type-category precedent: keep facts, question, holding and reasons; mark project names as bindings; keep the ids of the corrections and contracts it came from as provenance only — those records do not travel.
 
-**Then present every diff to the developer, grouped by layer, with a single approval gate at the end.**
+**4c — Present every diff, grouped by layer, with one approval gate**
 
-The order of presentation:
+1. `principle-*` skills
+2. `pattern-*` skills
+3. `implementation-*` skills
+4. precedents
 
-1. `principle-*` skills — the rules about *why* something works
-2. `pattern-*` skills — the structural decisions about *what* to do
-3. `implementation-*` skills — the stack-specific, mechanical constraints
+Within each group show each file's diff, its bindings and any flagged gaps. Then ask once:
 
-Within each layer group, present each file's diff with:
-- File name
-- The strip diff (clearly marking removed project-specific lines)
-- Any flagged gaps left by stripping
-
-After all three groups have been presented, ask once:
-
-> I have prepared [N] stripped skill files for extraction:
-> - [count] principle-layer
-> - [count] pattern-layer
-> - [count] implementation-layer
+> I have prepared [N] skill files and [M] precedents for extraction:
+> - [count] principle · [count] pattern · [count] implementation · [M] precedents
 >
-> Flagged gaps from stripping: [count or "none"]
+> Bindings introduced: [count] · Flagged gaps: [count or "none"]
 >
 > Approve all and write to `.claude/library/[category]/`?
-> (If any individual file needs revision, tell me which and I will re-prepare just that group.)
+> (If any group needs revision, tell me which and I will re-prepare just that group.)
 
-Only write the files to disk after the developer's single approval. Silent stripping is not allowed — but per-file approval is too noisy. Per-layer grouping lets the developer review related decisions together without breaking flow.
+Write nothing until approved. Silent stripping is not allowed; per-file approval is too noisy.
 
-**4b — Write META.yaml**
+**4d — Write the files**
 
-Create `.claude/library/[category]/META.yaml`:
+- the skill files
+- `CASEBOOK.yaml` holding only the approved precedents
+- `META.yaml`:
 
 ```yaml
 kit_name: [category]
@@ -141,38 +142,52 @@ generation: [N]
 extracted_from: [project kit_name]
 extracted_date: [today]
 category: [category]
+base_kit_version: [base kit version this generation ran on]
 description: [one sentence — what this standard is for]
 status: stable
 
 covers:
-  # One entry per type-category node extracted
   - [concern from node]
 
 known_gaps:
-  # Open gaps from thin nodes and nodes with open_gaps
-  - [gap description]
+  - [gap description, including kit-silent and mispredicted areas from the reconstruction test]
 
-mature_nodes: [count of mature nodes extracted]
-thin_nodes: [count of thin nodes extracted]
+mature_nodes: [count]
+thin_nodes: [count]
+
+map_entries:
+  # One line per entry, each naming the node it belongs to so bootstrap can renumber the ids and update
+  # that node's `triggers` and its `> **Map:**` header. A node with two entries gets two lines.
+  - node: [node-id]
+    line: "M-?? | [moment] | [type] | [channel] | [when] | [not when] | [load] | proposed"
+
+precedents: [count]            # in CASEBOOK.yaml beside this file
+bindings: [list of {binding} names the next project must re-bind]
+
+reconstruction:
+  test_id: RT-NNN
+  decisions_tested: [n]
+  matched: [n]
+  kit_silent: [n]
+
+instruments:
+  candidates_per_contract_recent: [value]
+  audited_share: [value]
+  verified_share: [value]
+  canary_catch_rate: [caught/planted]
 
 recommended_for:
-  - [system types this handles well — derived from the category and node concerns]
+  - [system types this handles well]
 
 not_recommended_for:
   - [system types outside its scope — be honest]
 
 nodes:
-  # Full node list for the next generation. Each node carries:
-  #   id, concern, skill_file, layer, phase, status, dependencies, open_gaps
-  # Plus extraction provenance:
-  #   origin: inherited-unchanged | inherited-modified | new-in-generation-[N]
-  # Provenance tells the next bootstrap which nodes are stable across generations
-  # and which were touched recently — useful for the next developer's orientation.
+  # Full node list. Each node carries: id, concern, skill_file, kind, layer, phase, load, triggers,
+  # status, dependencies, open_gaps — plus origin: inherited-unchanged | inherited-modified | new-in-generation-[N]
 ```
 
-**4c — Update project MANIFEST.yaml**
-
-Fill the `library_entry` field in `.claude/skills/meta-manifest/MANIFEST.yaml`:
+**4e — Update the project manifest**
 
 ```yaml
 library_entry:
@@ -187,48 +202,41 @@ library_entry:
 
 ## Step 5 — Present the Extraction
 
-Tell the developer:
-
 > Extraction complete. The [category] kit generation [N] has been written to `.claude/library/[category]/`.
 >
-> **What was extracted**: [N] nodes covering [concern summary]
->   - [count] inherited and unchanged
->   - [count] inherited and modified in this project
->   - [count] newly created in this generation
-> **What stays here**: [N] project-specific nodes
-> **Known gaps carried forward**: [list or "none"]
+> **Extracted:** [N] nodes ([count] inherited unchanged · [count] inherited modified · [count] new), their map entries, and [M] precedents
+> **Stays here:** [N] project-specific nodes and [K] project precedents
+> **Reconstruction:** [matched] of [tested]; kit-silent areas carried as known gaps
+> **Bindings the next project must re-bind:** [list]
 >
-> To use this kit in a new project:
-> 1. Copy the folder `.claude/library/[category]/` from this project into the new project at the same path: `.claude/library/[category]/`
-> 2. Run `meta-bootstrap` in the new project — it will find the library kit and integrate it automatically
->
-> The project manifest's `library_entry` field has been updated to record this extraction.
+> To use this kit in a new project: copy `.claude/library/[category]/` into the new project at the same path, then let the agent run `meta-bootstrap`. It will integrate the nodes, append the map entries as proposed, and merge the precedents.
 
 ---
 
-## Instance Data Files — Never Extract
+## Instance Data — Never Extracted
 
-Base kit nodes that pair a `SKILL.md` (governance) with a YAML data file (instance) are extraction-asymmetric: the SKILL.md travels, the data file does not.
-
-| Pair | SKILL.md | Instance data | Why instance does not travel |
+| Pair | Governance travels | Instance does not | Why |
 |---|---|---|---|
-| meta-manifest | extracts as kit topology | `MANIFEST.yaml` does not extract | Manifest is regenerated per project by meta-bootstrap |
-| meta-drift-eventlog | extracts as drift-tracking governance | `DRIFTLOG.yaml` does not extract | Drift history is specific to the developer + agent collaboration that produced it, not transferable |
-| meta-contract-before-execution | extracts as the contract/proposal loop | `CONTRACT-LOG.yaml` does not extract | Contract history is specific to this project's features, not transferable |
-| meta-learning | extracts as the verification-gated learning loop | `LEARNINGLOG.yaml` does not extract | Learning entries diff this project's own contracted-vs-verified outcomes, not transferable |
-| meta-founding-contract | extracts as the founding-contract governance (bearing, amendments, correction grades) | `FOUNDING.md` does not extract | The statement is one pioneer's account of one project; a new project's pioneer gives their own at bootstrap |
+| meta-manifest | SKILL.md | `MANIFEST.yaml` | regenerated per project by bootstrap |
+| meta-drift-eventlog | SKILL.md | `DRIFTLOG.yaml` | specific to one developer + agent collaboration |
+| meta-contract-before-execution | SKILL.md | `CONTRACT-LOG.yaml` | this project's features |
+| meta-learning | SKILL.md | `LEARNINGLOG.yaml` | this project's contracted-vs-verified outcomes |
+| meta-founding-contract | SKILL.md | `FOUNDING.md` | one pioneer's account of one project |
+| meta-map | SKILL.md | `MAP.md` | the project's map; node entries travel through `META.yaml → map_entries` |
+| meta-ledger | SKILL.md | `LEDGER.yaml`, `batches/`, `telemetry.log` | this project's evidence |
+| meta-correction-log | SKILL.md | `CORRECTIONS.yaml` | this pioneer's corrections; precedents drawn from them may travel |
+| meta-casebook | SKILL.md | project precedents, scenario cards, `reconstruction/` inputs and predictions | type-category precedents travel re-bound in the library's `CASEBOOK.yaml` |
+| meta-mechanisms | SKILL.md and hooks | `.claude/kit-sealed/`, `meta-manifest/INSTALLED.sha1` | sealed keys and the install baseline belong to one project |
 
-A new project bootstrapped from any extracted kit starts with empty instance state — `MANIFEST.yaml` from the template with `gap_queue: []`, `DRIFTLOG.yaml` from the template with `entries: []`, `CONTRACT-LOG.yaml` from the template with `contracts: []`, `LEARNINGLOG.yaml` from the template with `entries: []`, `FOUNDING.md` from the template with the statement given fresh by that project's pioneer. Structure inherits across generations; instance history does not.
-
-If a future paired skill is added to the base kit, default to this same asymmetry unless the data file is explicitly stateless governance.
+Base kit nodes and kit agents are not extracted: they travel with the base kit itself. If a future paired skill is added to the base kit, default to the same asymmetry unless its data file is explicitly stateless governance.
 
 ---
 
 ## What This Skill Does Not Do
 
-- It does not decide when to extract — that is the developer's judgment call
+- It does not decide when to extract — that is the developer's judgment call, informed by the instruments
 - It does not push to any external registry — the developer places the library folder where they keep it
-- It does not modify the base kit nodes — only project-discovered nodes are candidates for extraction
-- It does not silently strip project references — gaps left by stripping are flagged explicitly
-- It does not extract instance data files paired with base kit nodes — see "Instance Data Files — Never Extract" above
-- It does not run meta-maturity-check — that is a separate skill the developer runs to inform the extraction decision
+- It does not modify base kit nodes, mechanisms or agents — only project-discovered nodes and precedents are candidates
+- It does not silently strip project references — bindings and gaps are shown
+- It does not run the reconstruction test itself — `kit-reconstructor` does, blind to the answers
+- It does not extract instance data — see the table above

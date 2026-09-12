@@ -1,0 +1,50 @@
+# CORRECTIONS.yaml
+# Project instance data. Governed by meta-correction-log/SKILL.md.
+# In the base-building-kit repo: templates/CORRECTIONS.template.yaml
+# In a consumer project: .claude/skills/meta-correction-log/CORRECTIONS.yaml
+#
+# AGENT INSTRUCTIONS:
+# meta-bootstrap copies this file as the empty seed. Entries are appended the moment a correction happens
+# (map M-07), verbatim, and never edited afterwards except for the fields kit-case-clerk owns
+# (clerked, precedent, clerk_note, and the trajectory block). Does not travel via meta-extract.
+# MARKER KEY read by the mechanisms — do not rename: clerked.
+#
+# Schema:
+#
+#   - corr_id: C-NNN                       # sequential, never reused
+#     date: YYYY-MM-DD
+#     contract_id: contract-NNN | null
+#     moment: M-NN                         # the map moment the correction happened in
+#     grade: tier-redraw | bearing-reevaluation | option-override | scope | decline | frame-reset | stop | detail
+#     intervention: did-it | redirected | hinted | reviewed-after
+#     agent_offered: |
+#       [verbatim excerpt of what the agent proposed or recommended]
+#     pioneer_said: |
+#       [verbatim]
+#     reason_given: |
+#       [verbatim, or: none given]
+#     supersedes: []                       # corr_ids this reverses
+#     recorded_by: main-agent | kit-session-auditor
+#     clerked: false                       # MARKER — kit-case-clerk sets true
+#     precedent: null                      # P-NNN / S-NNN written by kit-case-clerk, or pending-pioneer
+#     clerk_note: null                     # why the clerk set it aside; the pioneer can overrule
+#
+# An answer that departs from the option the agent recommended is a correction (option-override), not a
+# plain answer. The clerk may set an entry aside with clerk_note and precedent: pending-pioneer, which puts
+# the question to the pioneer — it never closes it.
+#
+# trajectory:                              # recomputed by kit-case-clerk
+#   updated: YYYY-MM-DD
+#   by_contract:
+#     - contract_id: contract-NNN
+#       corrections: 0
+#       bearing_reevaluations: 0
+#       interventions: {did-it: 0, redirected: 0, hinted: 0, reviewed-after: 0}
+#   moments: {}                            # M-NN: count
+
+corrections: []
+
+trajectory:
+  updated: null
+  by_contract: []
+  moments: {}

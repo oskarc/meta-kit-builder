@@ -1,0 +1,121 @@
+# LEDGER.yaml
+# Project instance data. Governed by meta-ledger/SKILL.md. Never loaded whole into working context.
+# In the base-building-kit repo: templates/LEDGER.template.yaml
+# In a consumer project: .claude/skills/meta-ledger/LEDGER.yaml
+#
+# AGENT INSTRUCTIONS:
+# meta-bootstrap copies this file as the empty seed. Writers per section are fixed (meta-ledger/SKILL.md):
+# observations — the main agent, meta-learning, kit-session-auditor, kit-consolidator (drift recurrences),
+# kit-case-clerk (one per clerked correction, source: pioneer);
+# candidates — kit-consolidator only, except the decision block, stage and review_due, which the main agent
+# writes after a reveal; batches — kit-canary-author, then the main agent; map_proposals — kit-map-steward,
+# then the main agent; audits — kit-session-auditor; scores — kit-consolidator.
+# MARKER KEYS read by the mechanisms — do not rename: consolidated, stewarded, review_due, batch_id,
+# decided, revealed, state: pending.
+# Does not travel via meta-extract.
+#
+# Schema:
+#
+#   observations:
+#     - obs_id: O-NNN
+#       date: YYYY-MM-DD
+#       source: ser | learning | verification | drift | auditor | map-miss | pioneer
+#       contract_id: contract-NNN | null
+#       refs: []                           # drift-NNN, work-NNN, A-NNN, UC-x, G-x
+#       statement: |
+#         [one claim]
+#       level_guess: principle | pattern | implementation | product-detail | map
+#       stated_confidence: 0.00            # frozen at creation — a forecast, never a gate; null when the source is
+#                                          # the pioneer (their words carry no forecast and nobody supplies one)
+#       loaded_candidates: []              # K-NNN in the observer's context: cited or read
+#       prompted: false                    # true when the kit asked for it (a batch revise, a question)
+#       consolidated: false                # MARKER — kit-consolidator sets true
+#       merged_into: null                  # K-NNN
+#       stewarded: n/a                     # map-miss only: false until kit-map-steward reads it
+#
+#   candidates:
+#     - cand_id: K-NNN
+#       created: YYYY-MM-DD
+#       statement: |
+#         [the claim as consolidated — never reworded to fit later evidence]
+#       level: principle | pattern | implementation | product-detail
+#       tier: undecided | type-category | project
+#       target: [skill name or new node]
+#       stage: assess | trial | adopt | caution | faded | declined
+#       contradicts: []                    # {file, passage} — sentences of the target skill the claim would make
+#                                          # false, quoted verbatim by kit-consolidator; the batch decides
+#                                          # update | retire | add at that passage (contract-004 G-7)
+#       review_due: false                  # MARKER
+#       disposition_proposed: null         # trial | adopt | caution | decline | hold | update | retire
+#       evidence_refs: []
+#       helpful: {independent: 0, loaded: 0}
+#       harmful: {independent: 0, loaded: 0}
+#       independent_uses: 0
+#       lower_bound: 0.00                  # Wilson, z=1.28, on independent sightings; 0 when there are none
+#       certainty: very-low | low | moderate | high
+#       certainty_codes: []                # self-generated, single-contract, loaded-only, contradicted,
+#                                          # indirect, compromised-session, verified-outcome,
+#                                          # prevented-defect, pioneer-unprompted, independent-uses>=2
+#       stated_confidence: 0.00            # from the founding observation, frozen
+#       restatements: 1                    # observations that stated it
+#       last_moved: YYYY-MM-DD
+#       decision: null                     # {batch, item, verdict_before, decision, level_decided,
+#                                          #  tier_decided, reason, date, applied_as} — the pioneer's level and
+#                                          #  tier; applied_as: update | retire | add for a contradicting item
+#       outcome: null                      # {resolved, held, brier_stated, brier_pioneer}
+#
+#   batches:
+#     - batch_id: B-NNN
+#       date: YYYY-MM-DD
+#       file: meta-ledger/batches/B-NNN.md
+#       items: 0
+#       decided: false                     # MARKER — set by close-batch.sh
+#       revealed: false                    # MARKER — set by the main agent after applying decisions
+#       canaries: null                     # written at the reveal
+#       canaries_caught: null
+#
+#   map_proposals:
+#     - prop_id: MP-NNN
+#       date: YYYY-MM-DD
+#       kind: add | narrow | demote | split | retire | retarget | ratify
+#       entry: M-NN | new
+#       proposed_line: |
+#         [the full map line as it would read]
+#       evidence: []                       # O-NNN, telemetry counts, probe results
+#       state: pending | ratified | declined | revised
+#
+#   audits:
+#     - audit_id: A-NNN
+#       date: YYYY-MM-DD
+#       contract_id: contract-NNN
+#       transcript: [path read, and whether it was the implementing session]
+#       outside: {lay_of_the_land: , stop_on_triggers: , partner_mirror: , elevation: , evidence_as_work: }
+#       inside: none-emitted               # or the same five keys, from the session's own score blocks
+#       agreement: 0/5
+#       form: {contract_before_code: , bearing_present: , spec_lock_when_due: , observations_recorded: , moments_named: , corrections_recorded: , sealed_access: }
+#       findings: []                       # O-NNN, C-NNN
+#
+#   scores:
+#     updated: YYYY-MM-DD
+#     contracts: []                        # {contract_id, observations, candidates_created, audited, verified}
+#     canary_catch_rate: null              # {caught, planted}
+#     brier_stated_confidence: null        # {n, score, base_rate}
+#     brier_pioneer_decisions: null        # {n, score, base_rate} — the pioneer's own instrument; no agent
+#                                          # reads it to route, weight or characterise anything
+
+observations: []
+
+candidates: []
+
+batches: []
+
+map_proposals: []
+
+audits: []
+
+scores:
+  updated: null
+  contracts: []
+  canary_catch_rate: null
+  brier_stated_confidence: null
+  brier_pioneer_decisions: null

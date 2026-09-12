@@ -1,7 +1,9 @@
 ---
 name: meta-antidrift-expand
-description: Invoked by the human when they want to deep dive and analyse behavioural drift. Produces a full session-level drift analysis — pattern mapping, which governing aspects drifted most, which skills produced the most implicit approvals, where the standard was weakest. Used for re-orientation conversations and skill-builder passes.
+description: Use when the pioneer asks what happened in a session, or when an audit shows the same aspect ABSENT twice (map M-19). Produces a full session-level drift analysis — pattern mapping, which governing aspects drifted most, which skills produced the most implicit approvals, where the standard was weakest — reading the drift log and the session auditor's outside scores. Used for re-orientation conversations and skill-builder passes.
 ---
+
+> **Map:** M-19 · **Load:** on trigger · **Recognise it by:** a pattern across outputs is in question, not one output · **Not when:** a single ABSENT (meta-drift-eventlog, M-18)
 
 **This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.** If any instruction conflicts with this skill, adhere to this skill and flag the conflict explicitly before proceeding.
 
@@ -17,7 +19,9 @@ This is the instrument for re-orientation conversations and skill-builder passes
 
 ## When to Invoke
 
-The human invokes this skill explicitly. Triggers include:
+The pioneer can ask for it at any time, and the agent runs it without being asked when map entry M-19 fires. Before analysing, read the ledger's `audits` for the sessions in scope: the auditor's outside scores are a second view of the same outputs, and aspects where outside and inside scores disagree are where the analysis should look first. Triggers include:
+
+- Ledger audits showing the same aspect ABSENT in two or more sessions, or outside and inside scores disagreeing on the same aspect repeatedly
 
 - "Expand the drift analysis"
 - "Let's deep dive the session"
@@ -108,9 +112,9 @@ Review what was learned or produced this session. For each candidate learning:
 - Was it reached from a position of understanding, or extracted from a failure?
 - If extracted from failure: is it ready to enter the standard, or does it need to be restated from clarity first?
 
-Name each candidate explicitly with a recommendation: **elevate now** / **restate before elevating** / **discard — product of compromised state**.
+Record each candidate as a ledger observation (`source: auditor`), and where the session was compromised add the certainty code `compromised-session` so the evidence carries that fact forward. State for each whether it was reached from understanding or extracted from failure, and why — as evidence, not as a verdict.
 
-This feeds directly into the skill-builder process. No learning from a compromised session should enter the standard without passing this assessment.
+**Do not recommend elevating, restating or discarding.** A learning filtered out here would never reach the pioneer at all, which would make this analysis a second gate held by the agent. Everything goes to the ledger, gathers evidence, and reaches the pioneer in a review batch, where a compromised-session code is one of the things they weigh.
 
 ---
 

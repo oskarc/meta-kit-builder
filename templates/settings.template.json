@@ -1,0 +1,66 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "_kit": "base-building-kit",
+        "hooks": [
+          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/session-start.sh\"" }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "_kit": "base-building-kit",
+        "hooks": [
+          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/prompt-submit.sh\"" }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "_kit": "base-building-kit",
+        "hooks": [
+          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/stop-gate.sh\"" }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "_kit": "base-building-kit",
+        "hooks": [
+          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/subagent-stop.sh\"" }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "_kit": "base-building-kit",
+        "matcher": "Read|Grep|Glob",
+        "hooks": [
+          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/batch-blind.sh\"" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "_kit": "base-building-kit",
+        "matcher": "Read|Skill",
+        "hooks": [
+          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/post-read.sh\"" }
+        ]
+      },
+      {
+        "_kit": "base-building-kit",
+        "matcher": "Write|Edit",
+        "hooks": [
+          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/owner-check.sh\"" }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "deny": [
+      "Read(kit-sealed/**)"
+    ]
+  }
+}

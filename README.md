@@ -8,267 +8,204 @@ A methodology and base kit for building deterministic, standard-driven software 
 
 **Kit-driven development** is a pioneering practice. Its output is not a system — it is a **standard of development**, discovered through real work, distilled through discipline, and encoded into a transferable kit that can operate without its author present.
 
-The core idea: a developer's judgment — about architecture, information architecture, cognitive load, separation of concerns, design quality — gets encoded into a structured set of skills. An agent operating within that kit produces results that adhere to the standard without the developer needing to guide every decision. The developer becomes an auditor and owner of the standard, not the executor of every system.
+The core idea: a developer's judgment — about architecture, information architecture, cognitive load, separation of concerns, design quality — gets encoded into a structured set of skills, precedents and mechanisms. An agent operating within that kit produces results that adhere to the standard without the developer needing to guide every decision. The developer becomes an auditor and owner of the standard, not the executor of every system.
 
-This repo contains the **base building kit** — the meta-layer that governs how any kit is built, evolved, and maintained. It is domain-agnostic. You load it first, always, regardless of what you are building.
+This repo contains the **base building kit** — the meta-layer that governs how any kit is built, evolved, and maintained. It is domain-agnostic. You install it first, always, regardless of what you are building.
 
 ---
 
 ## The Foundation
 
-Before anything else, read `meta-foundation`. It defines what this work is, what the human's role demands, and how the agent must orient itself to that human.
-
-This is not a rule set. It is the frame within which all rules become operative.
+`meta-foundation` defines what this work is, what the human's role demands, and how the agent must orient itself to that human. Its governing lines are distilled into `INTENT.md`, which is loaded in every session.
 
 The work rises when human judgment is present and active. It drifts when it isn't. The kit's job is to make the human's presence as effective as possible, and to preserve what that presence produces so it compounds across time. The human is a pioneer and guide — not an approver, not a corrector, not a user of a tool.
 
----
-
 ## The Governing Aspects
 
-Above all principles, patterns, and implementation rules sit ten governing aspects, split between agent and human deliberately. The asymmetry reflects what each can actually do.
+Ten aspects sit above all principles, patterns and implementation rules, split between agent and human deliberately.
 
-**The agent holds five.** *Lay of the land*, *Stop on named triggers*, *Partner as orientation mirror*, *Evolution from elevation*, *Evidence is the work*. These are checkable disciplines the agent can score itself against after every output via `meta-antidrift`.
+**The agent holds five.** *Lay of the land*, *Stop on named triggers*, *Partner as orientation mirror*, *Evolution from elevation*, *Evidence is the work*. These are checkable disciplines, scored after every output by the agent and, since v0.14, from outside by the session auditor.
 
 **The human holds five.** *Exercise judgment*, *Closeness*, *Distance*, *Re-orient*, *Hold the approval gate*. These cannot be encoded — they are what the kit is in service of. The kit can make drift visible. It cannot stop it. The human stops it.
 
-See `meta-foundation/SKILL.md` for the full definition of each aspect, what its absence looks like, and how the two sides interact.
+## The Founding Contract
+
+Each project holds its **founding contract** — the pioneer's own statement of what the project *is*, as a body of work. It is the one input the agent cannot draft: bootstrap asks for it and records it verbatim. The original is never rewritten; progress is recorded as dated amendments that name their cause and what they now bind. Every contract opens with a **bearing** — at most two sentences, read against the founding contract. Correcting a tier is a redraw; correcting the bearing is a reevaluation. See `meta-founding-contract/SKILL.md`.
 
 ---
 
-## The Founding Contract
+## The Form (v0.14)
 
-The foundation is the frame for the practice. It is not the statement of any one project. Each project additionally holds its **founding contract** — the pioneer's own statement of what the project *is*, as a body of work: what should hold it together, what ordering it is meant to have, what would tell them it had stopped being that. It is internal, never a product vision, and it is the one input the agent cannot draft — bootstrap asks for it and records it verbatim.
+Until v0.13 the kit asked one thing — prose skills, loaded every session — to do six jobs: say when something applies, say what to do, record how sure anyone is, carry what wins in a conflict, make sure steps happen, and keep the cases that give rules their meaning. Downstream use showed the cost. Rules diluted each other in context, ceremonies were skipped when work felt routine, drift mitigated by more prose recurred up to 13 times, and learnings were approved almost without exception. A prior-art survey — agent context engineering, clinical decision support, aviation checklists, standards bodies, expert-judgement training, organisational learning — pointed the same way each time: **split by job**.
 
-The statement is living, and it grows by addition. The original is never rewritten. Progress is recorded as dated amendments, each naming the work that caused it and what future work must now honour. An amendment that only ratifies work already done is retro-fitting; one that also binds is earned. Amending is a pioneer act: the agent may surface that a contract sits outside the statement, and may not propose that the statement move to accommodate it.
+| Layer | What it holds | How it reaches the agent |
+|---|---|---|
+| 1 · **Intent** | `INTENT.md`, the project's `FOUNDING.md` | always loaded |
+| 2 · **Map** | `MAP.md` — named moments → what to load | always loaded |
+| 3 · **Nodes** | principle, pattern, implementation and meta skills | loaded when a map entry names them |
+| 4 · **Casebook** | binding precedents with their facts, scenario cards | retrieved by moment |
+| 5 · **Mechanisms** | hooks, agent scopes, the batch blind, the canary seal — and the kit agents they launch | fire; never loaded to work |
+| 6 · **Ledger** | observations, held candidates, review batches, audits, scores | read offline by agents and scripts; its sections on trigger |
 
-Every contract opens with a **bearing** — at most two sentences, read against the founding contract — and that changes what a correction means. Correcting a tier is a redraw within a direction already correct. Correcting the bearing is a reevaluation: everything below it was derived from it, so it is re-decided, not repaired. See `meta-founding-contract/SKILL.md`.
+What follows from the split:
+- **The kit runs itself.** Hooks hand the agent its kit tasks; nothing waits on the pioneer to invoke it.
+- **The pioneer's attention goes where only the pioneer can decide.** That means contracts and review batches.
+- **Learnings are held and scored before anyone asks for a decision.**
+- **The pioneer's corrections become the most carefully kept record in the kit.**
 
 ---
 
 ## How It Works
 
-For features with meaningful design ambiguity, the three-tier proposal is preceded by a **spec lock** — a separate turn that resolves *what* the feature is (via `AskUserQuestion` on the load-bearing choices) before the three-tier resolves *how* it gets built. Skipping it on design-heavy work is what produces a mid-implementation redirect: a design question buried inside a Tier 2 use case costs more to surface than an explicit lock-step would have.
+The path of one feature:
 
-Every implementation starts with a **contract before execution** — a bearing of at most two sentences read against the founding contract, then a three-tier proposal the agent produces and the developer approves before any code is written:
+1. **Name the moment.** Every prompt, the agent states the map entry that fits and loads only what it points to.
+2. **Contract.** For design-open work, a **spec lock** settles *what* first. Then comes the **bearing**, a **precedent check** against the casebook, and the **four-tier proposal**: user scenario, use cases (`UC-x`), guardrails (`G-x`), and acceptance tests (`T-x`) that say how we would know each guardrail held — frozen with the contract, run by the verifier. No code before approval.
+3. **Corrections.** Every redirect, decline or overridden recommendation is recorded verbatim in the correction log, with its grade.
+4. **Build**, strictly against the approved contract; deviations stop the work.
+5. **Record, don't present.** What the work taught goes to the ledger as observations, each with a frozen stated confidence. The pioneer sees a one-line summary, not a decision request.
+6. **The lifecycle runs.** At the end of each turn the stop-gate hands over at most one due task:
+   - the **session auditor** checks the transcript for evidence of what was done
+   - the **verifier** checks each clause against outside evidence
+   - the **consolidator** merges observations into held candidates, counted by independence
+   - **meta-learning** diffs contracted against verified
+   - the **case clerk** turns corrections into precedents
+7. **Review batch.** When pioneer-owned items are waiting, the canary author assembles a batch and mixes in zero to two planted, flawed items. While the batch is open the ledger and casebook are closed to the presenting session, so the canaries stay indistinguishable. The pioneer reads each statement, gives a one-line verdict before seeing the evidence, then decides — including the level and tier of anything adopted.
+8. **Reveal.** Once every item is decided, the sealed key opens, the catch rate is recorded, and adopted learnings are written into skills with their map entries.
 
-1. **User scenario** — what the user is trying to accomplish, in plain language
-2. **Use cases** — discrete, testable actions derived from the scenario
-3. **Technical guardrails** — constraints the implementation must uphold, traceable to the use cases
+---
 
-No code is written without an approved proposal. This eliminates half-implementation, silent assumptions, and drift from the standard. Every approved contract — full text, not a summary — is persisted to `CONTRACT-LOG.yaml`, so it outlives the conversation that produced it. Where **`meta-contract-artifact`** is active, the same contract is also published and stored as HTML, with every claim carrying visible verification status — verified, corrected, or open — so a reader can tell what was checked from what was judged without reading a word.
+## Agents
 
-After implementation, the agent produces a **Standard Evolution Report** — structured classification proposals identifying what the kit should absorb from this session. Each learning is proposed at the right level — principle, pattern, or product detail — with evidence and reasoning. The developer decides what enters the standard.
+Eight kit agents, each defined by what it may not see and where it may write. Scopes are declared as hooks in each agent's own frontmatter.
 
-Once a contract is verified — tests pass, the feature is observed working, or the developer confirms it — **meta-learning** diffs what was contracted against what verification actually showed, and surfaces a second, deeper round of evolution candidates alongside the report. It is invoked explicitly, sweeping every verified-but-undiffed contract rather than one at a time, and it deepens the report's judgment rather than replacing it: the report captures what looked right immediately after building; meta-learning captures what held up.
+| Agent | Runs when | Blind to | Writes |
+|---|---|---|---|
+| `kit-verifier` | a contract is implemented and evidence exists | the builder's account; the ledger, corrections and casebook records | clause verdicts in the contract log |
+| `kit-consolidator` | observations are unconsolidated | batches, sealed keys, transcripts | candidates and scores (sole writer) |
+| `kit-map-steward` | three map misses are unstewarded | batches, sealed keys, transcripts | map proposals — never the map |
+| `kit-canary-author` | pioneer-owned items are waiting | sealed keys, transcripts | the batch file and its sealed key |
+| `kit-case-clerk` | corrections are unclerked | batches, sealed keys, transcripts | precedents, card drafts, the fading curve |
+| `kit-session-auditor` | an implemented contract is unaudited | batches | audits, missed corrections, map misses |
+| `kit-reconstructor` | a reconstruction test runs | the correction log, ledger, contract log, learning log and drift log | predictions only |
+| `kit-recorder` | the ledger is closed to the session by an open batch | batches, sealed keys, transcripts | observations it is handed, and nothing else |
 
-Over time, **the kit builds itself through use**. Gaps surface via post-implementation reports. The standard grows in depth, not just length. The maturity signal is the Standard Evolution Reports going quiet — when sessions produce few or no evolution candidates, the standard has learned to anticipate what it needs. A second, deeper signal is meta-learning's diffs going clean — when verification keeps confirming what was contracted, the standard isn't just producing fewer candidates, its predictions are holding.
+No agent decides trial, adopt, caution or decline, overrules a precedent, amends the founding statement or ranks a scenario. Agents report; they never fix.
+
+**The limits are stated, not implied.** Scopes cover the ordinary path: a Grep over a parent directory can still reach a denied file, an agent with Bash can write through a shell command, and each agent's own transcript records what it read. The reconstructor's blindness to the casebook rests on an excluded-precedent list it is told to honour. None of this is a security boundary; it is a discipline made cheap to keep, with an auditor as backstop for the main session.
+
+## Mechanisms
+
+| Hook | Event | Does |
+|---|---|---|
+| `session-start.sh` | SessionStart | puts the kit's backlog in context, one line per due item |
+| `prompt-submit.sh` | UserPromptSubmit | forces the situation assessment; flags possible corrections |
+| `stop-gate.sh` | Stop | hands over one due kit task per turn; never after a question |
+| `batch-blind.sh` | PreToolUse | closes the ledger — by path and by directory search — to the session presenting a batch |
+| `subagent-stop.sh` | SubagentStop | records which agents ran |
+| `post-read.sh` | PostToolUse | records which kit files loaded, separating agent reads — the map's telemetry |
+| `owner-check.sh` | PostToolUse | records a governed record edited while its owner's skill sat unread — ownership evidence, read by the map steward alone |
+| `deny-paths.sh`, `write-scope.sh` | PreToolUse, in agent frontmatter | agent blindness and write scope |
+| `close-batch.sh`, `reveal-canaries.sh` | run by the agent | close a decided batch without reading the ledger; open its key once every item is decided |
+
+bash, sed, awk, grep, tr and date only — no jq, no python (`meta-mechanisms/SKILL.md` → Portability). State is read through flat marker keys listed there; renaming one silently switches a mechanism off.
 
 ---
 
 ## Kit Structure
 
-This is the base-building-kit repo layout:
-
 ```
-meta-foundation/
-  SKILL.md          — Philosophical foundation, governing aspects, human and agent roles
-
-meta-founding-contract/
-  SKILL.md          — The project's own statement: immutable original plus dated amendments,
-                       the bearing every contract opens with, redraw vs reevaluation
-  FOUNDING.md       — Instance data — this project's statement, recorded verbatim, never rewritten
-
-meta-bootstrap/
-  SKILL.md          — First-run onboarding — installs kit, introduces practice, asks for the founding
-                       contract, creates project manifest
-
-meta-contract-before-execution/
-  SKILL.md          — Bearing, spec lock (design-heavy features), three-tier proposal, approval gate,
-                       Standard Evolution Report
-  CONTRACT-LOG.yaml — Instance data — every approved contract, full text, status lifecycle
-                       (approved/implemented/verified/learned)
-
-meta-contract-artifact/
-  SKILL.md          — Every approved contract is also published as an artifact, stored as HTML,
-                       and registered with verification status (Verified/Corrected/Open) visible
-                       at a glance. Two templates — Analysis Report and Execution Contract.
-
-meta-skill-builder/
-  SKILL.md          — Abstraction loop for classifying learnings and evolving the standard
-
-meta-learning/
-  SKILL.md          — Verification-gated diff of contracted vs. verified, feeding a second,
-                       deeper round of standard evolution alongside the Standard Evolution Report
-  LEARNINGLOG.yaml  — Instance data — one entry per verified contract, cumulative across sessions
-
-meta-antidrift/
-  SKILL.md          — Post-output drift scoring against governing aspects and active skills
-
-meta-antidrift-expand/
-  SKILL.md          — Session-level drift analysis, invoked by the human
-
-meta-drift-eventlog/
-  SKILL.md          — Governance for the persistent drift log — schema, lifecycle, update protocol
-  DRIFTLOG.yaml     — Instance data — one entry per drift incident, cumulative across sessions
-
-meta-extract/
-  SKILL.md          — Extracts mature type-category nodes into a portable library artifact
-
-meta-manifest/
-  SKILL.md          — Governance, schema, tier definitions, precedence rules, update protocol
-  MANIFEST.yaml     — Node registry, coverage map, gap queue, kit identity
-
-templates/
-  MANIFEST.template.yaml     — Agent-readable template used by meta-bootstrap to create the project manifest
-  DRIFTLOG.template.yaml     — Agent-readable template used by meta-bootstrap to seed an empty drift log
-  CONTRACT-LOG.template.yaml — Agent-readable template used by meta-bootstrap to seed an empty contract log
-  LEARNINGLOG.template.yaml  — Agent-readable template used by meta-bootstrap to seed an empty learning log
-  FOUNDING.template.md       — Agent-readable template used by meta-bootstrap to record the founding contract
+meta-foundation/        SKILL.md (the frame) · INTENT.md (always loaded)
+meta-founding-contract/ SKILL.md · FOUNDING.md (instance — this repo's statement, not yet given)
+meta-map/               SKILL.md · MAP.md (always loaded)
+meta-bootstrap/         SKILL.md — install and upgrade
+meta-contract-before-execution/  SKILL.md · CONTRACT-LOG.yaml
+meta-contract-artifact/ SKILL.md
+meta-casebook/          SKILL.md · CASEBOOK.yaml
+meta-correction-log/    SKILL.md · CORRECTIONS.yaml
+meta-skill-builder/     SKILL.md — review batches and the abstraction loop
+meta-learning/          SKILL.md · LEARNINGLOG.yaml
+meta-ledger/            SKILL.md · LEDGER.yaml
+meta-mechanisms/        SKILL.md · hooks/*.sh
+meta-antidrift/         SKILL.md
+meta-antidrift-expand/  SKILL.md
+meta-drift-eventlog/    SKILL.md · DRIFTLOG.yaml
+meta-extract/           SKILL.md
+meta-manifest/          SKILL.md · MANIFEST.yaml
+agents/                 kit-verifier · kit-consolidator · kit-map-steward · kit-canary-author ·
+                        kit-case-clerk · kit-session-auditor · kit-reconstructor · kit-recorder
+templates/              MANIFEST · MAP · CONTRACT-LOG · DRIFTLOG · LEARNINGLOG · LEDGER · CORRECTIONS ·
+                        CASEBOOK · FOUNDING · settings (hooks, the blind and the seal)
+.gitattributes          keeps the hook scripts on LF endings
 ```
 
-### Load Order
+Instance files in this repo — the manifest, logs, ledger, corrections, casebook, map and founding file — belong to the base kit itself. Its manifest reads `kit_type: base`, which is how the mechanisms know they are not installed in a project yet. Consumer projects are always seeded from `templates/`.
 
-An agent starting a session loads in this order:
+### What Is Loaded
 
-1. `meta-foundation/SKILL.md` — absolute precedence, orients the agent to the work and the human
-2. `meta-founding-contract/SKILL.md` + `FOUNDING.md` — what this project is and where it has got to; every contract's bearing is read against it
-3. `meta-manifest/SKILL.md` + `MANIFEST.yaml` — governance and topology
-4. `meta-drift-eventlog/SKILL.md` + `DRIFTLOG.yaml` — governance and prior-session drift history; entries in `watching` or `mitigated` status flag aspects the current session should be alert to
-5. `meta-contract-before-execution/SKILL.md` + `CONTRACT-LOG.yaml` — bearing + spec lock + build loop; entries in `status: verified` are awaiting a `meta-learning` pass — surface the count
-6. `meta-contract-artifact/SKILL.md` — every approved contract is also published, stored, and registered with verification status visible at a glance
-7. `meta-skill-builder/SKILL.md` — evolution loop
-8. `meta-antidrift/SKILL.md` — runs after every output
-
-Invoked explicitly, not loaded continuously:
-- `meta-bootstrap` — runs once on first install, not again
-- `meta-extract` — run when type-category nodes are ready for extraction
-- `meta-antidrift-expand` — run when human requests session-level drift analysis
-- `meta-learning` — run to diff contracted vs. verified for any contract in `CONTRACT-LOG.yaml` with `status: verified`; sweeps all such contracts, not one at a time
+- **Always:** `INTENT.md`, `FOUNDING.md`, `MAP.md` — imported by CLAUDE.md.
+- **On trigger:** every other skill, named by a map entry — including the ledger's own sections when a contract cites a candidate.
+- **Fires:** hooks and kit agents.
+- **Offline:** the ledger's evidence and the telemetry log; agents and scripts read them, and no session loads them whole.
 
 ### Consumer Project Layout
 
-After meta-bootstrap runs, a project using the kit has this structure:
-
 ```
+CLAUDE.md                     ← kit block with three @imports, between kit-block markers
+.gitignore                    ← includes .claude/kit-sealed/
+.gitattributes                ← *.sh text eol=lf
 .claude/
+  settings.json               ← kit hooks and Read(kit-sealed/**) deny rule, merged by bootstrap
+  agents/                     ← the kit agents, copied by bootstrap
+  kit-sealed/                 ← canary keys (runtime, gitignored)
+  kit-incoming/               ← a newer kit staged for upgrade (removed afterwards)
   skills/
-    meta-foundation/SKILL.md
-    meta-founding-contract/
-      SKILL.md
-      FOUNDING.md         ← the pioneer's statement, recorded verbatim by bootstrap
-    meta-bootstrap/SKILL.md
-    meta-contract-before-execution/
-      SKILL.md
-      CONTRACT-LOG.yaml   ← empty contract log seeded here by bootstrap
-    meta-contract-artifact/SKILL.md
-    meta-skill-builder/SKILL.md
-    meta-learning/
-      SKILL.md
-      LEARNINGLOG.yaml    ← empty learning log seeded here by bootstrap
-    meta-antidrift/SKILL.md
-    meta-antidrift-expand/SKILL.md
-    meta-extract/SKILL.md
-    meta-manifest/
-      SKILL.md
-      MANIFEST.yaml        ← project manifest created here by bootstrap
-    meta-drift-eventlog/
-      SKILL.md
-      DRIFTLOG.yaml        ← empty drift log seeded here by bootstrap
-    templates/
-      MANIFEST.template.yaml
-      DRIFTLOG.template.yaml
-      CONTRACT-LOG.template.yaml
-      LEARNINGLOG.template.yaml
-      FOUNDING.template.md
-    [type-category nodes discovered through use]
-  library/
-    [category]/            ← placed here by the developer from their library
-      META.yaml
-      [skill files]
-  CLAUDE.md                ← load order declared here by bootstrap
+    meta-*/                   ← base kit nodes, instance files seeded from templates
+    meta-manifest/INSTALLED.sha1   ← per-file baseline, so an upgrade can tell evolved from untouched
+    meta-ledger/batches/      ← review batches as presented
+    agents/ templates/        ← as shipped
+    [type-category and project nodes discovered through use]
+  library/[category]/         ← placed here by the developer: META.yaml, skills, CASEBOOK.yaml
 ```
-
-All paths in the kit — bootstrap, extract, manifest — reference this layout. The manifest always lives at `.claude/skills/meta-manifest/MANIFEST.yaml`. The drift log always lives at `.claude/skills/meta-drift-eventlog/DRIFTLOG.yaml`. The contract log always lives at `.claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml`. The learning log always lives at `.claude/skills/meta-learning/LEARNINGLOG.yaml`. The founding contract always lives at `.claude/skills/meta-founding-contract/FOUNDING.md`. The library always lives at `.claude/library/[category]/`. Templates always live under `.claude/skills/templates/`.
 
 ### Naming Convention
 
-All skills follow `[layer]-[name]/SKILL.md`. The folder carries layer identity. The file is always `SKILL.md` for loader auto-discovery. The manifest `skill_file` field uses the joined form: `pattern-foo/SKILL.md`.
-
-Layer prefixes:
-- `principle-` — transferable rules about why something works
-- `pattern-` — reusable structural decisions for recognisable contexts
-- `implementation-` — stack-specific, mechanical constraints
-- `meta-` — skills that govern the kit itself
+All skills follow `[layer]-[name]/SKILL.md`. The folder carries layer identity; the file is always `SKILL.md` for loader auto-discovery; the manifest uses the joined form. Layer prefixes: `principle-`, `pattern-`, `implementation-`, `meta-`. Kit agents are `kit-[role].md`. Every node opens with a `> **Map:**` header naming the entries that load it.
 
 ---
 
 ## Getting Started
 
-**1. Copy all kit contents into your project's `.claude/skills/` folder:**
+1. **Copy the kit** into your project's `.claude/skills/`: every `meta-*/` folder, plus `agents/` and `templates/`. Copy `.gitattributes` into the project root too, or add `*.sh text eol=lf` to the one you have — CRLF endings break the hooks.
+2. **Open a session.** The kit is not active yet: its own manifest declares a base `kit_type`, so every mechanism stays silent. The install cue lives in `meta-bootstrap`'s own description, because the map is not imported until bootstrap writes the CLAUDE.md block. Ask the agent to run meta-bootstrap if it doesn't offer.
+3. Bootstrap introduces the practice, reads the project, asks you for the founding contract, installs the hooks and agents, writes the CLAUDE.md block, seeds every instance file from its template — replacing the base kit's own copies, with the project manifest written last — and offers one pass to ratify the map.
+4. **Start a new session**, so the hooks load. From then on the kit runs itself.
 
-Everything in this repo — all `meta-*/` skill folders and the `templates/` folder — goes directly into `.claude/skills/` in your consumer project.
+### Upgrading
 
-```
-your-project/
-  .claude/
-    skills/
-      meta-foundation/
-      meta-founding-contract/
-      meta-bootstrap/
-      meta-contract-before-execution/
-      meta-contract-artifact/
-      meta-skill-builder/
-      meta-learning/
-      meta-antidrift/
-      meta-antidrift-expand/
-      meta-drift-eventlog/
-      meta-extract/
-      meta-manifest/
-      templates/
-```
-
-**2. Tell your agent:**
-
-> "Run meta-bootstrap."
-
-Bootstrap will introduce the practice, establish the kit as load-bearing in your environment, orient to your project, ask you for the founding contract, and create your project manifest. It will not proceed past each step without your confirmation.
+Never copy a new kit over `.claude/skills/`. It would overwrite your manifest, logs, ledger and corrections, and flatten any skills your project has evolved. Place the new kit in `.claude/kit-incoming/` and let bootstrap's upgrade path run: it compares versions, classifies every skill against `INSTALLED.sha1` as untouched or evolved, ports changes node by node, replaces the kit's hook groups rather than duplicating them, seeds missing instance files, and migrates older schemas additively. Contracts from before v0.14 are marked `legacy`.
 
 ---
 
 ## The Kit Lifecycle
 
-Kit-driven development operates across three phases:
+**Phase 1 — Discovery.** No type-category kit exists yet. Every session builds the system and evolves the emerging standard. Nodes, precedents and map entries are discovered, not inherited.
 
-**Phase 1 — Discovery**
-A new project, no type-category kit exists yet. Every session builds the system and evolves the emerging standard simultaneously. Type-category nodes are discovered, not inherited. The standard grows through use.
+**Phase 2 — Maturity.** The type-category layer separates from the project layer. Candidates per contract fall, verification diffs increasingly confirm, and the correction log shows the pioneer's interventions moving from redirecting toward reviewing.
 
-**Phase 2 — Maturity**
-Through use, the type-category layer separates from the project layer. Nodes graduate from thin to mature. The gap queue shrinks. Standard Evolution Reports produce fewer candidates, and meta-learning's verification diffs increasingly confirm rather than correct what was contracted. The standard is learning to anticipate what it needs.
+**Phase 3 — Extraction.** When the instruments say the standard carries the pioneer's judgement, run `meta-extract`. It runs a blind reconstruction test and packages the type-category nodes, their map entries and their precedents for the library. The next project of the same type inherits the generation.
 
-**Phase 3 — Extraction**
-When both signals go quiet — the Standard Evolution Reports and meta-learning's diffs — run `meta-extract`. The mature type-category nodes are separated from project-specific nodes and packaged into a portable library artifact. The developer places it in their library. The next project of the same type inherits the maturity of this generation and builds further from it.
+### Measuring Maturity
 
-**The non-developer milestone** is not a roadmap item. It is reached when the standard has matured enough through generations that both signals go silent. That silence is the measure — not a date, not a feature count.
+Silence is no longer the measure; failure produces silence too. The ledger keeps the instruments:
 
----
+- **candidates created per contract** — read next to the share of sessions audited and contracts verified
+- **canary catch rate** — whether the approval gate still discriminates
+- **Brier scores** — for the agent's stated confidence, and for the pioneer's own decisions as their instrument
+- **the fading curve** — bearing reevaluations and intervention levels over time
+- **reconstruction tests** — how many of the pioneer's recorded decisions the kit alone predicts, and where it is silent
 
-## Building With the Kit
-
-**Once installed:**
-
-1. For design-ambiguous features, a spec lock resolves *what* the feature is before any three-tier proposal is drawn
-2. Every feature begins with a contract from the agent: a two-sentence bearing read against your founding contract, then the three-tier proposal
-3. You approve, redirect, or refine — no code is written until the proposal is accepted. Correcting a tier is a redraw; correcting the bearing is a reevaluation
-4. The approved contract is persisted to `CONTRACT-LOG.yaml` in full — and, where `meta-contract-artifact` is active, published and stored with verification status visible at a glance
-5. Implementation proceeds against the approved proposal
-6. The agent produces a Standard Evolution Report after each implementation
-7. Once the contract is verified, `meta-learning` diffs what was contracted against what verification showed, surfacing a second, deeper round of candidates
-8. You decide what enters the standard — and at which tier: type-category or project
-9. New nodes emerge, each prefixed by layer, each added to the manifest
-10. The coverage map fills in. Gap frequency drops. The kit matures.
-
-**When both signals go quiet** — the Standard Evolution Reports and `meta-learning`'s diffs — run `meta-extract`. The type-category kit becomes a library artifact. The next project inherits the generation.
+**The non-developer milestone** is reached when those instruments hold across generations: few candidates with healthy process, canaries still caught, and the kit predicting the pioneer's decisions from its own contents.
 
 ---
 
@@ -276,14 +213,26 @@ When both signals go quiet — the Standard Evolution Reports and meta-learning'
 
 - A prompt library or collection of reusable snippets
 - A replacement for developer judgment — it encodes judgment, it does not substitute for it
-- A finished standard — the base kit is intentionally minimal. Type-category kits are built through use, not designed upfront
-- A tool that works without discipline — the governing aspects and approval gate only hold if they are respected
+- A finished standard — the base kit is intentionally minimal; type-category kits are built through use
+- A tool that works without discipline — the mechanisms make discipline cheap; they do not make it optional
 - A solo endeavour — the human's presence in the work is not optional. It is what makes the standard rise rather than drift
 
 ---
 
 ## Status
 
-The base building kit is at **v0.12** — actively used and evolving.
+The base building kit is at **v0.14** — the six-layer form, built in one step, reviewed, and not yet evaluated in real use.
+
+The form was built under `contract-001` and then reviewed at the pioneer's request: three independent passes found 49 defects, including four that deadlocked the lifecycle at its first review batch. Those are fixed under `contract-002`, and the failure is on record as `drift-002` — every hook passed its own fixture while the loop they form did not run.
+
+Every new and restructured node is still marked `thin`. No review batch, audit, verification or reconstruction has run in a live session. The first evaluation is planned in a downstream project. Known limits are tracked in the manifest's gap queue:
+- independence with a single pioneer
+- canary realism, and a pioneer who can always read the ledger themselves
+- the marker-key dependency
+- this repo not running its own mechanisms
+- subagent inheritance of deny rules
+- transcript access for the auditor, and agents' own transcripts going unaudited
+- the agent-authored intent and map awaiting ratification
+- the reconstruction test's blinding resting on an instruction rather than a mechanism (`gap-023`); the seventh agent was authorised on 2026-09-12 with that limit on record
 
 Contributions, forks, and field reports welcome.

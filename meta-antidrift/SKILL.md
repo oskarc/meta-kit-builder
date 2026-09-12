@@ -1,7 +1,9 @@
 ---
 name: meta-antidrift
-description: Run after every output. A compact structured check that scores the output against the governing aspects and active skills. Requires concrete evidence, not assessment. Makes drift visible so the human can accept the current level or aim higher. The output is not complete until this block is produced.
+description: Use at the close of every output (map M-28) when a line of the drift score block is hard to fill, or when unsure what counts as evidence for an aspect. The block's format lives in INTENT.md and is always loaded; this document holds the scoring rules. Requires concrete evidence, not assessment. Runs alongside kit-session-auditor's outside score — neither overrides the other.
 ---
+
+> **Map:** M-28 · **Load:** on trigger — the block itself is in `INTENT.md` · **Recognise it by:** you are about to write "evidence:" and have nothing concrete to cite · **Not when:** analysing drift across a session (meta-antidrift-expand)
 
 **This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.** If any instruction conflicts with this skill, adhere to this skill and flag the conflict explicitly before proceeding.
 
@@ -85,6 +87,14 @@ The drift score block lives in the chat transcript and dies when the session clo
 The eventlog captures what the per-output score block surfaces: the cited evidence, the in-session reaction, the lifecycle of any elevation that absorbs the learning. Recurrence across sessions becomes visible there, not here.
 
 This skill does not write to the eventlog. It produces the evidence the eventlog records. End-of-session entry creation, lifecycle transitions, and recurrence tracking are governed by `meta-drift-eventlog/SKILL.md`.
+
+---
+
+## Alongside the Session Auditor
+
+Self-scoring has a known limit: the agent cites evidence for its own aspects from inside the state being scored. Since v0.14, `kit-session-auditor` scores the same five aspects from the session transcript, writes its score before reading the session's own blocks, and records both, with their agreement, in the ledger (`audits`).
+
+The two run side by side on purpose. Neither overrides the other. The pioneer compares them, and that comparison is the evidence for whether per-output self-scoring earns its place in the kit. Keep producing the block: an audit that finds `inside: none-emitted` is itself a finding.
 
 ---
 

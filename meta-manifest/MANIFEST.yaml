@@ -1,221 +1,444 @@
 # MANIFEST.yaml
 # Instance data for the base-building-kit. Governed by meta-manifest/SKILL.md.
 # Updated only through the skill-builder process with developer approval.
+# kit_type: base is what tells the mechanisms they are not installed in a project (meta-mechanisms).
 
 kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.13
+  version: 0.14            # the six-layer form, including the contract-002 review fixes
   parent_kit: null
   status: active
 
 nodes:
 
-  - id: base-foundation
-    concern: Philosophical foundation and operational frame — what this work is, the human's role, the agent's role, the governing aspects
-    skill_file: meta-foundation/SKILL.md
-    layer: meta
-    phase: always
-    status: mature
-    dependencies: []
-    open_gaps: []
-    note: Load before all other skills. Takes precedence over all other kit nodes.
+  # ─── Layer 1 · Intent (always loaded) ─────────────────────────────────────
 
-  - id: base-founding-contract
-    concern: The project's own statement of what it is — held as an original that is never rewritten plus dated amendments (each naming its cause and what it now binds); the two-sentence bearing every contract opens with; the two grades of correction (redraw within a correct direction, reevaluation when the direction is off)
-    skill_file: meta-founding-contract/SKILL.md
-    data_file: meta-founding-contract/FOUNDING.md
+  - id: base-intent
+    concern: Always-loaded distillation of the foundation — the aspects in their own words, how work moves in the six-layer form, the drift score block
+    kind: intent
+    skill_file: meta-foundation/INTENT.md
+    owns: [meta-foundation/INTENT.md]
     layer: meta
     phase: always
+    load: always
+    triggers: [M-09, M-10, M-28]
     status: thin
     dependencies: [base-foundation]
     open_gaps:
-      - Ported from a downstream kit on 2026-09-03 where it had one instance of use. The bearing and correction-grade rules are prose in meta-contract-before-execution; nothing enforces that a contract carries a bearing or that an amendment carries a cause and a binding clause. The form is enforceable and should be — a check is the next elevation.
-    note: Load immediately after meta-foundation. FOUNDING.md is instance data — seeded from templates/FOUNDING.template.md by meta-bootstrap Step 4, never copied from another project, never extracted. The content is unmeasurable and reached by reflection; only the form is enforceable.
+      - Drafted by the agent in contract-001 from the foundation's own sentences; awaiting the pioneer's ratification (gap-019).
+    note: Imported by CLAUDE.md with FOUNDING.md and MAP.md.
 
-  - id: base-bootstrap
-    concern: First-run installation — introduces the practice, establishes kit authority, orients to the project, records the pioneer's founding contract verbatim, checks library for existing type-category kit, creates project-level manifest and seeds all instance files from templates
-    skill_file: meta-bootstrap/SKILL.md
+  - id: base-founding-contract
+    concern: The project's own statement of what it is — immutable original plus dated amendments (each naming its cause and what it now binds); the two-sentence bearing every contract opens with; redraw vs reevaluation
+    kind: skill
+    skill_file: meta-founding-contract/SKILL.md
+    data_file: meta-founding-contract/FOUNDING.md
+    owns: [meta-founding-contract/FOUNDING.md, meta-founding-contract/SKILL.md]
     layer: meta
-    phase: pre-build
-    status: mature
+    phase: always
+    load: trigger
+    triggers: [M-24]
+    status: thin
     dependencies: [base-foundation]
-    open_gaps: []
-    note: Runs once per project. Not part of the regular load order after first run.
-
-  - id: base-contract
-    concern: Contract before execution — bearing (read against the founding contract), spec lock (design-heavy features), three-tier proposal, approval gate with redraw/reevaluation correction grades, standard evolution report
-    skill_file: meta-contract-before-execution/SKILL.md
-    data_file: meta-contract-before-execution/CONTRACT-LOG.yaml
-    layer: meta
-    phase: [pre-build, post-build]
-    status: mature
-    dependencies: [base-founding-contract]
-    open_gaps: []
-    note: CONTRACT-LOG.yaml persists every approved contract and its status lifecycle (approved/implemented/verified/learned). Read at session start alongside MANIFEST.yaml and DRIFTLOG.yaml to surface any entries awaiting a meta-learning pass. Contract Log schema also documents optional artifact-delivery fields used when base-contract-artifact is active.
-
-  - id: base-contract-artifact
-    concern: Contract delivery — every approved contract is also published as an artifact, stored as HTML, and registered with verification status (Verified/Corrected/Open) visible at a glance. Two templates — Analysis Report (findings, ends in a verdict) and Execution Contract (a plan, ends in a gate).
-    skill_file: meta-contract-artifact/SKILL.md
-    layer: meta
-    phase: [pre-build, post-build]
-    status: mature
-    dependencies: [base-contract]
     open_gaps:
-      - Both templates have exactly one real instance of use so far — not yet battle-tested across a range of feature shapes.
-      - Requires the Artifact-publishing capability to be available in the environment; an agent/environment without it cannot fulfill the "published" leg of the rule and should flag that gap rather than silently skip it.
-    note: Adds two additive fields (file, artifact) plus type/led_to/follows to CONTRACT-LOG.yaml's existing schema — see meta-contract-before-execution/SKILL.md's Contract Log section. Does not require its own data file or template.
+      - Ported from a downstream kit on 2026-09-03 with one instance of use. Form checks are partly mechanised (missing bearing, amendment shape); byte-unchanged original and two-sentence length are not (gap-009).
+    note: FOUNDING.md is always loaded via CLAUDE.md. Never copied from another project, never extracted.
 
-  - id: base-skill-builder
-    concern: Abstraction loop — classifying learnings, updating skills, raising the standard
-    skill_file: meta-skill-builder/SKILL.md
-    layer: meta
-    phase: post-build
-    status: mature
-    dependencies: [base-contract]
-    open_gaps: []
+  # ─── Layer 2 · Map ────────────────────────────────────────────────────────
 
-  - id: base-learning
-    concern: Verification-gated learning diff — contracted prediction vs verified reality, elevation proposals feeding skill-builder
-    skill_file: meta-learning/SKILL.md
-    data_file: meta-learning/LEARNINGLOG.yaml
+  - id: base-map
+    concern: When to use what — MAP.md, the always-loaded index from named moments to one-hop pointers; entry format, closed vocabulary, siblings, ratification, telemetry and stewardship
+    kind: map
+    skill_file: meta-map/SKILL.md
+    data_file: meta-map/MAP.md
+    owns: [meta-map/MAP.md, meta-map/SKILL.md]
     layer: meta
-    phase: post-build
-    status: mature
-    dependencies: [base-contract, base-skill-builder]
-    open_gaps: []
-    note: Invoked explicitly, not part of the continuous load order. Sweeps CONTRACT-LOG.yaml for entries in status verified — not a single named contract — on each invocation. Deepens the Standard Evolution Report; does not replace it.
+    phase: always
+    load: trigger
+    triggers: [M-22]
+    status: thin
+    dependencies: [base-intent]
+    open_gaps:
+      - 31 base entries drafted by the agent; none ratified (gap-019). No firing telemetry yet.
+      - Compressed to 6,900 bytes on 2026-09-12 to hold the ~8 KB guarantee, then 7,133 with M-31 (contract-004), which leaves about 1 KB — five project entries, not ten. The prune-rather-than-extend rule that governs the rest has never been exercised (O-016).
+      - Entries whose firing evidence is a `subagent` or `reveal` line, or whose target is always loaded, cannot be judged by load counts; the steward is told which, but nothing enforces it.
+    note: MAP.md is always loaded via CLAUDE.md; this node's SKILL.md loads on trigger.
 
-  - id: base-manifest
-    concern: Kit topology — node registry, coverage map, gap tracking, self-organisation
-    skill_file: meta-manifest/SKILL.md
-    data_file: meta-manifest/MANIFEST.yaml
+  # ─── Layer 3 · Nodes (on trigger) ─────────────────────────────────────────
+
+  - id: base-foundation
+    concern: Philosophical foundation and operational frame — what this work is, the human's role, the agent's role, the governing aspects, and how maturity is read against the instruments
+    kind: skill
+    skill_file: meta-foundation/SKILL.md
+    owns: [meta-foundation/SKILL.md, meta-foundation/INTENT.md]
     layer: meta
-    phase: pre-build
+    phase: always
+    load: trigger
+    triggers: [M-03]
     status: mature
     dependencies: []
     open_gaps: []
+    note: Absolute precedence. Carried every session through INTENT.md; loaded in full when the frame is in question.
+
+  - id: base-bootstrap
+    concern: First-run installation and upgrade — introduces the practice, orients before changing anything, records the founding contract verbatim, installs mechanisms and agents, writes the install baseline, seeds every instance file from templates
+    kind: skill
+    skill_file: meta-bootstrap/SKILL.md
+    owns: [meta-bootstrap/SKILL.md, templates/, meta-manifest/INSTALLED.sha1]
+    layer: meta
+    phase: pre-build
+    load: trigger
+    triggers: [M-27]
+    status: thin
+    dependencies: [base-foundation, base-mechanisms]
+    open_gaps:
+      - Neither the install nor the upgrade path has been run. The upgrade's untouched-vs-evolved classification depends on INSTALLED.sha1, which nothing verifies (gap-024).
+
+  - id: base-contract
+    concern: Contract before execution — bearing, spec lock, precedent check, four-tier proposal with clause ids and tier-4 acceptance tests, approval gate with correction grades, contract log with verification, audit and transcript markers, observations recorded after implementation
+    kind: skill
+    skill_file: meta-contract-before-execution/SKILL.md
+    data_file: meta-contract-before-execution/CONTRACT-LOG.yaml
+    owns: [meta-contract-before-execution/CONTRACT-LOG.yaml, meta-contract-before-execution/SKILL.md]
+    layer: meta
+    phase: [pre-build, post-build]
+    load: trigger
+    triggers: [M-04, M-05, M-06, M-08, M-11]
+    status: thin
+    dependencies: [base-founding-contract, base-casebook, base-ledger]
+    open_gaps:
+      - The Standard Evolution Report now records to the ledger instead of presenting; unexercised.
+      - Contracts 001–003 were approved with the gate waived at spec lock (approval: waived-at-spec-lock); contract-004 is the first seen in full at the gate, and the first with a Tier 4. The three earlier ones have no acceptance tests and are verifiable by reading only.
+
+  - id: base-contract-artifact
+    concern: Contract delivery — every approved contract is also published as an artifact, stored as HTML, and registered with verification status (Verified/Corrected/Open) taken from the verifier's clause verdicts
+    kind: skill
+    skill_file: meta-contract-artifact/SKILL.md
+    owns: [meta-contract-artifact/]
+    layer: meta
+    phase: [pre-build, post-build]
+    load: trigger
+    triggers: [M-06, M-25]
+    status: thin
+    dependencies: [base-contract]
+    open_gaps:
+      - Both templates have exactly one real instance of use — not battle-tested across feature shapes.
+      - Requires the Artifact-publishing capability; an environment without it should flag the gap rather than silently skip the published leg.
+      - Reworked in v0.14 (the log entry is the record; verifier verdicts source the page's states) and unexercised since.
+
+  - id: base-skill-builder
+    concern: Review batches and the abstraction loop — statement before evidence, the pioneer's level and tier recorded at adopt, canaries revealed after decisions, cautions written into anti-patterns, drift back-references with mitigation medium
+    kind: skill
+    skill_file: meta-skill-builder/SKILL.md
+    owns: [meta-skill-builder/SKILL.md, meta-ledger/batches/]
+    layer: meta
+    phase: post-build
+    load: trigger
+    triggers: [M-16, M-17, M-22]
+    status: thin
+    dependencies: [base-ledger]
+    open_gaps:
+      - No batch has run. The reveal sequence (close, reveal, apply, set revealed) is the lifecycle's most failure-prone stretch — its first version deadlocked (drift-002).
+      - Terminal values are prose, not schema: nothing checks that a reveal wrote one, and the gate counts pending markers, so a forgotten terminal value re-presents the same item forever (gap-027).
+      - update / retire / add at a quoted passage (contract-004) is a written rule; no batch has applied one, and "retire the node when the passage was its reason to exist" is a judgement the reveal step leaves to the main agent and the pioneer.
+
+  - id: base-learning
+    concern: Verification-gated learning diff — contracted prediction vs verified reality, State C built only from the verification record, elevation proposals recorded as ledger observations
+    kind: skill
+    skill_file: meta-learning/SKILL.md
+    data_file: meta-learning/LEARNINGLOG.yaml
+    owns: [meta-learning/LEARNINGLOG.yaml, meta-learning/SKILL.md]
+    layer: meta
+    phase: post-build
+    load: trigger
+    triggers: [M-13]
+    status: thin
+    dependencies: [base-contract, base-ledger]
+    open_gaps:
+      - Trigger moved from the pioneer to the stop-gate; unexercised in the new form.
+
+  - id: base-manifest
+    concern: Kit topology — node registry with kind, load mode and triggers; coverage map; gap tracking; instrumented library promotion
+    kind: skill
+    skill_file: meta-manifest/SKILL.md
+    data_file: meta-manifest/MANIFEST.yaml
+    owns: [meta-manifest/MANIFEST.yaml, meta-manifest/SKILL.md]
+    layer: meta
+    phase: pre-build
+    load: trigger
+    triggers: [M-22, M-23]
+    status: thin
+    dependencies: []
+    open_gaps:
+      - Schema extended in v0.14 (kind, load, triggers, base_kit_version); promotion criteria now instrumented and untested.
+      - owns: and status: retired added by contract-004; no node has been retired yet, so the reassignment of orphaned records is a written rule with no instance.
 
   - id: base-antidrift
-    concern: Post-output drift scoring — compact evidence-based check against governing aspects and active skills after every output
+    concern: Post-output drift scoring — the block lives in INTENT.md; scoring rules here; runs alongside the session auditor's outside score
+    kind: skill
     skill_file: meta-antidrift/SKILL.md
+    owns: [meta-antidrift/SKILL.md]
     layer: meta
     phase: always
+    load: trigger
+    triggers: [M-28]
     status: mature
     dependencies: [base-foundation]
     open_gaps: []
-    note: Runs after every output. Must be in the continuous load order.
 
   - id: base-antidrift-expand
-    concern: Session-level drift analysis — full pattern mapping, implicit approval accumulation, drift onset point, elevation vs recovery assessment
+    concern: Session-level drift analysis — pattern mapping, implicit approval accumulation, drift onset point, and an elevation-vs-recovery assessment recorded as observations rather than a verdict
+    kind: skill
     skill_file: meta-antidrift-expand/SKILL.md
+    owns: [meta-antidrift-expand/SKILL.md]
     layer: meta
     phase: post-build
-    status: mature
-    dependencies: [base-antidrift, base-foundation]
-    open_gaps: []
-    note: Invoked explicitly by the human. Not part of the continuous load order.
+    load: trigger
+    triggers: [M-19]
+    status: thin
+    dependencies: [base-antidrift, base-foundation, base-ledger]
+    open_gaps:
+      - Section 6 was an agent-held elevate/discard filter until v0.14; it now writes observations with a compromised-session code, and has not run in that form.
 
   - id: base-drift-eventlog
-    concern: Persistent drift log — durable cross-session record of flagged incidents, their evidence, the in-session reaction, and the lifecycle of any elevation that absorbed the learning
+    concern: Persistent drift log — evidence, reaction, elevation lifecycle and mitigation medium; recurrence after a prose mitigation routes to a mechanism; resolution is the pioneer's at a batch
+    kind: record
     skill_file: meta-drift-eventlog/SKILL.md
     data_file: meta-drift-eventlog/DRIFTLOG.yaml
+    owns: [meta-drift-eventlog/DRIFTLOG.yaml, meta-drift-eventlog/SKILL.md]
     layer: meta
     phase: always
-    status: mature
+    load: trigger
+    triggers: [M-08, M-18]
+    status: thin
     dependencies: [base-antidrift, base-foundation]
-    open_gaps: []
-    note: DRIFTLOG.yaml is read at session start alongside MANIFEST.yaml. Entries are written only at end-of-session or on human-flagged drift — never silently. Governance travels via meta-extract; instance history does not.
+    open_gaps:
+      - How to Read, the resolution criterion and the update protocol were rewritten for the hook-driven form in v0.14; the auditor-proposed entry path has not run.
 
   - id: base-extract
-    concern: Type-category kit extraction — separates transferable nodes from project nodes, produces library artifact and META.yaml
+    concern: Type-category extraction — separates transferable nodes, runs a blind reconstruction test, carries map entries and type-category precedents with bindings, reports instruments in META.yaml
+    kind: skill
     skill_file: meta-extract/SKILL.md
+    owns: [meta-extract/SKILL.md]
     layer: meta
     phase: post-build
-    status: mature
-    dependencies: [base-manifest, base-skill-builder]
+    load: trigger
+    triggers: [M-26]
+    status: thin
+    dependencies: [base-manifest, base-skill-builder, base-casebook]
+    open_gaps:
+      - No extraction has run in the new form.
+
+  - id: base-correction-log
+    concern: The pioneer's corrections, verbatim and graded, with intervention level and supersession; the fading curve that shows whether the pioneer's role is evolving
+    kind: record
+    skill_file: meta-correction-log/SKILL.md
+    data_file: meta-correction-log/CORRECTIONS.yaml
+    owns: [meta-correction-log/CORRECTIONS.yaml, meta-correction-log/SKILL.md]
+    layer: meta
+    phase: always
+    load: trigger
+    triggers: [M-07]
+    status: thin
+    dependencies: [base-foundation]
+    open_gaps:
+      - New in v0.14. Four corrections recorded from the session that built it; none clerked.
+
+  # ─── Layer 4 · Casebook (retrieved) ───────────────────────────────────────
+
+  - id: base-casebook
+    concern: Binding precedents with their facts, scenario cards ranked only by the pioneer, precedent conflicts and strain routed to review batches, reconstruction tests; type-category precedents travel with bindings
+    kind: record
+    skill_file: meta-casebook/SKILL.md
+    data_file: meta-casebook/CASEBOOK.yaml
+    owns: [meta-casebook/CASEBOOK.yaml, meta-casebook/reconstruction/, meta-casebook/REBUILD.yaml, meta-casebook/SKILL.md]
+    layer: meta
+    phase: [pre-build, post-build]
+    load: trigger
+    triggers: [M-04, M-05, M-26, M-31]
+    status: thin
+    dependencies: [base-correction-log]
+    open_gaps:
+      - New in v0.14; empty. Blinding within the casebook during reconstruction rests on an instruction, not a mechanism (gap-023).
+      - The launch rebuild (M-31, REBUILD.yaml) is frozen at install by contract-004, but how an arm is run — the empty folder, the deny-path, the scoring script — is not fixed, and the freeze itself is enforced only by prose and the auditor (O-017, gap-030).
+
+  # ─── Layer 5 · Mechanisms (fire) ──────────────────────────────────────────
+
+  - id: base-mechanisms
+    concern: Hooks that run the lifecycle (session-start, prompt-submit, stop-gate, subagent-stop, post-read), the batch blind, agent path scopes, the canary seal, close/reveal scripts, telemetry, and the marker-key contract
+    kind: mechanism
+    skill_file: meta-mechanisms/SKILL.md
+    owns: [meta-mechanisms/hooks/, meta-mechanisms/tests/, meta-mechanisms/SKILL.md]
+    layer: meta
+    phase: always
+    load: fires
+    triggers: [M-01, M-02, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-21, M-24, M-30]
+    status: thin
+    dependencies: [base-map, base-ledger]
+    open_gaps:
+      - Scripts pass fixture tests, including a walk of one batch and one contract through every state, but have not run inside a live Claude Code session (gap-012).
+      - Nothing validates a schema against the marker-key contract; a renamed key or an unlisted value switches a mechanism off silently (gap-015, gap-025).
+      - Write scopes match Write and Edit only; the four agents that also hold Bash are kept inside their paths by instruction, not by the mechanism (gap-022).
+      - owner-check.sh (contract-004) reads the manifest in both its forms and has passed 16 fixtures, but has not fired in a live session; whether a bypass line means dead weight or mis-routing cannot be told apart until gap-025's schema check exists (O-014).
+      - The telemetry blind (contract-005) reads the Grep glob field, not the Glob tool's pattern: a Glob naming telemetry.log with no path is allowed. It returns the filename, never a line of the file, so no count leaks; stated here as the verifier found it, not yet in the node's limits paragraph.
+      - The stop-gate's question guard is a heuristic — cut at the last drift-score marker, look for a "?" in the closing stretch — calibrated to over-defer rather than bury a question (gap-026).
+
+  - id: agent-verifier
+    concern: Clause-by-clause verification against evidence from outside the builder; blind to the builder's account and to the kit's evidence records
+    kind: agent
+    agent_file: agents/kit-verifier.md
+    layer: meta
+    phase: post-build
+    load: fires
+    triggers: [M-12]
+    status: thin
+    dependencies: [base-contract, base-mechanisms]
     open_gaps: []
-    note: Run when developer decides type-category nodes are mature enough for the library.
+
+  - id: agent-consolidator
+    concern: Sole writer of candidates — merges observations, counts evidence by independence, lower bounds, review flags, fading, outcomes and scores
+    kind: agent
+    agent_file: agents/kit-consolidator.md
+    layer: meta
+    phase: post-build
+    load: fires
+    triggers: [M-14]
+    status: thin
+    dependencies: [base-ledger, base-mechanisms]
+    open_gaps: []
+
+  - id: agent-map-steward
+    concern: Proposes map changes from misses, firing telemetry and desk probes; never edits the map
+    kind: agent
+    agent_file: agents/kit-map-steward.md
+    layer: meta
+    phase: post-build
+    load: fires
+    triggers: [M-21]
+    status: thin
+    dependencies: [base-map, base-ledger, base-mechanisms]
+    open_gaps: []
+
+  - id: agent-canary-author
+    concern: Assembles review batches from pioneer-owned items, plants zero to two realistic canaries by random count, strips ledger ids, seals the key
+    kind: agent
+    agent_file: agents/kit-canary-author.md
+    layer: meta
+    phase: post-build
+    load: fires
+    triggers: [M-16]
+    status: thin
+    dependencies: [base-ledger, base-mechanisms]
+    open_gaps:
+      - Whether canaries written by the same model family as real candidates avoid looking artificial is unknown (gap-014).
+      - The batch blind closes the presenter's view of the ledger, but the pioneer can still read it; the catch rate measures a gate read as presented (gap-020).
+
+  - id: agent-case-clerk
+    concern: Clerks corrections into precedents and scenario-card drafts, routes conflicts and strain to the pioneer, recomputes the fading curve; never supplies reasons or rankings
+    kind: agent
+    agent_file: agents/kit-case-clerk.md
+    layer: meta
+    phase: post-build
+    load: fires
+    triggers: [M-15]
+    status: thin
+    dependencies: [base-correction-log, base-casebook, base-mechanisms]
+    open_gaps: []
+
+  - id: agent-session-auditor
+    concern: Evidence-of-form checks and an outside score of the agent's aspects from the transcript, compared with the session's own; records missed corrections and map misses, proposes drift entries
+    kind: agent
+    agent_file: agents/kit-session-auditor.md
+    layer: meta
+    phase: post-build
+    load: fires
+    triggers: [M-11]
+    status: thin
+    dependencies: [base-antidrift, base-ledger, base-mechanisms]
+    open_gaps:
+      - Transcript files sit outside the working directory and may prompt for read permission (gap-018).
+      - It reads the main session's transcript only; kit agents' own transcripts, which record what each agent read, go unaudited (gap-021).
+
+  - id: agent-recorder
+    concern: Appends observations handed to it while a review batch closes the ledger to the presenting session; transcribes only, judges nothing
+    kind: agent
+    agent_file: agents/kit-recorder.md
+    layer: meta
+    phase: post-build
+    load: fires
+    triggers: [M-11]
+    status: thin
+    dependencies: [base-ledger, base-mechanisms]
+    open_gaps:
+      - Added in contract-003 on the pioneer's own suggestion, in place of a helper script (C-005). Unexercised.
+
+  - id: agent-reconstructor
+    concern: Blind reconstruction test — predicts the pioneer's decisions from the kit alone, or reports the kit silent
+    kind: agent
+    agent_file: agents/kit-reconstructor.md
+    layer: meta
+    phase: post-build
+    load: fires
+    triggers: [M-26]
+    status: thin
+    dependencies: [base-casebook, base-mechanisms]
+    open_gaps:
+      - Added during contract-001 without the pioneer's authorisation; authorised on 2026-09-12 and recorded as a revision on contract-001. The incident stays on record as drift-001 (watching).
+      - Its blindness to the casebook rests on an excluded-precedent list it is instructed to honour, not a mechanism (gap-023) — the agent's own result is therefore the weaker kind of evidence.
+
+  # ─── Layer 6 · Ledger (offline) ───────────────────────────────────────────
+
+  - id: base-ledger
+    concern: Evidence layer — observations with frozen stated confidence, held candidates with independence-aware counters and lower bounds, review batches with canaries, map proposals, audits, scores and maturity instruments
+    kind: record
+    skill_file: meta-ledger/SKILL.md
+    data_file: meta-ledger/LEDGER.yaml
+    owns: [meta-ledger/LEDGER.yaml, meta-ledger/telemetry.log, meta-ledger/SKILL.md]
+    layer: meta
+    phase: post-build
+    load: offline
+    triggers: [M-20, M-29]
+    status: thin
+    dependencies: [base-foundation]
+    open_gaps:
+      - New in v0.14. Seventeen observations recorded from contracts 001, 002 and 004; nothing consolidated, because this repo does not run its own mechanisms (gap-016).
+      - contradicts: and the update/retire/add exits (contract-004) have been exercised once, on a fixture (T-7); no real candidate has carried a quoted passage through a batch.
+      - Independence rules borrow from multi-party standards bodies; with one pioneer and one model family, what counts as independent is not established (gap-013).
 
 coverage_map:
 
-  - concern: Philosophical foundation & governing aspects
-    node_id: base-foundation
-    layer: meta
-    phase: always
-    status: mature
-
-  - concern: Founding contract & contract bearing
-    node_id: base-founding-contract
-    layer: meta
-    phase: always
-    status: thin
-
-  - concern: Project onboarding & authority establishment
-    node_id: base-bootstrap
-    layer: meta
-    phase: pre-build
-    status: mature
-
-  - concern: Contract & proposal
-    node_id: base-contract
-    layer: meta
-    phase: [pre-build, post-build]
-    status: mature
-
-  - concern: Contract delivery — artifact publication and verification-status visibility
-    node_id: base-contract-artifact
-    layer: meta
-    phase: [pre-build, post-build]
-    status: mature
-
-  - concern: Skill evolution
-    node_id: base-skill-builder
-    layer: meta
-    phase: post-build
-    status: mature
-
-  - concern: Verification-gated learning diff
-    node_id: base-learning
-    layer: meta
-    phase: post-build
-    status: mature
-
-  - concern: Kit topology
-    node_id: base-manifest
-    layer: meta
-    phase: pre-build
-    status: mature
-
-  - concern: Post-output drift scoring
-    node_id: base-antidrift
-    layer: meta
-    phase: always
-    status: mature
-
-  - concern: Session-level drift analysis
-    node_id: base-antidrift-expand
-    layer: meta
-    phase: post-build
-    status: mature
-
-  - concern: Persistent cross-session drift log
-    node_id: base-drift-eventlog
-    layer: meta
-    phase: always
-    status: mature
-
-  - concern: Type-category extraction & library promotion
-    node_id: base-extract
-    layer: meta
-    phase: post-build
-    status: mature
+  - {concern: Always-loaded intent, node_id: base-intent, layer: meta, phase: always, status: thin}
+  - {concern: Philosophical foundation & governing aspects, node_id: base-foundation, layer: meta, phase: always, status: mature}
+  - {concern: Founding contract & contract bearing, node_id: base-founding-contract, layer: meta, phase: always, status: thin}
+  - {concern: When to use what — the map, node_id: base-map, layer: meta, phase: always, status: thin}
+  - {concern: Project onboarding, authority, install and upgrade, node_id: base-bootstrap, layer: meta, phase: pre-build, status: thin}
+  - {concern: Contract & proposal, node_id: base-contract, layer: meta, phase: [pre-build, post-build], status: thin}
+  - {concern: Contract delivery — artifact publication and verification-status visibility, node_id: base-contract-artifact, layer: meta, phase: [pre-build, post-build], status: thin}
+  - {concern: Binding precedents and reconstruction, node_id: base-casebook, layer: meta, phase: [pre-build, post-build], status: thin}
+  - {concern: The pioneer's corrections and the fading curve, node_id: base-correction-log, layer: meta, phase: always, status: thin}
+  - {concern: Review batches and skill evolution, node_id: base-skill-builder, layer: meta, phase: post-build, status: thin}
+  - {concern: Verification-gated learning diff, node_id: base-learning, layer: meta, phase: post-build, status: thin}
+  - {concern: Evidence, candidates, canaries and maturity instruments, node_id: base-ledger, layer: meta, phase: post-build, status: thin}
+  - {concern: Mechanisms — hooks, blind, scopes, seal, telemetry, node_id: base-mechanisms, layer: meta, phase: always, status: thin}
+  - {concern: Kit topology, node_id: base-manifest, layer: meta, phase: pre-build, status: thin}
+  - {concern: Post-output drift scoring, node_id: base-antidrift, layer: meta, phase: always, status: mature}
+  - {concern: Session-level drift analysis, node_id: base-antidrift-expand, layer: meta, phase: post-build, status: thin}
+  - {concern: Persistent cross-session drift log, node_id: base-drift-eventlog, layer: meta, phase: always, status: thin}
+  - {concern: Type-category extraction & library promotion, node_id: base-extract, layer: meta, phase: post-build, status: thin}
+  - {concern: Independent verification, node_id: agent-verifier, layer: meta, phase: post-build, status: thin}
+  - {concern: Consolidation and scoring, node_id: agent-consolidator, layer: meta, phase: post-build, status: thin}
+  - {concern: Map stewardship, node_id: agent-map-steward, layer: meta, phase: post-build, status: thin}
+  - {concern: Gate instrumentation — canaries, node_id: agent-canary-author, layer: meta, phase: post-build, status: thin}
+  - {concern: Case law clerking, node_id: agent-case-clerk, layer: meta, phase: post-build, status: thin}
+  - {concern: Outside session audit, node_id: agent-session-auditor, layer: meta, phase: post-build, status: thin}
+  - {concern: Blind reconstruction test, node_id: agent-reconstructor, layer: meta, phase: post-build, status: thin}
+  - {concern: Observation intake while a batch is open, node_id: agent-recorder, layer: meta, phase: post-build, status: thin}
 
 gap_queue:
   # Gaps surface through use — not invented upfront.
-  # All prior gaps (001-007) were development history resolved during
-  # the build of the base kit. Preserved below for reference.
+  # gap-001 to gap-008 were development history resolved during the build of the base kit.
 
   - gap_id: gap-001
     concern: Manifest — doc/data co-location
@@ -301,29 +524,240 @@ gap_queue:
     concern: Founding contract — form is prose only, not enforced
     surfaced_by: manual
     surfaced_in: 2026-09-03 port of meta-founding-contract from the Classes kit
-    description: Nothing checks that a contract carries a two-sentence bearing, that FOUNDING.md's original block is unchanged, or that an amendment carries a date, a cause, and a binding clause. The skill itself says the form is enforceable and should be.
+    description: Nothing checks that a contract carries a two-sentence bearing, that FOUNDING.md's original block is unchanged, or that an amendment carries a date, a cause, and a binding clause.
     candidate_level: implementation
     priority: medium
-    status: open
-    resolved_by: null
+    status: in-progress
+    resolved_by: v0.14 mechanises part — the stop-gate flags a live contract with no bearing; session-start flags a missing statement and amendments missing a cause or binding clause. Still open — byte-unchanged original, two-sentence length.
 
   - gap_id: gap-010
     concern: Sixth agent aspect — discipline is the work, not overhead on it
     surfaced_by: manual
     surfaced_in: 2026-09-03 review of the Classes kit fork (its drift-003 — ceremonies skipped during routine-feeling work)
-    description: The downstream kit added a sixth agent aspect sitting across the other five, plus a format-compliance self-check line in the antidrift block that reports DEGRADED when the block is abbreviated or prose-substituted. Deliberately not ported wholesale — needs restating against the ten-aspect split here rather than the fork's four-aspect frame.
+    description: The downstream kit added a sixth agent aspect plus a format-compliance self-check. Deliberately not ported wholesale.
     candidate_level: principle
     priority: medium
-    status: open
-    resolved_by: null
+    status: in-progress
+    resolved_by: v0.14 answers the failure structurally — ceremonies moved into mechanisms and an outside auditor — without adding the aspect. Whether an aspect is still needed is the pioneer's call after evaluation.
 
   - gap_id: gap-011
     concern: Contract close — "How was the run?" routing question, and recurrence-triggered enforcement-layer elevation
     surfaced_by: manual
     surfaced_in: 2026-09-03 review of the Classes kit fork (its drift-006 and contract-close section)
-    description: Two further downstream evolutions not ported. (1) Every contract closes with an open question to the human whose answer routes to drift log, skill-builder, or nothing. (2) When the same drift root-cause recurs across prose-level elevations, the next elevation must descend to a check that fires without anyone remembering. Each wants its own contract and its own commit.
+    description: (1) Every contract closes with an open question to the human whose answer routes to drift log, skill-builder, or nothing. (2) When the same drift root cause recurs across prose-level elevations, the next elevation must descend to a check.
     candidate_level: pattern
     priority: low
+    status: in-progress
+    resolved_by: (2) addressed in v0.14 — mitigation_medium on elevations, the ladder in meta-mechanisms, consolidator observations on failed prose mitigations. (1) not ported.
+
+  - gap_id: gap-012
+    concern: v0.14 form is unexercised
+    surfaced_by: contract-before-execution
+    surfaced_in: 2026-09-11 contract-001
+    description: Every new or restructured node is thin. The hooks pass fixture tests, including a state walk added after the contract-002 review, but have not run in a live session; no batch, audit, verification or reconstruction has run. Evaluation planned in the Classes project.
+    candidate_level: unknown
+    priority: high
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-013
+    concern: Independence with one pioneer and one agent
+    surfaced_by: contract-before-execution
+    surfaced_in: 2026-09-11 contract-001
+    description: The ledger's independence rules borrow from multi-party standards bodies. With one pioneer and one model family, which sightings are truly independent is not established. v0.14 tightened the rule (an agent's restatement of its own work is always loaded), which is a narrowing, not an answer.
+    candidate_level: principle
+    priority: medium
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-014
+    concern: Canary realism
+    surfaced_by: contract-before-execution
+    surfaced_in: 2026-09-11 contract-001
+    description: Canaries written by the same model family as real candidates may be recognisable; airport screening programmes saw detection inflate when projected threats looked artificial.
+    candidate_level: pattern
+    priority: medium
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-015
+    concern: Mechanisms depend on flat marker keys
+    surfaced_by: contract-before-execution
+    surfaced_in: 2026-09-11 contract-001
+    description: Hooks parse YAML with awk through enumerated marker keys. A renamed key or an unlisted value silently switches a mechanism off. v0.14 added comment tolerance and a documented key table; a schema check still does not exist (see gap-025).
+    candidate_level: implementation
+    priority: medium
+    status: in-progress
+    resolved_by: null
+
+  - gap_id: gap-016
+    concern: The base kit repo does not run its own mechanisms
+    surfaced_by: contract-before-execution
+    surfaced_in: 2026-09-11 contract-001
+    description: Hooks assume the consumer layout (.claude/skills/). This repo keeps its nodes at the root and its manifest declares a base kit_type, so its own contracts have no stop-gate, audit or verification running.
+    candidate_level: implementation
+    priority: low
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-017
+    concern: Settings deny rules and subagents
+    surfaced_by: contract-before-execution
+    surfaced_in: 2026-09-11 contract-001
+    description: Whether a Read deny rule binds subagents, and whether it covers Grep and Glob, was unverified when the seal was built.
+    candidate_level: implementation
+    priority: medium
+    status: resolved
+    resolved_by: Checked against the permissions docs on 2026-09-12 — a single-segment deny pattern matches that directory at any depth, the rules apply inside subagents, and Read rules are applied to Grep and Glob on a best-effort basis. meta-mechanisms now states the best-effort qualifier rather than claiming a guarantee.
+
+  - gap_id: gap-018
+    concern: Auditor access to transcripts
+    surfaced_by: contract-before-execution
+    surfaced_in: 2026-09-11 contract-001
+    description: Session transcripts live under ~/.claude/projects, outside the working directory; reads there may prompt for permission and stall an agent-run audit.
+    candidate_level: implementation
+    priority: medium
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-019
+    concern: Agent-authored always-loaded layer
+    surfaced_by: contract-before-execution
+    surfaced_in: 2026-09-11 contract-001
+    description: INTENT.md and the 29 base map entries were drafted by the agent. Research found agent-written context files slightly reduce task success. Both await the pioneer's ratification; v0.14 gives unratified entries a route into a review batch, which is the mechanism, not the ratification.
+    candidate_level: principle
+    priority: high
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-020
+    concern: The batch blind does not cover the pioneer
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 contract-001 review
+    description: batch-blind.sh closes the ledger and casebook to the presenting session while a batch is open, and items carry no ledger ids, but the pioneer can open the ledger themselves. The canary catch rate therefore measures a gate read as presented, not one under adversarial inspection. Stated in meta-mechanisms; not a defect to fix, a limit to remember when reading the rate.
+    candidate_level: principle
+    priority: low
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-021
+    concern: Kit agents' own transcripts go unaudited
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 contract-001 review
+    description: Each agent's tool calls are recorded in its own transcript under the session's subagents/ folder. The session auditor reads the main transcript only, so a scope bypass by an agent — including a sealed-path read through Bash — leaves evidence nobody looks at.
+    candidate_level: implementation
+    priority: medium
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-022
+    concern: Write scopes do not cover Bash
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 contract-001 review
+    description: write-scope.sh matches Write and Edit. Four kit agents also have Bash and could write through a shell command; only their instructions hold that line. Stated in meta-mechanisms → Agent scopes.
+    candidate_level: implementation
+    priority: medium
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-023
+    concern: Reconstruction blinding rests on an instruction
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 contract-001 review
+    description: kit-reconstructor is denied the records that hold the answers, but the casebook it must read contains precedents and ranked cards derived from held-out decisions. The exclusion list is honoured by instruction, not enforced — the shape of green light this practice exists to refuse (observation O-012).
+    candidate_level: principle
+    priority: high
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-024
+    concern: The install baseline is unverified
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 contract-002
+    description: The upgrade path classifies skills as untouched or evolved against meta-manifest/INSTALLED.sha1, written at install. Nothing regenerates or checks it, and a project installed before v0.14 has none — in which case every skill must be treated as possibly evolved.
+    candidate_level: implementation
+    priority: medium
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-025
+    concern: No schema check behind the marker-key contract
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 contract-001 review
+    description: The review found the contract-log template itself showing an inline comment on a marker key that the parser then mis-read. Comment tolerance was added, but nothing validates the instance files against the documented keys and values, so the next divergence will again be silent.
+    candidate_level: implementation
+    priority: medium
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-026
+    concern: The question guard is a heuristic, not a rule
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 contract-003
+    description: The stop-gate protects a closing question by cutting at the last "drift score" marker and searching the final 400 characters for a "?". It is calibrated to over-defer rather than bury a question, but it can still be fooled — a question followed by a long closing passage, or a message that never emits the block. Its first two versions both passed their fixtures and failed realistic input (drift-002).
+    candidate_level: implementation
+    priority: medium
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-027
+    concern: Terminal values are prose, not schema
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 contract-003
+    description: Every batch item kind now has a terminal value (declined map entry, declined card, cleared conflict, resolved drift entry) so nothing decided is re-presented. Nothing validates that the reveal actually wrote one, and the gate counts pending markers — so a reveal that forgets a terminal value re-opens the same batch item forever.
+    candidate_level: implementation
+    priority: medium
+    status: open
+    resolved_by: null
+
+  - gap_id: gap-028
+    concern: The approved map budget and the map node disagree
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 contract-003
+    description: Guarantee G-1 of contract-001 fixes the map at ~8 KB and ~40 entries, but the 30 base entries already measure 8,057 bytes, so the approved guarantee cannot hold once a project adds an entry. meta-map/SKILL.md now states ~12 KB, which no pioneer statement authorises (drift-003). Resolution needs a pioneer ruling — raise the guarantee by revision, shrink the base map, or make the map prune on entry rather than carry a byte cap.
+    candidate_level: principle
+    priority: high
+    status: resolved
+    resolved_by: base-map   # pioneer ruled 2026-09-12: shrink the map, the allowance does not move (C-006)
+
+  - gap_id: gap-029
+    concern: Nothing retires a skill — no ownership between skills and the nodes they govern, so a bypassed skill is invisible
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 pioneer comment after the evidence audit
+    # Pioneer's words, verbatim: "Skills should specify nodes, and nodes that are touched without touching the
+    # skill is an indication it should be retired or reevaluated, maybe subsumed into other skills."
+    # Refined the same day: "the small incremental signals that accrues on use by the agent, when these are
+    # assigned to a node, an agent could look for existing skills in that node to look for conflicting
+    # statements. Meaning the findings could update or suggest to retire a skill as likely as creating a new
+    # skill. this would keep the whole kit fresh and avoid the staleness that otherwise is guaranteed."
+    description: Agents declare write scopes and the hook enforces them, but skills declare nothing about which records they govern, and no mechanism notices when a governed record is edited in a session that never loaded the governing skill. The evidence audit found that every growing rule set loses competence and that retirement by coverage, not felt importance, is what preserves it (finding 6); the kit has a rule for adding skills and none for letting one go. Two signals, both mechanical — (a) a bypass tally from a skill-owns-node declaration; (b) the consolidator checking each candidate against the TEXT of its target skill, not only against other candidates, and quoting any passage the accrued sightings contradict, so a candidate's exit is update, retire or new skill with equal standing. Constraints from the audit — edits are targeted at the quoted passage, never a rewrite of the node (finding 7, the consolidator's global rewrite); a pioneer correction that contradicts a skill has authority, an agent observation that does is a drift candidate until independently sighted; the tally is blind to the acting session. Open question the tally cannot answer alone — a bypass means either the skill is dead weight (edit was valid without it) or the map failed to route to it (edit was wrong); telling those apart needs the schema check gap-025 does not yet have.
+    candidate_level: principle
+    priority: high
+    status: resolved
+    resolved_by: base-manifest   # contract-004: owns: on every node, owner-check.sh, contradicts: on candidates, update/retire/add exits, status: retired. The open question (bypass = dead weight or mis-routed) stays with gap-025
+
+  - gap_id: gap-030
+    concern: The contract log has never been tested as a specification — whether it carries enough to rebuild what it describes is unmeasured
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 pioneer comment after the evidence audit
+    # Pioneer's words, verbatim: "Use the contracts log to build the exact same thing, and compare what was
+    # built the second time." Refined the same day into a lifecycle stage: "Lets say that the kit approach is
+    # used at the start of a new api. when that api is launched we could take the kit into an empty folder and
+    # ask the agent to build what is stated in the contracts log, to read the driftlog for pitfalls, and
+    # measure what was built when its done."
+    description: The launch rebuild. At a product milestone, an agent in an empty folder — blind to the original code — builds from the contract log, with the driftlog as its pitfall list, and the result is measured against the original. This is the reconstruction test of UC-9 turned on the product, and it supplies the one thing the audit said the kit cannot supply for itself — an OUTSIDE oracle (finding 1) — because the original's black-box tests and the contracts' guarantees score the rebuild, not the builder. It also makes each record's value testable per entry — did the rebuild hit or avoid each pitfall the driftlog names — which feeds gap-029's retirement signal. To be a measurement rather than a demonstration — criteria frozen at kit install (pre-registration, finding 3); arms that differ by which records the builder gets (contracts only; contracts + driftlog; + casebook), since a rebuild that matches from contracts alone says the driftlog carried nothing; mechanical scores before any prose judgement; the prose comparison marked self-graded. Rehearsal available now at no product cost — rebuild the kit itself from contract-001..004.
+    candidate_level: principle
+    priority: high
+    status: in-progress
+    resolved_by: null   # contract-004 froze the plan (REBUILD.yaml at install, M-31, the oracle and arms); how an arm is actually run is not fixed yet, and the rehearsal on the kit's own log has not been done
+
+  - gap_id: gap-031
+    concern: A contradicting candidate that is "due at once" still waits for two more due candidates before a batch opens
+    surfaced_by: manual
+    surfaced_in: 2026-09-12 contract-005 (the batch walk, state 57)
+    description: contract-004 UC-7 makes a pioneer-sourced candidate with a quoted contradiction review_due immediately, but the stop-gate opens a batch on three due candidates or on any other pioneer-owned item. With nothing else pending, the pioneer's own correction sits due until two unrelated candidates join it. In practice fresh installs carry unratified map entries that open batches anyway, so the wait is short; but the rule as written and the mechanism as built disagree. Fix: count a review_due candidate with a non-empty contradicts like a pending map proposal — one is enough — in stop-gate.sh step 10 and session-start.sh. A mechanism change (M-30): needs its own contract.
+    candidate_level: implementation
+    priority: medium
     status: open
     resolved_by: null
 

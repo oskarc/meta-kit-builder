@@ -1,45 +1,554 @@
 # CONTRACT-LOG.yaml
-# Instance data for meta-contract-before-execution. Governed by meta-contract-before-execution/SKILL.md.
-# Entries are written only at the approval gate — never silently, never for declined proposals.
-#
-# Schema reference (full details in meta-contract-before-execution/SKILL.md):
-#
-#   - contract_id: contract-NNN             # sequential, never reused
-#     feature: [feature name]
-#     date_proposed: YYYY-MM-DD
-#     date_approved: YYYY-MM-DD
-#     bearing: |
-#       [at most two sentences — the point of the contract and how it shows direction,
-#        read against meta-founding-contract/FOUNDING.md]
-#     tier_1: |
-#       [full user scenario text, as approved]
-#     tier_2: |
-#       [full use cases text, as approved]
-#     tier_3: |
-#       [full technical guardrails text, as approved]
-#     status: approved | implemented | verified | learned
-#     revisions: []                         # authorized mid-run changes only — see below
-#     work_id: null                         # populated by meta-learning once a LEARNINGLOG entry exists
-#
-# Status lifecycle:
-#   approved    — set when this entry is created, at the approval gate
-#   implemented — set when the Standard Evolution Report is produced
-#   verified    — set when verification completes (tests / observation / human confirmation)
-#   learned     — set by meta-learning once it has produced the matching LEARNINGLOG.yaml diff
-#
-# Only approved contracts are logged. Declined or revised-before-approval proposals are not — the log
-# tracks what got built, not conversation.
-#
-# Authorized mid-run changes to an approved contract are appended to that entry's `revisions` list, not
-# overwritten silently. Unauthorized mid-run deviation from an approved contract is not recorded here at
-# all — it is a stop-on-triggers violation and belongs in meta-drift-eventlog/DRIFTLOG.yaml instead.
-#
-# meta-learning sweeps this file for every entry in `status: verified` when invoked. It does not target
-# a single named contract.
-#
-# Optional artifact-delivery fields (present only when meta-contract-artifact is in use): `file` (stored
-# HTML path), `artifact` (published URL), `type` (contract | analysis-report — reports use a report-NNN
-# id space alongside contract-NNN), `led_to` / `follows` (cross-links between a report and the contract
-# it led to). See meta-contract-artifact/SKILL.md.
+# Instance data for meta-contract-before-execution in the base-building-kit repo itself.
+# Governed by meta-contract-before-execution/SKILL.md. Schema: templates/CONTRACT-LOG.template.yaml.
+# Consumer projects are seeded from the template, never from this file.
 
-contracts: []
+contracts:
+
+  - contract_id: contract-001
+    feature: kit v0.14 retarget — intent, map, mechanisms, blind agents, ledger, corrections, casebook
+    type: contract
+    date_proposed: 2026-09-11
+    date_approved: 2026-09-11
+    # Bears against no founding statement: meta-founding-contract/FOUNDING.md reads "Not yet given".
+    approval: waived-at-spec-lock
+    # The pioneer chose "Build straight" at the spec lock, from options the agent had marked with a
+    # recommendation. No three-tier proposal was seen before implementation: the tiers below were written
+    # with the entry, from the locked spec. Recommending that option is now forbidden
+    # (meta-contract-before-execution → Spec Lock), and contract-002 was drawn the same way.
+    bearing: |
+      The kit stops asking prose to route, remember and enforce itself: only intent and a map stay loaded, mechanisms and blind agents run the lifecycle, and what the work teaches — the pioneer's corrections included — becomes scored, retrievable record instead of transcript. The bet is that judgement travels better through triggers, precedents and independently scored evidence than through more rules, and that one agent-run kit task per turn is a pace the pioneer will accept.
+    tier_1: |
+      As the pioneer, I want the practice to run itself between my decisions, so that my attention goes to the
+      judgement only I can give — approving contracts, deciding what enters the standard — instead of
+      remembering ceremonies. Success looks like: each session loads only what the moment needs; audits,
+      verification and consolidation happen without me asking; learnings reach me only once they carry
+      evidence from outside the session that produced them, mixed with planted flaws so we can both see the
+      gate working; and my corrections are kept word for word as the record of my judgement. Without it, the
+      kit's rules dilute each other in context, ceremonies decay when work feels routine, and whether my
+      judgement is transferring stays a matter of belief. A developer who inherits the kit later is the
+      second user: they need precedents and instruments, not only rules.
+    tier_2: |
+      UC-1  Session start: intent, the founding statement and the map are the only kit files loaded; a backlog
+            summary names the due kit work. Edge: hooks missing — the kit stays readable through the map.
+      UC-2  Every prompt: the agent names the moment by map id and loads only what that entry points to; wording
+            that may be a correction is flagged.
+      UC-3  Pioneer correction: recorded verbatim, with grade and moment, before the work continues.
+      UC-4  Implementation complete: observations are recorded with a stated confidence and not presented for
+            decision; the contract is marked implemented.
+      UC-5  End of turn: at most one due kit task is handed to the agent, highest priority first, never after a
+            turn that ends in a question to the pioneer.
+      UC-6  Verification: a verifier blind to the builder's account records a verdict per clause from evidence.
+      UC-7  Review batch: due candidates, map proposals and scenario cards are presented with canaries; the
+            pioneer's verdict comes before the evidence; the key is revealed only after every decision and the
+            catch rate is recorded.
+      UC-8  Map stewardship: misses and firing telemetry produce map proposals that the pioneer ratifies.
+      UC-9  Transfer: precedents bind at the approval gate; a blind reconstruction test measures whether the kit
+            alone predicts the pioneer's decisions; extraction carries precedents and map entries.
+      UC-10 Install and upgrade: bootstrap installs mechanisms and agents, seeds every instance file from its
+            template, and upgrades without overwriting instance data or evolved skills. Edge: legacy contracts.
+    tier_3: |
+      G-1  (UC-1)          CLAUDE.md imports INTENT.md, FOUNDING.md and MAP.md as plain text; nothing else is
+                           continuously loaded. INTENT ≤ ~5 KB; MAP ≤ ~8 KB and ~40 entries.
+      G-2  (UC-2, UC-8)    Map entries are one line, from a closed vocabulary, one hop to their target, name
+                           their sibling, and stay proposed until ratified. Every node opens with a Map header.
+      G-3  (UC-1, UC-5)    Hooks use bash, sed and awk only; state is read through flat marker keys listed in
+                           meta-mechanisms; every script is fixture-tested before shipping.
+      G-4  (UC-5)          The stop-gate hands over one task per turn in a fixed priority order, honours
+                           stop_hook_active, defers after a question, and continues through additionalContext.
+      G-5  (UC-6–UC-9)     Each kit agent declares what it may not read and where it may write in its own
+                           frontmatter hooks; the limits of that blindness are stated, not implied.
+      G-6  (UC-4, UC-7)    Stated confidence is frozen at creation; only kit-consolidator writes candidates;
+                           independence rules decide which sightings move a stage; Wilson lower bound, z = 1.28,
+                           thresholds 0.50 and 0.64; assess candidates fade after 8 startup sessions.
+      G-7  (UC-7)          The canary count comes from $RANDOM; the key is sealed under .claude/kit-sealed with a
+                           Read deny rule and a gitignore entry; the reveal script refuses until all are decided.
+      G-8  (UC-3)          Corrections are verbatim, graded (including tier-redraw and bearing-reevaluation), and
+                           feed a fading curve kept by kit-case-clerk.
+      G-9  (UC-9)          Precedents bind unless distinguished in Tier 3; reconstruction is run by an agent blind
+                           to the records it predicts; type-category precedents extract with {bindings}.
+      G-10 (UC-10)         Bootstrap replaces every copied instance file from its template; upgrades stage in
+                           .claude/kit-incoming and never copy over .claude/skills; pre-v0.14 contracts are legacy.
+      G-11 (all)           No mechanism or agent decides trial, adopt, caution or decline, overrules a precedent,
+                           amends the founding statement or ranks a scenario; agents report and never fix.
+      G-12 (all)           Per-output antidrift self-scoring stays, alongside the session auditor, for comparison.
+      Provenance (spec lock, verbatim): Scope — "Full retarget". Antidrift — "Run both, compare (Recommended)".
+      Triggers — "I want the workflow to be handled by the agent, so no commands that needs triggers from the
+      human." Gate — "Build straight (Recommended)".
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: null
+    observations: [O-001, O-002, O-003, O-004, O-005, O-006]
+    # The pioneer authorised kit-reconstructor on 2026-09-12, after implementation. That authorisation is
+    # NOT a revision: this skill holds that a deviation authorised after the fact is recorded in the drift
+    # entry's reaction and the entry stays (drift-001). Promoting it here would put an after-the-fact
+    # approval into the contract the verifier measures against — the retro-fitting the founding-contract
+    # node calls the corruption of the mechanism.
+    revisions: []
+    work_id: null
+
+  - contract_id: contract-002
+    feature: v0.14 review and mechanical fixes — lifecycle holes, the blind, scopes, routing, outdated text
+    type: contract
+    date_proposed: 2026-09-12
+    date_approved: 2026-09-12
+    approval: waived-at-spec-lock
+    # Approved as an enumerated fix list plus four locked decisions, not as a three-tier proposal. The
+    # pioneer's word was "yes" to "fix the mechanical set now and put the five decisions to you as a spec
+    # lock". Tier 2 below is that list as presented; the tiers were written with this entry, not before it.
+    bearing: |
+      The v0.14 form stops being a set of mechanisms that each pass their own test and becomes a lifecycle that survives its own first batch: every flag gains a writer, a clearer and a route to the pioneer, and the instruments that were leaking their own answers are closed. The bet is that the defects found were structural rather than incidental — that writing the state machine down as one table, and blinding the presenter, fixes a class of failure rather than ten instances of it.
+    tier_1: |
+      As the pioneer, I want the form I approved to hold when it is actually walked, so that the first real
+      use of the kit is not spent discovering that a flag nobody clears has stalled it. Success looks like:
+      a review batch that can be decided, closed and revealed; a contract whose verification can be closed;
+      an audit that reads the session it audited; and records whose schemas agree with the skills that write
+      them. Without it, the kit reaches a downstream project as a machine that reads correctly and stops at
+      its first batch. The second user is the reviewer — mine or a later one — who needs each defect to have
+      a named exit rather than a description.
+    tier_2: |
+      UC-1  Lifecycle: the reveal, review_due, awaiting-evidence and corrected-clause states each have a writer,
+            a clearer and a next step; no gate task can repeat forever.
+      UC-2  The question guard survives the drift score block that closes every output.
+      UC-3  Parsing survives inline comments on marker keys and analysis-report entries in the contract log.
+      UC-4  The kit's mechanisms stay silent until a project has its own manifest (kit_type: project).
+      UC-5  The canary gate keeps its information: the presenting session cannot read the ledger or casebook
+            while a batch is open, batch items carry no ledger ids, and no count of due items is printed.
+      UC-6  Agent scopes match what each agent must read and write, and their limits are stated.
+      UC-7  Pioneer-owned items — cards, map proposals, unratified entries, precedent conflicts, drift
+            resolutions — reach a batch without waiting behind a candidate threshold.
+      UC-8  The pioneer's level and tier are recorded at adopt; nothing else stands in for them.
+      UC-9  Install and upgrade: orientation before any change, a hash baseline, idempotent hook merges,
+            FOUNDING reseeded, and the base kit's own records never imported.
+      UC-10 Outdated text: no passage still teaches the pre-v0.14 form, and the worked examples use fictional
+            ids and only facts their verification record holds.
+    tier_3: |
+      G-1  (UC-1, UC-3)    lib.sh tolerates trailing comments, skips report entries, and reads `transcript`;
+                           the stop-gate gains a step for a reported-but-unclosed verification.
+      G-2  (UC-2)          The guard cuts the drift block and looks for "?" in the tail of what remains, with no
+                           assumption that JSON escapes are decoded.
+      G-3  (UC-4)          `kit_installed` treats `kit_type: base` as not installed.
+      G-4  (UC-5)          batch-blind.sh denies the main session LEDGER.yaml and CASEBOOK.yaml while a batch is
+                           open; close-batch.sh sets `decided` without a read; agents keep their access.
+      G-5  (UC-6)          deny-paths checks `glob`; the verifier is blind to instance files rather than node
+                           folders; the auditor can search transcripts for sealed access.
+      G-6  (UC-7)          The stop-gate's batch step fires on any pending pioneer-owned item.
+      G-7  (UC-8)          `level_decided` and `tier_decided` are required on trial and adopt.
+      G-8  (UC-9)          Bootstrap orients before installing, writes INSTALLED.sha1, marks kit hook groups
+                           for replacement, and never copies incoming instance files.
+      G-9  (UC-10)         Foundation, contract-artifact and drift-eventlog passages rewritten; examples use
+                           contract-EX1 / work-EX1 / O-EX ids.
+      G-10 (all)           Locked decisions: blind the batch; antidrift-expand §6 becomes observations with a
+                           compromised-session code; the pioneer's Brier score is kept as the pioneer's own
+                           instrument with a complete mapping. The seventh agent (kit-reconstructor) is
+                           unresolved — drift-001 stays open until the pioneer decides.
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: null
+    observations: [O-007, O-008, O-009, O-010, O-011, O-012]
+    revisions: []
+    work_id: null
+
+  - contract_id: contract-003
+    feature: second-review fixes — lifecycle exits, the batch blind, terminal values, install and upgrade order
+    type: contract
+    date_proposed: 2026-09-12
+    date_approved: 2026-09-12
+    approval: waived-at-spec-lock
+    # Approved as "Fix the mechanical set and put the design choices", plus three locked answers. The tiers
+    # below were written with this entry, from that scope and those answers — not seen at a gate.
+    bearing: |
+      The v0.14 lifecycle stops being a set of correct mechanisms that can still strand the pioneer: every state reachable by a decision now has a write that ends it, the instruments stop leaking the answers they measure, and install order stops running the lifecycle against another project's records. The bet is that the second review's 60-odd findings were three defects wearing many faces — a flag without a clearer, a check calibrated on its own fixture, and an order of operations nobody walked — and that fixing those shapes is worth more than patching their instances.
+    tier_1: |
+      As the pioneer, I want the kit to survive its own first review batch and its own installation, so that
+      the first thing I meet is the work rather than a stalled machine. Success looks like: a batch I can
+      decide, close, reveal and finish, with the ledger closed to the presenting session while I decide and
+      open again when I am done; an implementation that records what it taught even while a batch waits; an
+      install that never acts on the base kit's records; and every item I decline or keep staying decided.
+      Without it, the review batch deadlocks at the reveal, a declined map entry returns forever, and a
+      fresh install audits another project's contracts. The second user is the developer who inherits this:
+      they need the lifecycle to be walkable, not merely documented.
+    tier_2: |
+      UC-1  Every gate task ends in a write the agent can make; no state can be entered that nothing clears.
+      UC-2  A question to the pioneer is never buried, including when the kit's own vocabulary appears in the
+            prose before it and when a closing sentence follows it.
+      UC-3  Marker parsing reads state only at an entry's own indentation, so enumerated values quoted in
+            prose are prose.
+      UC-4  While a batch is open the presenting session cannot read the ledger by path or by directory
+            search, and can still record observations, draw contracts with their precedent check, and close
+            the batch.
+      UC-5  Every batch item kind has a terminal value, and the six kinds all reach a batch — including
+            precedent conflicts and drift resolutions, which no candidate threshold gates.
+      UC-6  Install seeds every record before the manifest write that switches the mechanisms on, and writes
+            the baseline afterwards, covering the deployed agents.
+      UC-7  Upgrade takes agents, hooks and templates from the staged kit, replaces kit hook groups rather
+            than appending them, and reseeds a missing founding file.
+      UC-8  A fresh install offers one ratification pass for the base map instead of ten review batches.
+    tier_3: |
+      G-1  (UC-1)       Gate steps 1 and 4 added: close an all-decided batch; close a reported verification via
+                        status: verified, verification_state: closed-by-follow-up with a follows link, or back to none.
+      G-2  (UC-2)       The guard cuts at the LAST "drift score" marker and scans the final 400 characters.
+      G-3  (UC-3)       lib.sh reads markers at the entry's key indentation only, tolerates trailing comments,
+                        skips report entries, reads null/~/none as absent, and parses fields from the request
+                        only (a tool_response cannot override tool_input).
+      G-4  (UC-4)       batch-blind.sh covers LEDGER.yaml and any Grep/Glob over a directory holding it, exempts
+                        kit agents and the batch file, and leaves the casebook open; close-batch.sh sets the flag
+                        without a read; kit-recorder appends observations (C-005).
+      G-5  (UC-5)       Terminal values: MAP status declined, pioneer_ranking declined, conflict cleared, drift
+                        resolved; the gate counts conflicts and mitigated entries; decisions accept any non-empty
+                        value, including a ranking.
+      G-6  (UC-6, UC-8) Bootstrap: 6i writes the manifest last, 6j the baseline over skills and agents with
+                        -print0; Step 7 states the one backlog line, checks telemetry with an absolute path, and
+                        offers the ratification pass with a `ratification: deferred` marker the gate honours.
+      G-7  (UC-7)       The upgrade reads agents, hooks and templates from .claude/kit-incoming/, replaces groups
+                        matching the `_kit` key, and seeds FOUNDING.md when absent.
+      G-8  (all)        No mechanism or agent gains a decision the pioneer holds; kit-recorder transcribes only.
+      Provenance (spec lock, verbatim): Observations — "why not pass it to an agent that is allowed to write
+      there?" (C-005). Blind width — "Ledger only, incl. directory greps (Recommended)". Map ratify — "One
+      ratification pass at install (Recommended)".
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: null
+    observations: []
+    revisions: []
+    work_id: null
+
+  - contract_id: contract-004
+    feature: a way for a rule to leave, and a measure from outside — tier 4 acceptance tests, ownership, bypass and contradiction signals, retirement, the launch rebuild plan
+    type: contract
+    date_proposed: 2026-09-12
+    date_approved: 2026-09-12
+    # The first contract in this log seen as a full proposal at the gate before implementation. Approved with
+    # the pioneer's word "Yes, approved, go ahead". The first entry to carry tier_4; G-1 adds the tier.
+    approval: approved-at-gate
+    bearing: |
+      The kit gains the two things the evidence audit found it lacks: a shrink path with the same standing as its growth path, and one test it cannot grade for itself. Every contract from now on carries a fourth tier of acceptance tests, so verification becomes a run rather than a reading. Skills declare what they govern, and two things become countable signals — a governed record edited while its skill sat unread, and a candidate that contradicts a sentence in the skill it targets — with retirement offered as readily as addition. And every install writes a one-line plan for rebuilding the product from its records at a named milestone, frozen before the first session. The bet is that staleness is a structural certainty in a kit that only adds, and that the fix is not better rules but an exit for rules, plus a test scored by something other than the kit.
+    tier_1: |
+      As the pioneer, I want the kit to stay as fresh as the work it governs — so a skill written in v0.9 that
+      the work has outgrown is retired as readily as a new one is added — and I want to find out, when the API
+      launches, how much of what we learned the records actually carry, from the product's own tests rather
+      than from belief. Success looks like: every contract says, in a fourth tier, how we would know it held. A
+      candidate reaching a review batch shows me the sentence in the skill it contradicts and offers three
+      choices — update it, retire it, or add. A skill nobody reads while its records get edited shows up as a
+      count I can act on. And at install, a rebuild plan is written that neither of us can quietly change
+      later. Without it: the kit grows until the map budget is spent on rules nobody retires; verification
+      stays a reading of prose by an agent that shares my blind spots; and the launch rebuild becomes a
+      demonstration whose goalposts move after the fact. The second user is the developer who inherits this.
+      They get a record that says what was tested, not what was hoped.
+    tier_2: |
+      UC-1  Drawing a contract: after the guarantees, a Tier 4 lists acceptance tests, each naming the
+            guarantees it checks. A guarantee with no test is listed as untested, in the open.
+      UC-2  Verification: the verifier runs the Tier 4 tests and records pass or fail per test. It judges from
+            prose only the guarantees that have no test.
+      UC-3  Revision: a revision that changes a guarantee says which tests change with it. No test changes
+            after the verifier has reported. Edge: a test found wrong after the report is a new contract.
+      UC-4  Ownership: every node in the manifest declares what it owns. Install and upgrade keep it.
+      UC-5  Bypass: an edit to an owned record in a session that never loaded the owner is counted where the
+            acting session cannot read it. The map steward reads the count; the pioneer sees it only as a
+            proposal in a batch.
+      UC-6  Contradiction: when a candidate is created or moves stage, the consolidator reads the skill it
+            targets and quotes any passage the claim contradicts. The batch presents it with three exits.
+      UC-7  Authority: a pioneer correction that contradicts a skill reaches the batch at once. An agent
+            observation that contradicts a skill waits for independent sightings, as candidates do now.
+      UC-8  Retirement: a decision to retire has a terminal value. Its map entries go; its records stay and
+            are reassigned or put to the pioneer. Nothing is deleted from disk.
+      UC-9  Rebuild plan: install seeds a plan with the milestone, the oracle and the arms, dated. A lifecycle
+            map entry fires at the milestone. The kit does nothing else with it in this contract.
+    tier_3: |
+      G-1  (UC-1)          meta-contract-before-execution/SKILL.md gains "Tier 4 — Acceptance Tests" after Tier 3;
+                           the log template gains tier_4. Each test is T-x (G-y, G-z): a command or check and its
+                           expected result. An untested: line names every guarantee no test covers. Contract-004
+                           is the first entry to carry tier_4; 001–003 are untouched.
+      G-2  (UC-2)          kit-verifier runs each Tier 4 test and records tests: {T-x: pass | fail} in the
+                           verification block. A clause covered by a passing test is verified by that test; only
+                           untested guarantees are verified from evidence prose.
+      G-3  (UC-3)          A revisions entry gains tests_changed:. A revision touching tier_4 dated after
+                           verification_state: reported is drift: the verifier refuses it and the stop-gate
+                           surfaces it (M-18).
+      G-4  (UC-4)          Manifest nodes gain owns: — the records and folders the skill governs. Filled for every
+                           base node; in the template; required by the Manifest Update Protocol on node creation;
+                           preserved by bootstrap 6i and by upgrade.
+      G-5  (UC-5)          New hook hooks/owner-check.sh, PostToolUse on Write and Edit, main session only:
+                           resolves the edited path to its owner through owns:, looks for a loaded event for that
+                           owner's skill file since the current session-start line in telemetry, and on none
+                           appends bypass|<node>|<path>. Never blocks. bash, sed, awk only; fixture-tested;
+                           inventory row and marker keys added.
+      G-6  (UC-5)          No hook, skill or session-start line presents bypass counts to the acting session.
+                           kit-map-steward alone reads them, and proposes; the pioneer decides.
+      G-7  (UC-6, UC-7)    kit-consolidator, when creating a candidate or moving its stage, reads the target skill
+                           and writes contradicts: on the candidate — file and passage, quoted verbatim.
+                           Candidates from source pioneer with a contradicts go to the next batch at once; other
+                           sources follow the independence rules unchanged. kit-canary-author presents such items
+                           with decision values update | retire | add | decline. Any instruction to rewrite a node
+                           whole is replaced by edits at the quoted passage.
+      G-8  (UC-8)          Retirement is a node change under M-22. The manifest keeps the node with status: retired
+                           and retired_by: contract-NNN; its map entries are removed in the same act; its owns: is
+                           reassigned in the same act or the records are put to the pioneer. No file is deleted.
+      G-9  (UC-9)          templates/REBUILD.template.yaml with milestone, oracle (default: every Tier 4 test and
+                           every guarantee of every contract), arms (default: contracts only; contracts + driftlog;
+                           both + casebook) and frozen_on. Bootstrap seeds it before 6i. One map entry:
+                           M-31 | launch-rebuild | lifecycle | must | the milestone in REBUILD.yaml is reached | — |
+                           REBUILD.yaml; meta-casebook → Reconstruction tests | proposed.
+      G-10 (all)           G-11 of contract-001 holds: no mechanism or agent retires, updates or decides. Agents
+                           count, quote and propose.
+      G-11 (all)           Every new or changed script is fixture-tested, and the lifecycle walk is extended to
+                           cover a bypass, a contradiction candidate carried through a batch to retirement, and a
+                           rebuild plan seeded at install.
+      G-12 (all)           MAP.md measures under 8,192 bytes after M-31 — measured, not estimated.
+      Provenance (verbatim): "Yes, its a great idea to add accceptance tests to each contract." · "Acceptance
+      tests should be the tier 4 then, and comes after guardrails." (C-007) · "lets draw a contract 004 to
+      handle these changes, for points 1 through 5." Precedents: none in the casebook. Founding statement:
+      not yet given.
+    tier_4: |
+      T-1  (G-1)           The skill file has a "### Tier 4" heading; the log template has tier_4; contract-004's
+                           own entry has a non-empty tier_4.
+      T-2  (G-2)           After implementation, the verifier's block for contract-004 lists every T with pass or
+                           fail, and no guarantee that has a test is marked verified from prose.
+      T-3  (G-3)           Fixture: a contract with a tier_4 revision dated after verification_state: reported →
+                           the gate flags it; dated before → no flag.
+      T-4  (G-4)           Every manifest node of kind skill has a non-empty owns: — one awk pass, zero misses.
+      T-5  (G-5)           Three fixtures: telemetry with a session-start and no loaded for meta-casebook, then a
+                           Write to CASEBOOK.yaml → one bypass|base-casebook|… line appears; with a
+                           loaded|meta-casebook/SKILL.md after the session-start → no line; the same input inside
+                           a subagent → no line.
+      T-6  (G-6)           grep -l bypass across hooks and agents returns only owner-check.sh and
+                           kit-map-steward.md; session-start.sh run over a telemetry file containing bypass lines
+                           prints no line containing "bypass".
+      T-7  (G-7)           A fixture skill with a planted sentence and a candidate whose claim contradicts it → the
+                           consolidator's contradicts: quotes that sentence exactly (string match against the
+                           file). Agent test; run once, result recorded.
+      T-8  (G-8)           Lifecycle walk: retire a fixture node → manifest shows retired, its map entry is gone,
+                           no file removed, and the stop-gate does not re-present it.
+      T-9  (G-9, G-12)     Fresh-install fixture: REBUILD.yaml exists with frozen_on set and milestone non-empty
+                           or explicitly deferred; MAP.md contains M-31; wc -c MAP.md is below 8,192.
+      T-10 (G-11)          The extended lifecycle walk passes with every state above.
+      untested: G-10 — a prose guarantee about what agents do not do; verified by reading the agent files.
+    status: implemented
+    verification_state: closed-by-follow-up
+    led_to: contract-005          # UC-5, UC-7, G-5, G-11 corrected by the verifier; closed by the follow-up
+    verification:
+      date: 2026-09-12
+      by: kit-verifier
+      method: mixed
+      tests: {T-1: pass, T-2: pass, T-3: pass, T-4: pass, T-5: pass, T-6: pass, T-7: pass, T-8: pass, T-9: pass, T-10: pass}
+      clauses:
+        - clause: UC-1
+          verdict: verified
+          evidence: |
+            T-1. meta-contract-before-execution/SKILL.md:134 "### Tier 4 — Acceptance Tests"; each test named T-x (G-y) at :135; an untested: line required at :138; templates/CONTRACT-LOG.template.yaml:32-35; this entry's tier_4 closes with "untested: G-10".
+        - clause: UC-2
+          verdict: verified
+          evidence: |
+            T-2. agents/kit-verifier.md:35 runs Tier 4 first and records tests: {T-x: pass|fail}, judging from prose only what Tier 4 lists as untested; this block is the instance.
+        - clause: UC-3
+          verdict: verified
+          evidence: |
+            T-3. Revisions carry tests_changed (templates/CONTRACT-LOG.template.yaml:54-56; SKILL.md:202); a test revision dated after the report is refused by the verifier (kit-verifier.md:36) and flagged by the gate (stop-gate.sh:45-47, session-start.sh:31, lib.sh late_test_revisions :139-173); the edge "a test found wrong after the report is a new contract that follows" is at SKILL.md:139 and :204.
+        - clause: UC-4
+          verdict: verified
+          evidence: |
+            T-4. Every non-agent node in meta-manifest/MANIFEST.yaml and in templates/MANIFEST.template.yaml carries a non-empty owns: (awk over both, zero misses, 26 nodes each). Install writes the manifest from the template (meta-bootstrap/SKILL.md:258) and Step 7 checks that the ownership line survived (:309); upgrade never replaces existing instance files (:358).
+        - clause: UC-5
+          verdict: corrected
+          evidence: |
+            The count is not presented to the acting session (T-6) and kit-map-steward alone is told to read it (kit-map-steward.md:37, :55), but "counted where the acting session cannot read it" is not what exists: bypass lines go to meta-ledger/telemetry.log, which the main session can Read — batch-blind.sh's header lists telemetry as NOT covered, templates/settings.template.json denies only kit-sealed/, and no other deny reaches it. What is true: counted where the acting session is not shown it, and can read it.
+        - clause: UC-6
+          verdict: verified
+          evidence: |
+            T-7 (recorded run, meta-mechanisms/tests/results/T-7-2026-09-12.md): the consolidator wrote contradicts: with the planted sentence and grep -xF matched it exactly against the fixture skill. kit-consolidator.md:32 reads the target on creation and on each stage move; kit-canary-author.md:29 presents the passage verbatim under Contradicts: with update · retire · add · decline.
+        - clause: UC-7
+          verdict: corrected
+          evidence: |
+            The at-once path exists for an observation with source: pioneer (kit-consolidator.md:33; the T-7 record shows review_due: true set on such a candidate), and other sources wait for independence (same line; meta-ledger/SKILL.md:48). But a pioneer correction does not take that path: the only named producer of source: pioneer is "when the pioneer remarks on the standard unprompted" (meta-ledger/SKILL.md:33), and neither meta-correction-log/SKILL.md nor agents/kit-case-clerk.md mentions the ledger, an observation or contradicts (grep: no match). A recorded correction reaches the batch at once only if the main agent also writes it as a source: pioneer observation, which no rule asks for.
+        - clause: UC-8
+          verdict: verified
+          evidence: |
+            T-8 fixture 57: a manifest node with status: retired and a candidate whose decision is retire leave the stop-gate silent. The rule for the act is at meta-manifest/SKILL.md:111 and :156 and meta-map/MAP.md:52 (M-22 names "retired"). Fixtures 58 and 59 establish less than their labels say: the fixture map never held the node's entry and nothing in the walk deletes a file, so removal-in-the-same-act and no-deletion are checked against a state the fixture wrote, not against a retirement performed.
+        - clause: UC-9
+          verdict: verified
+          evidence: |
+            T-9. templates/REBUILD.template.yaml carries milestone, oracle, arms and frozen_on; bootstrap seeds it in 6h, before the manifest write in 6i (meta-bootstrap/SKILL.md:252-258); M-31 fires on the milestone (meta-map/MAP.md:54, templates/MAP.template.md:54); nothing else in the kit acts on the file.
+        - clause: G-1
+          verdict: verified
+          evidence: |
+            T-1. SKILL.md:134-141; templates/CONTRACT-LOG.template.yaml:32-35; this entry's tier_4 uses T-x (G-y) with an untested: line; tier_4 occurs in this log only inside contract-004 (grep -n tier_4), so 001–003 are untouched.
+        - clause: G-2
+          verdict: verified
+          evidence: |
+            T-2. kit-verifier.md:35 and :54; this block lists every T with a result and cites the test id for every guarantee a test covers; G-10 alone is judged from the files.
+        - clause: G-3
+          verdict: verified
+          evidence: |
+            T-3 (fixtures 37-40). tests_changed on revisions: templates/CONTRACT-LOG.template.yaml:54-56, SKILL.md:202-204; lib.sh:139-173 late_test_revisions; stop-gate.sh:45-47 (gate 3, names M-18); session-start.sh:31; kit-verifier.md:36 refuses it.
+        - clause: G-4
+          verdict: verified
+          evidence: |
+            T-4 (fixtures 65-66) for kind: skill; extended by hand to every non-agent node in both manifests, zero misses. In the template: templates/MANIFEST.template.yaml:30-47. Required on creation: meta-manifest/SKILL.md:87 and :154. Preserved by 6i (meta-bootstrap/SKILL.md:258, checked at :309) and by upgrade in the sense that existing instance files are never replaced (:358); the upgrade's schema migration at :362 adds kind, load and triggers, not owns.
+        - clause: G-5
+          verdict: corrected
+          evidence: |
+            T-5 (fixtures 41-56) passes, and the hook is PostToolUse on Write|Edit (templates/settings.template.json:54-56), main session only (owner-check.sh:15), resolves the owner through owns: in both manifest forms (:26-57), appends bypass|<node>|<path> (:72), never blocks or prints (every exit is 0 with no output), with an inventory row (meta-mechanisms/SKILL.md:30) and marker keys (:98, :112). Two parts of the text are not what the script does: "bash, sed, awk only" — owner-check.sh:69 uses grep -qE, and lib.sh, which it sources, uses grep, tr and date; and "since the current session-start line" — the lookback runs to the last session-start whose source was startup or clear (:63), passing over resume and compaction lines (fixture 44 tests exactly that).
+        - clause: G-6
+          verdict: verified
+          evidence: |
+            T-6 (fixtures 67-68): only owner-check.sh and kit-map-steward.md mention bypass; session-start.sh prints nothing about it over a telemetry file with bypass lines. kit-map-steward.md:37 counts and proposes; :55 keeps the count inside a proposal's evidence.
+        - clause: G-7
+          verdict: verified
+          evidence: |
+            T-7 (recorded run): contradicts: quoted the planted sentence exactly (grep -xF match). kit-consolidator.md:32 writes it on creation and each stage move, quoted verbatim, at most three; :33 makes source: pioneer due at once and other sources follow the independence rules; kit-canary-author.md:29 offers update · retire · add · decline; edits at the quoted passage only: kit-consolidator.md:32 and :48, meta-skill-builder/SKILL.md:73 and :151, with whole-node rewrite listed as an anti-pattern at :177. No remaining instruction to rewrite a node whole was found (grep rewrite across the nodes and agents).
+        - clause: G-8
+          verdict: verified
+          evidence: |
+            T-8. meta-manifest/SKILL.md:111 (status: retired, retired_by, map entries removed, owns reassigned or put to the pioneer, nothing deleted) and :156 (a batch decision under M-22); meta-map/MAP.md:52. See UC-8 for what fixtures 58-59 do and do not establish; no retirement has yet been performed (MANIFEST.yaml:177).
+        - clause: G-9
+          verdict: verified
+          evidence: |
+            T-9 (fixtures 60-64). templates/REBUILD.template.yaml:12 frozen_on, :16 milestone (deferred by default), :21-24 oracle (the two stated defaults plus drift entries hit/avoided), :28-31 arms exactly as stated. Seeded at 6h, before 6i (meta-bootstrap/SKILL.md:252-258). The M-31 line in meta-map/MAP.md:54 and templates/MAP.template.md:54 matches the guarantee character for character; meta-casebook/SKILL.md:49 "## Reconstruction tests" holds "### The launch rebuild (M-31)" at :59.
+        - clause: G-10
+          verdict: verified
+          evidence: |
+            Untested; read the files. kit-consolidator.md:47-48 never moves a stage or touches a skill and writes only disposition_proposed; kit-map-steward.md:52-53 never edits the map or a node and proposes from evidence; kit-canary-author.md:53 leaves Decision: empty and :63-66 alters nothing real; owner-check.sh:72 appends one line and exits 0; stop-gate.sh:47 and :59 hand the pioneer the choice; meta-manifest/SKILL.md:156 and meta-skill-builder/SKILL.md:73 make retire/update/add the pioneer's decision, applied by the main agent after a reveal (meta-ledger/SKILL.md:46).
+        - clause: G-11
+          verdict: corrected
+          evidence: |
+            T-10 passes: walk.sh's 36 states match walk.expected, walk-004.sh reports 35 passed, 0 failed. owner-check.sh, the late-revision gate and session-start's silence are fixture-tested (T-5, T-3, T-6). But the walk is not extended as the guarantee says: no state carries a contradiction candidate through a batch — walk-004.sh writes the terminal state directly (candidate already decided retire, node already retired, fixtures 57-59) and walk.sh's batch states (23-31, 35) use candidates with no contradicts, so assembling, deciding, revealing and applying an update/retire/add item is not walked; and the rebuild plan is seeded by copying the template with sed (walk-004.sh:233-234), not by an install.
+        - clause: G-12
+          verdict: verified
+          evidence: |
+            T-9 fixture 64: wc -c meta-map/MAP.md = 7133 bytes with M-31 present (re-measured: 7133; templates/MAP.template.md 7125).
+      summary: {verified: 17, corrected: 4, open: 0}
+      open_needs: []
+    audited: false
+    transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    observations: [O-013, O-014, O-015, O-016, O-017, O-018]
+    revisions: []
+    work_id: null
+
+  - contract_id: contract-005
+    feature: closing the verifier's four corrections on contract-004 — telemetry blind, the correction-to-ledger wire, the batch walk, two wordings
+    type: contract
+    date_proposed: 2026-09-12
+    date_approved: 2026-09-12
+    approval: approved-at-gate     # pioneer: "approved"
+    follows: contract-004
+    bearing: |
+      Four clauses of contract-004 said more than the kit did. This contract makes the kit say it: the bypass count becomes unreadable to the acting session rather than merely unshown; a pioneer correction gets a wire from the corrections log to the ledger, so a correction that contradicts a skill actually reaches a batch; the lifecycle walk carries a contradiction through a real batch and seeds the rebuild plan the way an install does; and two wordings are set right where the kit disagreed with itself. The bet is that closing a verifier's corrections as their own contract, with tests, keeps 004's record honest and costs less than a revision that would blur what it promised.
+    tier_1: |
+      As the pioneer, I want the verifier's findings closed by changes, not by re-reading. Success looks like:
+      the session presenting a batch cannot open the file that holds the bypass counts, so no agent can learn
+      it is being counted; a correction I give that contradicts a sentence in a skill shows up in the next
+      batch with that sentence quoted, without me repeating it as a separate remark; the walk shows a
+      contradiction going into a batch and coming out as a retired passage, so the whole loop has been seen
+      once before it runs live; and contract-004 keeps saying exactly what it said. Without it, the count is a
+      measure the agent can peek at, the correction route is on paper only, and the retirement loop has never
+      been walked end to end.
+    tier_2: |
+      UC-1  The acting session cannot read telemetry.log — by path or by directory search — at any time. Kit
+            agents can. Nothing else about the blind changes.
+      UC-2  When the case clerk clerks a correction, it also writes a source: pioneer observation carrying the
+            correction id, so the consolidator reads the pioneer's words against the target skill and quotes
+            what they contradict. The pioneer is not asked anything.
+      UC-3  The walk carries a contradiction candidate through the batch: due → batch assembled → decided
+            retire → closed → revealed → terminal state written → gate silent. The rebuild-plan fixture seeds
+            REBUILD.yaml with bootstrap 6h's own commands.
+      UC-4  Wording: the mechanisms' portability rule is the tool list contracts cite; the ownership check's
+            lookback is stated where the hook is documented; the follow-up cross-link has one direction in
+            the contract node.
+      UC-5  Contract-004's tiers stay byte-for-byte as approved; it is closed by this contract.
+    tier_3: |
+      G-1  (UC-1)    batch-blind.sh denies the main session's Read, Grep and Glob of meta-ledger/telemetry.log
+                     always, not only while a batch is open; agents stay exempt; the inventory row and the blind
+                     section say so.
+      G-2  (UC-2)    kit-case-clerk.md appends, per clerked correction, an observation with source: pioneer,
+                     prompted: false, refs: [C-NNN], the statement in the pioneer's words with the moment,
+                     consolidated: false; its write scope gains LEDGER.yaml; meta-correction-log/SKILL.md and
+                     meta-ledger/SKILL.md name the route.
+      G-3  (UC-3)    walk-004.sh gains the batch states — a candidate with contradicts and review_due → the gate
+                     assembles; a batch file with the Contradicts: line and Decision: retire → close-batch.sh sets
+                     decided; a sealed key → reveal-canaries.sh reveals; the terminal writes → silent — and the
+                     rebuild-plan state runs 6h's cp and placeholder replacement verbatim.
+      G-4  (UC-4)    meta-mechanisms/SKILL.md → Portability is the rule; the lookback ("since the last
+                     session-start with source startup or clear") is written under Telemetry; the contract node's
+                     M-12 row reads: the new contract carries follows: contract-NNN, the closed entry led_to.
+                     README's tool sentence matches Portability.
+      G-5  (UC-5)    contract-004's tier_1–tier_4 are unchanged; the entry gets verification_state:
+                     closed-by-follow-up and led_to: contract-005; this entry carries follows: contract-004.
+      G-6  (all)     No agent decides. The clerk transcribes; the consolidator quotes.
+    tier_4: |
+      T-1  (G-1)     Fixtures, no batch open: main-session Read of telemetry.log → denied; Grep over meta-ledger/
+                     → denied; the same with agent_type set → allowed; Read of LEDGER.yaml → allowed, as before.
+      T-2  (G-2)     Agent test on a fixture: a correction with clerked: false whose pioneer_said contradicts a
+                     planted sentence; after the clerk runs, LEDGER.yaml holds an observation with source: pioneer
+                     and refs: [C-1]; after the consolidator runs on it, the candidate's contradicts quotes the
+                     sentence exactly. Run once, recorded under tests/results/.
+      T-3  (G-3)     walk-004.sh passes; its retired end state is reached only through the batch states (the
+                     direct-write fixture is removed); the walk contains 6h's cp line verbatim.
+      T-4  (G-4)     grep finds the lookback sentence in meta-mechanisms/SKILL.md, the corrected M-12 row in the
+                     contract node, and no kit file outside the contract log stating a tool list that differs
+                     from Portability.
+      T-5  (G-5)     A hash of contract-004's four tier blocks taken at approval of this contract equals the hash
+                     after implementation; the entry shows closed-by-follow-up and led_to: contract-005; this
+                     entry shows follows: contract-004.
+      untested: G-6 — read from the agent files.
+    status: verified
+    verification_state: reported
+    verification:
+      date: 2026-09-12
+      by: kit-verifier
+      method: mixed
+      tests: {T-1: pass, T-2: pass, T-3: pass, T-4: pass, T-5: pass}
+      clauses:
+        - clause: UC-1
+          verdict: verified
+          evidence: |
+            T-1 (walk-004.sh states 80-85, all pass). batch-blind.sh:41-51 refuses telemetry.log before the open-batch check at :54, so the refusal does not depend on a batch; :27 exits for any agent_id or agent_type. By-hand fixtures on a copy of the hooks: Grep over meta-ledger/ with agent_type set -> allowed; Read by a backslash path -> denied; Read with a batch open -> denied. Nothing else about the blind changed: walk.sh's 36 states (the ledger-blind states 23-31, 35 among them) match walk.expected line for line, and walk-004 states 59, 84, 85 show the ledger closed only while a batch is open and the batches folder searchable.
+        - clause: UC-2
+          verdict: verified
+          evidence: |
+            T-2 (recorded run, meta-mechanisms/tests/results/T-2-2026-09-12.md): the clerk wrote O-001 with source: pioneer, refs: [C-1], prompted: false, the statement as moment id plus pioneer_said verbatim; the consolidator's K-001 quotes the planted sentence, and the passage in the record is character-for-character the sentence the record says was planted. agents/kit-case-clerk.md:41-48 is the rule; nothing in it puts a question to the pioneer (:45 "you supply none"). The fixture (fx008) is not kept under tests/ and I did not rerun the agents; the verdict rests on the record, as the test's own wording ("Run once, recorded") prescribes.
+        - clause: UC-3
+          verdict: verified
+          evidence: |
+            T-3. walk-004.sh states 57-68 run in order: three due candidates, K-1 with contradicts and disposition retire -> gate names the canary author (57); batch open -> silent (58) and the ledger denied (59); Decision: retire written -> gate names close-batch.sh (60), which sets decided (61); gate names the reveal (62), reveal-canaries.sh opens the key (63); the terminal writes leave the gate silent (64) with the passage gone, the file kept, the map entry gone and the manifest retired (65-68). States 75-77 seed REBUILD.yaml with bootstrap 6h's cp and sed lines, which diff byte-identical against meta-bootstrap/SKILL.md:255-256.
+        - clause: UC-4
+          verdict: verified
+          evidence: |
+            T-4. meta-mechanisms/SKILL.md:128 (Portability) is named as the list a contract cites; the lookback sentence is at :103 under "## Telemetry" (:85), and fixtures 44-45 show the code does what the sentence says (a resume keeps the load, a clear resets it); meta-contract-before-execution/SKILL.md:193 gives the cross-link one direction (follows on the later entry, led_to on the earlier) and :272 agrees. The only other tool-list sentences in the kit are README.md:111 and hooks/lib.sh:3, both the same six tools; the shorter lists are inside contract-001 and contract-004's tiers, which T-4 excludes. Outside the clause's scope: stop-gate.sh:59 still phrases the close as "closed-by-follow-up with a follows: link" on the closed entry, which is loose beside :193.
+        - clause: UC-5
+          verdict: verified
+          evidence: |
+            T-5. sha1 of contract-004's bytes from "    tier_1: |" to the line before "    status:" (lines 229-328) is 5246d28c4c8f9e4f9bfb6e97ff294d214a2e0895, equal to tests/results/contract-004-tiers.sha1. The record's mtime (23:16:41) precedes every file this contract changed (batch-blind.sh 23:16:59 onward), and contract-004's verification block quotes tier text ("bash, sed, awk only", "since the current session-start line", the G-11 walk sentence) that is still there verbatim. Entry 004 carries verification_state: closed-by-follow-up and led_to: contract-005 (:330-331); this entry carries follows: contract-004 (:436).
+        - clause: G-1
+          verdict: verified
+          evidence: |
+            T-1 (states 80-85). batch-blind.sh:43 denies the file by path, :46 any Grep or Glob whose path covers meta-ledger/ except the batches folder, :51 any Grep whose pattern names the count; :27 exempts agents; inventory row meta-mechanisms/SKILL.md:27 and the blind section :80 say so; settings.template.json:38 wires the hook to Read|Grep|Glob. What the checks do not cover, found by hand: the script reads the Grep `glob` field (:31), not the Glob tool's `pattern`, so a Glob whose pattern is "meta-ledger/telemetry.log" or "**/telemetry.log" with no path is allowed — it returns the path and never a line of the file, so the count stays unreadable; and a Grep from above meta-ledger/ with a pattern naming nothing about the count reaches the file, the limit the header (:21-22) and SKILL.md:101 already state.
+        - clause: G-2
+          verdict: verified
+          evidence: |
+            T-2 (recorded run). kit-case-clerk.md:41-46 lists source: pioneer, prompted: false, refs: [C-NNN], the moment then pioneer_said verbatim, consolidated: false; :18 adds meta-ledger/LEDGER.yaml to the write scope; meta-correction-log/SKILL.md:61 and meta-ledger/SKILL.md:33 name the route, and templates/LEDGER.template.yaml:8-9, :22, :28-29 carry the writer, the source value and the null confidence.
+        - clause: G-3
+          verdict: verified
+          evidence: |
+            T-3. States 57-64 are the four batch states named, each driven by the real scripts (stop-gate.sh, batch-blind.sh, close-batch.sh, reveal-canaries.sh); the only write of status: retired in walk-004.sh (:272) comes after the reveal at :267, so no fixture writes the end state directly. The 6h lines at :291-292 are byte-identical to meta-bootstrap/SKILL.md:255-256. Note on what state 57 shows: the gate assembles on three due candidates (SKILL.md:58), so the fixture supplies K-2 and K-3; a lone pioneer candidate is due at once but waits for a batch to be worth opening.
+        - clause: G-4
+          verdict: verified
+          evidence: |
+            T-4. meta-mechanisms/SKILL.md:128 "This is the tool list a contract cites"; :103 the lookback under Telemetry, in the words the guarantee quotes; meta-contract-before-execution/SKILL.md:193 the M-12 row with follows on the new contract and led_to on the closed entry; README.md:111 lists the same six tools and points at Portability.
+        - clause: G-5
+          verdict: verified
+          evidence: |
+            T-5 — see UC-5: hash equal, record older than the implementation, 004's own verification block quotes the tiers as they stand; :330-331 and :436 carry the three fields named.
+        - clause: G-6
+          verdict: verified
+          evidence: |
+            Untested; read from the agent files. kit-case-clerk.md:44 "Nothing of yours; no paraphrase, no summary", :45 supplies no confidence, :62-63 never a reason or a paraphrase; the one judgement it keeps (:28, is it a correction) ends in pending-pioneer, not a ruling. kit-consolidator.md:32 quotes verbatim and never edits the skill, :33 sets review_due with a disposition_proposed only, :47-48 never moves a stage or touches the passage. The T-2 record shows both agents leaving the fixture skill untouched.
+      summary: {verified: 11, corrected: 0, open: 0}
+      open_needs: []
+    audited: false
+    transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    observations: [O-019, O-020, O-021]
+    revisions: []
+    work_id: null

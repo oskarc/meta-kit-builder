@@ -1,0 +1,61 @@
+# CASEBOOK.yaml
+# Project instance data. Governed by meta-casebook/SKILL.md.
+# In the base-building-kit repo: templates/CASEBOOK.template.yaml
+# In a consumer project: .claude/skills/meta-casebook/CASEBOOK.yaml
+#
+# AGENT INSTRUCTIONS:
+# meta-bootstrap copies this file as the empty seed, then appends any type-category precedents inherited from a
+# library kit (tier: type-category, with {bindings} to re-bind). kit-case-clerk writes precedents and scenario
+# cards; the main agent appends distinguished_by entries at contract approval; only the pioneer overrules.
+#
+# Schema:
+#
+#   precedents:
+#     - prec_id: P-NNN                      # sequential, never reused
+#       date: YYYY-MM-DD
+#       from: [C-NNN, contract-NNN, drift-NNN, K-NNN]
+#       moments: [M-NN]                     # retrieval key
+#       tier: project | type-category
+#       facts: |
+#         [material facts only; project-specific names in {braces} when tier is type-category]
+#       question: |
+#         [what had to be decided]
+#       holding: |
+#         [what was decided — binds matching situations]
+#       reasons: |
+#         [the pioneer's reasons, verbatim, or: none recorded]
+#       binding: true
+#       distinguished_by: []                # {date, contract_id, how_facts_differ}
+#       status: active | overruled
+#       overruled_by: null                  # C-NNN
+#
+#   scenarios:
+#     - card_id: S-NNN
+#       date: YYYY-MM-DD
+#       from: [C-NNN, P-NNN]
+#       moment: M-NN
+#       situation: |
+#         [the decision point as it stood]
+#       options:
+#         - key: A
+#           text: [option]
+#       pioneer_ranking: pending            # or [B, A, C] — only from the pioneer
+#       rationale: |
+#         [the pioneer's, verbatim]
+#       dissent: |
+#         [a minority view the pioneer gave, or: none]
+#
+#   reconstruction_tests:
+#     - test_id: RT-NNN
+#       date: YYYY-MM-DD
+#       kit_version: [manifest version]
+#       held_out: [C-NNN, B-NNN/I-n]
+#       decisions_tested: 0
+#       matched: 0
+#       misses: []                           # {item, predicted, actual, what the kit lacked}
+
+precedents: []
+
+scenarios: []
+
+reconstruction_tests: []

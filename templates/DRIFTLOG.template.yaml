@@ -1,6 +1,9 @@
 # DRIFTLOG.yaml
 # Project instance data for the drift event log. Governed by meta-drift-eventlog/SKILL.md.
-# Seeded by meta-bootstrap — entries are added only through deliberate process with developer approval, never silently.
+# Seeded by meta-bootstrap. The agent writes entries and the open -> watching transition itself: recording an
+# incident is not a judgement about it. Everything that judges an elevation needs the pioneer —
+# watching -> mitigated when an authorised elevation is committed, mitigated -> resolved only at a review
+# batch. Every write names its evidence; nothing is written silently.
 # In the base-building-kit repo: templates/DRIFTLOG.template.yaml
 # In a consumer project: .claude/skills/meta-drift-eventlog/DRIFTLOG.yaml
 #
@@ -29,9 +32,11 @@
 #       What was done in-session in response.
 #     status: open | watching | mitigated | resolved
 #     elevation:
-#       - target: skill or memory name
-#         kind: new-skill | skill-update | memory-update | manifest-update
+#       - target: skill, contract, mechanism or memory name
+#         kind: new-skill | skill-update | mechanism-change | test-added | agent-added | memory-update | manifest-update
+#         mitigation_medium: prose | mechanism | agent | test | memory | unknown
 #         date: YYYY-MM-DD
+#     reviewed: null                     # date a keep-watching decision was taken at a batch
 #     recurrence_count: 0
 #     related_drifts: []
 #

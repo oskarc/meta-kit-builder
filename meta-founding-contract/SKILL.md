@@ -3,6 +3,8 @@ name: meta-founding-contract
 description: The project's own statement of what it is — internal, behind the scenes, never about the product's audience — held as an original text that is never rewritten plus dated amendments saying where the project has progressed to. Every contract opens with a two-sentence BEARING in service of it. Correcting a bearing is a reevaluation (the direction is off in some respect), not a redraw (an adjustment within a direction already correct). An amendment must name what caused it and what it now binds; one that only ratifies work already done is retro-fitting, and retro-fitting turns the statement into a check that cannot fail at the top of the practice. Amending is a pioneer act. The content is unmeasurable and reached by reflection; only the form is enforceable.
 ---
 
+> **Map:** M-24 · **Load:** on trigger — `FOUNDING.md` itself is always loaded · **Recognise it by:** a bearing may sit outside the statement, the statement is missing, or an amendment comes up · **Not when:** drawing a bearing that plainly serves the statement (meta-contract-before-execution)
+
 # Founding contract
 
 **Neither party can see the end of the work.** If either could, the practice
@@ -139,10 +141,19 @@ written in a shape that hides the question.
 ## Instance
 
 This project's statement and its amendments live in `FOUNDING.md`, beside this
-file. The skill is transferable; the statement is not. A new project is seeded
-from `templates/FOUNDING.template.md` by `meta-bootstrap` (Step 4), which asks
-the pioneer for the statement and records it verbatim. `meta-extract` never
-carries `FOUNDING.md` into the library.
+file, which CLAUDE.md imports so it is loaded in every session. The skill is
+transferable; the statement is not.
+
+Part of the enforceable form is now mechanised (`meta-mechanisms`): the
+stop-gate flags a live contract recorded without a bearing, and the
+session-start hook flags a statement not yet given and amendments missing a
+cause or a binding clause. Not yet mechanised: that the original block is
+byte-unchanged, and that a bearing is at most two sentences (gap-009). A new
+project is seeded from `templates/FOUNDING.template.md` by `meta-bootstrap`:
+Step 3 asks the pioneer for the statement — placed after the agent's
+orientation, so it is made against a reading they can correct — and Step 6e
+records it verbatim, or records the deferral. `meta-extract` never carries
+`FOUNDING.md` into the library.
 
 The bearing rule and the two grades of correction are applied where contracts
 are drawn — see `meta-contract-before-execution/SKILL.md`, "The Bearing" and

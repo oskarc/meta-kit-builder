@@ -1,0 +1,2 @@
+# Hook scripts run under bash, including Git Bash on Windows. CRLF line endings break them.
+*.sh text eol=lf

@@ -1,42 +1,76 @@
 # CONTRACT-LOG.yaml
 # Project instance data for the contract log. Governed by meta-contract-before-execution/SKILL.md.
 # Seeded by meta-bootstrap — entries are added only at the approval gate, never silently, never for
-# declined proposals.
+# declined proposals (their corrections go to meta-correction-log/CORRECTIONS.yaml).
 # In the base-building-kit repo: templates/CONTRACT-LOG.template.yaml
 # In a consumer project: .claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml
 #
 # AGENT INSTRUCTIONS:
-# This file is a template. meta-bootstrap copies it to
-# .claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml as the empty seed.
-# Contract history is project-specific — it does not travel via meta-extract.
-# A new project always starts with an empty contracts list, regardless of any inherited
-# type-category kit.
+# meta-bootstrap copies this file as the empty seed. Contract history does not travel via meta-extract.
+# MARKER KEYS read by the mechanisms — do not rename, and keep their values to the listed words:
+#   contract_id, status, verification_state, audited, bearing, transcript, type,
+#   verification.date, and per revision: date, tests_changed
 #
-# Schema reference (full details in meta-contract-before-execution/SKILL.md):
+# Schema reference (full details and a worked example in meta-contract-before-execution/SKILL.md):
 #
 #   - contract_id: contract-NNN             # sequential, never reused
 #     feature: [feature name]
+#     type: contract                        # or analysis-report, with a report-NNN id; the gates skip those
 #     date_proposed: YYYY-MM-DD
 #     date_approved: YYYY-MM-DD
+#     approval: gate                        # or waived-at-spec-lock, when the pioneer chose to skip the gate
 #     bearing: |
 #       [at most two sentences — the point of the contract and how it shows direction,
 #        read against meta-founding-contract/FOUNDING.md]
 #     tier_1: |
 #       [full user scenario text, as approved]
 #     tier_2: |
-#       [full use cases text, as approved]
+#       [full use cases text, as approved — each with an id: UC-1, UC-2 …]
 #     tier_3: |
-#       [full technical guardrails text, as approved]
-#     status: approved | implemented | verified | learned
-#     revisions: []                         # authorized mid-run changes only
+#       [full technical guardrails text, as approved — each with an id and the use cases it holds: G-1 (UC-1) …;
+#        precedents applied or distinguished, trial and adopted candidates cited by id]
+#     tier_4: |
+#       [full acceptance tests text, as approved — each with an id and the guarantees it covers: T-1 (G-1, G-2) …;
+#        a command or check and its expected result; closing with an untested: line naming every guarantee no
+#        test reaches. Frozen with the contract: changed only by a revision dated before the verification report]
+#     status: approved | implemented | verified | learned | legacy
+#     verification_state: none | awaiting-evidence | reported | legacy
+#     verification:                         # written by kit-verifier, or by the main agent recording a
+#       date: YYYY-MM-DD                    # pioneer confirmation per clause — MARKER: revisions are dated against it
+#       by: kit-verifier | pioneer-confirmation
+#       method: tests | observation | pioneer-confirmation | mixed
+#       tests: {T-1: pass, T-2: fail}       # Tier 4 results, run before any clause is judged; absent when no tier_4
+#       clauses:
+#         - clause: UC-1
+#           verdict: verified | corrected | open
+#           evidence: |
+#             [source named, what is actually true, or what would check it]
+#       summary: {verified: 0, corrected: 0, open: 0}
+#       open_needs: []                      # what evidence would close each open clause
+#     verification_history: []              # earlier verification blocks, kept rather than overwritten
+#     audited: false                        # true once kit-session-auditor has run; legacy before v0.14
+#     transcript: null                      # the implementing session's transcript, recorded at implemented
+#     observations: []                      # O-NNN recorded after implementation
+#     revisions: []                         # authorized mid-run changes only: {what, authorised_by, date, tests_changed}
+#                                           # tests_changed: the T-x ids the change alters, or []. A revision with
+#                                           # tests dated after verification.date is drift (M-18), never applied
 #     work_id: null                         # populated by meta-learning once a LEARNINGLOG entry exists
 #
-# Only approved contracts are logged. Unauthorized mid-run deviation from an approved contract is not
-# recorded here — it belongs in meta-drift-eventlog/DRIFTLOG.yaml instead.
+# Status lifecycle:
+#   approved    — at the approval gate; verification_state: none, audited: false
+#   implemented — implementation complete, observations recorded, transcript recorded
+#   verified    — every clause verified from outside evidence, or the pioneer's per-clause confirmation
+#   learned     — meta-learning has produced the matching LEARNINGLOG.yaml diff
+#
+# A verification that reports corrected or open clauses leaves the status at implemented; the stop-gate
+# hands it back (M-12) until the pioneer confirms, a follow-up contract is drawn, or new evidence resets
+# verification_state to none.
+#
+# Unauthorized mid-run deviation from an approved contract is not recorded here — it belongs in
+# meta-drift-eventlog/DRIFTLOG.yaml instead.
 #
 # Optional artifact-delivery fields (present only when meta-contract-artifact is in use): `file` (stored
-# HTML path), `artifact` (published URL), `type` (contract | analysis-report — reports use a report-NNN
-# id space alongside contract-NNN), `led_to` / `follows` (cross-links between a report and the contract
-# it led to). See meta-contract-artifact/SKILL.md.
+# HTML path), `artifact` (published URL), `led_to` / `follows` (cross-links between a report and the
+# contract it led to). See meta-contract-artifact/SKILL.md.
 
 contracts: []

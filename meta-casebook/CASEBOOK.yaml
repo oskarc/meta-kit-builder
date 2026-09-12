@@ -1,0 +1,10 @@
+# CASEBOOK.yaml
+# Instance data for the base-building-kit repo itself. Governed by meta-casebook/SKILL.md.
+# Consumer projects are seeded from templates/CASEBOOK.template.yaml, never from this file.
+# Schema: see templates/CASEBOOK.template.yaml.
+
+precedents: []
+
+scenarios: []
+
+reconstruction_tests: []
