@@ -44,12 +44,16 @@ props=0
 if ! grep -q 'ratification: deferred' "$MAPFILE" 2>/dev/null; then
   props=$(count_matches '\|[[:space:]]*proposed[[:space:]]*$' "$MAPFILE")
 fi
-pending=$(( $(count_matches '^[[:space:]]+review_due:[[:space:]]*true' "$LEDGER") \
-          + $(count_matches '^[[:space:]]+state:[[:space:]]*pending' "$LEDGER") \
+# The gate opens a batch on three or more due candidates, or on ONE of anything else pioneer-owned.
+# This repeats that rule rather than summing, so the two backlog readers never disagree (contract-007 UC-5).
+due=$(count_matches '^[[:space:]]+review_due:[[:space:]]*true' "$LEDGER")
+others=$(( $(count_matches '^[[:space:]]+state:[[:space:]]*pending' "$LEDGER") \
           + $(count_matches '^[[:space:]]+pioneer_ranking:[[:space:]]*pending' "$CASEBOOK") \
           + $(count_matches '^[[:space:]]+conflict:[[:space:]]*P-' "$CASEBOOK") \
           + $(count_matches '^[[:space:]]+status:[[:space:]]*mitigated' "$DRIFT") \
           + props ))
+pending=0
+if [ "${others:-0}" -ge 1 ] || [ "${due:-0}" -ge 3 ]; then pending=1; fi
 add_flag "$pending" "Pioneer-owned items are waiting (candidates, map proposals, unratified entries, unranked cards, precedent conflicts or drift resolutions)" "M-16 kit-batch-assembler assembles the batch"
 
 add "$(nrows "$ct" '$5=="no" && ($3=="none" || $3=="awaiting-evidence" || $3=="reported")')" "Contracts with no bearing" "M-24 surface to the pioneer"

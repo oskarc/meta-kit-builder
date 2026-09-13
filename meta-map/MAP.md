@@ -29,7 +29,7 @@ M-06 | contract-approved | lifecycle | must | the pioneer approves a contract | 
 
 ## While building
 
-M-07 | pioneer-correction | situation + hook cue | must | the pioneer redirects, declines, corrects a tier or bearing, overrides a recommendation, or resets the frame | answers to your own question; approvals | meta-correction-log → record verbatim first | proposed
+M-07 | pioneer-correction | situation + hook cue | must | the pioneer redirects, declines, corrects a tier or bearing, overrides a recommendation, or resets the frame | answers to your own question; approvals | meta-correction-log → How to record | proposed
 M-08 | deviation-found | situation | must | the work must depart from the approved contract | a change already in revisions; an unauthorised one is drift (M-18) | meta-contract-before-execution → The Approval Gate | proposed
 M-09 | evidence-gap | situation | must | about to rely on an unverified API, mechanic, number or claim | a fact checked this session, with its source | INTENT.md → The agent holds five aspects | proposed
 M-10 | second-attempt | situation | must | about to retry a fix shape that already failed | a different hypothesis, surveyed first | meta-antidrift → Scoring Rules | proposed
