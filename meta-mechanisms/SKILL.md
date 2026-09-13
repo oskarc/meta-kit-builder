@@ -42,7 +42,7 @@ Installed by `meta-bootstrap` from `templates/settings.template.json` into the p
 
 At the end of each turn the gate checks, in this order, and hands over the first task that is due:
 
-1. An open batch whose every item carries a decision → run `close-batch.sh` (M-16)
+1. An open batch whose every item carries a decision → run `close-batch.sh` (M-17)
 2. A decided batch with an unopened key → run the reveal (M-17)
 3. A reported contract with a revision that changes Tier 4 tests dated after the report → surface it as drift; the revision is never applied (M-18)
 4. An implemented contract whose session is unaudited → kit-session-auditor, with the transcript recorded on the entry (M-11)
