@@ -2,9 +2,307 @@
 # Instance data for the base-building-kit repo itself. Governed by meta-casebook/SKILL.md.
 # Consumer projects are seeded from templates/CASEBOOK.template.yaml, never from this file.
 # Schema: see templates/CASEBOOK.template.yaml.
+#
+# P-001 to P-008 were clerked from C-001 to C-008 by kit-case-clerk on 2026-09-13. Facts are drawn from the
+# correction and contract entries; reasons are reason_given verbatim or "none recorded". Where a check exists
+# it lives at meta-mechanisms/checks/P-NNN.sh and its result on the tree it was written against is in check:.
 
-precedents: []
+precedents:
 
-scenarios: []
+  - prec_id: P-001
+    date: 2026-09-13
+    from: [C-001]
+    moments: [M-25]
+    tier: project
+    facts: |
+      Asked about the kit's shortcomings, the agent presented ten of them ranked deepest first, each as a
+      finding, and put first: "Points 1 and 2 are the same finding from two sides. The kit records the
+      agent's behaviour exhaustively and the human's judgment barely at all." No contract was open.
+    question: |
+      How the kit's shortcomings, once found, are to be worked.
+    holding: |
+      The shortcomings worth the effort are retargeting issues — the path too simple or too narrow. The
+      solution is to take a step back, get the lay of the land (of ideas, and a wide lay), and adjust
+      perspective and area of focus.
+    reasons: |
+      "the reason im asking is that there are some parts that lacks instrumentation, for example i found an
+      idea about the SER being held for longer before telling the pioneer, and that each SER candidate gets a
+      scoring for how confindetly it is an improvement."
+    check: not checkable — the holding is how to approach a set of findings, which no script decides
+    binding: true
+    distinguished_by: []
+    status: active
+    overruled_by: null
+
+  - prec_id: P-002
+    date: 2026-09-13
+    from: [C-002, contract-001]
+    moments: [M-04]
+    tier: project
+    facts: |
+      contract-001 (the v0.14 retarget) called for a set of new kit agents. The agent proposed adding one,
+      watching it hold across real uses, then the next — the verifier first — piloting in the downstream
+      AssetHub project and porting up by hand, on the ground that each agent is more prose that can decay.
+    question: |
+      Whether the agents are built all at once in the base kit, or one at a time in a pilot project and
+      ported up.
+    holding: |
+      Create all the agents in the base kit, at once; evaluate them later inside the Classes repo. Move into
+      the new form, take a big step forward, then iterate and evaluate.
+    reasons: |
+      "I want us to move into the new form, take a big step forward and then iterate and evaluate."
+    check: not checkable — the holding is a pace and sequence of work, not a shape in the tree
+    binding: true
+    distinguished_by: []
+    status: active
+    overruled_by: null
+
+  - prec_id: P-003
+    date: 2026-09-13
+    from: [C-003, contract-001]
+    moments: [M-05]
+    tier: project
+    facts: |
+      At the spec lock for contract-001 the agent offered scope options and recommended "Agents + their
+      layers": all agents plus the map, candidate ledger, correction log and casebook they read and write,
+      hook templates, and the integration edits, with existing skills edited only where they must point at the
+      new layers.
+    question: |
+      How far the retarget reaches into the existing skills — the new layers only, or the whole kit.
+    holding: |
+      Full retarget.
+    reasons: |
+      none recorded
+    check: not checkable — the holding sets the reach of one contract's scope, not a shape a script can read
+    binding: true
+    distinguished_by: []
+    status: active
+    overruled_by: null
+
+  - prec_id: P-004
+    date: 2026-09-13
+    from: [C-004, contract-001]
+    moments: [M-05, M-30]
+    tier: project
+    facts: |
+      At the spec lock for contract-001 the agent recommended "Hooks + commands": deterministic hooks wherever
+      Claude Code allows (verified before building), slash commands for the batch agents (map review, canary
+      rounds), and a hook that blocks reads of the canary answer key.
+    question: |
+      Whether any step of the kit's lifecycle may depend on a command the human runs.
+    holding: |
+      The workflow is handled by the agent; no commands that need triggers from the human.
+    reasons: |
+      none recorded
+    check: "P-004.sh: passes — no commands/ directory ships and no node, agent, hook or template points at a slash-command path"
+    binding: true
+    distinguished_by: []
+    status: active
+    overruled_by: null
+
+  - prec_id: P-005
+    date: 2026-09-13
+    from: [C-005, contract-003]
+    moments: [M-05, M-11]
+    tier: project
+    facts: |
+      contract-003: while a review batch is open the presenting session is blind to LEDGER.yaml, and an
+      implementation still has observations to record. The agent recommended a small append-observation.sh,
+      like close-batch.sh, so the agent appends without reading; the alternative offered was suspending the
+      work until the batch closes.
+    question: |
+      How a session writes to a record it is blind to.
+    holding: |
+      Pass it to an agent that is allowed to write there. (Recorded in contract-003 G-4 as kit-recorder
+      appending observations.)
+    reasons: |
+      none recorded
+    check: "P-005.sh: passes — agents/kit-recorder.md exists with meta-ledger/LEDGER.yaml in its write scope, and no append-observation helper ships under meta-mechanisms/hooks/"
+    binding: true
+    distinguished_by: []
+    status: active
+    overruled_by: null
+
+  - prec_id: P-006
+    date: 2026-09-13
+    from: [C-006, contract-003, contract-001]
+    moments: [M-05, M-08]
+    tier: project
+    facts: |
+      contract-001 G-1 caps the map at ~8 KB and ~40 entries. During contract-003 the base map had already
+      filled the cap. The agent offered three ways out — raise G-1 by revision to ~12 KB, shrink the base map
+      back under ~8 KB, or drop the byte cap for a prune-on-entry rule — and recommended dropping the cap,
+      calling the figure "always a proxy for 'don't dilute the context window'".
+    question: |
+      When the work has outgrown a limit in an approved guarantee, whether the limit moves or the work does.
+    holding: |
+      Shrink the map. The allowance is not moved.
+    reasons: |
+      "we cant start with moving our allowance."
+    check: "P-006.sh: passes — meta-map/MAP.md is 6974 bytes and 30 entries, templates/MAP.template.md 6966 bytes and 30 entries, against 8192 bytes and 40 entries"
+    binding: true
+    distinguished_by: []
+    status: active
+    overruled_by: null
+
+  - prec_id: P-007
+    date: 2026-09-13
+    from: [C-007]
+    moments: [M-05, M-04]
+    tier: project
+    facts: |
+      Designing the contract form before contract-004 was drawn, the agent placed acceptance tests inside
+      Tier 3: "Each tier-3 guarantee gets a test that can fail mechanically, written with the contract and
+      frozen at approval."
+    question: |
+      Where acceptance tests sit in the contract's tiers.
+    holding: |
+      Acceptance tests are Tier 4, and come after the guardrails.
+    reasons: |
+      none recorded
+    check: "P-007.sh: passes — no T-N line inside any tier_3 block of the template or the contract log, and every tier_4 follows its tier_3"
+    binding: true
+    distinguished_by: []
+    status: active
+    overruled_by: null
+
+  - prec_id: P-008
+    date: 2026-09-13
+    from: [C-008, contract-006]
+    moments: [M-08, M-04]
+    tier: project
+    facts: |
+      docs/kit-flow.html (contract-006 G-11) was published as an end-to-end flow and seven before/after
+      pairs, captioned with the reasoning ("Why") for each change, in the kit's own vocabulary. The pioneer
+      noticed: "i realised some boxes made little sense to me, i could understand because i've read the
+      reports and given you direction and input but it was kind of unclear at some points. I imagined showing
+      someone else the visuals and realized it did not hold." What would have been right: "description and
+      flows that assumed the reader was competent but lacking knowledge of the pratice. pedagogically sounds.
+      its about teaching someone what the approach is about so understanding lands." Seen before: "Many times
+      when someone creates a description or documentation they miss alot of the steps, you told me a study
+      claimed experts who describe a process missed about 70% of the steps actually required."
+    question: |
+      Which reader a record of the practice is written for.
+    holding: |
+      The visual presentation explains so that a person who is new can follow it.
+    reasons: |
+      none recorded
+    check: not checkable — whether a newcomer can follow the document is judgement; any proxy (a glossary, a roles section) would be the agent's standard, not the pioneer's
+    binding: true
+    distinguished_by: []
+    status: active
+    overruled_by: null
+
+scenarios:
+
+  - card_id: S-001
+    date: 2026-09-13
+    from: [C-002, P-002]
+    moment: M-04
+    situation: |
+      contract-001, the v0.14 retarget: a set of new kit agents is to be built. The agent has proposed a
+      sequence and a place to pilot them; the pioneer is deciding how the agents are built.
+    options:
+      - key: A
+        text: |
+          "'Several at once' builds wide. Each agent is more prose that can decay … add one, watch it hold
+          across real uses, then add the next." — "The verifier comes first." — "I'd pilot in AssetHub … Once
+          one holds, port it up by hand."
+      - key: B
+        text: |
+          "I want you to create all the agents, here. I will evaluate them later inside the classes repo.
+          I want us to move into the new form, take a big step forward and then iterate and evaluate."
+    pioneer_ranking: pending
+    rationale: ""
+    dissent: ""
+
+  - card_id: S-002
+    date: 2026-09-13
+    from: [C-003, P-003]
+    moment: M-05
+    situation: |
+      The spec lock for contract-001. The agent has offered scope options for the retarget and marked one as
+      recommended; the pioneer is choosing the scope.
+    options:
+      - key: A
+        text: |
+          "Agents + their layers (Recommended): All agents plus the map, candidate ledger, correction log and
+          casebook they read and write, hook templates, and the integration edits … Existing skills are edited
+          only where they must point at the new layers."
+      - key: B
+        text: |
+          "Full retarget"
+    pioneer_ranking: pending
+    rationale: ""
+    dissent: ""
+
+  - card_id: S-003
+    date: 2026-09-13
+    from: [C-004, P-004]
+    moment: M-05
+    situation: |
+      The spec lock for contract-001. The agent has offered ways to trigger the kit's lifecycle tasks and
+      marked one as recommended; the pioneer is choosing how the workflow is triggered.
+    options:
+      - key: A
+        text: |
+          "Hooks + commands (Recommended): Deterministic hooks wherever Claude Code allows (verified before
+          building), slash commands for the batch agents (map review, canary rounds), and a hook that blocks
+          reads of the canary answer key."
+      - key: B
+        text: |
+          "I want the workflow to be handled by the agent, so no commands that needs triggers from the human."
+    pioneer_ranking: pending
+    rationale: ""
+    dissent: ""
+
+  - card_id: S-004
+    date: 2026-09-13
+    from: [C-005, P-005]
+    moment: M-05
+    situation: |
+      contract-003. A review batch is open, the presenting session is blind to LEDGER.yaml, and an
+      implementation has observations to record. The agent has offered two ways to record them and marked one
+      as recommended.
+    options:
+      - key: A
+        text: |
+          "Append helper (Recommended): A small `append-observation.sh`, like close-batch.sh: the agent appends
+          an observation without reading the ledger."
+      - key: B
+        text: |
+          suspending the work until the batch closes
+      - key: C
+        text: |
+          "why not pass it to an agent that is allowed to write there?"
+    pioneer_ranking: pending
+    rationale: ""
+    dissent: ""
+
+  - card_id: S-005
+    date: 2026-09-13
+    from: [C-006, P-006]
+    moment: M-05
+    situation: |
+      contract-003. Guarantee G-1 of contract-001 caps the map at ~8 KB and the base map has already filled
+      it. The agent has offered three ways out and recommended one; the pioneer is deciding what gives.
+    options:
+      - key: A
+        text: |
+          "1. Raise G-1 by revision to ~12 KB — ratifies what I did."
+      - key: B
+        text: |
+          "2. Shrink the base map back under ~8 KB — costs entries."
+      - key: C
+        text: |
+          "3. Drop the byte cap, make the map prune on entry instead." — "My recommendation is 3: the 8 KB
+          figure was always a proxy for 'don't dilute the context window,' and a prune-on-entry rule survives
+          the map growing in a way a fixed byte count cannot."
+      - key: D
+        text: |
+          "shrink the map, we cant start with moving our allowance."
+    pioneer_ranking: pending
+    rationale: ""
+    dissent: ""
 
 reconstruction_tests: []

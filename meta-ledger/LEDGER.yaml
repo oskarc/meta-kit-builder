@@ -379,6 +379,133 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  # O-022 to O-029 were written by kit-case-clerk on 2026-09-13, one per clerked correction C-001 to C-008.
+  # Each statement is the moment id followed by pioneer_said verbatim; stated_confidence is null because the
+  # pioneer's words carry no forecast and the clerk supplies none.
+
+  - obs_id: O-022
+    date: 2026-09-13
+    source: pioneer
+    contract_id: null
+    refs: [C-001]
+    statement: |
+      M-25 — "All issues you stated that are worth the effort is retargeting issues, at some parts the path is
+      to simple or to narrow, the solution is to take a step back, get the lay of the land (and in this case,
+      the land of ideas a real wide lay is wanted) and adjust our perspective and area of focus."
+    level_guess: principle
+    stated_confidence: null
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-023
+    date: 2026-09-13
+    source: pioneer
+    contract_id: contract-001
+    refs: [C-002]
+    statement: |
+      M-04 — "I want you to create all the agents, here. I will evaluate them later inside the classes repo.
+      I want us to move into the new form, take a big step forward and then iterate and evaluate."
+    level_guess: pattern
+    stated_confidence: null
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-024
+    date: 2026-09-13
+    source: pioneer
+    contract_id: contract-001
+    refs: [C-003]
+    statement: |
+      M-05 — "Full retarget"
+    level_guess: product-detail
+    stated_confidence: null
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-025
+    date: 2026-09-13
+    source: pioneer
+    contract_id: contract-001
+    refs: [C-004]
+    statement: |
+      M-05 — "I want the workflow to be handled by the agent, so no commands that needs triggers from the human."
+    level_guess: principle
+    stated_confidence: null
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-026
+    date: 2026-09-13
+    source: pioneer
+    contract_id: contract-003
+    refs: [C-005]
+    statement: |
+      M-05 — "why not pass it to an agent that is allowed to write there?"
+    level_guess: pattern
+    stated_confidence: null
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-027
+    date: 2026-09-13
+    source: pioneer
+    contract_id: contract-003
+    refs: [C-006]
+    statement: |
+      M-05 — "shrink the map, we cant start with moving our allowance."
+    level_guess: principle
+    stated_confidence: null
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-028
+    date: 2026-09-13
+    source: pioneer
+    contract_id: null
+    refs: [C-007]
+    statement: |
+      M-05 — "Acceptance tests should be the tier 4 then, and comes after guardrails."
+    level_guess: pattern
+    stated_confidence: null
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-029
+    date: 2026-09-13
+    source: pioneer
+    contract_id: contract-006
+    refs: [C-008]
+    statement: |
+      M-08 — "Id like the visual presentation to explain so a person who is new can follow it."
+    level_guess: principle
+    stated_confidence: null
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
 
 batches: []

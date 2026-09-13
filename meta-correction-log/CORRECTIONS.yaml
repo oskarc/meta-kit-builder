@@ -27,8 +27,8 @@ corrections:
       for how confindetly it is an improvement."
     supersedes: []
     recorded_by: main-agent
-    clerked: false
-    precedent: null
+    clerked: true
+    precedent: [P-001]
 
   - corr_id: C-002
     date: 2026-09-11
@@ -47,8 +47,8 @@ corrections:
       "I want us to move into the new form, take a big step forward and then iterate and evaluate."
     supersedes: []
     recorded_by: main-agent
-    clerked: false
-    precedent: null
+    clerked: true
+    precedent: [P-002, S-001]
 
   - corr_id: C-003
     date: 2026-09-11
@@ -66,8 +66,8 @@ corrections:
       none given
     supersedes: []
     recorded_by: main-agent
-    clerked: false
-    precedent: null
+    clerked: true
+    precedent: [P-003, S-002]
 
   - corr_id: C-004
     date: 2026-09-11
@@ -85,8 +85,8 @@ corrections:
       none given
     supersedes: []
     recorded_by: main-agent
-    clerked: false
-    precedent: null
+    clerked: true
+    precedent: [P-004, S-003]
 
   - corr_id: C-005
     date: 2026-09-12
@@ -104,8 +104,8 @@ corrections:
       none given
     supersedes: []
     recorded_by: main-agent
-    clerked: false
-    precedent: null
+    clerked: true
+    precedent: [P-005, S-004]
     clerk_note: null
 
   - corr_id: C-006
@@ -127,8 +127,8 @@ corrections:
       "we cant start with moving our allowance."
     supersedes: []
     recorded_by: main-agent
-    clerked: false
-    precedent: null
+    clerked: true
+    precedent: [P-006, S-005]
     clerk_note: null
 
   - corr_id: C-007
@@ -145,8 +145,8 @@ corrections:
     reason_given: null           # none given; the placement was stated, not argued
     supersedes: []
     recorded_by: main-agent
-    clerked: false
-    precedent: null
+    clerked: true
+    precedent: [P-007]
     clerk_note: null
 
   - corr_id: C-008
@@ -163,18 +163,42 @@ corrections:
     reason_given: |
       none given
     noticed: |
-      not asked
+      "i realised some boxes made little sense to me, i could understand because i've read the reports and given
+      you direction and input but it was kind of unclear at some points. I imagined showing someone else the
+      visuals and realized it did not hold."
     would_have_been_right: |
-      not asked
+      "description and flows that assumed the reader was competent but lacking knowledge of the pratice.
+      pedagogically sounds. its about teaching someone what the approach is about so understanding lands."
     seen_before: |
-      not asked
+      "Many times when someone creates a description or documentation they miss alot of the steps, you told me a
+      study claimed experts who describe a process missed about 70% of the steps actually required."
+    # The three questions were asked on 2026-09-13, after the correction was first recorded with "not asked" —
+    # the first real correction to go through the incident questions (contract-006 UC-1).
     supersedes: []
     recorded_by: main-agent
-    clerked: false
-    precedent: null
+    clerked: true
+    precedent: [P-008]
     clerk_note: null
 
 trajectory:
-  updated: null
-  by_contract: []
-  moments: {}
+  updated: 2026-09-13
+  # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no
+  # contract open (C-001 before contract-001; C-007 before contract-004 was drawn).
+  by_contract:
+    - contract_id: null
+      corrections: 2
+      bearing_reevaluations: 0
+      interventions: {did-it: 0, redirected: 2, hinted: 0, reviewed-after: 0}
+    - contract_id: contract-001
+      corrections: 3
+      bearing_reevaluations: 0
+      interventions: {did-it: 0, redirected: 3, hinted: 0, reviewed-after: 0}
+    - contract_id: contract-003
+      corrections: 2
+      bearing_reevaluations: 0
+      interventions: {did-it: 0, redirected: 2, hinted: 0, reviewed-after: 0}
+    - contract_id: contract-006
+      corrections: 1
+      bearing_reevaluations: 0
+      interventions: {did-it: 0, redirected: 1, hinted: 0, reviewed-after: 0}
+  moments: {M-25: 1, M-04: 1, M-05: 5, M-08: 1}
