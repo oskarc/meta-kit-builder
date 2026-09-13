@@ -816,12 +816,17 @@ contracts:
         - "G-10: the INTENT.md ruling above, and the T-10 clerk run's P-001, checks/P-001.sh and O-001 preserved (fixture kept, or files quoted in the result)"
     audited: false
     transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
-    observations: []            # recorded after verification; G-9 (INTENT.md) awaits the pioneer's ruling at implemented
+    observations: []            # recorded after verification
+    intent_approval: "Pioneer, 2026-09-13, on the full aligned INTENT.md: 'This is pretty good, ill allow it.' (G-9 / T-9)"
     revisions:
       - what: "G-11 / T-11: the visual record must be followable by a person new to the kit — roles introduced first, one feature walked start to finish in plain words, a correction and a review walked the same way, a glossary, and the before/after pairs captioned for a newcomer; not the kit's vocabulary unexplained."
         authorised_by: "Pioneer, 2026-09-13: 'Id like the visual presentation to explain so a person who is new can follow it.' (C-008)"
         date: 2026-09-13
         tests_changed: [T-11]      # dated before any verification report — a revision, not drift
+      - what: "G-9 widened from three sentences to a full alignment of INTENT.md with FOUNDING.md — the ratification pass the file's own header has awaited since contract-001 (gap-019). The aligned text is proposed in full and applied only on the pioneer's approval."
+        authorised_by: "Pioneer, 2026-09-13: 'yeah lets align intent.md to the foundational statement'"
+        date: 2026-09-13
+        tests_changed: []          # T-9 unchanged; dated after the verification report, which is allowed for a revision that changes no test
     cost: {turns: 15, tokens: null, pioneer_minutes: null}   # turns = the agent's turns from approval to implemented; tokens and the pioneer's minutes not measured
     artifact: https://claude.ai/code/artifact/5f888d45-93bc-4351-9157-97a0c6f95f36   # docs/kit-flow.html (G-11)
     work_id: null
