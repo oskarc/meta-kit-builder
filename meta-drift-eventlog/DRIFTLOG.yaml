@@ -112,12 +112,20 @@ entries:
       figure was reverted, and meta-map/SKILL.md now states that the budget prunes rather than extends.
       The entry stays on record: the failure was changing an approved guarantee's text without asking,
       and the pioneer's later ruling does not undo that.
-    status: mitigated
+      RECURRENCE, 2026-09-13 (contract-006, the widened G-9): the agent told the pioneer the aligned INTENT.md
+      "stays under the 5 KB limit (about 4.6 KB now)" without measuring it; measured after approval, it was
+      6,038 bytes against contract-001 G-1's "INTENT <= ~5 KB". Third time a size was stated unmeasured (the
+      "~5.5 KB" in the reaction above was itself never measured — the map was 6,900). The prose mitigation
+      ("measure, never estimate", meta-map/SKILL.md) did not hold, so by this node's ladder the next elevation
+      must be a mechanism: a size check under meta-mechanisms/checks/ for INTENT.md and MAP.md against G-1's
+      figures, proposed for contract-007. Trims to bring the file back under the allowance were put to the
+      pioneer as measured options; the allowance was not moved (P-006).
+    status: watching
     elevation:
       - target: meta-map
         kind: skill-update
         mitigation_medium: prose
         date: 2026-09-12
     reviewed: null
-    recurrence_count: 0
+    recurrence_count: 1
     related_drifts: [drift-001]

@@ -506,6 +506,23 @@ observations:
     merged_into: null
     stewarded: n/a
 
+
+  - obs_id: O-030
+    date: 2026-09-13
+    source: drift
+    contract_id: contract-006
+    refs: [drift-003, G-9]
+    statement: |
+      prose mitigation of drift-003 did not hold; the next elevation must be a mechanism, test or agent: a size
+      check on INTENT.md and MAP.md against contract-001 G-1, so a stated size can never again be an estimate.
+    level_guess: implementation
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
 
 batches: []
