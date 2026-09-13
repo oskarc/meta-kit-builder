@@ -180,6 +180,32 @@ corrections:
     precedent: [P-008]
     clerk_note: null
 
+  - corr_id: C-009
+    date: 2026-09-13
+    contract_id: contract-006
+    moment: M-08
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      Three measured trims to bring the aligned INTENT.md under contract-001 G-1's ~5 KB: (1) pointers only,
+      5,290 bytes; (2) plus two tightened sentences, 5,155 bytes; (3) one more cut of substance to land under
+      5,120. Recommended (2).
+    pioneer_said: |
+      "you could just point the intent.md file to the meta-antidrift skill instead of telling it so long"
+    reason_given: |
+      none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: null
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no
