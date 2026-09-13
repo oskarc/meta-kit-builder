@@ -255,7 +255,8 @@ corrections:
     would_have_been_right: |
       "it ... should read like a guide, the point is to teach not to state fact" (given in the same message)
     seen_before: |
-      not yet asked
+      "This is a classic case of describing to ourselves what we know, but a new user has never heard of the
+      agents we talk about. This is often how guides are written, but poorly. I do not have an example for you."
     supersedes: []
     recorded_by: main-agent
     clerked: false

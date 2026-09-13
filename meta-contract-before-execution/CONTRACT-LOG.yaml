@@ -1164,7 +1164,7 @@ contracts:
         date: 2026-09-13
         tests_changed: []      # walk-007 gains no state for it; T-4's rehearsal is where it shows
       - what: "T-4's pass rule as approved — decisions asked equals files that differed, troubleshooting zero — cannot be met by any upgrade, because the procedure itself asks up to four questions that belong to no file (the stale list, contracts to verify, the map question when the budget forces it, the ratification pass). The bootstrap's rule was widened to allow those four; under it fx014 (round 4) and fx013 (round 6) pass and the Classes copy fails on two tooling steps. Under the rule as approved no rehearsal passes. The verifier judged T-4 by the approved text and marked it fail (2026-09-13); this entry records the widening as the revision it is, for the pioneer to authorise or refuse."
-        authorised_by: "pending - put to the pioneer with the verification report, 2026-09-13"
+        authorised_by: "Pioneer, 2026-09-13: 'T-4 is authorized.'"
         date: 2026-09-13
         tests_changed: [T-4]   # same day as the report, so not a late revision by the mechanism's rule; the pioneer decides whether it stands
     cost: {turns: 79, tokens: null, pioneer_minutes: null}    # turns = main-session assistant messages from approval (13:49Z) to implemented (15:40Z), tool-call rounds included — contract-006's 15 counted visible replies only, so the two are not comparable and this is the count from here on; tokens not measured for the main session (the thirteen rehearsal agents used about 5.0 million between them); minutes: the pioneer's, to be asked
