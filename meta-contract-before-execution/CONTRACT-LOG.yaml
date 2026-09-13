@@ -1036,13 +1036,16 @@ contracts:
             makes it exit 1 naming the count. On the tree it exits 0: INTENT.md 4,820 bytes, MAP.md 6,996 bytes and 30
             entries, MAP.template.md 6,988 bytes.
         - clause: UC-10
-          verdict: open
+          verdict: verified
+          pioneer_confirmation: "the readme is approved (2026-09-13)"
           evidence: |
             docs/readme-review.md carries 19 rows — the 18 headed sections of README at fe44461 (git show, 18 headings)
             plus the opening — each with a disposition and reason, and lists the dropped and rewritten sentences; T-11
             (walk-007 112a–d) passes. "Readable by a newcomer" is listed untested in Tier 4 as the pioneer's judgement,
             and no confirmation is recorded on the entry. What would check it: a newcomer's or the pioneer's reading,
             recorded per clause.
+            Closed by the pioneer's reading, 2026-09-13: "the readme is approved" — the newcomer-readability part of this clause; the checks (rows, census, no contradiction with FOUNDING.md or INTENT.md) were verified by the kit-verifier above.
+
         - clause: G-1
           verdict: verified
           evidence: |
@@ -1139,16 +1142,19 @@ contracts:
             contract-006's T-7 as it stands in walk-004; walk-007 state 100 greps one PASS line of walk-004 and does not
             see the red state.
         - clause: G-12
-          verdict: open
+          verdict: verified
+          pioneer_confirmation: "the readme is approved (2026-09-13)"
           evidence: |
             T-11 passes (census clean, every named path exists, 19 review rows, status reads v0.15 and 003–006).
             README.md was read in full against FOUNDING.md and INTENT.md and no contradicting sentence was found: the
             opening uses the founding statement's own terms, the aspects match INTENT, "the kit stops what a check can
             stop" is INTENT's sentence, precedents are not called binding, "nothing in the kit scores the pioneer" is
             stated. "A newcomer can follow it" is untested and unconfirmed — open for that part only.
-      summary: {verified: 14, corrected: 6, open: 2}
+            Closed by the pioneer's reading, 2026-09-13: "the readme is approved" — the newcomer-readability part of this clause; the checks (rows, census, no contradiction with FOUNDING.md or INTENT.md) were verified by the kit-verifier above.
+
+      summary: {verified: 16, corrected: 6, open: 0}    # UC-10 and G-12 closed by the pioneer's reading, 2026-09-13
       open_needs:
-        - "UC-10 and G-12: the pioneer's (or a newcomer's) reading of README.md, recorded per clause on the entry"
+        []   # UC-10 and G-12 closed: "the readme is approved" — pioneer, 2026-09-13
     audited: false
     transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: [O-031, O-032, O-033]
