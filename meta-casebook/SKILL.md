@@ -3,7 +3,7 @@ name: meta-casebook
 description: Use before drawing a contract's tiers or locking a spec, to check for binding precedents on the situation; when a contract departs from a precedent and must say how the facts differ; and when corrections are clerked into precedents or scenario cards. Governs CASEBOOK.yaml — layer 4, the cases that give the standard's rules their meaning.
 ---
 
-> **Map:** M-04, M-05, M-26, M-31 · **Load:** retrieved on trigger by moment tag · **Recognise it by:** "we have decided a situation like this before" — or the milestone in REBUILD.yaml has been reached · **Not when:** the question is what the rule says (that is the node) rather than how it was applied
+> **Map:** M-04, M-05, M-26 · **Load:** retrieved on trigger by moment tag · **Recognise it by:** "we have decided a situation like this before" · **Not when:** the question is what the rule says (that is the node) rather than how it was applied
 
 **This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.**
 
@@ -56,17 +56,9 @@ The standard's claim is that it carries the pioneer's judgement. The test:
 
 Run before extraction (M-26), and whenever the pioneer wants to know. A low match rate names what extraction would lose. **Blinding within the casebook itself rests on the excluded-precedent list, which the reconstructor is instructed to honour and no mechanism enforces** (gap-023) — so the result is the weaker kind of evidence, and says so wherever it is reported.
 
-### The launch rebuild (M-31)
+### The rebuild — withdrawn from the map
 
-The reconstruction test turned on the product. At a milestone the pioneer named at install, an agent in an **empty folder** — blind to the original code and its transcripts, with a deny-path on the original repository — builds what `CONTRACT-LOG.yaml` says, reading `DRIFTLOG.yaml` as its list of pitfalls, and the result is measured against the original. It is the one test the kit cannot grade for itself: the original's Tier 4 acceptance tests and the contracts' guarantees score the rebuild, and neither cares who built it.
-
-The plan lives in `REBUILD.yaml`, seeded by bootstrap from `templates/REBUILD.template.yaml` and **frozen** from its `frozen_on` date — written before the first contract, so that what counts as a fair test is decided before anyone knows what got built. Three fields, none of which changes afterwards:
-
-- **milestone** — the event that triggers the rebuild, in the pioneer's words, or `deferred` until they give one.
-- **oracle** — every Tier 4 test and every guarantee of every contract, and every drift entry marked hit or avoided. Per entry, the drift log's value becomes testable: a pitfall the rebuild avoided was carried by the record; one it hit was not.
-- **arms** — what each rebuilding agent gets: contracts only; contracts + driftlog; both + casebook. A rebuild that matches from contracts alone says the driftlog carried nothing, which is a result worth having.
-
-When the milestone arrives (M-31): run each arm in its own empty folder; score mechanically first; then, and only then, write the prose comparison — what the rebuild lacked that the original had, the residue the records did not carry — and mark it `self_graded: true` when the original builder wrote it. Append each arm to `runs`. A change to milestone, oracle or arms after `frozen_on` is drift (M-18). The mechanics of running an arm are not fixed by this node yet; the freeze is, because it cannot be added later.
+An earlier version of this node (contract-004) put a "launch rebuild" in the map: rebuild the product from its own records at a milestone, frozen at install. Contract-006 withdrew it. As designed it could not fail — every arm was handed the file its oracle lived in — and a rebuild by the same model family is not an independent version: the field's forty-year-old result on that was re-run with coding agents in 2026 and held. The design note, the reasons, and the six conditions under which a rebuild returns as a mechanism are in `docs/rebuild-design.md`. The short form: the test of the founding statement's goal is a *different* API built against the *same* standard, scored by the standard's own checks, with three or more versions voted and disagreement treated as the evidence — and that needs a standard that exists as checks first.
 
 ## Tiers and extraction
 

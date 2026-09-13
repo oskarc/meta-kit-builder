@@ -7,14 +7,14 @@
 #    the agent loads skills to keep the count down instead of because the moment called for them. The file is
 #    read by kit-map-steward and kit-consolidator, never by the session being measured.
 # 2. THE LEDGER, WHILE A BATCH IS OPEN. Real batch items are copied from the ledger. A presenter that can
-#    read it can tell which items are canaries by their absence, and the catch rate stops measuring the gate.
+#    read it can tell which items were re-presented by comparing, and the re-presentation stops measuring anything.
 #
 # Scope, and why it is exactly this wide:
 #   * telemetry.log by any path spelling; any Grep or Glob whose search path covers meta-ledger/; and any
 #     Grep whose pattern names the count (`bypass`) — always;
 #   * LEDGER.yaml by any path spelling, and any Grep or Glob whose search path or glob covers a directory
 #     holding it (the leak a file-only check leaves open) — while a batch is open;
-#   * NOT the casebook: scenario cards and precedents are never canaries, so closing it would only break
+#   * NOT the casebook: scenario cards and precedents are never re-presented, so closing it would only break
 #     the precedent check (M-04, M-05) for contracts drawn while a batch waits;
 #   * NOT kit agents (agent_id present) — they are not the presenter, and the steward is telemetry's reader;
 #   * NOT the batch file or the ledger's SKILL.md.
@@ -52,7 +52,7 @@ esac
 
 # --- the ledger: closed while a batch is open ---------------------------------------------------------------
 has_open_batch || exit 0
-LEDGER_REASON="A review batch is open, so the ledger is closed to this session until the reveal — that is what keeps the canaries indistinguishable (meta-ledger, Review batches)."
+LEDGER_REASON="A review batch is open, so the ledger is closed to this session until the reveal — that is what keeps re-presented items indistinguishable (meta-ledger, Review batches)."
 CLOSE="When every item carries a decision, run: bash \".claude/skills/meta-mechanisms/hooks/close-batch.sh\" B-NNN"
 
 contains "$fp" "meta-ledger/LEDGER.yaml" && deny "file" "$LEDGER_REASON The batch file, meta-ledger/SKILL.md and the casebook stay readable. $CLOSE"

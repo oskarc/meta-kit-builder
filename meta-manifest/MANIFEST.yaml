@@ -62,7 +62,7 @@ nodes:
     dependencies: [base-intent]
     open_gaps:
       - 31 base entries drafted by the agent; none ratified (gap-019). No firing telemetry yet.
-      - Compressed to 6,900 bytes on 2026-09-12 to hold the ~8 KB guarantee, then 7,133 with M-31 (contract-004), which leaves about 1 KB — five project entries, not ten. The prune-rather-than-extend rule that governs the rest has never been exercised (O-016).
+      - Compressed to 6,900 bytes on 2026-09-12 to hold the ~8 KB guarantee, then 7,133 with M-31 (contract-004), then back to 30 entries when contract-006 withdrew M-31 — measured in meta-map/SKILL.md. The prune-rather-than-extend rule that governs the rest has never been exercised (O-016).
       - Entries whose firing evidence is a `subagent` or `reveal` line, or whose target is always loaded, cannot be judged by load counts; the steward is told which, but nothing enforces it.
     note: MAP.md is always loaded via CLAUDE.md; this node's SKILL.md loads on trigger.
 
@@ -129,7 +129,7 @@ nodes:
       - Reworked in v0.14 (the log entry is the record; verifier verdicts source the page's states) and unexercised since.
 
   - id: base-skill-builder
-    concern: Review batches and the abstraction loop — statement before evidence, the pioneer's level and tier recorded at adopt, canaries revealed after decisions, cautions written into anti-patterns, drift back-references with mitigation medium
+    concern: Review batches and the abstraction loop — statement before evidence, the pioneer's level and tier recorded at adopt, re-presented decisions shown beside their earlier ones after the reveal, cautions written into anti-patterns, drift back-references with mitigation medium
     kind: skill
     skill_file: meta-skill-builder/SKILL.md
     owns: [meta-skill-builder/SKILL.md, meta-ledger/batches/]
@@ -253,21 +253,21 @@ nodes:
     kind: record
     skill_file: meta-casebook/SKILL.md
     data_file: meta-casebook/CASEBOOK.yaml
-    owns: [meta-casebook/CASEBOOK.yaml, meta-casebook/reconstruction/, meta-casebook/REBUILD.yaml, meta-casebook/SKILL.md]
+    owns: [meta-casebook/CASEBOOK.yaml, meta-casebook/reconstruction/, meta-casebook/SKILL.md]
     layer: meta
     phase: [pre-build, post-build]
     load: trigger
-    triggers: [M-04, M-05, M-26, M-31]
+    triggers: [M-04, M-05, M-26]
     status: thin
     dependencies: [base-correction-log]
     open_gaps:
       - New in v0.14; empty. Blinding within the casebook during reconstruction rests on an instruction, not a mechanism (gap-023).
-      - The launch rebuild (M-31, REBUILD.yaml) is frozen at install by contract-004, but how an arm is run — the empty folder, the deny-path, the scoring script — is not fixed, and the freeze itself is enforced only by prose and the auditor (O-017, gap-030).
+      - The rebuild was withdrawn from the map by contract-006; docs/rebuild-design.md holds the six conditions for its return (gap-030).
 
   # ─── Layer 5 · Mechanisms (fire) ──────────────────────────────────────────
 
   - id: base-mechanisms
-    concern: Hooks that run the lifecycle (session-start, prompt-submit, stop-gate, subagent-stop, post-read), the batch blind, agent path scopes, the canary seal, close/reveal scripts, telemetry, and the marker-key contract
+    concern: Hooks that run the lifecycle (session-start, prompt-submit, stop-gate, subagent-stop, post-read), the batch blind, agent path scopes, the sealed key, close/reveal scripts, telemetry, and the marker-key contract
     kind: mechanism
     skill_file: meta-mechanisms/SKILL.md
     owns: [meta-mechanisms/hooks/, meta-mechanisms/tests/, meta-mechanisms/SKILL.md]
@@ -298,7 +298,7 @@ nodes:
     open_gaps: []
 
   - id: agent-consolidator
-    concern: Sole writer of candidates — merges observations, counts evidence by independence, lower bounds, review flags, fading, outcomes and scores
+    concern: Sole writer of candidates — merges observations, counts evidence by whether it came from a different reading, review flags, fading, outcomes and scores that never score the pioneer
     kind: agent
     agent_file: agents/kit-consolidator.md
     layer: meta
@@ -321,10 +321,10 @@ nodes:
     dependencies: [base-map, base-ledger, base-mechanisms]
     open_gaps: []
 
-  - id: agent-canary-author
-    concern: Assembles review batches from pioneer-owned items, plants zero to two realistic canaries by random count, strips ledger ids, seals the key
+  - id: agent-batch-assembler
+    concern: Assembles review batches from pioneer-owned items, re-presents up to two decided candidates from the fourth batch on, strips ledger ids, seals the key
     kind: agent
-    agent_file: agents/kit-canary-author.md
+    agent_file: agents/kit-batch-assembler.md
     layer: meta
     phase: post-build
     load: fires
@@ -332,8 +332,8 @@ nodes:
     status: thin
     dependencies: [base-ledger, base-mechanisms]
     open_gaps:
-      - Whether canaries written by the same model family as real candidates avoid looking artificial is unknown (gap-014).
-      - The batch blind closes the presenter's view of the ledger, but the pioneer can still read it; the catch rate measures a gate read as presented (gap-020).
+      - Re-presented items replaced planted canaries in contract-006; whether re-presenting a real decided item measures the gate's consistency, or only the pioneer's memory, is unknown until batches have run (gap-014).
+      - The batch blind closes the presenter's view of the ledger, but the pioneer can still read it; re-presentation measures a gate read as presented (gap-020).
 
   - id: agent-case-clerk
     concern: Clerks corrections into precedents and scenario-card drafts, routes conflicts and strain to the pioneer, recomputes the fading curve; never supplies reasons or rankings
@@ -391,7 +391,7 @@ nodes:
   # ─── Layer 6 · Ledger (offline) ───────────────────────────────────────────
 
   - id: base-ledger
-    concern: Evidence layer — observations with frozen stated confidence, held candidates with independence-aware counters and lower bounds, review batches with canaries, map proposals, audits, scores and maturity instruments
+    concern: Evidence layer — observations with frozen stated confidence, held candidates with counters by reading, review batches with re-presented items, no score of the pioneer; audits, scores and maturity instruments — WAS: review batches with canaries, map proposals, audits, scores and maturity instruments
     kind: record
     skill_file: meta-ledger/SKILL.md
     data_file: meta-ledger/LEDGER.yaml
@@ -420,7 +420,7 @@ coverage_map:
   - {concern: The pioneer's corrections and the fading curve, node_id: base-correction-log, layer: meta, phase: always, status: thin}
   - {concern: Review batches and skill evolution, node_id: base-skill-builder, layer: meta, phase: post-build, status: thin}
   - {concern: Verification-gated learning diff, node_id: base-learning, layer: meta, phase: post-build, status: thin}
-  - {concern: Evidence, candidates, canaries and maturity instruments, node_id: base-ledger, layer: meta, phase: post-build, status: thin}
+  - {concern: Evidence, candidates, re-presented items and maturity instruments, node_id: base-ledger, layer: meta, phase: post-build, status: thin}
   - {concern: Mechanisms — hooks, blind, scopes, seal, telemetry, node_id: base-mechanisms, layer: meta, phase: always, status: thin}
   - {concern: Kit topology, node_id: base-manifest, layer: meta, phase: pre-build, status: thin}
   - {concern: Post-output drift scoring, node_id: base-antidrift, layer: meta, phase: always, status: mature}
@@ -430,7 +430,7 @@ coverage_map:
   - {concern: Independent verification, node_id: agent-verifier, layer: meta, phase: post-build, status: thin}
   - {concern: Consolidation and scoring, node_id: agent-consolidator, layer: meta, phase: post-build, status: thin}
   - {concern: Map stewardship, node_id: agent-map-steward, layer: meta, phase: post-build, status: thin}
-  - {concern: Gate instrumentation — canaries, node_id: agent-canary-author, layer: meta, phase: post-build, status: thin}
+  - {concern: Review batch assembly and re-presented items, node_id: agent-batch-assembler, layer: meta, phase: post-build, status: thin}
   - {concern: Case law clerking, node_id: agent-case-clerk, layer: meta, phase: post-build, status: thin}
   - {concern: Outside session audit, node_id: agent-session-auditor, layer: meta, phase: post-build, status: thin}
   - {concern: Blind reconstruction test, node_id: agent-reconstructor, layer: meta, phase: post-build, status: thin}
@@ -749,7 +749,7 @@ gap_queue:
     candidate_level: principle
     priority: high
     status: in-progress
-    resolved_by: null   # contract-004 froze the plan (REBUILD.yaml at install, M-31, the oracle and arms); how an arm is actually run is not fixed yet, and the rehearsal on the kit's own log has not been done
+    resolved_by: null   # contract-006 withdrew the plan from the map and wrote the six conditions for its return in docs/rebuild-design.md; the rehearsal on the kit's own log has not been done
 
   - gap_id: gap-031
     concern: A contradicting candidate that is "due at once" still waits for two more due candidates before a batch opens

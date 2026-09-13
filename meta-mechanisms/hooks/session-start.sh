@@ -2,8 +2,8 @@
 # SessionStart — put the kit's backlog in front of the agent. Governed by meta-mechanisms/SKILL.md.
 # Output: hookSpecificOutput.additionalContext. Never blocks.
 # Counts of pioneer-owned items (due candidates, map proposals, unranked cards) are deliberately NOT
-# printed: with the batch size known, a count of the real items would give away how many canaries a batch
-# carries. They are reported as present, not as a number.
+# printed: with the batch size known, a count of the real items would give away how many re-presented
+# items a batch carries. They are reported as present, not as a number.
 . "$(dirname "$0")/lib.sh"
 read_input
 kit_installed || exit 0
@@ -25,7 +25,7 @@ add_flag() { # COUNT TEXT ROUTE — presence only, never the number
   fi
 }
 
-add "$(nrows "$bt" '$2=="true" && $3=="false"')" "Review batches decided, canaries unrevealed" "M-17 run reveal-canaries.sh"
+add "$(nrows "$bt" '$2=="true" && $3=="false"')" "Review batches decided, key unopened" "M-17 run reveal-key.sh"
 add "$(nrows "$bt" '$2=="false"')" "Review batches open, awaiting the pioneer" "M-16 resume the batch; ledger and casebook stay closed until the reveal"
 add "$(nrows "$ct" '$2=="implemented" && $4=="false"')" "Contracts implemented, session not audited" "M-11 kit-session-auditor"
 add "$(late_test_revisions | grep -c .)" "Contracts whose acceptance tests were revised after the verification report" "M-18 record the drift, then withdraw the revision or draw a follow-up contract"
@@ -42,7 +42,7 @@ pending=$(( $(count_matches '^[[:space:]]+review_due:[[:space:]]*true' "$LEDGER"
           + $(count_matches '^[[:space:]]+state:[[:space:]]*pending' "$LEDGER") \
           + $(count_matches '^[[:space:]]+pioneer_ranking:[[:space:]]*pending' "$KIT/meta-casebook/CASEBOOK.yaml") \
           + $(count_matches '\|[[:space:]]*proposed[[:space:]]*$' "$MAPFILE") ))
-add_flag "$pending" "Pioneer-owned items are waiting (candidates, map proposals, unratified entries or unranked cards)" "M-16 kit-canary-author assembles the batch"
+add_flag "$pending" "Pioneer-owned items are waiting (candidates, map proposals, unratified entries or unranked cards)" "M-16 kit-batch-assembler assembles the batch"
 
 add "$(nrows "$ct" '$5=="no" && ($3=="none" || $3=="awaiting-evidence" || $3=="reported")')" "Contracts with no bearing" "M-24 surface to the pioneer"
 

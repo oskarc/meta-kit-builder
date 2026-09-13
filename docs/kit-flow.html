@@ -1,0 +1,424 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kit Flow</title>
+<style>
+:root{
+  --paper:#F6F6F3; --card:#FFFFFF; --ink:#191A17; --ink-soft:#4E5148; --ink-faint:#767A6F;
+  --rule:#DCDCD4; --rule-soft:#E9E9E2; --accent:#1F3A5F; --accent-soft:#E7ECF3;
+  --good:#2F6146; --good-bg:#E6EFE9; --warn:#8A5A17; --warn-bg:#F4ECDD; --bad:#8C2F2A; --bad-bg:#F6E7E5;
+  --you:#6B3F8C; --you-bg:#EFE7F5;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif; --sans:"IBM Plex Sans","Segoe UI",Helvetica,Arial,sans-serif; --mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#16171A; --card:#1D1F23; --ink:#E9E9E4; --ink-soft:#B0B3AC; --ink-faint:#878B83; --rule:#31343A; --rule-soft:#26282D;
+  --accent:#9DB9DC; --accent-soft:#22303F; --good:#7FBF9B; --good-bg:#1B2A23; --warn:#D9A961; --warn-bg:#2C2417; --bad:#E08880; --bad-bg:#2E1E1D; --you:#C9A6E3; --you-bg:#2B2233; }}
+:root[data-theme="dark"]{
+  --paper:#16171A; --card:#1D1F23; --ink:#E9E9E4; --ink-soft:#B0B3AC; --ink-faint:#878B83; --rule:#31343A; --rule-soft:#26282D;
+  --accent:#9DB9DC; --accent-soft:#22303F; --good:#7FBF9B; --good-bg:#1B2A23; --warn:#D9A961; --warn-bg:#2C2417; --bad:#E08880; --bad-bg:#2E1E1D; --you:#C9A6E3; --you-bg:#2B2233; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding-left:22px;padding-right:22px;padding-block:0 80px}
+header{padding-block:56px 28px;border-bottom:2px solid var(--ink)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 14px}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.2rem,6vw,3.2rem);line-height:1.04;letter-spacing:-.015em;margin:0 0 14px;text-wrap:balance}
+.standfirst{font-family:var(--serif);font-size:1.2rem;color:var(--ink-soft);margin:0;max-width:56ch}
+nav.toc{margin:28px 0 0;padding:16px 20px;background:var(--card);border:1px solid var(--rule);font-size:14.5px}
+nav.toc ol{margin:0;padding-left:20px;columns:2;column-gap:28px}
+nav.toc li{margin:3px 0}
+nav.toc a{color:var(--ink);text-decoration:none}
+nav.toc a:hover{color:var(--accent);text-decoration:underline}
+@media (max-width:600px){nav.toc ol{columns:1}}
+h2{font-family:var(--serif);font-weight:600;font-size:1.7rem;letter-spacing:-.01em;margin:8px 0 8px;text-wrap:balance}
+h3{font-family:var(--serif);font-weight:600;font-size:1.2rem;margin:28px 0 6px}
+.snum{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--accent);font-weight:600;display:block;margin-top:52px}
+p{max-width:66ch;margin:0 0 14px}
+p.lede{font-family:var(--serif);font-size:1.15rem;color:var(--ink-soft)}
+ol.steps{max-width:66ch;padding-left:24px;margin:0 0 18px}
+ol.steps li{margin:0 0 10px}
+ol.steps b{color:var(--ink)}
+figure{margin:22px 0 26px;padding:18px 18px 12px;background:var(--card);border:1px solid var(--rule)}
+figure svg{display:block;width:100%;height:auto;max-width:100%;color:var(--ink);font-family:var(--sans)}
+figcaption{margin-top:12px;font-size:14.5px;color:var(--ink-soft);max-width:72ch}
+figcaption b{color:var(--ink)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:680px){.pair{grid-template-columns:1fr}}
+.pair figure{margin:0}
+.lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin:0 0 8px}
+.lbl.before{color:var(--bad)} .lbl.after{color:var(--good)}
+.note{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 16px;margin:0 0 26px;max-width:72ch;font-size:15px}
+.note b{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:4px;color:var(--accent)}
+.you{border-left:3px solid var(--you);background:var(--you-bg);padding:12px 16px;margin:0 0 26px;max-width:72ch;font-size:15px}
+.you b{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:4px;color:var(--you)}
+dl{max-width:72ch;margin:0;display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;font-size:15px}
+dt{font-weight:600;color:var(--ink)}
+dd{margin:0;color:var(--ink-soft)}
+@media (max-width:600px){dl{grid-template-columns:1fr} dd{margin-bottom:8px}}
+footer{margin-top:56px;padding-top:24px;border-top:2px solid var(--ink);font-size:14px;color:var(--ink-faint);max-width:66ch}
+/* svg */
+.box{fill:var(--card);stroke:currentColor;stroke-width:1.2}
+.box.h{fill:var(--accent-soft);stroke:var(--accent)}
+.box.p{fill:var(--good-bg);stroke:var(--good)}
+.box.x{fill:var(--bad-bg);stroke:var(--bad);stroke-dasharray:4 3}
+.box.y{fill:var(--you-bg);stroke:var(--you)}
+.t{font-size:12px;fill:currentColor;text-anchor:middle}
+.t.s{font-size:10.5px;fill:var(--ink-soft)}
+.t.m{font-family:var(--mono);font-size:10px;fill:var(--ink-faint)}
+.t.n{font-family:var(--mono);font-size:10px;font-weight:600;fill:var(--accent)}
+.a{stroke:currentColor;stroke-width:1.2;fill:none;marker-end:url(#ah)}
+.a.g{stroke:var(--good)} .a.r{stroke:var(--bad)} .a.d{stroke-dasharray:3 3}
+.lane{fill:none;stroke:var(--rule);stroke-dasharray:2 4}
+.ln{font-family:var(--mono);font-size:10px;fill:var(--ink-faint);letter-spacing:.08em}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="kicker">How the practice works · for someone new · 13 September 2026</p>
+  <h1>Kit Flow</h1>
+  <p class="standfirst">You build software with an AI agent. The kit is the set of habits, records and small checks that keep that work honest — and that slowly write down the standards you already carry in your head. This page walks through it from the start.</p>
+  <nav class="toc"><ol>
+    <li><a href="#room">Who is in the room</a></li>
+    <li><a href="#feature">One feature, start to finish</a></li>
+    <li><a href="#correct">When you say "no, not like that"</a></li>
+    <li><a href="#review">The review batch</a></li>
+    <li><a href="#standard">How your standards get written</a></li>
+    <li><a href="#you">What you are actually asked to do</a></li>
+    <li><a href="#changed">What changed on 13 September, and why</a></li>
+    <li><a href="#glossary">Glossary</a></li>
+  </ol></nav>
+</header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+</defs></svg>
+
+<span class="snum">01</span>
+<h2 id="room">Who is in the room</h2>
+<p class="lede">Four kinds of thing, and only one of them is a person.</p>
+<figure>
+<svg viewBox="0 0 880 250" role="img" aria-label="Four roles: the pioneer (you) decides and corrects; the agent builds and writes contracts; helper agents check the work, each blind to some things; the records hold what was decided, learned and corrected.">
+  <rect class="box y" x="20" y="30" width="190" height="90" rx="4"/><text class="t" x="115" y="58" font-weight="600">The pioneer — you</text><text class="t s" x="115" y="78">asks for things, approves, decides,</text><text class="t s" x="115" y="93">corrects. Nothing scores you.</text><text class="t s" x="115" y="108">You are "the pioneer" because the</text>
+  <text class="t s" x="115" y="140">end result is not known at the start.</text>
+  <rect class="box h" x="240" y="30" width="190" height="90" rx="4"/><text class="t" x="335" y="58" font-weight="600">The agent</text><text class="t s" x="335" y="78">writes the contract, builds,</text><text class="t s" x="335" y="93">records what it learned,</text><text class="t s" x="335" y="108">never grades its own work</text>
+  <rect class="box" x="460" y="30" width="190" height="90" rx="4"/><text class="t" x="555" y="58" font-weight="600">Helper agents</text><text class="t s" x="555" y="78">verifier · auditor · clerk ·</text><text class="t s" x="555" y="93">consolidator · assembler · steward</text><text class="t s" x="555" y="108">each blind to what it must not see</text>
+  <rect class="box p" x="680" y="30" width="180" height="90" rx="4"/><text class="t" x="770" y="58" font-weight="600">The records</text><text class="t s" x="770" y="78">contracts · corrections ·</text><text class="t s" x="770" y="93">precedents · checks · ledger</text><text class="t s" x="770" y="108">what was decided, and why</text>
+  <path class="a" d="M210 75H240"/><text class="t s" x="225" y="66">asks</text>
+  <path class="a" d="M430 75H460"/><text class="t s" x="445" y="66">work</text>
+  <path class="a" d="M650 75H680"/><text class="t s" x="665" y="66">write</text>
+  <path class="a d" d="M770 120V180H115V120"/><text class="t s" x="440" y="196">the records come back to you as things to decide, and to the agent as rules it is held to</text>
+  <text class="t m" x="440" y="232">"skills" = the written standards the agent works from · "checks" = small scripts that fail when a standard is broken</text>
+</svg>
+<figcaption><b>The one rule underneath everything:</b> whoever built something does not get to be the one who says it is fine. The agent builds; a different helper checks; you decide. And the kit keeps written records so that "what we decided" is never just a memory.</figcaption>
+</figure>
+
+<span class="snum">02</span>
+<h2 id="feature">One feature, start to finish</h2>
+<p class="lede">You ask for something. Here is everything that happens before, during and after, in order.</p>
+<ol class="steps">
+  <li><b>You ask.</b> "Add an endpoint that does X."</li>
+  <li><b>The agent names what kind of moment this is.</b> It has a short map of situations — a build request, a design question, a correction, a review — and says which one it is in. That decides what it reads before acting.</li>
+  <li><b>The agent writes a contract, in four parts, before any code.</b> The story (what you'll get, in plain words); the use cases (each thing the system must do); the guardrails (the technical rules the build must keep); and — later — the acceptance tests. It also checks whether a <em>precedent</em> exists: a situation like this that you decided before.</li>
+  <li><b>You say what would disappoint you.</b> For each guardrail: "what result would make you say this wasn't met?" One line each. "Same as it says" is a fine answer. The agent turns your lines into tests it can run.</li>
+  <li><b>The agent asks the pre-mortem.</b> "It's some weeks on. This shipped and turned out to be a mistake — what went wrong?" Your answer is written down. It is the cheapest way to hear the objection before anyone commits.</li>
+  <li><b>One test is shown failing.</b> The agent deliberately breaks one guardrail, shows you a named test go red, and puts it back. A test that has never failed has never proved anything.</li>
+  <li><b>You approve.</b> Now the contract goes into the log, exactly as approved. It never gets rewritten afterwards; changes get added beside it, dated.</li>
+  <li><b>The agent builds.</b> If it must depart from the contract, it stops and asks. It records what the work cost.</li>
+  <li><b>The agent writes down what it learned — and does not show you.</b> Those notes go to a ledger and wait. Nothing reaches you until something other than the agent has looked at it.</li>
+  <li><b>The helpers run, one per turn.</b> The auditor reads the transcript from outside. The verifier runs the tests first, then reads the rest, and writes what held and what didn't. The consolidator sorts the learning notes into candidates.</li>
+  <li><b>Things reach you in a review batch</b> — see section 04.</li>
+</ol>
+<figure>
+<svg viewBox="0 0 880 300" role="img" aria-label="One feature: ask, name the moment, contract in four parts, your disappointment lines, pre-mortem, red test, approve, build, learning held, helpers check, review batch.">
+  <rect class="box y" x="10" y="24" width="96" height="44" rx="3"/><text class="t" x="58" y="43">You ask</text><text class="t s" x="58" y="58">"add X"</text>
+  <path class="a" d="M106 46H134"/>
+  <rect class="box h" x="134" y="24" width="120" height="44" rx="3"/><text class="t" x="194" y="43">Name the moment</text><text class="t s" x="194" y="58">which situation is this?</text>
+  <path class="a" d="M254 46H282"/>
+  <rect class="box h" x="282" y="24" width="150" height="44" rx="3"/><text class="t" x="357" y="43">Contract, 3 parts</text><text class="t s" x="357" y="58">story · use cases · guardrails</text>
+  <path class="a" d="M432 46H460"/>
+  <rect class="box y" x="460" y="24" width="150" height="44" rx="3"/><text class="t" x="535" y="43">You: "what would</text><text class="t s" x="535" y="58">disappoint me" → tests</text>
+  <path class="a" d="M610 46H638"/>
+  <rect class="box y" x="638" y="24" width="112" height="44" rx="3"/><text class="t" x="694" y="43">Pre-mortem</text><text class="t s" x="694" y="58">"it failed — why?"</text>
+  <path class="a" d="M750 46H778"/>
+  <rect class="box p" x="778" y="24" width="92" height="44" rx="3"/><text class="t" x="824" y="43">Red test</text><text class="t s" x="824" y="58">one goes red</text>
+  <path class="a" d="M824 68V106"/>
+  <rect class="box y" x="778" y="106" width="92" height="40" rx="3"/><text class="t" x="824" y="130">You approve</text>
+  <path class="a" d="M778 126H730"/
+  ><rect class="box h" x="630" y="106" width="100" height="40" rx="3"/><text class="t" x="680" y="124">Build</text><text class="t s" x="680" y="138">cost recorded</text>
+  <path class="a" d="M630 126H582"/>
+  <rect class="box" x="450" y="106" width="132" height="40" rx="3"/><text class="t" x="516" y="124">Learning, held</text><text class="t s" x="516" y="138">not shown to you yet</text>
+  <path class="a" d="M450 126H402"/>
+  <rect class="box" x="230" y="106" width="172" height="40" rx="3"/><text class="t" x="316" y="124">Helpers check</text><text class="t s" x="316" y="138">audit · verify (tests first) · sort</text>
+  <path class="a" d="M230 126H182"/>
+  <rect class="box y" x="60" y="106" width="122" height="40" rx="3"/><text class="t" x="121" y="124">Review batch</text><text class="t s" x="121" y="138">you decide</text>
+  <line class="lane" x1="10" y1="176" x2="870" y2="176"/>
+  <text class="t m" x="440" y="200">purple = you are needed · blue = the agent · green = a check that can fail · white = a helper or a record</text>
+  <text class="t m" x="440" y="222">the contract is frozen at approval; the tests are frozen with it; a test may not change after the verifier has reported</text>
+  <text class="t m" x="440" y="262">what the helpers see is deliberately limited: the verifier never reads the agent's own account of how the work went</text>
+</svg>
+<figcaption><b>Where you appear:</b> four times — the ask, the disappointment lines, the pre-mortem, the approval — and then once more at the review. Everything in between runs without you, and none of it scores you.</figcaption>
+</figure>
+
+<span class="snum">03</span>
+<h2 id="correct">When you say "no, not like that"</h2>
+<p class="lede">A correction is the most valuable thing you can give the kit. It is where a standard you carry in your head becomes visible.</p>
+<ol class="steps">
+  <li><b>Your words are written down exactly.</b> What the agent offered, what you said, and any reason you gave. No paraphrase.</li>
+  <li><b>The agent asks three short questions, once.</b> <em>What did you notice that made this wrong? What would have been right here? Where have you seen this before?</em> It does not ask "why" — people cannot reliably say why they decided, and what they say when asked is not what moved them. The three questions are about the specific moment, and those answers are what can be turned into a rule.</li>
+  <li><b>A clerk turns it into a precedent.</b> A precedent is a decided case: the facts that made it this situation, the question, what you chose, your reasons in your words. Later contracts read the precedents that match their situation before drawing their plan.</li>
+  <li><b>Where the standard can be tested, the clerk writes a check.</b> A small script that fails when the standard is broken — "every log line carries the request id", "errors are caught at the boundary, not swallowed". From then on the agent cannot forget it, because something fails if it does.</li>
+</ol>
+<figure>
+<svg viewBox="0 0 880 170" role="img" aria-label="A correction: your words recorded, three questions, the clerk writes a precedent and a check, the agent is held to it next time.">
+  <rect class="box y" x="10" y="30" width="130" height="50" rx="3"/><text class="t" x="75" y="50">"No, not like that"</text><text class="t s" x="75" y="66">recorded word for word</text>
+  <path class="a" d="M140 55H176"/>
+  <rect class="box y" x="176" y="30" width="180" height="50" rx="3"/><text class="t" x="266" y="50">Three questions</text><text class="t s" x="266" y="66">noticed · would have been right · seen before</text>
+  <path class="a" d="M356 55H392"/>
+  <rect class="box" x="392" y="30" width="120" height="50" rx="3"/><text class="t" x="452" y="50">The clerk</text><text class="t s" x="452" y="66">writes a precedent</text>
+  <path class="a" d="M512 55H548"/>
+  <rect class="box p" x="548" y="30" width="130" height="50" rx="3"/><text class="t" x="613" y="50">…and a check</text><text class="t s" x="613" y="66">if it can be tested</text>
+  <path class="a" d="M678 55H714"/>
+  <rect class="box h" x="714" y="30" width="156" height="50" rx="3"/><text class="t" x="792" y="50">Next time</text><text class="t s" x="792" y="66">the agent is held to it</text>
+  <text class="t m" x="440" y="120">felt standard → written standard → enforced standard</text>
+  <text class="t m" x="440" y="142">the kit's founding idea: your organisation's standards are already known; this is how they get written down</text>
+</svg>
+<figcaption><b>Why it is built this way:</b> the psychology research is clear that experts cannot explain <em>why</em> they decided, but can say what they noticed in a specific case. Nurses who could spot an infection before the tests came back "could not describe how"; structured questions about specific incidents recovered the cues, and those became training. The three questions are that method.</figcaption>
+</figure>
+
+<span class="snum">04</span>
+<h2 id="review">The review batch</h2>
+<p class="lede">Every so often, things that have gathered evidence are put to you together. This is the only way a learning becomes a rule.</p>
+<ol class="steps">
+  <li><b>An assembler collects what is due.</b> Candidate learnings that something other than the agent has confirmed; proposed changes to the map; cases waiting for your ranking; disagreements between precedents; drift incidents awaiting your say. All real. Nothing is planted.</li>
+  <li><b>You see each item statement first.</b> Not the recommendation, not the evidence — just the claim. You give a one-line read.</li>
+  <li><b>Then one question: "Assume this is wrong. Why?"</b> One-sided on purpose. Asking for reasons <em>against</em> improves judgement; asking for reasons for and against does nothing measurable.</li>
+  <li><b>Then the rest</b> — the proposed decision, the evidence, any sentence in an existing skill this would contradict, quoted exactly — and you decide: try it, adopt it, caution against it, decline, hold, or reword it.</li>
+  <li><b>From the fourth batch on, one or two items may be ones you already decided</b>, shown again as if new. Afterwards you see your earlier decision next to today's. Nobody scores it; it is a record you can read.</li>
+  <li><b>Decisions are written into the skills</b> at the exact sentence, never by rewriting the whole file.</li>
+</ol>
+<figure>
+<svg viewBox="0 0 880 180" role="img" aria-label="Review batch: assembler collects real items, you read statement first, answer assume-this-is-wrong, see the rest, decide; decisions written into skills.">
+  <rect class="box" x="10" y="30" width="130" height="50" rx="3"/><text class="t" x="75" y="50">Assembler</text><text class="t s" x="75" y="66">real items only</text>
+  <path class="a" d="M140 55H176"/>
+  <rect class="box y" x="176" y="30" width="130" height="50" rx="3"/><text class="t" x="241" y="50">Statement first</text><text class="t s" x="241" y="66">your one-line read</text>
+  <path class="a" d="M306 55H342"/>
+  <rect class="box y" x="342" y="30" width="150" height="50" rx="3"/><text class="t" x="417" y="50">"Assume it's wrong."</text><text class="t s" x="417" y="66">"Why?"</text>
+  <path class="a" d="M492 55H528"/>
+  <rect class="box y" x="528" y="30" width="130" height="50" rx="3"/><text class="t" x="593" y="50">Then the rest</text><text class="t s" x="593" y="66">evidence · decide</text>
+  <path class="a" d="M658 55H694"/>
+  <rect class="box p" x="694" y="30" width="176" height="50" rx="3"/><text class="t" x="782" y="50">Written into the skill</text><text class="t s" x="782" y="66">at the sentence, not a rewrite</text>
+  <text class="t m" x="440" y="124">while a batch is open, the agent presenting it cannot read the ledger — so re-presented items look like any other</text>
+  <text class="t m" x="440" y="146">what is recorded: your decision, your reason if given, and for re-presented items the earlier decision beside the new one</text>
+</svg>
+<figcaption><b>What you will never see here:</b> a score. An earlier design scored your decisions and planted flawed items to measure you; both were removed because the research says feedback aimed at the person harms more often than it helps, and because the score could be maximised by declining everything.</figcaption>
+</figure>
+
+<span class="snum">05</span>
+<h2 id="standard">How your standards get written</h2>
+<p>Put the three loops together and the standard accumulates on its own. Corrections become precedents and checks. Confirmed learnings become sentences in skills. The map — the short list of situations and what to read in each — gets entries added when something was missed and removed when nothing fires. And a check that stops needing you is one that can travel to the next project, and later to someone who is not a developer.</p>
+<figure>
+<svg viewBox="0 0 880 250" role="img" aria-label="Three loops feed one standard: contracts per feature, corrections whenever you redirect, reviews when evidence has gathered; the standard is skills plus checks; it travels when its checks stop needing you.">
+  <rect class="box h" x="20" y="30" width="200" height="56" rx="4"/><text class="t" x="120" y="52" font-weight="600">Contract loop</text><text class="t s" x="120" y="70">per feature · tests you authored</text>
+  <rect class="box y" x="340" y="30" width="200" height="56" rx="4"/><text class="t" x="440" y="52" font-weight="600">Correction loop</text><text class="t s" x="440" y="70">whenever you redirect · 3 questions</text>
+  <rect class="box" x="660" y="30" width="200" height="56" rx="4"/><text class="t" x="760" y="52" font-weight="600">Review loop</text><text class="t s" x="760" y="70">when evidence has gathered</text>
+  <path class="a" d="M120 86V140"/><path class="a" d="M440 86V140"/><path class="a" d="M760 86V140"/>
+  <rect class="box p" x="20" y="140" width="840" height="50" rx="4"/><text class="t" x="440" y="160" font-weight="600">The standard</text><text class="t s" x="440" y="178">skills that explain · precedents that show · checks that enforce — this is what the kit is</text>
+  <path class="a" d="M440 190V222"/>
+  <text class="t m" x="440" y="238">travels to the next project when its checks stop needing you · then to a non-developer, who states what would disappoint them and is held to the same checks</text>
+</svg>
+<figcaption><b>Maturity, in one sentence:</b> corrections in a given kind of situation stop, <em>and</em> the checks catch what those corrections used to catch. When both are true, that part of the standard is written and enforced, and it can leave.</figcaption>
+</figure>
+
+<span class="snum">06</span>
+<h2 id="you">What you are actually asked to do</h2>
+<div class="you"><b>Your touchpoints — and nothing else</b>
+<p style="margin:0 0 8px"><b>At a contract:</b> say, per guardrail, what would disappoint you; answer "this shipped and failed — why?"; watch one test go red; approve.</p>
+<p style="margin:0 0 8px"><b>When you correct:</b> say it however you say it; then answer three short questions once.</p>
+<p style="margin:0 0 8px"><b>At a review:</b> give a one-line read of each statement; answer "assume it's wrong — why?"; decide.</p>
+<p style="margin:0"><b>Never:</b> invoke a helper, run a script, read a score. The hooks run the lifecycle; nothing measures you.</p></div>
+
+<span class="snum">07</span>
+<h2 id="changed">What changed on 13 September, and why</h2>
+<p class="lede">The kit ran a review of itself and a round of research into how software testing and the psychology of judgement solved these problems long ago. Seven things changed. Each pair below shows the old flow on the left and the new one on the right, in plain terms.</p>
+
+<h3>The contract gate — who writes the tests</h3>
+<div class="pair">
+<figure><p class="lbl before">Before</p>
+<svg viewBox="0 0 420 150" role="img" aria-label="Before: the agent wrote the tests as well as the code; you approved in a word; all tests passed and none had ever failed.">
+  <rect class="box h" x="10" y="20" width="120" height="40" rx="3"/><text class="t" x="70" y="38">Agent writes</text><text class="t s" x="70" y="52">the plan</text>
+  <path class="a" d="M130 40H160"/>
+  <rect class="box x" x="160" y="20" width="120" height="40" rx="3"/><text class="t" x="220" y="38">Agent writes</text><text class="t s" x="220" y="52">the tests too</text>
+  <path class="a" d="M280 40H310"/>
+  <rect class="box y" x="310" y="20" width="100" height="40" rx="3"/><text class="t" x="360" y="38">You: "yes"</text><text class="t s" x="360" y="52">in a word</text>
+  <text class="t m" x="210" y="105">all tests passed — because the same mind wrote both sides</text>
+  <text class="t m" x="210" y="125">a reader still found four things wrong; no test had</text>
+</svg></figure>
+<figure><p class="lbl after">After</p>
+<svg viewBox="0 0 420 150" role="img" aria-label="After: the agent writes the plan; you say what would disappoint you; the agent turns that into tests; pre-mortem; one test shown failing; then approval.">
+  <rect class="box h" x="10" y="20" width="100" height="40" rx="3"/><text class="t" x="60" y="38">Agent writes</text><text class="t s" x="60" y="52">the plan</text>
+  <path class="a g" d="M110 40H140"/>
+  <rect class="box y" x="140" y="20" width="130" height="40" rx="3"/><text class="t" x="205" y="38">You say what</text><text class="t s" x="205" y="52">would disappoint you</text>
+  <path class="a g" d="M270 40H300"/>
+  <rect class="box p" x="300" y="20" width="110" height="40" rx="3"/><text class="t" x="355" y="38">Tests from</text><text class="t s" x="355" y="52">your words</text>
+  <path class="a g" d="M355 60V88"/>
+  <rect class="box p" x="250" y="88" width="160" height="34" rx="3"/><text class="t" x="330" y="103">Pre-mortem · red test</text><text class="t s" x="330" y="116">then you approve</text>
+  <text class="t m" x="140" y="135">the test's author is the person who'd be disappointed</text>
+</svg></figure>
+</div>
+<div class="note"><b>Why</b>Every method that puts acceptance tests before the code — going back to the 1990s — has the customer, not the programmer, say what "done" means. When the same mind writes the code and its tests, the tests pass while the work is wrong. And a test that has never been seen to fail has never told anyone anything.</div>
+
+<h3>Verification — who checks, and how</h3>
+<div class="pair">
+<figure><p class="lbl before">Before</p>
+<svg viewBox="0 0 420 140" role="img" aria-label="Before: the agent pointed the checker at a list of evidence; the checker read prose; its verdict was counted as independent.">
+  <rect class="box h" x="10" y="20" width="120" height="40" rx="3"/><text class="t" x="70" y="38">Agent points</text><text class="t s" x="70" y="52">"look here"</text>
+  <path class="a r" d="M130 40H165"/>
+  <rect class="box x" x="165" y="20" width="120" height="40" rx="3"/><text class="t" x="225" y="38">Checker reads</text><text class="t s" x="225" y="52">what it was shown</text>
+  <path class="a r" d="M285 40H320"/>
+  <rect class="box x" x="320" y="20" width="90" height="40" rx="3"/><text class="t" x="365" y="38">called</text><text class="t s" x="365" y="52">"independent"</text>
+  <text class="t m" x="210" y="110">the checker is the agent's own kind, reading what the agent chose</text>
+</svg></figure>
+<figure><p class="lbl after">After</p>
+<svg viewBox="0 0 420 140" role="img" aria-label="After: the checker runs the tests first, chooses what else to read, files its report directly; its verdict is graded honestly; the count of problems found by reading is recorded.">
+  <rect class="box p" x="10" y="20" width="120" height="40" rx="3"/><text class="t" x="70" y="38">Runs the tests</text><text class="t s" x="70" y="52">first</text>
+  <path class="a g" d="M130 40H165"/>
+  <rect class="box p" x="165" y="20" width="130" height="40" rx="3"/><text class="t" x="230" y="38">Picks what to read</text><text class="t s" x="230" y="52">files directly</text>
+  <path class="a g" d="M295 40H330"/>
+  <rect class="box" x="330" y="20" width="80" height="40" rx="3"/><text class="t" x="370" y="38">graded</text><text class="t s" x="370" y="52">"same kind"</text>
+  <text class="t m" x="210" y="95">recorded every time: problems found by a test vs found by reading</text>
+  <text class="t m" x="210" y="115">the second number should fall as the tests get better</text>
+</svg></figure>
+</div>
+<div class="note"><b>Why</b>Aviation and automotive standards settled long ago what "independent verification" means: the checker may not be the builder, and the checker chooses what to check. The reason is one sentence: <em>a single misreading of the spec must not reach both the thing and its check.</em> The kit now uses that definition, and admits where its checker is the builder's own kind.</div>
+
+<h3>Corrections — what gets asked</h3>
+<div class="pair">
+<figure><p class="lbl before">Before</p>
+<svg viewBox="0 0 420 130" role="img" aria-label="Before: your correction recorded, optionally why; a precedent written as prose the agent had to remember.">
+  <rect class="box y" x="10" y="20" width="120" height="40" rx="3"/><text class="t" x="70" y="38">Your correction</text><text class="t s" x="70" y="52">+ "why?"</text>
+  <path class="a" d="M130 40H170"/>
+  <rect class="box" x="170" y="20" width="110" height="40" rx="3"/><text class="t" x="225" y="38">Precedent</text><text class="t s" x="225" y="52">written down</text>
+  <path class="a" d="M280 40H320"/>
+  <rect class="box x" x="320" y="20" width="90" height="40" rx="3"/><text class="t" x="365" y="38">Prose</text><text class="t s" x="365" y="52">to remember</text>
+  <text class="t m" x="210" y="105">"why" gets an answer, not the reason</text>
+</svg></figure>
+<figure><p class="lbl after">After</p>
+<svg viewBox="0 0 420 130" role="img" aria-label="After: your correction, then three questions about the specific moment; a precedent, and where it can be tested, a check that fails when broken.">
+  <rect class="box y" x="10" y="20" width="100" height="40" rx="3"/><text class="t" x="60" y="38">Correction</text><text class="t s" x="60" y="52">verbatim</text>
+  <path class="a g" d="M110 40H140"/>
+  <rect class="box y" x="140" y="20" width="130" height="40" rx="3"/><text class="t" x="205" y="38">Three questions</text><text class="t s" x="205" y="52">about this moment</text>
+  <path class="a g" d="M270 40H300"/>
+  <rect class="box p" x="300" y="20" width="110" height="40" rx="3"/><text class="t" x="355" y="38">Precedent</text><text class="t s" x="355" y="52">+ a check</text>
+  <text class="t m" x="210" y="105">a rule the agent cannot forget, because something fails if it does</text>
+</svg></figure>
+</div>
+<div class="note"><b>Why</b>See section 03. Asking what was noticed in a specific case recovers what asking "why" cannot; and a standard that exists as a check is enforced rather than remembered.</div>
+
+<h3>The review batch — no more planted items, no more scores</h3>
+<div class="pair">
+<figure><p class="lbl before">Before</p>
+<svg viewBox="0 0 420 160" role="img" aria-label="Before: real items mixed with zero to two deliberately flawed fakes; you were told some were fake; your catch rate and a score on your decisions were computed.">
+  <rect class="box" x="10" y="20" width="110" height="40" rx="3"/><text class="t" x="65" y="38">Real items</text>
+  <rect class="box x" x="130" y="20" width="110" height="40" rx="3"/><text class="t" x="185" y="38">Fakes</text><text class="t s" x="185" y="52">0–2, flawed</text>
+  <path class="a" d="M120 70L185 96"/><path class="a" d="M185 60V96"/>
+  <rect class="box y" x="120" y="96" width="130" height="34" rx="3"/><text class="t" x="185" y="111">You decide</text><text class="t s" x="185" y="124">told "some are fake"</text>
+  <path class="a r" d="M250 113H290"/>
+  <rect class="box x" x="290" y="92" width="120" height="42" rx="3"/><text class="t" x="350" y="108">Your score</text><text class="t s" x="350" y="122">catch rate · decisions</text>
+  <text class="t m" x="210" y="150">the decision score was best if you declined everything</text>
+</svg></figure>
+<figure><p class="lbl after">After</p>
+<svg viewBox="0 0 420 160" role="img" aria-label="After: real items only; from the fourth batch up to two items you already decided, shown again; statement first then assume it's wrong; afterwards your earlier decision beside the new one; no score.">
+  <rect class="box" x="10" y="20" width="110" height="40" rx="3"/><text class="t" x="65" y="38">Real items</text>
+  <rect class="box p" x="130" y="20" width="120" height="40" rx="3"/><text class="t" x="190" y="38">Already decided</text><text class="t s" x="190" y="52">≤ 2, shown again</text>
+  <path class="a g" d="M120 70L190 96"/><path class="a g" d="M190 60V96"/>
+  <rect class="box y" x="110" y="96" width="160" height="34" rx="3"/><text class="t" x="190" y="111">Read · "assume it's wrong"</text><text class="t s" x="190" y="124">decide</text>
+  <path class="a g" d="M270 113H300"/>
+  <rect class="box" x="300" y="92" width="110" height="42" rx="3"/><text class="t" x="355" y="108">Then and now</text><text class="t s" x="355" y="122">side by side, no score</text>
+  <text class="t m" x="210" y="150">a record you can read; nothing measures you</text>
+</svg></figure>
+</div>
+<div class="note"><b>Why</b>The score on your decisions could be maximised by declining everything, because declining a candidate created the outcome it was then graded against. The catch rate pooled items of different difficulty at batch sizes where it could not be read. Hand-made fakes are known not to stand in for real problems, so the kit shows you your own real past decisions instead. And the research on feedback says: show the person the correct answer, never a score of themselves.</div>
+
+<h3>How a learning earns its place</h3>
+<div class="pair">
+<figure><p class="lbl before">Before</p>
+<svg viewBox="0 0 420 120" role="img" aria-label="Before: sightings counted by who reported them; a statistical bound computed; a threshold decided what reached you.">
+  <rect class="box" x="10" y="20" width="120" height="40" rx="3"/><text class="t" x="70" y="38">Sightings</text><text class="t s" x="70" y="52">counted by who</text>
+  <path class="a r" d="M130 40H170"/>
+  <rect class="box x" x="170" y="20" width="120" height="40" rx="3"/><text class="t" x="230" y="38">A formula</text><text class="t s" x="230" y="52">over the count</text>
+  <path class="a r" d="M290 40H330"/>
+  <rect class="box x" x="330" y="20" width="80" height="40" rx="3"/><text class="t" x="370" y="38">threshold</text><text class="t s" x="370" y="52">gates you</text>
+  <text class="t m" x="210" y="100">three notes from one person and one model ≈ one and a half</text>
+</svg></figure>
+<figure><p class="lbl after">After</p>
+<svg viewBox="0 0 420 120" role="img" aria-label="After: a sighting counts if it came from a different reading — a check, the verifier, a contract where the idea was not loaded, or you; one such sighting brings the candidate to you; counts shown, no formula.">
+  <rect class="box p" x="10" y="20" width="150" height="40" rx="3"/><text class="t" x="85" y="38">A different reading?</text><text class="t s" x="85" y="52">a check · verifier · you</text>
+  <path class="a g" d="M160 40H200"/>
+  <rect class="box" x="200" y="20" width="110" height="40" rx="3"/><text class="t" x="255" y="38">Counts shown</text><text class="t s" x="255" y="52">you weigh them</text>
+  <path class="a g" d="M310 40H350"/>
+  <rect class="box y" x="350" y="20" width="60" height="40" rx="3"/><text class="t" x="380" y="44">to you</text>
+  <text class="t m" x="210" y="100">one sighting that could not share the agent's misreading is enough</text>
+</svg></figure>
+</div>
+<div class="note"><b>Why</b>"Independent" used to mean "a different helper reported it". Now it means "a single misreading of the contract could not have produced both". The formula over the old counts was noise dressed as a threshold; the counts themselves you can read.</div>
+
+<h3>The rebuild — taken out until there is something to rebuild against</h3>
+<div class="pair">
+<figure><p class="lbl before">Before</p>
+<svg viewBox="0 0 420 120" role="img" aria-label="Before: a plan, frozen at install, to rebuild the product from its own records and score it with the same records' tests.">
+  <rect class="box x" x="10" y="20" width="130" height="40" rx="3"/><text class="t" x="75" y="38">Given the records</text><text class="t s" x="75" y="52">tests included</text>
+  <path class="a r" d="M140 40H180"/>
+  <rect class="box" x="180" y="20" width="100" height="40" rx="3"/><text class="t" x="230" y="38">Rebuild</text>
+  <path class="a r" d="M280 40H320"/>
+  <rect class="box x" x="320" y="20" width="90" height="40" rx="3"/><text class="t" x="365" y="38">Scored by</text><text class="t s" x="365" y="52">the same tests</text>
+  <text class="t m" x="210" y="100">handed the answer key · could not fail · frozen</text>
+</svg></figure>
+<figure><p class="lbl after">After</p>
+<svg viewBox="0 0 420 120" role="img" aria-label="After: withdrawn; returns only when the standard exists as checks, the tests are held out, three or more versions are voted, and disagreement is treated as the evidence.">
+  <rect class="box h" x="10" y="20" width="130" height="40" rx="3"/><text class="t" x="75" y="38">Withdrawn</text><text class="t s" x="75" y="52">for now</text>
+  <path class="a g" d="M140 40H180"/>
+  <rect class="box p" x="180" y="12" width="230" height="56" rx="3"/><text class="t" x="295" y="30">Comes back when</text><text class="t s" x="295" y="45">the standard exists as checks · tests held out</text><text class="t s" x="295" y="58">three versions voted · disagreement is the evidence</text>
+  <text class="t m" x="210" y="100">a different product, same standard, scored by the standard's own checks</text>
+</svg></figure>
+</div>
+<div class="note"><b>Why</b>Versions built separately from the same spec fail on the same inputs — shown for human teams in 1986 and for coding agents in 2026. One rebuild compared to one original proves little; three built and voted still helps. And you cannot hold the tests out until a standard exists as tests.</div>
+
+<h3>What every contract now records</h3>
+<figure>
+<svg viewBox="0 0 880 90" role="img" aria-label="Every contract now records: story, use cases, guardrails, your disappointment lines, the pre-mortem, tests, the red test, verification with counts by source, learning notes, and cost.">
+  <rect class="box p" x="10" y="12" width="860" height="56" rx="3"/>
+  <text class="t" x="440" y="34">story · use cases · guardrails · <tspan font-weight="600">what would disappoint you · pre-mortem</tspan> · tests · <tspan font-weight="600">the red test</tspan></text>
+  <text class="t" x="440" y="54">verification (<tspan font-weight="600">found by tests : found by reading</tspan>) · learning notes · <tspan font-weight="600">cost: turns, tokens, your minutes</tspan></text>
+</svg>
+<figcaption><b>Cost is new.</b> The kit had never written down what a contract cost, so nobody could say whether it paid. Now every entry carries it — with "not measured" where it wasn't, never an estimate.</figcaption>
+</figure>
+
+<span class="snum">08</span>
+<h2 id="glossary">Glossary</h2>
+<dl>
+  <dt>Pioneer</dt><dd>You. The human whose judgement the kit draws out. Named that way because the end result is not known at the start.</dd>
+  <dt>Agent</dt><dd>The AI that writes contracts and builds. It never grades its own work.</dd>
+  <dt>Helper agents</dt><dd>Separate AI runs that check, sort, clerk and assemble — each allowed to see only what it must.</dd>
+  <dt>Contract</dt><dd>The written plan for one feature, approved before code: story, use cases, guardrails, tests. Frozen at approval; changes are added beside it, dated.</dd>
+  <dt>Guardrail</dt><dd>A technical rule the build must keep. Each has an id (G-1, G-2…).</dd>
+  <dt>Disappointment line</dt><dd>Your answer, per guardrail, to "what result would make you say this wasn't met?" The tests are derived from it.</dd>
+  <dt>Pre-mortem</dt><dd>"It's weeks on and this failed — why?" Asked before approval, recorded verbatim.</dd>
+  <dt>Red test</dt><dd>One guardrail deliberately broken so a named test is seen to fail, then restored. Proof the tests can fail.</dd>
+  <dt>Verifier</dt><dd>The helper that runs the tests, then reads the rest, and writes what held. It chooses what to read; its report is not routed through the agent.</dd>
+  <dt>Ledger</dt><dd>Where the agent's learning notes wait, unseen, until something else has confirmed them.</dd>
+  <dt>Candidate</dt><dd>A learning note that has been sorted and is gathering evidence. It reaches you when a different reading has seen it.</dd>
+  <dt>Different reading</dt><dd>A sighting that could not share the agent's misreading of the contract: a check, the verifier, a contract where the idea wasn't loaded, or you.</dd>
+  <dt>Review batch</dt><dd>The items put to you together: candidates, map changes, cases to rank, precedent disagreements, drift to resolve — and, later, some you already decided.</dd>
+  <dt>Re-presented item</dt><dd>A real item you already decided, shown again as if new. Afterwards, then-and-now side by side. Never scored.</dd>
+  <dt>Correction</dt><dd>Any time you redirect, decline, override or reword. Recorded word for word, then three questions.</dd>
+  <dt>Precedent</dt><dd>A decided case: facts, question, what you chose, your reasons. Read before later contracts in the same kind of situation.</dd>
+  <dt>Check</dt><dd>A small script that fails when a standard is broken. Where a precedent can be tested, it becomes one.</dd>
+  <dt>Skill</dt><dd>A written standard the agent works from. The skills, together with the checks, are the organisation's standard — this is what the kit is.</dd>
+  <dt>Map</dt><dd>A short list of situations and what to read in each. The agent names the situation before acting.</dd>
+  <dt>Stop-gate</dt><dd>The hook that, at the end of each turn, hands the agent at most one kit task — audit, verify, sort, clerk, assemble — so you never have to ask.</dd>
+</dl>
+
+<footer>
+  <p>Written for contract-006, 13 September 2026, at the pioneer's request that a person new to the kit can follow it. The research behind each change — the review of the kit, and the rounds on software verification, test-driven development and the psychology of judgement — is in the repository's research folder. Diagrams are inline SVG; the file renders with no network.</p>
+</footer>
+</div>

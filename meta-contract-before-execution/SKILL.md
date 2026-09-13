@@ -132,22 +132,29 @@ Flag any guardrail that is novel — not covered by existing kit. These are cand
 ---
 
 ### Tier 4 — Acceptance Tests
-For each guardrail, say how we would know it held: a command or a check, and the exact result expected. Each test carries an id and names the guarantees it covers — `T-1 (G-2, G-3)`. Written with the contract and approved with it, so that by the time the code exists, what it has to pass is already on the record. That is what makes them acceptance tests rather than a description of what got built.
+**The pioneer authors the disappointment; the agent authors the command.** Before any test is written, ask the pioneer, per guarantee: *what result would make you say this was not met?* Record each answer verbatim under `disappointment:` — "same as it says" is an answer, and is recorded as one. Then derive each test from those words: a command or a check, and the exact result expected, each with an id and the guarantees it covers — `T-1 (G-2, G-3)`. Every ancestor of this tier put the acceptance test in the hands of the party who will be disappointed, and the record of tests written by the builder alone is that they pass while the work is wrong (contract-006 G-5).
 
 - **A test can fail mechanically.** A grep with an expected count, a script run over a fixture with its expected output, a build that must pass, a walk of a lifecycle through named states. "Read the code and see that it is fine" is not a test; it is an untested guarantee, and is listed as one.
-- **Every guarantee is covered or listed.** Close the tier with an `untested:` line naming each guarantee no test reaches, and why. An empty `untested:` line is a claim the verifier will check.
+- **A test is seen to fail before it is trusted.** Before final approval, break one guarantee on purpose and confirm a named `T-x` goes red; restore it; record `red_test: {broke: G-N, went_red: T-N}` on the entry. A suite that has never failed carries no information, however many passes it shows.
+- **A test is legible to the pioneer.** As Tier 1 must be readable by a non-developer, each Tier 4 line must be readable by the pioneer who authored its disappointment: what is checked and what result means failure, in words, before the command.
+- **Every guarantee is covered or listed.** Close the tier with an `untested:` line naming each guarantee no test reaches, and why. An empty `untested:` line is a claim the verifier will check. A contract that explores how a nuance should hold will have a long `untested:` line; that is honest, and better than a test that cannot fail.
 - **Tests are frozen with the contract.** A revision while the work runs may change a test and must say so (`tests_changed`). After the verifier has reported, a test is never changed — a test found wrong at that point is a new contract that `follows` this one.
 
-The verifier runs Tier 4 first and judges from prose only what Tier 4 leaves untested (kit-verifier, M-12). A contract with no Tier 4 is verified entirely by reading, which is the weaker kind of evidence and is recorded as such.
+The verifier runs Tier 4 first and judges from prose only what Tier 4 leaves untested (kit-verifier, M-12), and records how many of its corrections came from a red test and how many from reading. A contract with no Tier 4 is verified entirely by reading, which is the weaker kind of evidence and is recorded as such.
 
 ---
 
 ## The Approval Gate
 
-After presenting the full proposal — bearing and four tiers — stop. Do not proceed.
+After presenting the bearing and Tiers 1–3, stop and ask for the disappointment lines (Tier 4 above). After presenting Tier 4, stop again. Do not proceed.
 
-Ask explicitly:
+Ask the pre-mortem first, and record the answer verbatim under `premortem:`:
+> "It is some weeks on. This contract shipped, and it turned out to be a mistake. What went wrong?"
+
+The question exists to make it safe to voice the objection before commitment hardens; a pioneer who has just read four tiers has one. Then ask explicitly:
 > "Does this proposal align with your intent? Approve to proceed, or give input to revise."
+
+Final approval comes after the red test (Tier 4): one guarantee broken, a named test seen to fail, both recorded.
 
 **If approved** — implement strictly against the approved proposal. Do not deviate. If a deviation becomes necessary during implementation, stop and surface it before continuing (M-08). If the human authorizes the deviation explicitly, record it against the contract's log entry — see Contract Log below. If implementation proceeds past a deviation without that authorising statement, it is a stop-on-triggers violation, not a contract revision — it belongs in `meta-drift-eventlog/DRIFTLOG.yaml`, not in the contract's own record. A deviation the pioneer authorises **after** it happened is recorded in the drift entry's `reaction` as a dated authorisation, and the entry stays.
 
@@ -178,8 +185,8 @@ Every approved contract is persisted to `meta-contract-before-execution/CONTRACT
 
 | Status | Set when | Set by |
 |---|---|---|
-| `approved` | The entry is created at the approval gate. `bearing`, `tier_1`, `tier_2`, `tier_3`, `tier_4` are recorded in full — the full text is the evidence, not a summary of it. `verification_state: none`, `audited: false`. | main agent |
-| `implemented` | Implementation is complete, its observations are recorded in the ledger, and the session's `transcript` path is recorded on the entry so the audit reads the right session. | main agent |
+| `approved` | The entry is created at the approval gate. `bearing`, `tier_1`, `tier_2`, `tier_3`, `disappointment`, `premortem`, `tier_4` are recorded in full — the full text is the evidence, not a summary of it. `red_test` is written when the red test is run. `verification_state: none`, `audited: false`. | main agent |
+| `implemented` | Implementation is complete, its observations are recorded in the ledger, the session's `transcript` path is recorded on the entry so the audit reads the right session, and `cost` is written: turns, tokens where known, the pioneer's minutes where reported — `null` where not measured, never estimated. | main agent |
 | `verified` | kit-verifier reported every clause verified; or the pioneer's confirmation is recorded in the `verification` block, per clause, naming which clauses it covers. | kit-verifier, or the main agent writing the pioneer's confirmation into the block |
 | `learned` | `meta-learning` has produced the matching diff in `LEARNINGLOG.yaml` and back-filled `work_id`. | meta-learning |
 

@@ -29,10 +29,17 @@
 #     tier_3: |
 #       [full technical guardrails text, as approved — each with an id and the use cases it holds: G-1 (UC-1) …;
 #        precedents applied or distinguished, trial and adopted candidates cited by id]
+#     disappointment: |                      # the pioneer's words, per guarantee, BEFORE tier_4 is written:
+#       G-1 "…" · G-2 "…"                    # what result would make them say the guarantee was not met
+#     premortem: |                           # the pioneer's answer, verbatim, to "this shipped and failed — why?"
+#       "…"
 #     tier_4: |
-#       [full acceptance tests text, as approved — each with an id and the guarantees it covers: T-1 (G-1, G-2) …;
-#        a command or check and its expected result; closing with an untested: line naming every guarantee no
-#        test reaches. Frozen with the contract: changed only by a revision dated before the verification report]
+#       [full acceptance tests text, as approved — derived from the disappointment lines; each with an id and
+#        the guarantees it covers: T-1 (G-1, G-2) …; a command or check and its expected result, legible to the
+#        pioneer; closing with an untested: line naming every guarantee no test reaches. Frozen with the
+#        contract: changed only by a revision dated before the verification report]
+#     red_test: {broke: G-N, went_red: T-N}  # written before final approval: one guarantee deliberately broken,
+#                                            # the named test seen to fail, then restored (contract-006 G-5)
 #     status: approved | implemented | verified | learned | legacy
 #     verification_state: none | awaiting-evidence | reported | legacy
 #     verification:                         # written by kit-verifier, or by the main agent recording a
@@ -40,6 +47,8 @@
 #       by: kit-verifier | pioneer-confirmation
 #       method: tests | observation | pioneer-confirmation | mixed
 #       tests: {T-1: pass, T-2: fail}       # Tier 4 results, run before any clause is judged; absent when no tier_4
+#       corrections_from_tests: 0           # clauses corrected because a T-x went red
+#       corrections_from_reading: 0         # clauses corrected by reading prose — the count the practice wants falling
 #       clauses:
 #         - clause: UC-1
 #           verdict: verified | corrected | open
@@ -54,6 +63,8 @@
 #     revisions: []                         # authorized mid-run changes only: {what, authorised_by, date, tests_changed}
 #                                           # tests_changed: the T-x ids the change alters, or []. A revision with
 #                                           # tests dated after verification.date is drift (M-18), never applied
+#     cost: {turns: 0, tokens: null, pioneer_minutes: null}   # written at implemented (contract-006 G-8);
+#                                           # null where not measured — never estimated
 #     work_id: null                         # populated by meta-learning once a LEARNINGLOG entry exists
 #
 # Status lifecycle:

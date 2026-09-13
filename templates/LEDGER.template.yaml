@@ -8,7 +8,7 @@
 # observations — the main agent, meta-learning, kit-session-auditor, kit-consolidator (drift recurrences),
 # kit-case-clerk (one per clerked correction, source: pioneer);
 # candidates — kit-consolidator only, except the decision block, stage and review_due, which the main agent
-# writes after a reveal; batches — kit-canary-author, then the main agent; map_proposals — kit-map-steward,
+# writes after a reveal; batches — kit-batch-assembler, then the main agent; map_proposals — kit-map-steward,
 # then the main agent; audits — kit-session-auditor; scores — kit-consolidator.
 # MARKER KEYS read by the mechanisms — do not rename: consolidated, stewarded, review_due, batch_id,
 # decided, revealed, state: pending.
@@ -47,11 +47,11 @@
 #                                          # update | retire | add at that passage (contract-004 G-7)
 #       review_due: false                  # MARKER
 #       disposition_proposed: null         # trial | adopt | caution | decline | hold | update | retire
-#       evidence_refs: []
-#       helpful: {independent: 0, loaded: 0}
+#       evidence_refs: []                  # "O-NNN" or "contract-NNN G-2 (same-family-different-inputs)" — a
+#                                          # verifier sighting carries its grade (contract-006 G-4)
+#       helpful: {independent: 0, loaded: 0}   # independent = from a different reading, as meta-ledger defines it
 #       harmful: {independent: 0, loaded: 0}
 #       independent_uses: 0
-#       lower_bound: 0.00                  # Wilson, z=1.28, on independent sightings; 0 when there are none
 #       certainty: very-low | low | moderate | high
 #       certainty_codes: []                # self-generated, single-contract, loaded-only, contradicted,
 #                                          # indirect, compromised-session, verified-outcome,
@@ -62,7 +62,8 @@
 #       decision: null                     # {batch, item, verdict_before, decision, level_decided,
 #                                          #  tier_decided, reason, date, applied_as} — the pioneer's level and
 #                                          #  tier; applied_as: update | retire | add for a contradicting item
-#       outcome: null                      # {resolved, held, brier_stated, brier_pioneer}
+#       outcome: null                      # {resolved: YYYY-MM-DD, held: true | false | unobserved} — a declined
+#                                          # or faded candidate is unobserved; nothing is scored from this
 #
 #   batches:
 #     - batch_id: B-NNN
@@ -71,8 +72,8 @@
 #       items: 0
 #       decided: false                     # MARKER — set by close-batch.sh
 #       revealed: false                    # MARKER — set by the main agent after applying decisions
-#       canaries: null                     # written at the reveal
-#       canaries_caught: null
+#       represented: []                    # written at the reveal, one per re-presented item:
+#                                          # {cand_id, prior, now, consistent} — never pooled into a rate
 #
 #   map_proposals:
 #     - prop_id: MP-NNN
@@ -97,11 +98,11 @@
 #
 #   scores:
 #     updated: YYYY-MM-DD
-#     contracts: []                        # {contract_id, observations, candidates_created, audited, verified}
-#     canary_catch_rate: null              # {caught, planted}
-#     brier_stated_confidence: null        # {n, score, base_rate}
-#     brier_pioneer_decisions: null        # {n, score, base_rate} — the pioneer's own instrument; no agent
-#                                          # reads it to route, weight or characterise anything
+#     contracts: []                        # {contract_id, observations, candidates_created, audited, verified,
+#                                          #  cost, corrections_from_tests, corrections_from_reading}
+#     coincidence: []                      # {sources: [a, b], agreed, of} — how often two "different readings"
+#                                          # agreed on candidates later contradicted (contract-006 G-4)
+#                                          # Nothing in scores measures the pioneer (contract-006 G-2).
 
 observations: []
 
@@ -116,6 +117,4 @@ audits: []
 scores:
   updated: null
   contracts: []
-  canary_catch_rate: null
-  brier_stated_confidence: null
-  brier_pioneer_decisions: null
+  coincidence: []

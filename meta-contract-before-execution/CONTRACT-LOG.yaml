@@ -552,3 +552,123 @@ contracts:
     observations: [O-019, O-020, O-021]
     revisions: []
     work_id: null
+
+  - contract_id: contract-006
+    feature: the subtraction — retire the instruments that score the pioneer, wire the correction moment as the elicitation instrument, give acceptance tests their author, define independence, take the rebuild out of the map, record cost
+    type: contract
+    date_proposed: 2026-09-13
+    date_approved: 2026-09-13
+    approval: approved-at-gate     # pioneer: "Yes, it does. Go ahead." — the first contract whose bearing was read against a founding statement
+    bearing: |
+      The kit stops grading the pioneer and starts drawing the standard out of them. Every instrument that scored the person — the Wilson gate on candidates, the Brier score on decisions, the canary catch rate — goes; the record it produced stays. The correction moment becomes the elicitation instrument the founding statement asks for: incident probes instead of "why", cards uncapped, and a route from a precedent to a check that can fail. Acceptance tests get their proper author. Independence gets a definition. The rebuild is taken out of the map until there is a standard to reproduce. And every contract from this one on records what it cost. The bet: a kit that removes more than it adds, once, will be trusted for what it keeps.
+    tier_1: |
+      As the pioneer, I want the practice to ask me the right question at the moment I correct something —
+      what I noticed, what would have been right, where I've seen it before — and to turn my answers into
+      skills and, where it can, into checks, so that the standard I know but haven't written accumulates as
+      I work. I want to stop being scored on my decisions and start being shown the outcome of the ones I
+      made. I want the tests a contract is judged by to come from what I said would disappoint me. I want to
+      see what each contract cost. And I want a visual record of how the practice flows, before and after,
+      so the change is something I can look at rather than read. Without this, the kit keeps measuring me
+      with instruments its own research retired, and the standard stays in my head.
+    tier_2: |
+      UC-1  Correction: when I redirect, the agent records my words, then asks three incident questions; the
+            clerk makes a precedent and, if the standard is checkable, a check.
+      UC-2  Batch: candidates reach me by whether a second, different reading saw them — not by a computed
+            bound. Each item is shown statement-first, then "assume this is wrong — why?". Items I already
+            decided may be shown again as if new; afterwards I am shown my earlier decision, never a score.
+      UC-3  Contract gate: I state, per guarantee, what would make me say it failed; tests come from that.
+            Before approval: "this shipped and failed — why?" Before approval, one thing is broken and a
+            named test goes red.
+      UC-4  Verification: the verifier picks its own targets and files without my agent gating it; its
+            verdicts count as sightings graded "same family, different inputs"; the block records how many
+            corrections came from red tests versus reading.
+      UC-5  Cost: every contract records turns, tokens where known, and my minutes.
+      UC-6  Rebuild: M-31 leaves the map; the plan text stays as a design note for stage 2.
+      UC-7  Intent: INTENT.md says what the founding statement says — precedents are learned from, not
+            binding; the purpose is drawing the standard out, not transferring judgement without the pioneer.
+      UC-8  Visual record: an HTML document showing the whole practice end to end after this contract, and
+            before/after for every flow it changes — the correction moment, the review batch, the contract
+            gate, verification, the rebuild. Stored in the repository and published.
+    tier_3: |
+      G-1  (UC-2)     Wilson bound, thresholds 0.50/0.64 and lower_bound removed from the ledger node, template
+                      and consolidator; a candidate is due on one sighting from a different reading (G-4) or
+                      on a pioneer correction.
+      G-2  (UC-2)     Pioneer Brier, per-candidate Brier, catch rate and canaries/canaries_caught removed from
+                      scores, the reveal and extraction; decisions and outcomes stay as records; a decline no
+                      longer creates the outcome that scores it.
+      G-3  (UC-2)     kit-canary-author becomes kit-batch-assembler: no planted items; up to two re-presented
+                      decided candidates shown as new, with the prior decision sealed; per item, prior and new
+                      decision recorded, never pooled into a rate; the first three batches carry none.
+      G-4  (UC-4)     "Two sightings are independent to the degree a single misreading of the contract could
+                      not have produced both", written in the ledger node; verifier verdicts graded
+                      same-family-different-inputs; the verifier chooses its own clauses to probe and its
+                      report is not routed through the builder.
+      G-5  (UC-3)     Contract entries gain disappointment: per guarantee, in the pioneer's words, recorded
+                      before Tier 4; Tier 4 derives from it and carries a legibility rule; approval requires one
+                      guarantee broken and a named T-x red, recorded as red_test:; verification blocks carry
+                      corrections_from_tests and corrections_from_reading.
+      G-6  (UC-1)     Corrections gain noticed, would_have_been_right, seen_before beside reason_given; the clerk
+                      writes a check under meta-mechanisms/checks/ when a precedent is checkable; the
+                      two-per-batch card cap is removed; the batch item prompt is one-sided; the gate carries a
+                      pre-mortem line.
+      G-7  (UC-6)     M-31 removed from both maps; the rebuild plan kept as docs/rebuild-design.md with the
+                      stage-2 conditions; bootstrap 6h no longer seeds it.
+      G-8  (UC-5)     Contract entries gain cost: {turns, tokens, pioneer_minutes}, written at implemented.
+      G-9  (UC-7)     INTENT.md diff proposed before implementation closes, applied only with the pioneer's
+                      approval; "Precedents bind" replaced.
+      G-10 (all)      No mechanism or agent decides; nothing added that was not listed; the map ends smaller.
+      G-11 (UC-8)     docs/kit-flow.html: one end-to-end flow and at least five before/after pairs, each with a
+                      caption stating what changed and why; inline SVG so the local file renders offline;
+                      committed, and published with the URL recorded on this entry.
+      Precedents: none apply. Founding statement: serves paragraphs two, three and five directly.
+    disappointment: |
+      G-1 "same as it says" · G-2 "same as it says" · G-3 "same as it says" · G-4 "same as it says" ·
+      G-5 "same as it says" · G-6 "same as it says" · G-7 "same as it says" · G-8 "same as it says" ·
+      G-9 "same as it says" · G-10 "same as it says" · G-11 "same as it says"
+      (the pioneer, 2026-09-13: "Per guarantees id say same as it says")
+    premortem: |
+      "If we see that the new form is not enforced and the agents drift from what is stated, then this would
+      be named a failiure." — and: "its hard to name each acceptance test for this contract since it changes
+      and explores how the nuance should hold."
+    tier_4: |
+      T-1  (G-1)      No lower_bound, Wilson or 0.64 survives in the ledger node, template or consolidator;
+                      walk: one candidate with one differently-sourced sighting → due.
+      T-2  (G-2)      No Brier or catch-rate reference survives in the ledger node, skill-builder, extract or
+                      templates; walk: a reveal writes no canaries fields.
+      T-3  (G-3)      The assembler plants nothing; fixture with two revealed batches → no re-presented items;
+                      with three → up to two, each recorded prior/new, no rate anywhere.
+      T-4  (G-4)      The independence sentence is in the ledger node verbatim; the verifier's procedure has it
+                      choose clauses; the sighting grade same-family-different-inputs exists in the schema.
+      T-5  (G-5)      The template has disappointment:; this entry carries "same as it says" on all eleven; the
+                      entry records which guarantee was broken and which T-x went red before approval.
+      T-6  (G-6)      The three incident fields exist in the template and the correction node; the clerk's
+                      definition names the checks route; no "at most 2" cap survives; the batch prompt is
+                      one-sided; the gate has the pre-mortem line.
+      T-7  (G-7)      No M-31 in either map; docs/rebuild-design.md exists; bootstrap 6h has no rebuild seed;
+                      the map measures smaller than 7,133 bytes.
+      T-8  (G-8)      The template has cost:; this entry records its own.
+      T-9  (G-9)      No "Precedents bind" in INTENT.md; the pioneer's approval of the diff recorded here.
+      T-10 (all — the pre-mortem)  Enforcement, un-steered: two agent runs with the plain agent definitions and
+                      a prompt naming no new behaviour — the clerk on a fixture correction writes the precedent
+                      and the observation and invents no reason; the consolidator on a fixture candidate
+                      computes no bound and quotes no paraphrase. Plus a census grep: no removed instrument is
+                      referenced in any node, agent, hook or template. If either agent does the old thing
+                      unprompted, the contract has failed by the pioneer's definition.
+      T-11 (G-11)     The file exists, is committed, renders offline, has the end-to-end flow and five captioned
+                      pairs; the published URL is on this entry.
+      untested: how the nuance holds in use — the pioneer's words above; G-10's "no agent decides", read from
+                the files; whether the form stays enforced in a live session, which only stage 1 can show.
+    red_test: {broke: G-7, went_red: T-7, how: "M-31 appended to templates/MAP.template.md; walk-004 state 75 failed ('no M-31 in MAP.template.md — still present'); restored; walk green again", date: 2026-09-13}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    observations: []            # recorded after verification; G-9 (INTENT.md) awaits the pioneer's ruling at implemented
+    revisions:
+      - what: "G-11 / T-11: the visual record must be followable by a person new to the kit — roles introduced first, one feature walked start to finish in plain words, a correction and a review walked the same way, a glossary, and the before/after pairs captioned for a newcomer; not the kit's vocabulary unexplained."
+        authorised_by: "Pioneer, 2026-09-13: 'Id like the visual presentation to explain so a person who is new can follow it.' (C-008)"
+        date: 2026-09-13
+        tests_changed: [T-11]      # dated before any verification report — a revision, not drift
+    cost: {turns: 15, tokens: null, pioneer_minutes: null}   # turns = the agent's turns from approval to implemented; tokens and the pioneer's minutes not measured
+    artifact: https://claude.ai/code/artifact/5f888d45-93bc-4351-9157-97a0c6f95f36   # docs/kit-flow.html (G-11)
+    work_id: null

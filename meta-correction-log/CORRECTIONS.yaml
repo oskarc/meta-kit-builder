@@ -149,6 +149,31 @@ corrections:
     precedent: null
     clerk_note: null
 
+  - corr_id: C-008
+    date: 2026-09-13
+    contract_id: contract-006
+    moment: M-08
+    grade: detail
+    intervention: redirected
+    agent_offered: |
+      docs/kit-flow.html as published: an end-to-end flow and seven before/after pairs, captioned with the
+      reasoning ("Why") for each change, in the kit's own vocabulary.
+    pioneer_said: |
+      "Id like the visual presentation to explain so a person who is new can follow it."
+    reason_given: |
+      none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: null
+
 trajectory:
   updated: null
   by_contract: []

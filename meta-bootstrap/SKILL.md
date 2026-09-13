@@ -53,7 +53,7 @@ Present this to the developer:
 >
 > I run the kit's lifecycle myself. At the end of a turn, hooks hand me the next kit task — auditing a session, verifying a contract against evidence, consolidating what we learned — and a set of kit agents do that work, each blind to what it must not see. You will not need to invoke anything.
 >
-> What reaches you is what only you can judge: contracts to approve, and review batches where learnings that have gathered evidence wait for your decision. When you redirect me, I record your words exactly — your corrections are the most valuable record the kit keeps. Some review items will be deliberately flawed. Those are canaries, and catching them is how we both know the gate is doing real work.
+> What reaches you is what only you can judge: contracts to approve, and review batches where learnings that have gathered evidence wait for your decision. When you redirect me, I record your words exactly, and ask you three short questions — what you noticed, what would have been right, where you have seen it before — because your corrections are where the standard you already know gets written down. Later on, a review batch may show you something you decided before, without saying so; afterwards you see both decisions side by side. Nothing scores you.
 >
 > **The governing aspects**
 >
@@ -247,20 +247,7 @@ All templates live in `.claude/skills/templates/`. The manifest is written **las
 
 **6g — Correction log.** Copy `CORRECTIONS.template.yaml` to `.claude/skills/meta-correction-log/CORRECTIONS.yaml`. Record any correction the pioneer made during Steps 1–5, verbatim.
 
-**6h — Casebook, and the rebuild plan.** Copy `CASEBOOK.template.yaml` to `.claude/skills/meta-casebook/CASEBOOK.yaml`. If a library kit was integrated, append its type-category precedents from the library's `CASEBOOK.yaml`, and list every `{binding}` they contain for the pioneer to re-bind.
-
-Then seed the rebuild plan — these two lines, exactly, so the walk that tests them and the install that runs them agree:
-
-```
-cp .claude/skills/templates/REBUILD.template.yaml .claude/skills/meta-casebook/REBUILD.yaml
-sed -i -e "s/__PROJECT_NAME__/$PROJECT_NAME/" -e "s/__DATE__/$(date +%Y-%m-%d)/" .claude/skills/meta-casebook/REBUILD.yaml
-```
-
-and ask the pioneer one question:
-
-> At some milestone — a release, a tag, a date — the kit can rebuild this product from its own records, blind, in an empty folder, and measure what the records carried. That plan has to be written now, before the first contract, or it can be bent later to fit what got built. What milestone should trigger it? You can also defer the choice.
-
-Write the answer as `milestone`, in their words, or leave `deferred`. Nothing else in the file is asked about: the oracle and the arms are the kit's defaults, and the pioneer can read them. From this date the plan is frozen (meta-casebook → The launch rebuild).
+**6h — Casebook.** Copy `CASEBOOK.template.yaml` to `.claude/skills/meta-casebook/CASEBOOK.yaml`. If a library kit was integrated, append its type-category precedents from the library's `CASEBOOK.yaml`, and list every `{binding}` they contain for the pioneer to re-bind. Create the empty `.claude/skills/meta-mechanisms/checks/` folder, where the case clerk will write checks as the pioneer's corrections turn into standards that can be tested.
 
 **6i — Project manifest, last.** Read `MANIFEST.template.yaml`, replace every double-underscore value, and write it to `.claude/skills/meta-manifest/MANIFEST.yaml`. **This is the write that switches the mechanisms on**, which is why it comes after every record above is the project's own.
 
@@ -305,7 +292,7 @@ echo "{\"tool_name\":\"Read\",\"tool_input\":{\"file_path\":\"$PWD/.claude/skill
 echo '{"tool_input":{"file_path":"src/x.cs"}}'                                 | bash $H/deny-paths.sh "kit-sealed/"
 echo '{"tool_input":{"file_path":"src/x.cs"}}'                                 | bash $H/write-scope.sh "meta-ledger/LEDGER.yaml"
 bash $H/close-batch.sh B-001      # expect: no batch file — correct on a fresh install
-bash $H/reveal-canaries.sh B-001  # expect: no batch file
+bash $H/reveal-key.sh B-001       # expect: no batch file
 tail -3 .claude/skills/meta-ledger/telemetry.log
 ```
 
@@ -314,15 +301,14 @@ What a correct fresh install shows:
 - `stop-gate.sh` hands over the batch task (M-16).
 - `batch-blind.sh` prints nothing, because no batch is open yet.
 - `telemetry.log` ends with a `loaded|meta-map/MAP.md` line from the `post-read.sh` run — an absolute path is required, since the hook matches `*/.claude/skills/*` — followed by an ownership line naming `base-casebook` from the `owner-check.sh` run: the casebook skill was never loaded in this shell, and that is exactly what the check records. No `loaded` line means telemetry is not recording, and the map's only firing evidence is missing. No ownership line means `owns:` did not survive the manifest write in 6i.
-- `REBUILD.yaml` exists in `meta-casebook/` with `frozen_on` set to today and `milestone` either in the pioneer's words or `deferred`.
 
 If a script errors, or `session-start.sh` mentions contracts, observations or drift entries, the base kit's records are still in place and Step 6 did not complete.
 
 **Then offer the ratification pass:**
 
-> The kit ships 31 map entries — the index that decides which knowledge loads when. They are drafted, not yours yet, and until you ratify them they will keep asking to be reviewed.
+> The kit ships 30 map entries — the index that decides which knowledge loads when. They are drafted, not yours yet, and until you ratify them they will keep asking to be reviewed.
 >
-> I can put all of them to you now, in one pass: each entry's moment, when it fires, what it loads, and what it is not for. No canaries — this is setup, not a test of the gate. Ratify, decline or reword each one.
+> I can put all of them to you now, in one pass: each entry's moment, when it fires, what it loads, and what it is not for. Nothing is re-presented here — this is setup, not a test of the gate. Ratify, decline or reword each one.
 >
 > If you would rather build first, I will mark the map `ratification: deferred`, and the base entries will stop opening review batches until you ask for the pass.
 

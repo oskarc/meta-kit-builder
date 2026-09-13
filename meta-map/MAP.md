@@ -47,11 +47,10 @@ M-19 | drift-analysis | situation | ambient | the pioneer asks what happened, or
 
 ## Review and the standard
 
-M-16 | review-due | hook: Stop | must | the stop-gate says pioneer-owned items wait, no batch open | — | agent: kit-canary-author, then meta-skill-builder → Review Batch | proposed
-M-17 | batch-decided | hook: Stop | must | every item in the open batch carries a decision | — | script: reveal-canaries.sh; meta-skill-builder → Reveal | proposed
+M-16 | review-due | hook: Stop | must | the stop-gate says pioneer-owned items wait, no batch open | — | agent: kit-batch-assembler, then meta-skill-builder → Review Batch | proposed
+M-17 | batch-decided | hook: Stop | must | every item in the open batch carries a decision | — | script: reveal-key.sh; meta-skill-builder → Reveal | proposed
 M-22 | node-change | lifecycle | must | a candidate is adopted into a skill, or a skill is created, split or retired | edits that change no guidance | meta-skill-builder; meta-manifest → Manifest Update Protocol; meta-map → Node change | proposed
 M-26 | extraction | situation | must | the pioneer judges type-category nodes ready, or the maturity instruments pass | one node being adopted or updated (M-22) | meta-extract; meta-casebook → Reconstruction tests; agent: kit-reconstructor | proposed
-M-31 | launch-rebuild | lifecycle | must | the milestone in REBUILD.yaml is reached | — | REBUILD.yaml; meta-casebook → Reconstruction tests | proposed
 
 ## The map and the kit
 

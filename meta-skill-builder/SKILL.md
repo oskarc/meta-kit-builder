@@ -1,6 +1,6 @@
 ---
 name: meta-skill-builder
-description: Use when a review batch is presented to the pioneer (map M-16) or revealed (M-17), when an adopted or cautioned candidate is written into a skill, and when a skill is created, split or updated (M-22). Runs the review batch — statement first, the pioneer's verdict before the evidence, canaries revealed only after every decision — and the abstraction loop that puts an adopted learning at the level and tier the pioneer decides.
+description: Use when a review batch is presented to the pioneer (map M-16) or revealed (M-17), when an adopted or cautioned candidate is written into a skill, and when a skill is created, split or updated (M-22). Runs the review batch — statement first, the pioneer's verdict before the evidence, the key opened only after every decision — and the abstraction loop that puts an adopted learning at the level and tier the pioneer decides.
 ---
 
 > **Map:** M-16, M-17, M-22 · **Load:** on trigger · **Recognise it by:** a learning is about to be decided, or about to change a skill · **Not when:** recording what the work taught (meta-ledger → Observations) — that is not a decision
@@ -11,20 +11,21 @@ Every skill update is an opportunity to raise the abstraction level — not just
 
 ## Input — the Review Batch
 
-Every learning reaches this skill the same way. The Standard Evolution Report, `meta-learning`'s verified diffs, drift incidents, session audits, session-level drift analyses and map misses all enter the ledger as observations. `kit-consolidator` merges and scores them, and holds the resulting candidates until independent evidence makes one due. `kit-canary-author` assembles the due items into a batch. There is no second path: a learning presented to the pioneer outside a batch has skipped the evidence stage.
+Every learning reaches this skill the same way. The Standard Evolution Report, `meta-learning`'s verified diffs, drift incidents, session audits, session-level drift analyses and map misses all enter the ledger as observations. `kit-consolidator` merges and counts them, and holds the resulting candidates until a sighting from a different reading makes one due. `kit-batch-assembler` assembles the due items into a batch. There is no second path: a learning presented to the pioneer outside a batch has skipped the evidence stage.
 
-If the pioneer asks to decide something now, present it as a batch of one without canaries, and record the decision with `batch: direct` — it clears `review_due` like any other and stays out of the catch-rate denominator.
+If the pioneer asks to decide something now, present it as a batch of one, and record the decision with `batch: direct` — it clears `review_due` like any other.
 
 ## Review Batch
 
-Open the batch file named by the canary author (`meta-ledger/batches/B-NNN.md`). **While the batch is open your reads of `LEDGER.yaml` are refused** — that is the blind that keeps canaries indistinguishable, and the batch file carries everything you need. The casebook stays readable, so a contract drawn mid-batch still gets its precedent check. Never read `.claude/kit-sealed/`.
+Open the batch file named by the batch assembler (`meta-ledger/batches/B-NNN.md`). **While the batch is open your reads of `LEDGER.yaml` are refused** — that is the blind that keeps re-presented items indistinguishable, and the batch file carries everything you need. The casebook stays readable, so a contract drawn mid-batch still gets its precedent check. Never read `.claude/kit-sealed/`.
 
-Tell the pioneer how many items there are, and that some may be deliberately flawed.
+Tell the pioneer how many items there are.
 
 For each item, in order:
 
 1. **Statement first.** Show the item's kind and its statement — not the proposed disposition, not the evidence. Ask for the pioneer's read in one line, and record it under `Verdict before evidence:`. Deciding before seeing a recommendation reduces over-reliance on its framing; the agreement between that first read and the final decision is information.
-2. **Then the rest of the item**, as it stands in the file: the proposed disposition, the evidence, certainty with its codes, counters, lower bound and stated confidence. For candidates, run Step 0 and Step 1 of the abstraction loop below — briefly, with evidence.
+   Then ask one thing more, and only this: **"Assume this is wrong. Why?"** Record the answer under `Against:`. The question is one-sided on purpose: asking for reasons against improves calibration, asking for reasons for does nothing, and asking for both does nothing either — so never phrase it as "arguments for and against" (contract-006 G-6).
+2. **Then the rest of the item**, as it stands in the file: the proposed disposition, the evidence, certainty with its codes, counters and stated confidence. For candidates, run Step 0 and Step 1 of the abstraction loop below — briefly, with evidence.
 3. **The decision**, by kind:
 
 | Kind | Decisions | Also record |
@@ -44,9 +45,9 @@ When every item carries a decision, run `bash .claude/skills/meta-mechanisms/hoo
 
 ## Reveal
 
-1. Run `bash .claude/skills/meta-mechanisms/hooks/reveal-canaries.sh B-NNN`. It refuses until every item has a decision.
-2. **Canaries.** A canary is caught when the pioneer declined or revised it, or when the verdict or reason names the flaw the key records under `shows in:`. Anything else is passed. Tell the pioneer each canary's flaw and where it showed — plainly, without scoring them. Record `canaries` and `canaries_caught` on the batch. A canary's decision is never applied anywhere.
-3. **Real items — every kind gets a terminal value**, so nothing decided is ever re-presented:
+1. Run `bash .claude/skills/meta-mechanisms/hooks/reveal-key.sh B-NNN`. It refuses until every item has a decision.
+2. **Re-presented items.** For each item the key marks as re-presented, show the pioneer their earlier decision beside the one they just made — plainly, as two records, with no score, no rate and no word about consistency; if they want to say something about the pair, record it verbatim. Write `represented` on the batch: candidate id, prior, now, `consistent`. A re-presented item's new decision is recorded and not applied; the earlier one stands unless the pioneer changes it in that turn (M-07 if they do).
+3. **Real items — every kind gets a terminal value**, so nothing decided returns unmarked:
    - **Candidates** — write the `decision` block (`batch`, `item`, `verdict_before`, `decision`, `level_decided`, `tier_decided`, `reason`, `date`), set the stage (`trial`, `adopt`, `caution`, `declined`) and **clear `review_due`**. `hold` keeps the stage, clears `review_due`, and becomes due again only on a new independent sighting after the decision date. `revise` sets the candidate `declined`, and records the pioneer's rewritten claim as a new observation (`source: pioneer`, `prompted: true`) — it is also a correction of the agent's claim (M-07, grade `detail`). **`update`, `retire` and `add`** — the three exits for a candidate that quotes a passage it contradicts — set `stage: adopt` with `applied_as`, and are applied **at the quoted passage only**: `update` replaces that sentence with the claim; `retire` removes it — or, when the sentence was the skill's reason to exist, retires the node (M-22, meta-manifest → Status vocabulary); `add` writes the claim beside it and leaves the contradiction visible for the next reader. Never a rewrite of the node around it: a whole-document rewrite drops the clauses that discriminate, which is how the map lost three of them.
    - **Map proposals** — `state: ratified` and the line applied to `MAP.md` with status `ratified` (M-22); `declined`; or back to `pending` carrying the pioneer's wording for the steward to redraft.
    - **Map entries** — set the status column in `MAP.md` to `ratified` or `declined`. A declined entry keeps its line so it is not proposed again without new evidence.
@@ -148,7 +149,7 @@ A skill update that should be drift-linked but isn't is a silent absorption — 
 
 If a candidate contradicts something already adopted — for example, verification showed that an earlier pattern didn't hold — flag the contradiction in the batch and let the human resolve it. Do not silently let the later learning overwrite the earlier one, and do not silently prefer the earlier one because it came first. A contradiction with a **precedent** is a precedent item for the batch, never an agent's call.
 
-The candidate's `contradicts` field is this rule made mechanical: the consolidator opens the target skill and quotes the sentence; the batch shows it; the pioneer chooses `update`, `retire` or `add`. A quoted passage the skill does not actually contain is a canary's flaw, and the pioneer can check it by opening the file.
+The candidate's `contradicts` field is this rule made mechanical: the consolidator opens the target skill and quotes the sentence; the batch shows it; the pioneer chooses `update`, `retire` or `add`. A quoted passage the skill does not actually contain is a defect in the candidate, and the pioneer can check it by opening the file.
 
 ## Skill Structure to Maintain
 

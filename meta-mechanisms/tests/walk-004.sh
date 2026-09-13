@@ -236,7 +236,7 @@ candidates:
     review_due: true
 batches:
 EOF
-r=$(gate); case "$r" in *"Launch the kit-canary-author"*) ok "57 contradicting candidate due (with two others) -> assemble a batch";; *) bad "57 assemble" "$r";; esac
+r=$(gate); case "$r" in *"Launch the kit-batch-assembler"*) ok "57 contradicting candidate due (with two others) -> assemble a batch";; *) bad "57 assemble" "$r";; esac
 # the canary author's work, as a fixture: the batch file with no ledger ids, the sealed key, the batch registered
 cat > "$K/meta-ledger/batches/B-1.md" <<'EOF'
 # Review batch B-1 — 2026-09-12
@@ -263,8 +263,8 @@ case "$r" in *deny*) ok "59 the ledger is closed to the presenter while the batc
 awk 'BEGIN{split("retire decline decline",v," ")} /^Decision:$/ {n++; print "Decision: " v[n]; next} {print}' "$K/meta-ledger/batches/B-1.md" > "$K/meta-ledger/batches/B-1.tmp" && mv "$K/meta-ledger/batches/B-1.tmp" "$K/meta-ledger/batches/B-1.md"
 r=$(gate); case "$r" in *"close-batch.sh"*) ok "60 every item decided -> close the batch";; *) bad "60 close due" "$r";; esac
 r=$(CLAUDE_PROJECT_DIR="$FX" bash "$H/close-batch.sh" B-1 2>&1); case "$r" in *"marked decided"*) ok "61 close-batch.sh sets decided without the session reading the ledger";; *) bad "61 close-batch" "$r";; esac
-r=$(gate); case "$r" in *"reveal-canaries.sh"*) ok "62 decided -> reveal";; *) bad "62 reveal due" "$r";; esac
-r=$(CLAUDE_PROJECT_DIR="$FX" bash "$H/reveal-canaries.sh" B-1 2>&1); case "$r" in *"I-1: K-1"*) ok "63 reveal-canaries.sh opens the key once every item is decided";; *) bad "63 reveal" "$r";; esac
+r=$(gate); case "$r" in *"reveal-key.sh"*) ok "62 decided -> reveal";; *) bad "62 reveal due" "$r";; esac
+r=$(CLAUDE_PROJECT_DIR="$FX" bash "$H/reveal-key.sh" B-1 2>&1); case "$r" in *"I-1: K-1"*) ok "63 reveal-key.sh opens the key once every item is decided";; *) bad "63 reveal" "$r";; esac
 # the main agent applies the terminal values (meta-skill-builder -> Reveal): retire at the quoted passage,
 # remove the map entry, mark the node retired, clear review_due, set revealed
 sed -i -e '/^Always retry twice\.$/d' "$K/proj-old-rule/SKILL.md"
@@ -282,22 +282,16 @@ grep -q 'Always retry twice' "$K/proj-old-rule/SKILL.md" && bad "66 passage remo
 grep -q 'proj-old-rule' "$K/meta-map/MAP.md" && bad "67 map entry removed" "still present" || ok "67 no map entry points at the retired node"
 grep -q 'status: retired' "$K/meta-manifest/MANIFEST.yaml" && ok "68 the manifest shows the node retired" || bad "68 manifest" "-"
 
-echo "=== T-9: rebuild plan seed, M-31, map budget ==="
-mk; mkdir -p "$K/templates"; cp "$SRC/templates/REBUILD.template.yaml" "$K/templates/"
-# bootstrap Step 6h, verbatim — the install and this test must run the same two lines
-(
-  cd "$FX" || exit 1
-  PROJECT_NAME=fx
-  cp .claude/skills/templates/REBUILD.template.yaml .claude/skills/meta-casebook/REBUILD.yaml
-  sed -i -e "s/__PROJECT_NAME__/$PROJECT_NAME/" -e "s/__DATE__/$(date +%Y-%m-%d)/" .claude/skills/meta-casebook/REBUILD.yaml
-)
-grep -qE '^frozen_on: [0-9]{4}-[0-9]{2}-[0-9]{2}$' "$K/meta-casebook/REBUILD.yaml" && ok "75 REBUILD.yaml frozen_on set" || bad "75 frozen_on" "$(grep frozen_on "$K/meta-casebook/REBUILD.yaml")"
-grep -qE '^milestone: (deferred|.+)$' "$K/meta-casebook/REBUILD.yaml" && ok "76 milestone present (deferred by default)" || bad "76 milestone" "-"
-grep -q '__' "$K/meta-casebook/REBUILD.yaml" && bad "77 no placeholder left" "$(grep -n '__' "$K/meta-casebook/REBUILD.yaml")" || ok "77 no placeholder left"
+echo "=== contract-006 T-7 (replaces contract-004 T-9): the rebuild is out of the map; the design note exists ==="
+# contract-004's T-9 seeded REBUILD.yaml and required M-31. contract-006 G-7 withdrew both; the expectation moved
+# here under the follow-up, as a Tier 4 line may only move.
 for m in "$SRC/meta-map/MAP.md" "$SRC/templates/MAP.template.md"; do
-  grep -q '^M-31 | launch-rebuild | lifecycle | must |' "$m" && ok "78 M-31 present in $(basename "$m")" || bad "78 M-31" "$m"
-  b=$(wc -c < "$m"); [ "$b" -lt 8192 ] && ok "79 $(basename "$m") is $b bytes (< 8,192)" || bad "79 map budget" "$b"
+  grep -q 'M-31' "$m" && bad "75 no M-31 in $(basename "$m")" "still present" || ok "75 no M-31 in $(basename "$m")"
+  b=$(wc -c < "$m"); [ "$b" -lt 7133 ] && ok "76 $(basename "$m") is $b bytes (< 7,133, smaller than before)" || bad "76 map smaller" "$b"
 done
+[ -f "$SRC/docs/rebuild-design.md" ] && ok "77 docs/rebuild-design.md exists" || bad "77 design note" "missing"
+[ -f "$SRC/templates/REBUILD.template.yaml" ] && bad "78 REBUILD template removed" "still present" || ok "78 REBUILD template removed"
+grep -q 'REBUILD' "$SRC/meta-bootstrap/SKILL.md" && bad "79 bootstrap 6h seeds nothing" "REBUILD still named" || ok "79 bootstrap 6h seeds no rebuild plan"
 
 echo "=== contract-005 T-1: telemetry closed to the acting session at all times ==="
 mk

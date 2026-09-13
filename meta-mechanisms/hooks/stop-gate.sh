@@ -40,7 +40,7 @@ gate "Every item in review batch $id carries a decision. Run $HOOKS/close-batch.
 
 # 2. A decided batch must be revealed before anything else touches the ledger.
 id=$(first_id "$bt" '$2=="true" && $3=="false"')
-gate "Review batch $id is decided but its canaries are unrevealed. Run $HOOKS/reveal-canaries.sh\" $id with Bash, then apply the decisions to real items only, record the catch result, and set revealed: true on the batch (M-17, meta-skill-builder)."
+gate "Review batch $id is decided but its key is unopened. Run $HOOKS/reveal-key.sh\" $id with Bash, then apply the decisions to items that were not re-presented, write the represented record, and set revealed: true on the batch (M-17, meta-skill-builder)."
 
 # 3. A test changed after the verifier reported is drift, not a revision (contract-004 G-3, M-18).
 id=$(late_test_revisions | head -n1)
@@ -75,7 +75,7 @@ count_gate "$(count_matches '^[[:space:]]+clerked:[[:space:]]*false' "$CORRECTIO
 gate "$id pioneer correction(s) are not yet clerked. Launch the kit-case-clerk subagent (M-15)."
 
 # 10. Pioneer-owned items are due and no batch is open. The count is deliberately not named: knowing how
-#    many real items are due would let the batch's canaries be counted out.
+#    many real items are due would let the re-presented items be counted out.
 if ! has_open_batch; then
   due=$(count_matches '^[[:space:]]+review_due:[[:space:]]*true' "$LEDGER")
   pend=$(count_matches '^[[:space:]]+state:[[:space:]]*pending' "$LEDGER")
@@ -94,7 +94,7 @@ if ! has_open_batch; then
   else
     id=""
   fi
-  gate "Pioneer-owned items are waiting: candidates, map proposals, unratified entries, unranked cards, precedent conflicts or drift resolutions. Launch the kit-canary-author subagent to assemble a batch, then present it per meta-skill-builder's review batch (M-16). Never read .claude/kit-sealed/, and while the batch is open your reads of the ledger are blocked so the canaries stay indistinguishable."
+  gate "Pioneer-owned items are waiting: candidates, map proposals, unratified entries, unranked cards, precedent conflicts or drift resolutions. Launch the kit-batch-assembler subagent to assemble a batch, then present it per meta-skill-builder's review batch (M-16). Never read .claude/kit-sealed/, and while the batch is open your reads of the ledger are blocked so re-presented items stay indistinguishable."
 fi
 
 # 11. Map misses waiting for the steward.

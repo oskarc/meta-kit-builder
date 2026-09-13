@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
-# reveal-canaries.sh B-NNN — print a review batch's sealed key, but only once every item carries a decision.
+# reveal-key.sh B-NNN — print a review batch's sealed key, but only once every item carries a decision.
 # Run by the main agent with Bash when the stop-gate names M-17. Governed by meta-ledger/SKILL.md.
-# The key lives in .claude/kit-sealed/, which a Read deny rule hides from file tools. This script is the
-# one sanctioned way to open it; reading it any other way before decisions exist is drift the auditor flags.
+# The key maps each item to its source and marks the items that were re-presented, with the decision the
+# pioneer gave them before (contract-006). It lives in .claude/kit-sealed/, which a Read deny rule hides
+# from file tools. This script is the one sanctioned way to open it; reading it any other way before
+# decisions exist is drift the auditor flags.
 # A decision is any non-empty value — a word, or a ranking such as [B, A, C] for a scenario card.
 . "$(dirname "$0")/lib.sh"
 b="${1:-}"
 if [ -z "$b" ]; then
-  echo "usage: reveal-canaries.sh B-NNN" >&2
+  echo "usage: reveal-key.sh B-NNN" >&2
   exit 2
 fi
 batch="$KIT/meta-ledger/batches/$b.md"
@@ -26,4 +28,4 @@ telemetry reveal "$b"
 echo "Sealed key for $b — item: source"
 cat "$key"
 echo
-echo "Now: apply decisions to real items only, clear their review_due, record canaries and canaries_caught, and set revealed: true on the batch."
+echo "Now: apply decisions to items that were not re-presented, clear their review_due, write the represented record (prior, now, consistent) on the batch, show the pioneer each earlier decision beside the new one without comment, and set revealed: true on the batch."

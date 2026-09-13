@@ -44,7 +44,7 @@ Until v0.13 the kit asked one thing — prose skills, loaded every session — t
 | 2 · **Map** | `MAP.md` — named moments → what to load | always loaded |
 | 3 · **Nodes** | principle, pattern, implementation and meta skills | loaded when a map entry names them |
 | 4 · **Casebook** | binding precedents with their facts, scenario cards | retrieved by moment |
-| 5 · **Mechanisms** | hooks, agent scopes, the batch blind, the canary seal — and the kit agents they launch | fire; never loaded to work |
+| 5 · **Mechanisms** | hooks, agent scopes, the batch blind, the sealed key — and the kit agents they launch | fire; never loaded to work |
 | 6 · **Ledger** | observations, held candidates, review batches, audits, scores | read offline by agents and scripts; its sections on trigger |
 
 What follows from the split:
@@ -70,8 +70,8 @@ The path of one feature:
    - the **consolidator** merges observations into held candidates, counted by independence
    - **meta-learning** diffs contracted against verified
    - the **case clerk** turns corrections into precedents
-7. **Review batch.** When pioneer-owned items are waiting, the canary author assembles a batch and mixes in zero to two planted, flawed items. While the batch is open the ledger and casebook are closed to the presenting session, so the canaries stay indistinguishable. The pioneer reads each statement, gives a one-line verdict before seeing the evidence, then decides — including the level and tier of anything adopted.
-8. **Reveal.** Once every item is decided, the sealed key opens, the catch rate is recorded, and adopted learnings are written into skills with their map entries.
+7. **Review batch.** When pioneer-owned items are waiting, the batch assembler builds a batch from real items only; from the fourth batch on it may include up to two items the pioneer already decided, shown again as if new. While the batch is open the ledger is closed to the presenting session (the casebook stays readable, so contracts drawn mid-batch keep their precedent check), which is what keeps re-presented items indistinguishable. The pioneer reads each statement, gives a one-line verdict before seeing the evidence, then decides — including the level and tier of anything adopted.
+8. **Reveal.** Once every item is decided, the sealed key opens, each re-presented item's earlier decision is shown beside the new one (recorded per item, never as a rate), and adopted learnings are written into skills with their map entries.
 
 ---
 
@@ -84,7 +84,7 @@ Eight kit agents, each defined by what it may not see and where it may write. Sc
 | `kit-verifier` | a contract is implemented and evidence exists | the builder's account; the ledger, corrections and casebook records | clause verdicts in the contract log |
 | `kit-consolidator` | observations are unconsolidated | batches, sealed keys, transcripts | candidates and scores (sole writer) |
 | `kit-map-steward` | three map misses are unstewarded | batches, sealed keys, transcripts | map proposals — never the map |
-| `kit-canary-author` | pioneer-owned items are waiting | sealed keys, transcripts | the batch file and its sealed key |
+| `kit-batch-assembler` | pioneer-owned items are waiting | sealed keys, transcripts | the batch file and its sealed key |
 | `kit-case-clerk` | corrections are unclerked | batches, sealed keys, transcripts | precedents, card drafts, the fading curve |
 | `kit-session-auditor` | an implemented contract is unaudited | batches | audits, missed corrections, map misses |
 | `kit-reconstructor` | a reconstruction test runs | the correction log, ledger, contract log, learning log and drift log | predictions only |
@@ -106,7 +106,7 @@ No agent decides trial, adopt, caution or decline, overrules a precedent, amends
 | `post-read.sh` | PostToolUse | records which kit files loaded, separating agent reads — the map's telemetry |
 | `owner-check.sh` | PostToolUse | records a governed record edited while its owner's skill sat unread — ownership evidence, read by the map steward alone |
 | `deny-paths.sh`, `write-scope.sh` | PreToolUse, in agent frontmatter | agent blindness and write scope |
-| `close-batch.sh`, `reveal-canaries.sh` | run by the agent | close a decided batch without reading the ledger; open its key once every item is decided |
+| `close-batch.sh`, `reveal-key.sh` | run by the agent | close a decided batch without reading the ledger; open its key once every item is decided |
 
 bash, sed, awk, grep, tr and date only — no jq, no python (`meta-mechanisms/SKILL.md` → Portability). State is read through flat marker keys listed there; renaming one silently switches a mechanism off.
 
@@ -132,7 +132,7 @@ meta-antidrift-expand/  SKILL.md
 meta-drift-eventlog/    SKILL.md · DRIFTLOG.yaml
 meta-extract/           SKILL.md
 meta-manifest/          SKILL.md · MANIFEST.yaml
-agents/                 kit-verifier · kit-consolidator · kit-map-steward · kit-canary-author ·
+agents/                 kit-verifier · kit-consolidator · kit-map-steward · kit-batch-assembler ·
                         kit-case-clerk · kit-session-auditor · kit-reconstructor · kit-recorder
 templates/              MANIFEST · MAP · CONTRACT-LOG · DRIFTLOG · LEARNINGLOG · LEDGER · CORRECTIONS ·
                         CASEBOOK · FOUNDING · settings (hooks, the blind and the seal)
@@ -157,7 +157,7 @@ CLAUDE.md                     ← kit block with three @imports, between kit-blo
 .claude/
   settings.json               ← kit hooks and Read(kit-sealed/**) deny rule, merged by bootstrap
   agents/                     ← the kit agents, copied by bootstrap
-  kit-sealed/                 ← canary keys (runtime, gitignored)
+  kit-sealed/                 ← batch keys (runtime, gitignored)
   kit-incoming/               ← a newer kit staged for upgrade (removed afterwards)
   skills/
     meta-*/                   ← base kit nodes, instance files seeded from templates
@@ -200,12 +200,13 @@ Never copy a new kit over `.claude/skills/`. It would overwrite your manifest, l
 Silence is no longer the measure; failure produces silence too. The ledger keeps the instruments:
 
 - **candidates created per contract** — read next to the share of sessions audited and contracts verified
-- **canary catch rate** — whether the approval gate still discriminates
-- **Brier scores** — for the agent's stated confidence, and for the pioneer's own decisions as their instrument
+- **corrections from tests versus from reading** — whether the acceptance tests are doing the finding
+- **re-presented decisions** — per item, whether the pioneer decided a real item the same way twice; recorded, never scored
+- **cost per contract** — turns, tokens where known, the pioneer's minutes
 - **the fading curve** — bearing reevaluations and intervention levels over time
 - **reconstruction tests** — how many of the pioneer's recorded decisions the kit alone predicts, and where it is silent
 
-**The non-developer milestone** is reached when those instruments hold across generations: few candidates with healthy process, canaries still caught, and the kit predicting the pioneer's decisions from its own contents.
+**The non-developer milestone** is reached when those instruments hold across generations: few candidates with healthy process, corrections moving from reading toward tests, and the kit predicting the pioneer's decisions from its own contents.
 
 ---
 
@@ -227,7 +228,7 @@ The form was built under `contract-001` and then reviewed at the pioneer's reque
 
 Every new and restructured node is still marked `thin`. No review batch, audit, verification or reconstruction has run in a live session. The first evaluation is planned in a downstream project. Known limits are tracked in the manifest's gap queue:
 - independence with a single pioneer
-- canary realism, and a pioneer who can always read the ledger themselves
+- a pioneer who can always read the ledger themselves
 - the marker-key dependency
 - this repo not running its own mechanisms
 - subagent inheritance of deny rules

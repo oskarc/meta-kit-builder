@@ -23,6 +23,12 @@
 #       [verbatim]
 #     reason_given: |
 #       [verbatim, or: none given]
+#     noticed: |                           # the three incident probes (contract-006 G-6), asked once, verbatim:
+#       [what did you notice that made this wrong? — or: not asked]
+#     would_have_been_right: |
+#       [what would have been right here? — or: not asked]
+#     seen_before: |
+#       [where have you seen this before? — or: not asked]
 #     supersedes: []                       # corr_ids this reverses
 #     recorded_by: main-agent | kit-session-auditor
 #     clerked: false                       # MARKER — kit-case-clerk sets true

@@ -174,7 +174,7 @@ When a project's type-category nodes are mature enough to be reused, `meta-extra
 - All pre-build type-category nodes are `mature`
 - No `high` priority open gaps in type-category nodes
 - At least one complete system built against the standard end to end
-- Candidates created per contract are falling **while** sessions are still audited, contracts still verified, and canaries still caught
+- Candidates created per contract are falling **while** sessions are still audited, contracts still verified, and corrections moving from reading toward tests
 - A reconstruction test has been run, and its kit-silent areas are named as known gaps
 
 The library entry is written into the project's MANIFEST.yaml under `library_entry` at extraction time. To seed a future project, the developer copies `.claude/library/[category]/` into it and the agent runs `meta-bootstrap`.

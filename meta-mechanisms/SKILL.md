@@ -1,6 +1,6 @@
 ---
 name: meta-mechanisms
-description: Use when adding, changing or debugging the kit's hooks and agent scopes; when a prose rule has regressed twice and should become something that fires on its own; or when a kit ceremony seems to have stopped happening. Governs layer 5 of the kit — the hooks that run the lifecycle, the path scopes that keep agents blind, the blind that covers an open review batch, the seal on canary keys, and the telemetry the map is judged by.
+description: Use when adding, changing or debugging the kit's hooks and agent scopes; when a prose rule has regressed twice and should become something that fires on its own; or when a kit ceremony seems to have stopped happening. Governs layer 5 of the kit — the hooks that run the lifecycle, the path scopes that keep agents blind, the blind that covers an open review batch, the seal on batch keys, and the telemetry the map is judged by.
 ---
 
 > **Map:** M-30 loads this node; M-01, M-02 and M-11–M-21 fire through this layer · **Load:** on trigger — mechanisms fire, they are never loaded to work · **Recognise it by:** "this should have happened and nobody remembered" · **Not when:** the rule needs judgement to apply (that stays prose, in a node), or a node is being added or changed (M-22)
@@ -31,7 +31,7 @@ The kit's own history is the evidence. In the downstream projects, drift inciden
 | `hooks/deny-paths.sh` | PreToolUse, in agent frontmatter | tool input | Keeps an agent blind to named paths |
 | `hooks/write-scope.sh` | PreToolUse (Write\|Edit), in agent frontmatter | file path | Limits where an agent may write |
 | `hooks/close-batch.sh` | run by the agent with Bash | batch file, ledger | Marks a batch decided once every item carries a decision |
-| `hooks/reveal-canaries.sh` | run by the agent with Bash | batch file, sealed key | Opens the key only after every decision |
+| `hooks/reveal-key.sh` | run by the agent with Bash | batch file, sealed key | Opens the key only after every decision |
 | `hooks/lib.sh` | — | — | Shared parsing; the marker-key contract below |
 
 Installed by `meta-bootstrap` from `templates/settings.template.json` into the project's `.claude/settings.json`. Each kit hook group carries `"_kit": "base-building-kit"`, which is how an upgrade replaces them instead of appending a second copy.
@@ -43,7 +43,7 @@ Installed by `meta-bootstrap` from `templates/settings.template.json` into the p
 At the end of each turn the gate checks, in this order, and hands over the first task that is due:
 
 1. An open batch whose every item carries a decision → run `close-batch.sh` (M-16)
-2. A decided batch with unrevealed canaries → run the reveal (M-17)
+2. A decided batch with an unopened key → run the reveal (M-17)
 3. A reported contract with a revision that changes Tier 4 tests dated after the report → surface it as drift; the revision is never applied (M-18)
 4. An implemented contract whose session is unaudited → kit-session-auditor, with the transcript recorded on the entry (M-11)
 5. An implemented contract whose verification reported corrected or open clauses → put them to the pioneer, then close one of three ways (M-12)
@@ -51,11 +51,11 @@ At the end of each turn the gate checks, in this order, and hands over the first
 7. Unconsolidated ledger observations → kit-consolidator (M-14)
 8. Verified contracts → meta-learning sweep (M-13)
 9. Unclerked corrections → kit-case-clerk (M-15)
-10. Pioneer-owned items waiting and no batch open → kit-canary-author, then the review batch (M-16)
+10. Pioneer-owned items waiting and no batch open → kit-batch-assembler, then the review batch (M-16)
 11. Three or more unstewarded map misses → kit-map-steward (M-21)
 12. A live contract with no bearing → surface it to the pioneer (M-24)
 
-Step 10 fires on three or more due candidates, or on any pending map proposal, unratified map entry, unranked scenario card, precedent conflict or drift entry awaiting resolution — so pioneer-owned items that are not candidates are not stuck behind a candidate threshold. **It never names how many items are due:** with the batch size visible, that count would give away how many canaries the batch carries. Unratified *base* map entries are excluded while `MAP.md` carries `ratification: deferred`, so a fresh install does not open ten ratification batches before any feature work.
+Step 10 fires on three or more due candidates, or on any pending map proposal, unratified map entry, unranked scenario card, precedent conflict or drift entry awaiting resolution — so pioneer-owned items that are not candidates are not stuck behind a candidate threshold. **It never names how many items are due:** with the batch size visible, that count would give away how many re-presented items the batch carries. Unratified *base* map entries are excluded while `MAP.md` carries `ratification: deferred`, so a fresh install does not open ten ratification batches before any feature work.
 
 **Every step names a write that ends it.** A task whose only exit the agent cannot reach would repeat every turn and hide every step below it, which is the failure `drift-002` records.
 
@@ -75,12 +75,12 @@ Blindness here is a discipline made cheap to keep, not a security boundary.
 
 ## The blind and the seal
 
-A review batch carries canaries — deliberately flawed items — mixed with real ones. Two mechanisms keep them indistinguishable:
+A review batch may carry items the pioneer already decided, shown again as if new (from the fourth batch on). Two mechanisms keep them indistinguishable from the rest:
 
-- **The blind.** At all times, `batch-blind.sh` refuses the main session `telemetry.log` — the ownership count lives there, and a count the session can read becomes a ceremony (contract-005 G-1). While any batch is `decided: false`, it also refuses the main session's reads of `LEDGER.yaml`, by any path spelling, and any Grep or Glob whose search path covers a directory holding it. It deliberately does **not** close the casebook: scenario cards and precedents are never canaries, so closing it would only break the precedent check (M-04, M-05) for contracts drawn while a batch waits. Kit agents keep their access — they are not the presenter — which is also how an implementation that finishes mid-batch still records its observations: the main agent hands them to `kit-recorder`, whose write scope is the ledger. To close the batch without reading the ledger, the agent runs `close-batch.sh B-NNN`, which sets `decided: true` only when every item carries a decision (any non-empty value, including a ranking such as `[B, A, C]`).
-- **The seal.** The key lives in `.claude/kit-sealed/`, and the project's `permissions.deny` carries `Read(kit-sealed/**)` — a single-segment deny pattern, which per Claude Code's permission rules matches that directory at any depth, and which the docs say is applied to Grep and Glob on a best-effort basis and inherited by subagents. `reveal-canaries.sh` is the one sanctioned opening and refuses until every item is decided. Bash can still read the directory; any sealed-path access in a transcript before a reveal is drift, and the auditor reports it. The directory is gitignored so the key never surfaces in a diff.
+- **The blind.** At all times, `batch-blind.sh` refuses the main session `telemetry.log` — the ownership count lives there, and a count the session can read becomes a ceremony (contract-005 G-1). While any batch is `decided: false`, it also refuses the main session's reads of `LEDGER.yaml`, by any path spelling, and any Grep or Glob whose search path covers a directory holding it. It deliberately does **not** close the casebook: scenario cards and precedents are never re-presented, so closing it would only break the precedent check (M-04, M-05) for contracts drawn while a batch waits. Kit agents keep their access — they are not the presenter — which is also how an implementation that finishes mid-batch still records its observations: the main agent hands them to `kit-recorder`, whose write scope is the ledger. To close the batch without reading the ledger, the agent runs `close-batch.sh B-NNN`, which sets `decided: true` only when every item carries a decision (any non-empty value, including a ranking such as `[B, A, C]`).
+- **The seal.** The key lives in `.claude/kit-sealed/`, and the project's `permissions.deny` carries `Read(kit-sealed/**)` — a single-segment deny pattern, which per Claude Code's permission rules matches that directory at any depth, and which the docs say is applied to Grep and Glob on a best-effort basis and inherited by subagents. `reveal-key.sh` is the one sanctioned opening and refuses until every item is decided. Bash can still read the directory; any sealed-path access in a transcript before a reveal is drift, and the auditor reports it. The directory is gitignored so the key never surfaces in a diff.
 
-**What neither covers:** Bash reads, and the pioneer, who can open the ledger themselves. The catch rate measures whether the gate discriminates when it is read as presented, not under adversarial inspection.
+**What neither covers:** Bash reads, and the pioneer, who can open the ledger themselves. Re-presentation records whether a real item was decided the same way twice when the batch is read as presented, not under adversarial inspection — and it is recorded per item, never as a rate.
 
 ## Telemetry
 
@@ -96,7 +96,7 @@ A review batch carries canaries — deliberately flawed items — mixed with rea
 | `stop-gate` / `stop-deferred` | stop-gate.sh | how often the lifecycle intervened, and how often it waited |
 | `batch-blind` | batch-blind.sh | attempts to read the ledger while a batch was open |
 | `bypass` | owner-check.sh | a record a node governs was edited in a session that never loaded that node's skill — `bypass\|<node>\|<path>`. Ownership evidence for kit-map-steward, which alone reads it; no hook or skill surfaces the count to the acting session, because a count the agent can see becomes a ceremony (contract-004 G-6) |
-| `batch-decided` / `reveal` | close-batch.sh, reveal-canaries.sh | batch cadence |
+| `batch-decided` / `reveal` | close-batch.sh, reveal-key.sh | batch cadence |
 
 Telemetry is evidence, never context: no agent loads it whole, and it does not extract. **The main session cannot read it at all** — `batch-blind.sh` refuses the file by path, any search over `meta-ledger/`, and any Grep whose pattern names the count, at all times (contract-005 G-1); the steward and the consolidator, which run as agents, read it. A wide search from above `meta-ledger/` with a pattern that names nothing in the file is the stated limit.
 

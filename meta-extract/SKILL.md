@@ -62,10 +62,10 @@ Silence alone is not evidence. Report what the instruments show:
 > **Process health**, from `LEDGER.yaml → scores`, over the most recent contracts:
 > - candidates created per contract: [trend]
 > - sessions audited: [share] · contracts verified: [share]
-> - canary catch rate: [caught / planted]
-> - Brier: stated confidence [score vs base rate] · pioneer decisions [score vs base rate]
+> - corrections from tests vs from reading, per contract: [trend]
+> - cost per contract: [trend]
 >
-> **Reading:** [a falling candidate rate while audited and verified shares hold and canaries are still caught — or which instrument does not hold]
+> **Reading:** [a falling candidate rate while audited and verified shares hold and corrections move from reading toward tests — or which instrument does not hold. Nothing here scores the pioneer.]
 
 Thin nodes extract flagged as thin. Open gaps carry into `known_gaps`.
 
@@ -174,7 +174,7 @@ instruments:
   candidates_per_contract_recent: [value]
   audited_share: [value]
   verified_share: [value]
-  canary_catch_rate: [caught/planted]
+  corrections_from_tests_share: [value]
 
 recommended_for:
   - [system types this handles well]
