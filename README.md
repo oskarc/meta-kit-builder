@@ -71,22 +71,42 @@ What follows from the split:
 
 ---
 
-## Agents
+## The kit agents, in the order things happen
 
-Eight kit agents, each defined by what it may not see and where it may write. Scopes are declared as hooks in each agent's own frontmatter.
+The agent you talk to is the **main agent**. It draws contracts with you, builds, and records. Eight other agents do the kit's housekeeping, and none of them is started by you: at the end of a turn the stop-gate looks at the records, finds the first task that is due, and tells the main agent to launch the agent for it. Each of those agents is deliberately blind to something, because a check made by the same eyes that did the work confirms intentions, not outcomes. Here is what each one is for, when it wakes, and what it must not see.
 
-| Agent | Runs when | Blind to | Writes |
+**Where observations come from.** Everything the kit learns starts as an observation: one sentence, one claim, written to the ledger with a note of how sure the writer was. The main agent writes most of them, when a feature is finished and the work taught it something. Others come from meta-learning, which compares what a contract promised with what verification found; from the session auditor, when it sees a correction that nobody recorded; from the map steward, when a piece of kit knowledge existed but did not load; from the case clerk, one for every correction you make, in your words; and from you, when you say something about the standard unprompted. Observations are cheap and raw. Nothing acts on one directly.
+
+**The session auditor** wakes when a contract has been implemented and its session has not been audited. It reads the transcript of that session from outside, looks for evidence of what was actually done rather than what was said, scores the agent on the five aspects, and compares that score with the one the session gave itself. It also lists corrections that were made but never recorded. It never reads a batch that is open, so nothing it writes can leak what is in one.
+
+**The verifier** wakes when a contract has been implemented and there is something to verify. It reads the contract, runs each acceptance test exactly as written, and then reads the code and the outputs for the clauses no test covers. It records a verdict per clause: verified, corrected, or open. It is told the contract id and nothing else, so the builder's account of how the work went cannot steer it. It never reads the ledger, the corrections or the casebook, because those are evidence records and the verifier's job is to produce evidence, not to lean on it.
+
+**The consolidator** wakes when observations sit unconsolidated. It is the slow store behind the fast one: it merges observations that make the same claim into a single candidate, keeps a count of how many different readings have seen the same thing, and opens the skill the candidate would change to quote any sentence the candidate would make false. It works away from the session that produced the observations, so the agent that builds never writes to what the standard learns from. It computes no score over your decisions.
+
+**The case clerk** wakes when a correction of yours has not been clerked. A correction is any time you redirect, decline, or override what the agent proposed. The clerk turns each one into a precedent: the facts that made that situation this one, the question that had to be decided, and what you decided, in your own words and never with a reason you did not give. Where the precedent can be tested it writes a check that fails when the rule is broken. It also writes one observation per correction, so what you said reaches the review batch as a candidate. It is blind to batches and transcripts so that it cannot be steered by what is under review.
+
+**The map steward** wakes when three or more map misses have piled up. It reads those misses, the firing telemetry, and the map itself, and proposes entries: add, narrow, retarget. It proposes only; it never edits the map, because the map is always loaded and every line of it is yours to ratify.
+
+**The batch assembler** wakes when items only you can decide are waiting: candidates ready for review, map proposals, unratified entries, scenario cards to rank, precedent conflicts, drift resolutions. It builds the batch from real items, stripped of their ledger ids so that the presenting session cannot tell where each one came from, and seals the mapping in a key. From the fourth batch on it may put in up to two items you already decided, shown as if new; after the reveal you see both decisions side by side, and nothing scores you on it.
+
+**The recorder** exists for one situation: a batch is open, so the ledger is closed to the session presenting it, and a feature finishes anyway. The main agent dictates its observations to the recorder, which appends them and reports back the ids. It judges nothing and reads neither the batch nor the key.
+
+**The reconstructor** runs only when you ask whether the standard carries your judgement, or before extraction. It is given past situations with the outcomes removed and the precedents that came from them withheld, and it predicts what you decided, from the kit alone. Where it is right, the kit carries you; where it is silent or wrong, it does not yet.
+
+No agent decides trial, adopt, caution or decline, overrules a precedent, amends the founding statement or ranks a scenario. Agents report; they never fix. Nothing in the kit scores you.
+
+For reference, the same eight in one table:
+
+| Agent | Wakes when | Must not see | Writes |
 |---|---|---|---|
-| `kit-verifier` | a contract is implemented and evidence exists | the builder's account; the ledger, corrections and casebook records | test results and clause verdicts in the contract log |
-| `kit-consolidator` | observations are unconsolidated | batches, sealed keys, transcripts | candidates and scores (sole writer) |
-| `kit-map-steward` | three map misses are unstewarded | batches, sealed keys, transcripts | map proposals — never the map |
-| `kit-batch-assembler` | pioneer-owned items are waiting | sealed keys, transcripts | the batch file and its sealed key |
+| `kit-session-auditor` | an implemented contract is unaudited | open batches | audits, missed corrections, map misses |
+| `kit-verifier` | a contract is implemented and evidence exists | the builder's account; the ledger, corrections and casebook | test results and clause verdicts in the contract log |
+| `kit-consolidator` | observations are unconsolidated | batches, sealed keys, transcripts | candidates and counts (sole writer) |
 | `kit-case-clerk` | corrections are unclerked | batches, sealed keys, transcripts | precedents, checks, card drafts, the fading curve |
-| `kit-session-auditor` | an implemented contract is unaudited | batches | audits, missed corrections, map misses |
-| `kit-reconstructor` | a reconstruction test runs | the correction log, ledger, contract log, learning log and drift log | predictions only |
-| `kit-recorder` | the ledger is closed to the session by an open batch | batches, sealed keys, transcripts | observations it is handed, and nothing else |
-
-No agent decides trial, adopt, caution or decline, overrules a precedent, amends the founding statement or ranks a scenario. Agents report; they never fix. Nothing in the kit scores the pioneer.
+| `kit-map-steward` | three map misses are unstewarded | batches, sealed keys, transcripts | map proposals, never the map |
+| `kit-batch-assembler` | pioneer-owned items are waiting | sealed keys, transcripts | the batch file and its sealed key |
+| `kit-recorder` | a batch is open and a feature finishes | batches, sealed keys, transcripts | the observations it is handed |
+| `kit-reconstructor` | you ask, or before extraction | the correction log, ledger, contract log, learning log, drift log | predictions only |
 
 **The limits are stated, not implied.** Scopes cover the ordinary path: a Grep over a parent directory can still reach a denied file, an agent with Bash can write through a shell command, and each agent's own transcript records what it read. The reconstructor's blindness to the casebook rests on an excluded-precedent list it is told to honour. None of this is a security boundary; it is a discipline made cheap to keep, with an auditor as backstop for the main session.
 

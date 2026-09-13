@@ -233,6 +233,35 @@ corrections:
     precedent: null
     clerk_note: null
 
+  - corr_id: C-011
+    date: 2026-09-13
+    contract_id: contract-007
+    moment: M-12
+    grade: approach
+    intervention: redirected
+    agent_offered: |
+      The README's Agents section as rewritten under G-12: a one-line lead and a four-column table (agent, runs
+      when, blind to, writes), which the pioneer had approved minutes earlier.
+    pioneer_said: |
+      "Though i can make this comment: It still hides steps. Some parts are not explained, what is the clerk?
+      consolidator checks observations, but who makes the observations?
+      The agents part of the readme should be improved, its honest today but not teaching. it reads more like a
+      formula and should read like a guide, the point is to teach not to state fact."
+    reason_given: |
+      "the point is to teach not to state fact"
+    noticed: |
+      "It still hides steps. Some parts are not explained, what is the clerk? consolidator checks observations,
+      but who makes the observations?" (given in the same message)
+    would_have_been_right: |
+      "it ... should read like a guide, the point is to teach not to state fact" (given in the same message)
+    seen_before: |
+      not yet asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: null
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no

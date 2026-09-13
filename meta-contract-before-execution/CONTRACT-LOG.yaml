@@ -1037,7 +1037,7 @@ contracts:
             entries, MAP.template.md 6,988 bytes.
         - clause: UC-10
           verdict: verified
-          pioneer_confirmation: "the readme is approved (2026-09-13)"
+          pioneer_confirmation: "the readme is approved (2026-09-13) — then, on the Agents section: it still hides steps, should read like a guide (C-011); section rewritten the same day"
           evidence: |
             docs/readme-review.md carries 19 rows — the 18 headed sections of README at fe44461 (git show, 18 headings)
             plus the opening — each with a disposition and reason, and lists the dropped and rewritten sentences; T-11
@@ -1143,7 +1143,7 @@ contracts:
             see the red state.
         - clause: G-12
           verdict: verified
-          pioneer_confirmation: "the readme is approved (2026-09-13)"
+          pioneer_confirmation: "the readme is approved (2026-09-13) — then, on the Agents section: it still hides steps, should read like a guide (C-011); section rewritten the same day"
           evidence: |
             T-11 passes (census clean, every named path exists, 19 review rows, status reads v0.15 and 003–006).
             README.md was read in full against FOUNDING.md and INTENT.md and no contradicting sentence was found: the
