@@ -523,6 +523,59 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-031
+    date: 2026-09-13
+    source: implementation
+    contract_id: contract-007
+    refs: [G-4, T-4, meta-bootstrap/SKILL.md]
+    statement: |
+      a procedure's defects are found by an un-steered agent rehearsing it on a copy, not by reading it: six
+      rehearsal rounds on three fixtures found about forty defects in the upgrade text (the map never migrated,
+      a baseline fooled by line endings, questions the pass rule forbade) that three readings of the same text
+      had not found; the rehearsal step should be the rule for any procedure the kit ships, not only the upgrade.
+    level_guess: principle
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-032
+    date: 2026-09-13
+    source: implementation
+    contract_id: contract-007
+    refs: [T-4, tests/results/T-2-T-3-T-4-T-12-2026-09-13.md]
+    statement: |
+      on a fork with no install baseline every shared kit file differs, so the number of questions an upgrade
+      asks has a floor equal to the number of shared files; the pre-mortem's "many manual decisions" is then a
+      property of the fork, not of the procedure, and the procedure's job becomes showing what keep leaves
+      broken before each answer.
+    level_guess: pattern
+    stated_confidence: 0.7
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-033
+    date: 2026-09-13
+    source: implementation
+    contract_id: contract-007
+    refs: [T-4, meta-mechanisms/SKILL.md]
+    statement: |
+      a rule that requires the agent to detect or preserve line endings under Git Bash is a rule that produces
+      troubleshooting (sed and awk strip carriage returns silently); the kit should state that endings carry no
+      meaning and never ask a step to repair them, which is what contract-007 did after the fifth rehearsal.
+    level_guess: implementation
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
 
 batches: []
@@ -534,6 +587,4 @@ audits: []
 scores:
   updated: null
   contracts: []
-  canary_catch_rate: null
-  brier_stated_confidence: null
-  brier_pioneer_decisions: null
+  coincidence: []          # migrated 2026-09-13 (contract-007 step 7): the three retired score keys removed

@@ -950,15 +950,15 @@ contracts:
       untested: G-11 ("no agent decides"), read from the files; whether README reads well to a newcomer — the
                 pioneer's judgement; the real Classes upgrade — the rehearsal is on a copy, and stage 1 is the test.
     red_test: {broke: G-5, went_red: T-5, how: "session-start.sh's `ratification: deferred` guard replaced by `if true`; walk-007 state 91 failed ('deferred ratification must not raise the backlog' — the pioneer-owned line appeared); restored; walk-007 30/30 green again", date: 2026-09-13}
-    status: approved
+    status: implemented
     verification_state: none
     audited: false
-    transcript: null
-    observations: []
+    transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    observations: [O-031, O-032, O-033]
     revisions:
       - what: "Found while building the rehearsal fixture: the map routes an upgrade to the INSTALLED meta-bootstrap, whose upgrade text predates the 004-006 migrations it must apply. Added, beyond G-2..G-4's list: session-start.sh prints a staged-kit line pointing at the STAGED copy when .claude/kit-incoming/ exists, and the bootstrap's upgrade section opens by deferring to the staged copy (gap-032). One hook line and one paragraph; no new decision by any mechanism."
         authorised_by: "pending - surfaced to the pioneer with the implementation report, 2026-09-13 (M-08: the work departed from the approved list and says so)"
         date: 2026-09-13
         tests_changed: []      # walk-007 gains no state for it; T-4's rehearsal is where it shows
-    cost: null
+    cost: {turns: 79, tokens: null, pioneer_minutes: null}    # turns = main-session assistant messages from approval (13:49Z) to implemented (15:40Z), tool-call rounds included — contract-006's 15 counted visible replies only, so the two are not comparable and this is the count from here on; tokens not measured for the main session (the thirteen rehearsal agents used about 5.0 million between them); minutes: the pioneer's, to be asked
     work_id: null

@@ -1,2 +1,8 @@
-# Hook scripts run under bash, including Git Bash on Windows. CRLF line endings break them.
+# Hook scripts run under bash, including Git Bash on Windows. CRLF line endings break them, and the kit ships
+# every text file with LF endings so an upgrade can compare content rather than endings (contract-007).
 *.sh text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.expected text eol=lf
+*.html text eol=lf

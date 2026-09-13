@@ -2,7 +2,7 @@
 
 <!--
 ALWAYS LOADED via CLAUDE.md. Governed by meta-map/SKILL.md. meta-bootstrap copies this file and
-replaces __PROJECT_NAME__. Entries stay `proposed` until this project's pioneer ratifies them.
+fills in the project name. Entries stay `proposed` until this project's pioneer ratifies them.
 Budget: ~40 entries and ~8 KB (contract-001 G-1) — the map prunes rather than extends.
 Format: id | moment | type | channel | when | not when | load | status
 Pointers: bare node name = its SKILL.md · `agent:` = .claude/agents/kit-*.md · `script:` = hooks/*.sh
