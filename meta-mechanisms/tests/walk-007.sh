@@ -43,6 +43,23 @@ r=$(ss); case "$r" in *"not given or deferred"*) bad "94b a recorded statement b
 mk; printf '# Founding\n\n*Deferred by the Pioneer on 2026-09-12.*\n' > "$K/meta-founding-contract/FOUNDING.md"
 r=$(ss); case "$r" in *"not given or deferred"*) ok "94c a real deferral still raises the line";; *) bad "94c deferral" "$r";; esac
 
+mk; printf 'observations:
+  - obs_id: O-1
+    review_due: true
+  - obs_id: O-2
+    review_due: true
+' > "$K/meta-ledger/LEDGER.yaml"
+r=$(ss); case "$r" in *"Pioneer-owned"*) bad "94d two due candidates alone must NOT raise the backlog: the gate waits for three (UC-5)" "$r";; *) ok "94d two due candidates alone -> silent, as the gate is";; esac
+mk; printf 'observations:
+  - obs_id: O-1
+    review_due: true
+  - obs_id: O-2
+    review_due: true
+  - obs_id: O-3
+    review_due: true
+' > "$K/meta-ledger/LEDGER.yaml"
+r=$(ss); case "$r" in *"Pioneer-owned"*) ok "94e three due candidates -> the line, matching the gate's threshold";; *) bad "94e three due candidates" "$r";; esac
+
 echo "=== T-6: the question guard ==="
 mk; printf 'observations:\n  - obs_id: O-1\n    consolidated: false\n' > "$K/meta-ledger/LEDGER.yaml"
 n=$(gate 'Done. drift score 0.1 lay 0.2 Shall I proceed with the retirement?'); [ "$n" = 0 ] && ok "95 a question AFTER the drift block defers the gate" || bad "95 question after block" "fired"

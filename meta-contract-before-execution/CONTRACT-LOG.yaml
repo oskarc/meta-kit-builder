@@ -956,6 +956,225 @@ contracts:
       date: 2026-09-13
       by: kit-verifier
       method: mixed
+      # Third report (re-verification), on the tree at f159b8d, working tree clean. Which text each clause was
+      # judged against: revision 1 (staged-kit line, bootstrap deferral paragraph) and revision 3 (step 3 reads the
+      # project's own records first, C-010) are authorised and change no test, so both count as part of the contract
+      # and are judged as such. Revision 2 changes T-4 and is dated the same day as the first report, not later, so
+      # M-18 does not exclude it: T-4 and G-4 are judged against ITS text — every decision asked belongs to a file
+      # that genuinely differed or to one of the FOUR standing questions, troubleshooting zero. The procedure's
+      # criterion was widened again to FIVE standing questions in commit f159b8d, after both earlier reports and on
+      # no revision at all; that text is not applied here. Walks run by me 2026-09-13: walk.sh 36/36, walk-004
+      # 51/51, walk-007 32/32, all exit 0; all five checks/*.sh exit 0.
+      tests: {T-1: pass, T-2: pass, T-3: pass, T-4: fail, T-5: pass, T-6: pass, T-7: pass, T-8: pass, T-9: pass, T-10: pass, T-11: pass, T-12: pass}
+      corrections_from_tests: 1
+      corrections_from_reading: 2
+      clauses:
+        - clause: UC-1
+          verdict: verified
+          evidence: |
+            T-1 (walk-007 states 105 and 112d). meta-manifest/MANIFEST.yaml:10 version: 0.15;
+            templates/MANIFEST.template.yaml:20 base_kit_version: 0.15. I rebuilt both fixtures with
+            tests/fixtures/make-upgrade-fixtures.sh: each reads base_kit_version: 0.14 beside a staged copy at 0.15,
+            and meta-bootstrap/SKILL.md:351 compares exactly those two fields, with "treat as pre-0.14 and say so"
+            where the project's field is absent — which is the Classes case.
+        - clause: UC-2
+          verdict: verified
+          evidence: |
+            T-2. The migration is an agent procedure, not a script, so the evidence is the rehearsal reports plus the
+            fixture premise, which I checked myself. My rebuild of fx013 confirms the pre-006 start it is migrated
+            from: contract-001 carries none of disappointment/premortem/red_test/cost, C-001 carries none of the three
+            probes, LEDGER.yaml:119-121 still holds canary_catch_rate, brier_stated_confidence and
+            brier_pioneer_decisions with no coincidence:, the manifest reads 0.14 and still registers the canary node,
+            MAP.md still carries M-31, there is no checks/ folder, and the stale files are on disk. The reports show
+            each item of G-2's list applied and every pre-existing line surviving a diff against a copy taken before
+            the migration (fx013-round10.md section 3; classes-round6.md section 3 — 1,124 insertions across three
+            records, 0 record lines changed, and the mandated diff caught a refresh that had silently done nothing).
+            Exception worth naming against "every field 004-006 added": tier_4 and a revision's tests_changed are on no
+            migration list, because a legacy entry has nothing true to write in either.
+        - clause: UC-3
+          verdict: verified
+          evidence: |
+            T-3 and T-12. My fixture build confirms the premise: fx013 and fx014 both carry kit-canary-author.md (both
+            copies), reveal-canaries.sh and REBUILD.template.yaml; fx013 carries the evolved meta-casebook/SKILL.md
+            ("Project addition") and one file differing from its baseline, fx014 none. The reports show the stale list
+            presented with the kept files that still name each, removed only after the stubbed confirmation, gone
+            afterwards; fx013 asked exactly one file question, fx014 none (fx013-round10.md section 1;
+            classes-round6.md section 2, where the stale list was empty and so not asked). settings.json carries one
+            _kit group per event in the template and in the fixture (six events, six groups), which is what T-3 checks.
+        - clause: UC-4
+          verdict: corrected
+          evidence: |
+            The rehearsal does run first and the real run has not happened, but "the copy is discarded" is again not
+            what happened. Eleven rehearsal copies from rounds 7-10 are on disk in this session's scratchpad, checked
+            2026-09-13: round7/{classes-copy,fx013,fx014}, round8/{classes-copy,fx013,fx014}, round9/{fx013,fx014},
+            round10/{classes-copy,fx013,fx014} under
+            C:/Users/Windows/AppData/Local/Temp/claude/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784/scratchpad/,
+            timestamped 18:40-19:58, 74-191 files each. Three of them are copies of the real Classes install. The
+            summary record says the Classes copy was "discarded afterwards"
+            (tests/results/T-2-T-3-T-4-T-12-2026-09-13.md, the fixtures table). The first report found the same thing
+            for rounds 1-3 and the copies were then removed; the later rounds repeated it.
+        - clause: UC-5
+          verdict: verified
+          evidence: |
+            The correction in the second report is closed. session-start.sh:47-57 now repeats the gate's rule instead
+            of summing — others >= 1 or due >= 3 — matching stop-gate.sh:93-94. Reproduced by me on one fixture: with
+            review_due x1 and x2 both readers are silent, with x3 both fire. T-5 (walk-007 90-94c) covers the rest:
+            the casebook is said to stay open (:29), the deferral marker is honoured (:44), conflicts and mitigated
+            drift are counted as the gate counts them (:47-53).
+        - clause: UC-6
+          verdict: verified
+          evidence: |
+            T-6 (walk-007 95-98). stop-gate.sh:19-27 scans the closing 400 characters of both the text before the last
+            "drift score" marker and the whole message, so a question after the block and "Want me to run the tests?"
+            before it both defer, each writing stop-deferred|question (:24); agents/kit-map-steward.md:38 reads that
+            event with a threshold.
+        - clause: UC-7
+          verdict: verified
+          evidence: |
+            T-7. My runs on the tree: walk.sh "all 36 states match walk.expected" exit 0; walk-004.sh 51 passed 0
+            failed exit 0; walk-007.sh 32 passed 0 failed exit 0. walk-007 state 99b alters walk.expected by one
+            character during the run and walk.sh exits non-zero; state 100 confirms walk-004's 64b asserts the
+            declined candidates' terminal values.
+        - clause: UC-8
+          verdict: verified
+          evidence: |
+            T-8 (walk-007 105-111), and the second report's one correction is closed: meta-map/MAP.md:32 and
+            templates/MAP.template.md now load "meta-correction-log → How to record", and that heading exists
+            (meta-correction-log/SKILL.md:37). Checked by reading: M-23 and M-28 name siblings; watching is in the
+            marker table; one writer list; live map and template agree entry for entry; README reads v0.15 and
+            narrates 003-007. Outside this clause's list but found while reading it: README.md:206 says the upgrade
+            asks "four standing questions at most" while meta-bootstrap/SKILL.md:352 now says five — recorded under
+            G-4, since it is the criterion change rather than the text set UC-8 enumerates.
+        - clause: UC-9
+          verdict: verified
+          evidence: |
+            T-9 (walk-007 101-103) and my own run: all five checks/*.sh exit 0 on the tree, with INTENT.md 4,820 bytes
+            and MAP.md 6,988 bytes over 30 entries; state 102 shows G1-size.sh exiting non-zero and naming file and
+            figure on an oversized INTENT.md; DRIFTLOG.yaml records drift-003's elevation as mitigation_medium:
+            mechanism.
+        - clause: UC-10
+          verdict: open
+          evidence: |
+            Unchanged from the second report. T-11 passes (walk-007 112a-d: census clean, every named path exists, 19
+            review rows, status reads v0.15). The pioneer's reading closed the newcomer part before the Agents section
+            was rewritten at their direction (C-011); docs/readme-review.md row 8 records the rewrite, and README.md
+            has not been touched since commit fc0c731, so no reading of "The kit agents, in the order things happen"
+            (README.md:74-111) is recorded anywhere on this entry. What would close it: that reading, recorded here.
+        - clause: G-1
+          verdict: verified
+          evidence: |
+            T-1. MANIFEST.yaml:10; MANIFEST.template.yaml:20; README.md:245-251 narrates contracts 003 through 007
+            under "v0.15".
+        - clause: G-2
+          verdict: verified
+          evidence: |
+            T-2 and meta-bootstrap/SKILL.md:363-372: step 6 creates meta-mechanisms/checks/; step 7 adds the four
+            contract-006 fields as legacy, the three probes as not asked, represented: [] on batches, removes the
+            three retired score keys and adds coincidence: [], takes owns: and triggers for every base node from the
+            staged template, renames agent-canary-author to agent-batch-assembler, and says "remove only the retired
+            keys this list names, never change a value that is present". The reports show each applied with nothing
+            existing overwritten.
+        - clause: G-3
+          verdict: verified
+          evidence: |
+            T-3 and T-12; meta-bootstrap/SKILL.md:353-358 (untouched / evolved / new / stale, one question per
+            differing file, the stale list in one question, stale winning over untouched) and :362 (every group with a
+            _kit key dropped and the staged group appended). Limit unchanged from both earlier reports: in every
+            rehearsal settings.json was absent (Classes) or identical to the staged template, so replace-not-append
+            has still never been exercised against a kit group that differed.
+        - clause: G-4
+          verdict: corrected
+          evidence: |
+            Judged against revision 2's authorised text (four standing questions, troubleshooting zero). T-4 asks for
+            the rehearsal on "a copy of a real install". The only real install rehearsed is the Classes copy, and its
+            last run on the current procedure is round 6: 17 decisions / 13 files genuinely differed / 0
+            troubleshooting. Sixteen decisions are admissible; the seventeenth is the template rule's question on
+            MANIFEST.yaml, which step 7 requires and which the authorised criterion cannot admit, because "genuinely
+            differed" is defined against a staged copy and an instance file has none. The report says so itself
+            (classes-round6.md section 1, "It does not pass as the criterion is literally written"). Classes round 4
+            (17 / 14 / 0) passed only by counting that same question as a differing file, which the criterion's own
+            definition does not allow, and it ran on text that has since changed. Two further facts: the criterion in
+            meta-bootstrap/SKILL.md:352 was widened to five standing questions in commit f159b8d, after both earlier
+            reports and recorded as no revision, so the test's pass rule has moved again without authorisation; and
+            five wording fixes landed in that same commit after the last fixture run (round 10) and the last fork run
+            (Classes round 6), while step 2's own rule is "otherwise fix the procedure here, in this node, and
+            rehearse again" — so no rehearsal has run on the procedure as it now stands. What is true of the step
+            itself: it exists (:352), was run thirteen times on the fixtures and six on a copy of the real fork, and
+            each log carries the three numbers itemised. What is not: the copies were not discarded (UC-4).
+        - clause: G-5
+          verdict: verified
+          evidence: |
+            T-5. session-start.sh:29, :44, :47-53, with the threshold now repeating the gate's rule (see UC-5, which I
+            reproduced). meta-mechanisms/SKILL.md:45 reads "run close-batch.sh (M-17)", stop-gate.sh:41 cites M-17,
+            and MAP.md M-17 loads "script: close-batch.sh, then reveal-key.sh".
+        - clause: G-6
+          verdict: verified
+          evidence: |
+            T-6. stop-gate.sh:19-27; agents/kit-map-steward.md:38; meta-mechanisms/SKILL.md describes the same
+            behaviour.
+        - clause: G-7
+          verdict: verified
+          evidence: |
+            T-7. walk.sh:9-16 wraps the walk, diffs the state lines against walk.expected and exits 1 on any
+            difference; walk-004.sh state 64b requires stage: declined and a decision block for both K-2 and K-3. Both
+            failure modes fire in walk-007 states 99b and 100, which I ran.
+        - clause: G-8
+          verdict: verified
+          evidence: |
+            T-8, and by reading: both enumerations in template and node; the seven map entries carry file + heading
+            only (state 107) and M-07's pointer now resolves to a real heading; M-23 and M-28 siblings; the mechanisms
+            header's hook range matches the map's hook-typed entries; watching in the marker table; one writer list
+            matching the agents' write scopes; "at most three" the one rule in live text.
+        - clause: G-9
+          verdict: verified
+          evidence: |
+            T-9. meta-mechanisms/checks/G1-size.sh holds INTENT.md to 5,120 bytes and the map to 8,192 bytes and 40
+            entries, exiting non-zero with the file and the figure; drift-003 carries mitigation_medium: mechanism.
+            Related and in the kit's favour: the round-8 rehearsal found the stated byte figure in meta-map/SKILL.md
+            stale a third time, and the fix removed the figure and pointed the paragraph at this check
+            (DRIFTLOG.yaml, drift-003 recurrence of 2026-09-13).
+        - clause: G-10
+          verdict: verified
+          evidence: |
+            T-10 (walk-007 state 104). owner-check.sh skips an owner whose skill_file ends INTENT.md, MAP.md or
+            FOUNDING.md, so an edit to an import-loaded file writes no bypass line.
+        - clause: G-11
+          verdict: corrected
+          evidence: |
+            Listed untested; read from the files and the diffs. Holds: no mechanism or agent decides; all three walks
+            pass on the tree; revision 3 now records the C-010 records-first sentence with the pioneer's
+            authorisation, closing the second report's finding on it. Not met on two counts. (1) "Nothing added beyond
+            this list": commit f159b8d, after both reports and on no revision, changed T-4's own pass rule (four
+            standing questions to five) and added rules the Tier 3 list does not name — a DRIFTLOG status: unknown
+            backfill in the migration list, stale winning over untouched, an agent counted twice being one question,
+            the templates-keep cost warning, the step-7 verification-by-diff requirement, the pending-entry note
+            clause, and the step-9 deletion of a telemetry file the checks created; meta-map/SKILL.md was also
+            reworded in 8fafc79. Each is defensible and most came from a rehearsal finding, but the contract's list is
+            what this clause measures. (2) "Every changed script fixture-tested": session-start.sh changed in a0245cb
+            (the review_due threshold) and walk-007.sh has not been touched since 6f39c16, so no state asserts the
+            behaviour that changed — I had to reproduce it by hand; revision 1's staged-kit line likewise has no test,
+            as the revision itself says. What would close it: the criterion change and the additions recorded as
+            revisions with the pioneer's authorisation, and a walk state for the threshold rule.
+        - clause: G-12
+          verdict: open
+          evidence: |
+            T-11 passes. I read README.md in full against FOUNDING.md and INTENT.md, including the rewritten Agents
+            guide: no contradicting sentence. The same overstatement the second report noted still stands —
+            README.md:82 "It is told the contract id and nothing else", where agents/kit-verifier.md:29-30 allows the
+            launch to say where evidence lives, and this launch did; that is a README claim about an agent file, not a
+            contradiction of FOUNDING or INTENT. "A newcomer can follow it" is the pioneer's judgement and Tier 4
+            lists it untested; their approval predates the Agents rewrite, so the clause is open for that part only,
+            as under UC-10.
+      summary: {verified: 17, corrected: 3, open: 2}
+      open_needs:
+        - "UC-10, G-12: the pioneer's reading of the rewritten Agents section (README.md:74-111), recorded on the entry"
+        - "UC-4: the eleven rehearsal copies under the session scratchpad (rounds 7-10, three of them copies of the real Classes install) deleted, so 'the copy is discarded' is true of the record as well as the procedure"
+        - "T-4, G-4: either the criterion's widening to five standing questions recorded as a revision and authorised — after which a fresh rehearsal on a copy of the real install is due, since the procedure's text changed after the last one — or the widening withdrawn and T-4 met on the four-question rule"
+        - "G-11: the additions made in f159b8d recorded as revisions with the pioneer's authorisation, and a walk state for session-start's review_due threshold"
+    verification_history:
+    - date: 2026-09-13   # the second report, superseded by the third above
+      by: kit-verifier
+      method: mixed
       # Re-verification (second report, same day). Both revisions are authorised and were applied as part of the
       # contract: revision 1 (staged-kit line, bootstrap deferral paragraph) counts under G-11; revision 2's widened
       # pass rule was used for T-4 and G-4 — it is dated the same day as the first report, not later, so the M-18
@@ -1177,7 +1396,6 @@ contracts:
       summary: {verified: 16, corrected: 4, open: 2}
       open_needs:
         - "UC-10, G-12: the pioneer's reading of the rewritten Agents section (README.md:74-111), recorded on the entry"
-    verification_history:
     - date: 2026-09-13   # the first report, written before revisions 1 and 2 were authorised and before the copies were discarded
       by: kit-verifier
       method: mixed
@@ -1396,5 +1614,9 @@ contracts:
         authorised_by: "Pioneer, 2026-09-13: 'When upgrading the agent SHOULD read the contracts log for verification, its important to get the lay of the land before walking it to use your language.' (C-010 carries the message verbatim)"
         date: 2026-09-13
         tests_changed: []
+      - what: "Commit f159b8d widened the rehearsal pass rule from four standing questions to five, adding the template rule's per-file question on an instance file, and added seven rules Tier 3 does not name: the DRIFTLOG status backfill, stale-wins where two classifications collide, an agent counted once rather than twice, the cost of keeping an old template stated at the moment of asking, verify-by-diff on a migration, the pending-entry note clause, and deleting the telemetry the step-9 checks write. These came out of rehearsals and each closes a defect a rehearsal found, but they go beyond the approved list and the widening changes the text T-4 is judged against. Recorded here rather than absorbed. The four-question criterion as approved cannot be met by any pre-0.14 fork, because step 7 requires a question it cannot admit - that contradiction between an approved test and an approved guarantee is the pioneer's to resolve."
+        authorised_by: "pending - surfaced with the third verification report, 2026-09-13. The verifier judged T-4 and G-4 against the four-question text and did not apply the widening."
+        date: 2026-09-13
+        tests_changed: [T-4]
     cost: {turns: 79, tokens: null, pioneer_minutes: null}    # turns = main-session assistant messages from approval (13:49Z) to implemented (15:40Z), tool-call rounds included — contract-006's 15 counted visible replies only, so the two are not comparable and this is the count from here on; tokens not measured for the main session (the thirteen rehearsal agents used about 5.0 million between them); minutes: the pioneer's, to be asked
     work_id: null
