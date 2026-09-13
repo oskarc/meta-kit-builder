@@ -836,6 +836,6 @@ contracts:
         authorised_by: "Pioneer, 2026-09-13: 'yeah lets align intent.md to the foundational statement'"
         date: 2026-09-13
         tests_changed: []          # T-9 unchanged; dated after the verification report, which is allowed for a revision that changes no test
-    cost: {turns: 15, tokens: null, pioneer_minutes: null}   # turns = the agent's turns from approval to implemented; tokens and the pioneer's minutes not measured
+    cost: {turns: 15, tokens: null, pioneer_minutes: 180}    # turns = the agent's turns from approval to implemented; tokens not measured; minutes are the pioneer's own report, 2026-09-13: "my estimate is it took about 3h to read the reports and iterate, and work it through"
     artifact: https://claude.ai/code/artifact/5f888d45-93bc-4351-9157-97a0c6f95f36   # docs/kit-flow.html (G-11)
     work_id: null
