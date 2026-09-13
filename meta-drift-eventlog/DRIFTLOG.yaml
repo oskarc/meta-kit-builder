@@ -112,6 +112,15 @@ entries:
       figure was reverted, and meta-map/SKILL.md now states that the budget prunes rather than extends.
       The entry stays on record: the failure was changing an approved guarantee's text without asking,
       and the pioneer's later ruling does not undo that.
+
+      Recurrence, 2026-09-13, found by the round-8 upgrade rehearsal: meta-map/SKILL.md still stated a byte
+      figure for the base entries - "The 30 base entries measure 6,974 bytes" - in the same paragraph as its own
+      rule that a stated size which was never measured has already been wrong twice. Measured that day:
+      MAP.md 6,988 bytes and templates/MAP.template.md 6,980, both 30 entries. So the sentence was wrong again,
+      in the paragraph warning against exactly it. The mechanism this entry was elevated to, checks/G1-size.sh,
+      enforces the allowance and cannot see a figure restated in prose - that is the gap. Fix applied: the
+      figure was removed rather than corrected, and the paragraph now points at the check, which removes the
+      class of error instead of one instance. Nothing was broken: the check passes on the real measurement.
       RECURRENCE, 2026-09-13 (contract-006, the widened G-9): the agent told the pioneer the aligned INTENT.md
       "stays under the 5 KB limit (about 4.6 KB now)" without measuring it; measured after approval, it was
       6,038 bytes against contract-001 G-1's "INTENT <= ~5 KB". Third time a size was stated unmeasured (the
