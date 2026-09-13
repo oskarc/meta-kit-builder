@@ -35,7 +35,7 @@ Raw, cheap, append-only. Written by the main agent after implementation (the Sta
 **While a review batch is open**, the main agent cannot write here either — so it hands the observations, in full, to **kit-recorder**, whose only job and only write scope this is. Build work does not wait on a review, and the presenting session still never reads the ledger.
 
 - **`statement`** — one claim, at a guessed level. One learning per observation.
-- **`stated_confidence`** — the observer's probability, written before any checking, that this claim will be adopted by the pioneer and hold uncontradicted through its next three independent uses. **Frozen at creation.** It is kept as the forecast it was and is not scored (contract-006); it is never a gate.
+- **`stated_confidence`** — the observer's probability, written before any checking, that this claim will be adopted by the pioneer and hold uncontradicted through its next three independent uses. **Frozen at creation.** It is a forecast to be scored, never a gate.
 - **`loaded_candidates`** — every candidate id that was in the observer's context: cited in the contract (M-29) or read during the work. One definition, used everywhere.
 - **`prompted`** — `true` when the observation came from an answer the kit asked for (a batch `revise`, a question put to the pioneer). A prompted observation is never counted as the unprompted pioneer evidence of independence rule 3.
 - **`certainty_codes`** — optional at creation; a session-level drift analysis adds `compromised-session` here so the consolidator carries it onto the candidate.
@@ -70,7 +70,7 @@ A stage move is never re-proposed for a disposition the pioneer already decided;
 
 ### Independence
 
-**Two sightings are independent to the degree a single misreading of the contract could not have produced both.** That is the definition (contract-006 G-4) — the reason the verification standards give for requiring a second reader, in one sentence. It replaces "who reported" with "what varied". A sighting comes from a *different reading* when:
+**Two sightings are independent to the degree that a single misreading of the contract could not have produced both.** That is the definition (contract-006 G-4) — the reason the verification standards give for requiring a second reader, in one sentence. It replaces "who reported" with "what varied". A sighting comes from a *different reading* when:
 
 1. it is a **check that can fail** — a test, a hook, a script under `meta-mechanisms/checks/` — run on the work (the strongest kind: no reading is involved at all)
 2. it is a **kit-verifier verdict** on a clause that cites the candidate — recorded with the grade `same-family-different-inputs`, because the verifier is the builder's own model family reading the same repository with different inputs; it counts, and the grade travels with it so nobody mistakes it for an outside reader

@@ -660,7 +660,160 @@ contracts:
                 the files; whether the form stays enforced in a live session, which only stage 1 can show.
     red_test: {broke: G-7, went_red: T-7, how: "M-31 appended to templates/MAP.template.md; walk-004 state 75 failed ('no M-31 in MAP.template.md — still present'); restored; walk green again", date: 2026-09-13}
     status: implemented
-    verification_state: none
+    verification_state: reported
+    verification:
+      date: 2026-09-13
+      by: kit-verifier
+      method: mixed
+      tests: {T-1: fail, T-2: pass, T-3: fail, T-4: pass, T-5: pass, T-6: pass, T-7: pass, T-8: pass, T-9: fail, T-10: fail, T-11: pass}
+      corrections_from_tests: 0
+      corrections_from_reading: 2
+      revision_applied: "2026-09-13 (T-11) — dated before this report, so a revision; G-11 and T-11 judged against its text"
+      clauses:
+        - clause: UC-1
+          verdict: open
+          evidence: |
+            The recording rule and the three questions are written (meta-correction-log/SKILL.md:43) and the clerk's
+            precedent-to-check route is written (agents/kit-case-clerk.md:41, write scope :18). No output shows either
+            in use: the un-steered clerk run in tests/results/T-10-2026-09-13.md describes P-001, checks/P-001.sh and
+            O-001 but the fixture was a temp folder and none of those files survive (the only fixture tree on disk,
+            /tmp/tmp.kcroALvBro, is the 12 September contract-005 fixture with no checks/ folder); the repository's
+            meta-mechanisms/checks/ is empty; the corrections record is outside my scope. Would check: one correction
+            carrying noticed / would_have_been_right / seen_before answers, and one clerk-written check kept on disk.
+        - clause: UC-2
+          verdict: open
+          evidence: |
+            The text is in place — due on one different-reading sighting (meta-ledger/SKILL.md:61-65), statement first
+            then only "Assume this is wrong. Why?" (meta-skill-builder/SKILL.md:26-27), earlier decision shown beside
+            the new one with no score (meta-skill-builder/SKILL.md:49). No batch has been assembled or presented in this
+            form: the walks T-1 and T-3 name do not exist (see those tests). One residue found by reading:
+            meta-ledger/SKILL.md:38 still calls stated_confidence "a forecast to be scored", while :140 and :162 say it
+            is recorded and unscored — the retired per-candidate score survives as a sentence.
+        - clause: UC-3
+          verdict: verified
+          evidence: |
+            T-5 pass. The gate asks for disappointment per guarantee before Tier 4, the pre-mortem, and a named red test
+            before final approval (meta-contract-before-execution/SKILL.md:135-157). This entry carries all three:
+            disappointment on G-1..G-11, premortem verbatim, red_test {broke: G-7, went_red: T-7}.
+        - clause: UC-4
+          verdict: verified
+          evidence: |
+            agents/kit-verifier.md:30 (the verifier chooses clauses and files; the report is not routed through the
+            builder), meta-ledger/SKILL.md:76 and agents/kit-consolidator.md:34 (verdicts count as sightings graded
+            same-family-different-inputs), templates/CONTRACT-LOG.template.yaml:50-51 (corrections_from_tests /
+            corrections_from_reading). This block was produced under those rules and carries both counts.
+        - clause: UC-5
+          verdict: corrected
+          evidence: |
+            What is actually recorded on this entry is cost: {turns: 15, tokens: null, pioneer_minutes: null}. The use
+            case asks for turns, tokens where known, and the pioneer's minutes; the minutes were not asked for or
+            recorded, so for the first contract under the rule the pioneer is shown a turn count and nothing else.
+            (Found by reading the entry; T-8 checks only that the key exists.)
+        - clause: UC-6
+          verdict: corrected
+          evidence: |
+            M-31 is out of both maps and docs/rebuild-design.md holds the stage-2 conditions (T-7, walk-004 states
+            75-79). But meta-bootstrap/SKILL.md:324 — the message every new install ends with — still tells the pioneer
+            "the rebuild plan frozen", and :328 says what the work teaches "is held and scored". Nothing is seeded and
+            nothing is scored; the install message describes the kit before this contract. (Found by reading.)
+        - clause: UC-7
+          verdict: open
+          evidence: |
+            meta-foundation/INTENT.md is unchanged: :41 still reads "Precedents bind. A casebook precedent that matches
+            the situation decides it" and :40 still says "canaries are mixed in". The entry's own note says G-9 awaits
+            the pioneer's ruling. Would check: the ruling recorded on this entry and the file matching it.
+        - clause: UC-8
+          verdict: verified
+          evidence: |
+            T-11 pass, against the revised text: docs/kit-flow.html opens with the roles (section 01), walks one feature
+            start to finish (02), a correction (03) and a review (04) in plain words, has a glossary (08), one end-to-end
+            figure, six before/after pairs each with a "Why" caption (contract gate, verification, corrections, review
+            batch, learning, rebuild), no external resource (no script/link/img, no URL; 19 inline SVGs), committed in
+            27ed29a, artifact URL on this entry.
+        - clause: G-1
+          verdict: open
+          evidence: |
+            T-1 fail. The removal half holds: no lower_bound, Wilson or 0.64 in meta-ledger/SKILL.md,
+            templates/LEDGER.template.yaml or agents/kit-consolidator.md. The walk half — one candidate with one
+            differently-sourced sighting becomes due — exists in neither walk.sh nor walk-004.sh and no recorded run
+            shows it; the K-001 in tests/results/T-10-2026-09-13.md became due on the pioneer-correction route, not the
+            different-reading route. Would check: that walk, or a recorded consolidator run on such a fixture.
+        - clause: G-2
+          verdict: verified
+          evidence: |
+            T-2 pass: no Brier or catch-rate reference in the ledger node, meta-skill-builder, meta-extract or templates;
+            hooks/reveal-key.sh writes only a telemetry line and stdout, and the Reveal step writes `represented` with
+            no canaries fields (meta-skill-builder/SKILL.md:49); a declined candidate's outcome is `unobserved`
+            (meta-ledger/SKILL.md:164). Noted, outside the test's reach: the stated_confidence sentence at
+            meta-ledger/SKILL.md:38 recorded under UC-2.
+        - clause: G-3
+          verdict: open
+          evidence: |
+            T-3 fail: no fixture with two or three revealed batches exists under meta-mechanisms/tests/fixtures/ and no
+            assembler run is recorded under tests/results/. From the definition alone, agents/kit-batch-assembler.md
+            has no planting step, re-presents only from the fourth batch and at most two (:35), and records prior/new
+            per item with no rate (meta-ledger/SKILL.md:119, :127) — but a test covers this clause, so prose does not
+            verify it. Would check: the two fixture runs the test names.
+        - clause: G-4
+          verdict: verified
+          evidence: |
+            T-4 pass. The definition is at meta-ledger/SKILL.md:73 — one word differs from the contract's text ("to the
+            degree that a single misreading" against "to the degree a single misreading"), meaning unchanged, recorded
+            here so the pioneer can rule on "verbatim". Grade in templates/LEDGER.template.yaml:50 and
+            meta-ledger/SKILL.md:76; the verifier chooses its clauses (agents/kit-verifier.md:30).
+        - clause: G-5
+          verdict: verified
+          evidence: |
+            T-5 pass. templates/CONTRACT-LOG.template.yaml:32 (disappointment), :34 (premortem), :41 (red_test),
+            :50-51 (the two counts); legibility rule at meta-contract-before-execution/SKILL.md:139; this entry carries
+            "same as it says" on all eleven guarantees and red_test {broke: G-7, went_red: T-7}.
+        - clause: G-6
+          verdict: verified
+          evidence: |
+            T-6 pass. templates/CORRECTIONS.template.yaml:26-30 and meta-correction-log/SKILL.md:43 (the three fields);
+            agents/kit-case-clerk.md:41 and :18 (checks route and write scope); cards "no cap"
+            (agents/kit-batch-assembler.md:32) and no "at most 2" card cap in any node, agent or template; the batch
+            prompt is only "Assume this is wrong. Why?" (meta-skill-builder/SKILL.md:27, meta-ledger/SKILL.md:141);
+            pre-mortem at meta-contract-before-execution/SKILL.md:151-152.
+        - clause: G-7
+          verdict: verified
+          evidence: |
+            T-7 pass: walk-004 states 75-79 — no M-31 in MAP.md (6,974 bytes) or MAP.template.md (6,966 bytes),
+            docs/rebuild-design.md present, REBUILD template gone, bootstrap 6h seeds no rebuild plan. The stale install
+            message at meta-bootstrap/SKILL.md:324 is recorded under UC-6.
+        - clause: G-8
+          verdict: verified
+          evidence: |
+            T-8 pass: templates/CONTRACT-LOG.template.yaml:66 has cost:; this entry records cost at implemented. What it
+            records is recorded under UC-5.
+        - clause: G-9
+          verdict: open
+          evidence: |
+            T-9 fail: "Precedents bind" survives at meta-foundation/INTENT.md:41 and no approval of a diff is recorded
+            on this entry. By the guarantee's own terms the change waits on the pioneer's approval, so the file being
+            unchanged is not a breach; the guarantee is unfinished. Would check: the ruling, recorded here, and the file
+            matching it.
+        - clause: G-10
+          verdict: open
+          evidence: |
+            T-10 fail. What holds: the map ends smaller (walk-004 state 76); every file changed in 27ed29a traces to a
+            listed guarantee (assembler rename, reveal-key rename, M-31 removal, canary and catch-rate wording); no agent
+            decides a stage, reason or ranking by the Never lists of kit-consolidator, kit-batch-assembler and
+            kit-case-clerk. What does not: the census finds a live reference to a removed instrument in an always-loaded
+            node file — meta-foundation/INTENT.md:40 "canaries are mixed in" — and the un-steered clerk run cannot be
+            re-examined because its outputs were not kept (the consolidator's output is quoted in
+            tests/results/T-10-2026-09-13.md and shows no bound and both passages verbatim against
+            tests/fixtures/make-T-2.sh). Would check: the INTENT.md ruling, and the clerk run's files kept on disk.
+        - clause: G-11
+          verdict: verified
+          evidence: |
+            T-11 pass against the 2026-09-13 revision; details under UC-8. Committed in 27ed29a; working tree clean.
+      summary: {verified: 10, corrected: 2, open: 7}
+      open_needs:
+        - "UC-1: one correction in CORRECTIONS.yaml with the three incident answers filled, and one clerk-written check kept under meta-mechanisms/checks/"
+        - "UC-2, G-1, G-3: the walks T-1 and T-3 name — a candidate made due by one different-reading sighting; an assembler run on fixtures with two and with three revealed batches — as scripts under tests/ or recorded runs under tests/results/"
+        - "UC-7, G-9: the pioneer's ruling on the INTENT.md diff recorded on this entry, and INTENT.md matching it"
+        - "G-10: the INTENT.md ruling above, and the T-10 clerk run's P-001, checks/P-001.sh and O-001 preserved (fixture kept, or files quoted in the result)"
     audited: false
     transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: []            # recorded after verification; G-9 (INTENT.md) awaits the pioneer's ruling at implemented

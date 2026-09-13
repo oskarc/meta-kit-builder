@@ -1,0 +1,47 @@
+observations: []
+
+candidates:
+  - cand_id: K-001
+    created: 2026-09-11
+    statement: |
+      Surface the first network failure to the caller at once; do not retry silently.
+    level: pattern
+    tier: project
+    target: proj-network
+    stage: trial
+    contradicts:
+      - file: .claude/skills/proj-network/SKILL.md
+        passage: "Always retry a failed network call twice before surfacing the error, with a one-second pause between attempts."
+    review_due: true
+    disposition_proposed: adopt
+    evidence_refs:
+      - O-001
+      - {contract: contract-001, clause: G-1, verdict: verified, kind: test, tests: [T-1], date: 2026-09-12, sighting: helpful, reading: different}
+    helpful: {independent: 1, loaded: 1}
+    harmful: {independent: 0, loaded: 0}
+    independent_uses: 1
+    certainty: moderate
+    certainty_codes: [single-contract, verified-outcome]
+    stated_confidence: 0.7
+    restatements: 1
+    last_moved: 2026-09-13
+    decision: {batch: B-001, item: I-1, verdict_before: "yes", decision: trial, level_decided: pattern, tier_decided: project, reason: "none given", date: 2026-09-11}
+    outcome: null
+
+batches: []
+map_proposals: []
+audits: []
+scores:
+  updated: 2026-09-13
+  contracts:
+    - contract_id: contract-001
+      verification_date: 2026-09-12
+      observations: 0
+      candidates_created: 0
+      candidates_cited: [K-001]
+      audited: true
+      verified: true
+      cost: null
+      corrections_from_tests: 0
+      corrections_from_reading: 0
+  coincidence: []

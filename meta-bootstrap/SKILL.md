@@ -321,11 +321,11 @@ Then tell the developer:
 > - **Always loaded:** INTENT.md, your founding statement, and the map.
 > - **Mechanisms:** hooks in `.claude/settings.json` run the kit's lifecycle. Start a new session so they load for certain.
 > - **Agents:** the kit agents in `.claude/agents/`.
-> - **Records:** manifest, contract log, learning log, drift log, ledger, correction log and casebook seeded; your founding statement recorded verbatim; the rebuild plan frozen; the install baseline written.
+> - **Records:** manifest, contract log, learning log, drift log, ledger, correction log and casebook seeded; your founding statement recorded verbatim; the install baseline written.
 >
 > [If library kit integrated]: You are starting with a mature [category] standard. Its nodes, map entries and precedents are your baseline; the inherited map entries are proposed until you ratify them.
 >
-> Every feature begins with a contract: a bearing read against your statement, a precedent check, then a four-tier proposal ending in the acceptance tests it will be verified by. What the work teaches is held and scored, and reaches you in review batches. You won't need to run anything.
+> Every feature begins with a contract: a bearing read against your statement, a precedent check, then a four-tier proposal ending in the acceptance tests it will be verified by. What the work teaches is held until something other than me has seen it, and reaches you in review batches. You won't need to run anything.
 >
 > What would you like to build first?
 

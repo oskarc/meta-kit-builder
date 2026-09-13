@@ -1,0 +1,33 @@
+corrections:
+
+  - corr_id: C-1
+    date: 2026-09-12
+    contract_id: null
+    moment: M-04
+    grade: detail
+    intervention: redirected
+    agent_offered: |
+      Tier 3, G-2: "retry a failed network call twice before surfacing the error, per proj-network."
+    pioneer_said: |
+      "no retries. surface the first failure to the caller at once and let the caller decide."
+    reason_given: |
+      "retries hide the failure."
+    supersedes: []
+    recorded_by: main-agent
+    clerked: true
+    precedent: P-001
+    clerk_note: null
+
+trajectory:
+  updated: 2026-09-13
+  by_contract:
+    - contract_id: null
+      corrections: 1
+      bearing_reevaluations: 0
+      interventions:
+        did-it: 0
+        redirected: 1
+        hinted: 0
+        reviewed-after: 0
+  moments:
+    M-04: 1

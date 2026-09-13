@@ -1,0 +1,129 @@
+observations: []
+
+candidates:
+  - cand_id: K-001
+    created: 2026-09-01
+    statement: |
+      Candidate number 1, decided at an earlier batch.
+    level: pattern
+    tier: project
+    target: proj-network
+    stage: declined
+    contradicts: []
+    review_due: false
+    disposition_proposed: null
+    evidence_refs: [O-001]
+    helpful: {independent: 1, loaded: 0}
+    harmful: {independent: 0, loaded: 0}
+    independent_uses: 0
+    certainty: low
+    certainty_codes: []
+    stated_confidence: 0.6
+    restatements: 1
+    last_moved: 2026-09-01
+    decision: {batch: B-001, item: I-1, verdict_before: "no", decision: decline, reason: "none given", date: 2026-09-01}
+    outcome: {resolved: 2026-09-01, held: unobserved}
+    represented_in: B-004
+  - cand_id: K-002
+    created: 2026-09-02
+    statement: |
+      Candidate number 2, decided at an earlier batch.
+    level: pattern
+    tier: project
+    target: proj-network
+    stage: declined
+    contradicts: []
+    review_due: false
+    disposition_proposed: null
+    evidence_refs: [O-002]
+    helpful: {independent: 1, loaded: 0}
+    harmful: {independent: 0, loaded: 0}
+    independent_uses: 0
+    certainty: low
+    certainty_codes: []
+    stated_confidence: 0.6
+    restatements: 1
+    last_moved: 2026-09-02
+    decision: {batch: B-002, item: I-1, verdict_before: "no", decision: decline, reason: "none given", date: 2026-09-02}
+    outcome: {resolved: 2026-09-02, held: unobserved}
+  - cand_id: K-003
+    created: 2026-09-03
+    statement: |
+      Candidate number 3, decided at an earlier batch.
+    level: pattern
+    tier: project
+    target: proj-network
+    stage: declined
+    contradicts: []
+    review_due: false
+    disposition_proposed: null
+    evidence_refs: [O-003]
+    helpful: {independent: 1, loaded: 0}
+    harmful: {independent: 0, loaded: 0}
+    independent_uses: 0
+    certainty: low
+    certainty_codes: []
+    stated_confidence: 0.6
+    restatements: 1
+    last_moved: 2026-09-03
+    decision: {batch: B-003, item: I-1, verdict_before: "no", decision: decline, reason: "none given", date: 2026-09-03}
+    outcome: {resolved: 2026-09-03, held: unobserved}
+  - cand_id: K-004
+    created: 2026-09-12
+    statement: |
+      A new candidate that is due now.
+    level: pattern
+    tier: project
+    target: proj-network
+    stage: assess
+    contradicts: []
+    review_due: true
+    disposition_proposed: trial
+    evidence_refs: [O-004]
+    helpful: {independent: 1, loaded: 0}
+    harmful: {independent: 0, loaded: 0}
+    independent_uses: 0
+    certainty: low
+    certainty_codes: []
+    stated_confidence: 0.6
+    restatements: 1
+    last_moved: 2026-09-12
+    decision: null
+    outcome: null
+
+batches:
+  - batch_id: B-001
+    date: 2026-09-01
+    file: meta-ledger/batches/B-001.md
+    items: 1
+    decided: true
+    revealed: true
+    represented: []
+  - batch_id: B-002
+    date: 2026-09-02
+    file: meta-ledger/batches/B-002.md
+    items: 1
+    decided: true
+    revealed: true
+    represented: []
+  - batch_id: B-003
+    date: 2026-09-03
+    file: meta-ledger/batches/B-003.md
+    items: 1
+    decided: true
+    revealed: true
+    represented: []
+  - batch_id: B-004
+    date: 2026-09-13
+    file: meta-ledger/batches/B-004.md
+    items: 2
+    decided: false
+    revealed: false
+    represented: []
+
+map_proposals: []
+audits: []
+scores:
+  updated: null
+  contracts: []
+  coincidence: []

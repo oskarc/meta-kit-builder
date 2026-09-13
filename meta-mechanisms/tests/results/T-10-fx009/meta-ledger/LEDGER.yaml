@@ -1,0 +1,67 @@
+observations:
+  - obs_id: O-001
+    date: 2026-09-13
+    source: pioneer
+    contract_id: null
+    refs: [C-1]
+    statement: |
+      M-04 — "no retries. surface the first failure to the caller at once and let the caller decide."
+    level_guess: pattern
+    stated_confidence: null
+    loaded_candidates: []
+    prompted: false
+    consolidated: true
+    merged_into: K-001
+    stewarded: n/a
+
+candidates:
+  - cand_id: K-001
+    created: 2026-09-13
+    last_moved: 2026-09-13
+    stage: assess
+    level: pattern
+    target: proj-network
+    source: pioneer
+    statement: |
+      M-04 — "no retries. surface the first failure to the caller at once and let the caller decide."
+    stated_confidence: null
+    certainty: moderate
+    certainty_codes: [single-contract, pioneer-unprompted]
+    founding: O-001
+    evidence_refs:
+      - ref: O-001
+        date: 2026-09-13
+        contract_id: null
+        reading: different
+        rule: pioneer-recorded-correction
+        grade: null
+        effect: helpful
+    restatements: 0
+    counters:
+      helpful:
+        independent: 1
+        loaded: 0
+      harmful:
+        independent: 0
+        loaded: 0
+    independent_uses: 0
+    contract_ids: []
+    contradicts:
+      - file: proj-network/SKILL.md
+        passage: "Always retry a failed network call twice before surfacing the error, with a one-second pause between attempts."
+      - file: proj-network/SKILL.md
+        passage: "Log every retry at warning level with the endpoint and attempt number."
+    review_due: true
+    due_reason: pioneer correction contradicts target skill (due at once)
+    disposition_proposed: update
+    decision: null
+    batch: null
+    outcome: open
+batches: []
+map_proposals: []
+audits: []
+scores:
+  updated: 2026-09-13
+  per_contract: []
+  coincidence: []
+  corrections_by_source: []
