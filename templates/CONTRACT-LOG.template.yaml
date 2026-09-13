@@ -18,7 +18,7 @@
 #     type: contract                        # or analysis-report, with a report-NNN id; the gates skip those
 #     date_proposed: YYYY-MM-DD
 #     date_approved: YYYY-MM-DD
-#     approval: gate                        # or waived-at-spec-lock, when the pioneer chose to skip the gate
+#     approval: approved-at-gate            # or waived-at-spec-lock, when the pioneer chose to skip the gate; `gate` on entries from before 0.15, left as is
 #     bearing: |
 #       [at most two sentences — the point of the contract and how it shows direction,
 #        read against meta-founding-contract/FOUNDING.md]
@@ -41,7 +41,7 @@
 #     red_test: {broke: G-N, went_red: T-N}  # written before final approval: one guarantee deliberately broken,
 #                                            # the named test seen to fail, then restored (contract-006 G-5)
 #     status: approved | implemented | verified | learned | legacy
-#     verification_state: none | awaiting-evidence | reported | legacy
+#     verification_state: none | awaiting-evidence | reported | closed-by-follow-up | legacy
 #     verification:                         # written by kit-verifier, or by the main agent recording a
 #       date: YYYY-MM-DD                    # pioneer confirmation per clause — MARKER: revisions are dated against it
 #       by: kit-verifier | pioneer-confirmation

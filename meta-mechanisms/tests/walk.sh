@@ -2,6 +2,19 @@
 # Run from anywhere: bash meta-mechanisms/tests/walk.sh — drives stop-gate.sh through 36 lifecycle states in a temp fixture.
 # Lifecycle walk: drive stop-gate.sh through every state of the kit's state machine.
 SRC="$(cd "$(dirname "$0")/../.." && pwd)"
+
+# The walk can fail (contract-007 G-7): the outer run captures every state line and diffs it against walk.expected,
+# exiting non-zero on any difference. Regenerate the expected file only when a gate message changed by design:
+#   WALK_INNER=1 bash walk.sh | grep -E '^[0-9]{2} ' | sed 's/  */ /g' > walk.expected
+if [ -z "${WALK_INNER:-}" ]; then
+  log="$(mktemp)"; WALK_INNER=1 bash "$0" | tee "$log"
+  if d=$(grep -E '^[0-9]{2} ' "$log" | sed 's/  */ /g' | diff - "$SRC/meta-mechanisms/tests/walk.expected"); then
+    echo "walk: all $(grep -cE '^[0-9]{2} ' "$log") states match walk.expected"; rm -f "$log"; exit 0
+  else
+    echo "walk: MISMATCH against walk.expected"; echo "$d"; rm -f "$log"; exit 1
+  fi
+fi
+
 FX="$(mktemp -d)"
 K="$FX/.claude/skills"
 H="$K/meta-mechanisms/hooks"
@@ -363,4 +376,4 @@ echo "=== telemetry ==="
 ls -1 "$K/meta-ledger/" 2>/dev/null
 tail -n 4 "$K/meta-ledger/telemetry.log" 2>/dev/null || echo "(no telemetry written)"
 
-# expected outputs, one per state (state number -> first 60 chars of the gate text); regenerate with: bash walk.sh | grep -E "^[0-9]{2} " > walk.expected
+# The comparison with walk.expected happens in the outer run at the top of this file.

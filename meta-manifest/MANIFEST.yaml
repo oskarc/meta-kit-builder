@@ -7,7 +7,7 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.14            # the six-layer form, including the contract-002 review fixes
+  version: 0.15            # the six-layer form after contracts 003–007: tier 4, ownership, the subtraction, upgrade readiness
   parent_kit: null
   status: active
 
@@ -274,7 +274,7 @@ nodes:
     layer: meta
     phase: always
     load: fires
-    triggers: [M-01, M-02, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-21, M-24, M-30]
+    triggers: [M-01, M-02, M-07, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-21, M-24, M-30]
     status: thin
     dependencies: [base-map, base-ledger]
     open_gaps:
@@ -760,6 +760,16 @@ gap_queue:
     priority: medium
     status: open
     resolved_by: null
+
+  - gap_id: gap-032
+    concern: The installed copy of meta-bootstrap, not the staged one, is what the map routes an upgrade to — so an old install follows an upgrade text that predates the fields it must migrate
+    surfaced_by: manual
+    surfaced_in: 2026-09-13 contract-007, building the upgrade rehearsal fixture
+    description: M-27 loads the project's own meta-bootstrap. Its upgrade section knows only the migrations that existed when that kit shipped; the staged kit's copy knows what it added since. From 0.15 the session-start hook names the staged copy when .claude/kit-incoming/ exists and the bootstrap's upgrade section opens by deferring to the staged copy, so every later hop is routed correctly. The 0.14-to-0.15 hop itself has neither in the installed kit; there the pioneer's staging message must say "follow the staged kit's meta-bootstrap" (README, Upgrading), and the rehearsal on a copy is what catches an agent that did not. One manual sentence at staging, once per project.
+    candidate_level: implementation
+    priority: medium
+    status: mitigated
+    resolved_by: base-mechanisms   # contract-007: session-start staged-kit line + the bootstrap rule; closes fully when no pre-0.15 install remains
 
   # Add new gaps below as they surface:
   #

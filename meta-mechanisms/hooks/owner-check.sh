@@ -65,6 +65,9 @@ fi
 
 printf '%s\n' "$owners" | while IFS='|' read -r node sf; do
   [ -n "$node" ] || continue
+  # Files that arrive by CLAUDE.md import are in context every session without a Read, so no `loaded` line can
+  # ever exist for them; an owner whose skill file is one of them counts as loaded (contract-007 G-10).
+  case "$sf" in *INTENT.md|*MAP.md|*FOUNDING.md) continue ;; esac
   folder="${sf%%/*}"
   if [ -n "$sf" ] && printf '%s' "$recent" | grep -qE "\|loaded\|(${sf}|skill:${folder})\$"; then
     continue

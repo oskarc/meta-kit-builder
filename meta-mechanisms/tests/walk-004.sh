@@ -237,7 +237,7 @@ candidates:
 batches:
 EOF
 r=$(gate); case "$r" in *"Launch the kit-batch-assembler"*) ok "57 contradicting candidate due (with two others) -> assemble a batch";; *) bad "57 assemble" "$r";; esac
-# the canary author's work, as a fixture: the batch file with no ledger ids, the sealed key, the batch registered
+# the batch assembler's work, as a fixture: the batch file with no ledger ids, the sealed key, the batch registered
 cat > "$K/meta-ledger/batches/B-1.md" <<'EOF'
 # Review batch B-1 — 2026-09-12
 ## I-1
@@ -271,12 +271,16 @@ sed -i -e '/^Always retry twice\.$/d' "$K/proj-old-rule/SKILL.md"
 sed -i -e '/^M-40 /d' "$K/meta-map/MAP.md"
 sed -i -e 's/^    status: thin$/    status: retired\n    retired_by: B-1/' "$K/meta-manifest/MANIFEST.yaml"
 awk '
-  /cand_id: K-1/ {k=1} /cand_id: K-2|cand_id: K-3/ {k=0}
-  k && /stage: assess/ {print "    stage: adopt"; print "    decision: {batch: B-1, decision: retire, applied_as: retire, date: 2026-09-12}"; next}
+  /cand_id: K-1/ {k="K-1"} /cand_id: K-2/ {k="K-2"} /cand_id: K-3/ {k="K-3"}
+  k=="K-1" && /stage: assess/ {print "    stage: adopt"; print "    decision: {batch: B-1, item: I-1, decision: retire, applied_as: retire, date: 2026-09-12}"; next}
+  (k=="K-2" || k=="K-3") && /stage: assess/ {print "    stage: declined"; print "    decision: {batch: B-1, decision: decline, date: 2026-09-12}"; next}
   /review_due: true/ {print "    review_due: false"; next}
   /revealed: false/ {print "    revealed: true"; next}
   {print}' "$K/meta-ledger/LEDGER.yaml" > "$K/meta-ledger/LEDGER.tmp" && mv "$K/meta-ledger/LEDGER.tmp" "$K/meta-ledger/LEDGER.yaml"
 r=$(gate); [ "$r" = "(silent)" ] && ok "64 terminal values written -> gate silent, nothing re-presented" || bad "64 terminal" "$r"
+# every decided item carries its terminal value — not merely a cleared flag (contract-007 G-7)
+n=$(awk '/cand_id: K-2|cand_id: K-3/ {c=1} c && /stage: declined/ {s++} c && /decision: \{batch: B-1, decision: decline/ {d++} END{print s+0 "/" d+0}' "$K/meta-ledger/LEDGER.yaml")
+[ "$n" = "2/2" ] && ok "64b the two declined candidates carry stage: declined and a decision block" || bad "64b terminal values" "$n"
 [ -f "$K/proj-old-rule/SKILL.md" ] && ok "65 the skill file is still on disk (the passage went, the file stayed)" || bad "65 file kept" "missing"
 grep -q 'Always retry twice' "$K/proj-old-rule/SKILL.md" && bad "66 passage removed" "still present" || ok "66 the quoted passage is gone from the skill"
 grep -q 'proj-old-rule' "$K/meta-map/MAP.md" && bad "67 map entry removed" "still present" || ok "67 no map entry points at the retired node"

@@ -120,12 +120,19 @@ entries:
       must be a mechanism: a size check under meta-mechanisms/checks/ for INTENT.md and MAP.md against G-1's
       figures, proposed for contract-007. Trims to bring the file back under the allowance were put to the
       pioneer as measured options; the allowance was not moved (P-006).
-    status: watching
+      ELEVATED TO A MECHANISM, 2026-09-13 (contract-007 G-9): meta-mechanisms/checks/G1-size.sh fails when
+      INTENT.md exceeds 5,120 bytes or the map exceeds 8,192 bytes or 40 entries. A stated size can now be
+      wrong only if nobody ran the check.
+    status: mitigated
     elevation:
       - target: meta-map
         kind: skill-update
         mitigation_medium: prose
         date: 2026-09-12
+      - target: meta-mechanisms
+        kind: mechanism-change
+        mitigation_medium: mechanism
+        date: 2026-09-13
     reviewed: null
     recurrence_count: 1
     related_drifts: [drift-001]

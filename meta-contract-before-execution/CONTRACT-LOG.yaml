@@ -839,3 +839,126 @@ contracts:
     cost: {turns: 15, tokens: null, pioneer_minutes: 180}    # turns = the agent's turns from approval to implemented; tokens not measured; minutes are the pioneer's own report, 2026-09-13: "my estimate is it took about 3h to read the reports and iterate, and work it through"
     artifact: https://claude.ai/code/artifact/5f888d45-93bc-4351-9157-97a0c6f95f36   # docs/kit-flow.html (G-11)
     work_id: null
+
+  - contract_id: contract-007
+    feature: upgrade readiness and the mechanical pass — version, migration, stale files, a rehearsed upgrade, truthful hooks, walks that fail, consistent text, a size check, the README re-evaluated
+    type: contract
+    date_proposed: 2026-09-13
+    date_approved: 2026-09-13
+    approval: approved-at-gate     # pioneer: "Yes, its approved"
+    bearing: |
+      The kit is about to travel for the first time, and its own upgrade path has never run. This contract makes travel possible: the version moves so an installed kit can tell it is behind; the migration knows everything 004–006 added; stale files leave; and the upgrade is rehearsed on a copy before it touches a real project. It also pays the debts the review found — the twenty places the text contradicts itself, the three hook defects that misdirect a running agent, the walk that cannot fail — and turns drift-003's third recurrence into the mechanism its own ladder demands: a size check. Nothing new is designed here. The bet: the first upgrade on a real fork should be boring, and the only way to make it boring is to run it once where it doesn't matter.
+    tier_1: |
+      As the pioneer, I want to stage the new kit in a repo that already has one and have the agent upgrade it
+      without flattening what that repo evolved and without leaving two of anything behind — and I want to have
+      seen it work on a copy first. I want the hooks to stop telling the agent things that are false (that the
+      casebook is closed, that a deferred ratification is due) and to stop being switched off by a question
+      mark. I want the walk to fail when something is wrong. I never want to be told a file's size again without
+      it having been measured by something that fails if it's wrong. And I want every line of the README
+      re-evaluated, because the approach has evolved.
+    tier_2: |
+      UC-1  Version: an installed 0.14 kit sees an incoming 0.15 and knows it is behind.
+      UC-2  Migration: every field 004–006 added is backfilled additively on an existing install; nothing existing
+            is replaced.
+      UC-3  Stale files: agents and hooks the new kit no longer ships are listed, and removed on the pioneer's
+            confirmation. For every meta-* skill whose content differs between the install and the incoming kit,
+            the upgrade shows what differs and asks overwrite / keep / port — one decision per genuinely
+            differing file, none where nothing differs.
+      UC-4  Rehearsal: the upgrade runs on a copy of the target first; the diff is shown; the copy is discarded;
+            only then the real one.
+      UC-5  Hooks tell the truth: session-start and the stop-gate agree on what is due, honour the deferral
+            marker, and say the casebook stays open.
+      UC-6  The question guard: a question after the drift block is seen; "Want me to run the tests?" alone does
+            not silence the lifecycle unnoticed — deferrals are counted where the steward reads.
+      UC-7  Walks that fail: walk.sh diffs and exits non-zero; walk-004's retirement state asserts what it claims.
+      UC-8  Consistent text: the map's ids, pointers and siblings; the template enumerations; the marker-key
+            table; the writer lists; the version in README.
+      UC-9  Sizes are checked: INTENT.md and the map are held to contract-001 G-1 by a script that fails.
+      UC-10 README: every line re-evaluated against the founding statement and the current form — kept,
+            rewritten or dropped, with the reason recorded per section — and readable by a newcomer.
+    tier_3: |
+      G-1  (UC-1)     kit_identity.version: 0.15 in the base manifest; base_kit_version: 0.15 in the template;
+                      README's status narrates 003–006.
+      G-2  (UC-2)     Bootstrap's migration list adds: owns: per node from the incoming template; the renamed agent
+                      node; noticed / would_have_been_right / seen_before: not asked on existing corrections;
+                      disappointment / premortem / red_test / cost: legacy on existing contracts; represented: []
+                      on batches; the retired score keys removed and coincidence: [] added; meta-mechanisms/checks/
+                      created. Existing values never overwritten.
+      G-3  (UC-3)     A stale-file step: files present in the install and absent from the incoming kit are listed
+                      and removed only on the pioneer's confirmation; _kit hook groups replaced. A differing-content
+                      step: per meta-* skill that differs, the difference is shown and overwrite / keep / port asked.
+      G-4  (UC-4)     A rehearsal step: the upgrade is run on a copy of the target project, the diff presented, the
+                      copy discarded, before the real run; the log records decisions asked, files that genuinely
+                      differed, troubleshooting steps. applies P-004 — the agent runs it when a kit is staged.
+      G-5  (UC-5)     session-start.sh: casebook line corrected; honours ratification: deferred; counts conflicts and
+                      mitigated drift like the gate. Stop-gate step 1 cites M-17 and M-17's load names both scripts.
+      G-6  (UC-6)     The guard also scans the text after the drift block; deferral events are listed among the
+                      steward's telemetry inputs with a threshold.
+      G-7  (UC-7)     walk.sh diffs against walk.expected and exits non-zero on difference; walk-004 state 64 asserts
+                      K-2 and K-3 declined with decision blocks.
+      G-8  (UC-8)     closed-by-follow-up and approved-at-gate in the template enumerations and the node's marker
+                      paragraph; the seven map entries that carry guidance reduced to file + heading; M-23/M-28
+                      sibling columns filled; the mechanisms header's hook range corrected and M-07/M-24 typed to
+                      match; the marker-key table gains watching; one writer list derived from the agents' write
+                      scopes; "every sentence" vs "at most three" reconciled to one rule.
+      G-9  (UC-9)     meta-mechanisms/checks/G1-size.sh: INTENT.md ≤ 5,120 bytes, MAP.md ≤ 8,192 bytes and ≤ 40
+                      entries, exit non-zero naming the file and figure; drift-003's elevation recorded
+                      mitigation_medium: mechanism. applies P-006.
+      G-10 (UC-7)     Owner-check: files that arrive by import (INTENT.md, MAP.md, FOUNDING.md) are treated as
+                      loaded, so their edits stop producing false bypass lines.
+      G-11 (all)      No mechanism or agent decides; nothing added beyond this list; every changed script
+                      fixture-tested and both walks extended.
+      G-12 (UC-10)    A line-by-line disposition of README.md recorded in docs/readme-review.md; the README rewritten
+                      from it; no sentence contradicting FOUNDING.md or INTENT.md; a newcomer can follow it.
+      Precedents: applies P-004 (G-4), applies P-006 (G-9). Founding statement: serves paragraph one (kits that
+      travel) directly.
+    disappointment: |
+      G-1 to G-12: "same as it says" — the pioneer, 2026-09-13: "I agree with the tier 3 g's."
+      Cost baseline to beat: contract-006, 15 agent turns, ~180 pioneer minutes.
+    premortem: |
+      "if it human is required to make many manual decisions or the agent needs to troubleshoot to make it work.
+      the upgrade script should warn about differing content in meta skills and asking to overwrite so the
+      pioneer can decide on what to do." — and, on scope: "As part of this we must reevaluate every line in the
+      readme file, the approach has evolved."
+    tier_4: |
+      T-1  (G-1)      Both manifests read 0.15; README's status names contracts 003–006.
+      T-2  (G-2)      A fixture install built from the pre-006 templates (git history) is migrated: every new field
+                      present with its default; a diff of the pre-existing keys shows nothing changed.
+      T-3  (G-3)      A fixture install carrying kit-canary-author.md and reveal-canaries.sh: the upgrade lists
+                      both; nothing is removed until the fixture confirms; afterwards both are gone and the settings
+                      file holds exactly one _kit group per event.
+      T-4  (G-4, the pre-mortem)  The rehearsal on a copy of a real install produces a log with three numbers —
+                      decisions asked, files that genuinely differed, troubleshooting steps — and passes only if the
+                      first equals the second and the third is zero. The copy is gone afterwards.
+      T-5  (G-5)      Session-start fixtures: no "casebook … closed" text; a deferred map produces no ratification
+                      line; a precedent conflict or mitigated drift produces a backlog line.
+      T-6  (G-6)      Stop-gate fixtures: a question after the drift block defers; "Want me to run the tests?"
+                      defers and writes a stop-deferred telemetry line; the steward's definition names that event
+                      with a threshold.
+      T-7  (G-7)      walk.sh exits non-zero when walk.expected is altered by one character; walk-004 state 64 fails
+                      when K-2's decision block is removed.
+      T-8  (G-8)      Greps: both enumerations present in template and node; the seven map entries carry file +
+                      heading only; M-23 and M-28 sibling columns non-empty; watching in the marker table; exactly
+                      one writer list, matching the agents' write scopes.
+      T-9  (G-9)      G1-size.sh exits 0 on the tree and 1 on a copy with INTENT.md over 5,120 bytes, naming the file
+                      and figure; drift-003 shows mitigation_medium: mechanism.
+      T-10 (G-10)     Owner-check fixture: an edit to INTENT.md with no loaded line writes no bypass.
+      T-11 (G-12)     docs/readme-review.md has a row for every README section; the census over README is clean; the
+                      rewritten README passes the same structure check kit-flow did.
+      T-12 (G-3, the pre-mortem)  Fixture with one locally evolved meta-* skill: the upgrade shows the difference
+                      and asks; fixture with none: it asks nothing.
+      untested: G-11 ("no agent decides"), read from the files; whether README reads well to a newcomer — the
+                pioneer's judgement; the real Classes upgrade — the rehearsal is on a copy, and stage 1 is the test.
+    red_test: {broke: G-5, went_red: T-5, how: "session-start.sh's `ratification: deferred` guard replaced by `if true`; walk-007 state 91 failed ('deferred ratification must not raise the backlog' — the pioneer-owned line appeared); restored; walk-007 30/30 green again", date: 2026-09-13}
+    status: approved
+    verification_state: none
+    audited: false
+    transcript: null
+    observations: []
+    revisions:
+      - what: "Found while building the rehearsal fixture: the map routes an upgrade to the INSTALLED meta-bootstrap, whose upgrade text predates the 004-006 migrations it must apply. Added, beyond G-2..G-4's list: session-start.sh prints a staged-kit line pointing at the STAGED copy when .claude/kit-incoming/ exists, and the bootstrap's upgrade section opens by deferring to the staged copy (gap-032). One hook line and one paragraph; no new decision by any mechanism."
+        authorised_by: "pending - surfaced to the pioneer with the implementation report, 2026-09-13 (M-08: the work departed from the approved list and says so)"
+        date: 2026-09-13
+        tests_changed: []      # walk-007 gains no state for it; T-4's rehearsal is where it shows
+    cost: null
+    work_id: null

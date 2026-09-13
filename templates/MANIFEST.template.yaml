@@ -17,7 +17,7 @@ kit_identity:
   category: __CATEGORY__
   version: 0.1
   parent_kit: base-building-kit
-  base_kit_version: 0.14
+  base_kit_version: 0.15
   library_kit: __LIBRARY_KIT__
   status: active
 
@@ -43,7 +43,7 @@ nodes:
   - {id: base-extract, concern: Type-category extraction — nodes, map entries and precedents, with a blind reconstruction test, kind: skill, skill_file: meta-extract/SKILL.md, owns: [meta-extract/SKILL.md], layer: meta, phase: post-build, load: trigger, triggers: [M-26], status: thin, dependencies: [base-manifest, base-skill-builder, base-casebook], open_gaps: []}
   - {id: base-correction-log, concern: The pioneer's corrections, verbatim and graded, and the fading curve, kind: record, skill_file: meta-correction-log/SKILL.md, data_file: meta-correction-log/CORRECTIONS.yaml, owns: [meta-correction-log/CORRECTIONS.yaml, meta-correction-log/SKILL.md], layer: meta, phase: always, load: trigger, triggers: [M-07], status: thin, dependencies: [base-foundation], open_gaps: []}
   - {id: base-casebook, concern: Binding precedents with their facts, scenario cards, reconstruction tests, kind: record, skill_file: meta-casebook/SKILL.md, data_file: meta-casebook/CASEBOOK.yaml, owns: [meta-casebook/CASEBOOK.yaml, meta-casebook/reconstruction/, meta-casebook/SKILL.md], layer: meta, phase: [pre-build, post-build], load: trigger, triggers: [M-04, M-05, M-26], status: thin, dependencies: [base-correction-log], open_gaps: []}
-  - {id: base-mechanisms, concern: Hooks that run the lifecycle, the batch blind, agent scopes, the seal, telemetry, the marker-key contract, kind: mechanism, skill_file: meta-mechanisms/SKILL.md, owns: [meta-mechanisms/hooks/, meta-mechanisms/tests/, meta-mechanisms/SKILL.md], layer: meta, phase: always, load: fires, triggers: [M-01, M-02, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-21, M-24, M-30], status: thin, dependencies: [base-map, base-ledger], open_gaps: []}
+  - {id: base-mechanisms, concern: Hooks that run the lifecycle, the batch blind, agent scopes, the seal, telemetry, the marker-key contract, kind: mechanism, skill_file: meta-mechanisms/SKILL.md, owns: [meta-mechanisms/hooks/, meta-mechanisms/tests/, meta-mechanisms/SKILL.md], layer: meta, phase: always, load: fires, triggers: [M-01, M-02, M-07, M-11, M-12, M-13, M-14, M-15, M-16, M-17, M-21, M-24, M-30], status: thin, dependencies: [base-map, base-ledger], open_gaps: []}
   - {id: base-ledger, concern: Evidence layer — observations, held candidates, review batches, audits, scores, instruments, kind: record, skill_file: meta-ledger/SKILL.md, data_file: meta-ledger/LEDGER.yaml, owns: [meta-ledger/LEDGER.yaml, meta-ledger/telemetry.log, meta-ledger/SKILL.md], layer: meta, phase: post-build, load: offline, triggers: [M-20, M-29], status: thin, dependencies: [base-foundation], open_gaps: []}
   - {id: agent-verifier, concern: Clause-by-clause verification from outside the builder, kind: agent, agent_file: agents/kit-verifier.md, layer: meta, phase: post-build, load: fires, triggers: [M-12], status: thin, dependencies: [base-contract, base-mechanisms], open_gaps: []}
   - {id: agent-consolidator, concern: Sole writer of candidates — counters by reading, fading, outcomes, scores that never score the pioneer, kind: agent, agent_file: agents/kit-consolidator.md, layer: meta, phase: post-build, load: fires, triggers: [M-14], status: thin, dependencies: [base-ledger, base-mechanisms], open_gaps: []}

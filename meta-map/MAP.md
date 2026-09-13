@@ -15,26 +15,26 @@ Name the moment by its id before acting, then load what it points to. Nothing fi
 
 M-01 | session-start | hook: SessionStart | must | a session begins | — | work the hook's backlog, one kit task per turn | proposed
 M-02 | name-the-moment | hook: UserPromptSubmit | must | every prompt, before acting | — | this map: state the id, then load its target | proposed
-M-03 | frame-uncertain | situation | must | unsure what work this is, what the pioneer's role asks, or no entry fits | a moment with a clear entry | meta-foundation, then record the miss (M-20) | proposed
-M-28 | turn-close | always | must | the end of every output | — | INTENT.md → drift score block; meta-antidrift if a line is hard to fill | proposed
+M-03 | frame-uncertain | situation | must | unsure what work this is, what the pioneer's role asks, or no entry fits | a moment with a clear entry (M-20 records the miss) | meta-foundation | proposed
+M-28 | turn-close | always | must | the end of every output | a session-level analysis (M-19) | INTENT.md → Close every output with this block; meta-antidrift → The Drift Score Block | proposed
 
 ## Before building
 
 M-04 | feature-request | situation | must | asked to build, change or fix anything | questions, explanations or reviews that change nothing (M-25) | meta-contract-before-execution → The Bearing, The Proposal; CASEBOOK.yaml → M-04 precedents | proposed
 M-05 | design-ambiguity | situation | must | what the feature is stays open: content, direction, several realisations, tunable numbers | mechanical work; a spec locked earlier | meta-contract-before-execution → Spec Lock; CASEBOOK.yaml → M-05 precedents | proposed
-M-24 | founding-question | situation | must | a bearing may sit outside the founding statement, or it is missing or amended | a bearing that plainly serves it (M-04) | meta-founding-contract | proposed
-M-29 | candidate-check | situation | ambient | drawing Tier 3 guardrails where a trial or adopted candidate applies | a batch is open — the ledger is closed until the reveal | LEDGER.yaml → candidates at stage trial or adopt; cite the id | proposed
+M-24 | founding-question | situation + hook: Stop | must | a bearing may sit outside the founding statement, or it is missing or amended | a bearing that plainly serves it (M-04) | meta-founding-contract | proposed
+M-29 | candidate-check | situation | ambient | drawing Tier 3 guardrails where a trial or adopted candidate applies | a batch is open — the ledger is closed until the reveal | LEDGER.yaml → candidates; meta-ledger → Candidates | proposed
 M-25 | analysis-work | situation | ambient | the work yields findings, a verdict or options, not a plan | a three-tier build plan (M-04) | meta-contract-artifact → Template A | proposed
 M-06 | contract-approved | lifecycle | must | the pioneer approves a contract | silence — ask again | meta-contract-before-execution → Contract Log; meta-contract-artifact | proposed
 
 ## While building
 
 M-07 | pioneer-correction | situation + hook cue | must | the pioneer redirects, declines, corrects a tier or bearing, overrides a recommendation, or resets the frame | answers to your own question; approvals | meta-correction-log → record verbatim first | proposed
-M-08 | deviation-found | situation | must | the work must depart from the approved contract | a change already in revisions | meta-contract-before-execution → The Approval Gate; unauthorised → meta-drift-eventlog | proposed
-M-09 | evidence-gap | situation | must | about to rely on an unverified API, mechanic, number or claim | a fact checked this session, with its source | INTENT.md → Evidence is the work: stop, propose the verification | proposed
-M-10 | second-attempt | situation | must | about to retry a fix shape that already failed | a different hypothesis, surveyed first | INTENT.md → Stop on named triggers: name it, ask to re-orient | proposed
+M-08 | deviation-found | situation | must | the work must depart from the approved contract | a change already in revisions; an unauthorised one is drift (M-18) | meta-contract-before-execution → The Approval Gate | proposed
+M-09 | evidence-gap | situation | must | about to rely on an unverified API, mechanic, number or claim | a fact checked this session, with its source | INTENT.md → The agent holds five aspects | proposed
+M-10 | second-attempt | situation | must | about to retry a fix shape that already failed | a different hypothesis, surveyed first | meta-antidrift → Scoring Rules | proposed
 M-18 | drift-flagged | situation | must | a drift score line is ABSENT, a deviation is unauthorised, or the pioneer names drift | a clean score | meta-drift-eventlog | proposed
-M-23 | thin-node-touched | situation | ambient | a guardrail or gap touches a node marked thin or missing | — | MANIFEST.yaml: flag it, never fill it silently | proposed
+M-23 | thin-node-touched | situation | ambient | a guardrail or gap touches a node marked thin or missing | a node change (M-22) | meta-manifest → How to Read the Manifest | proposed
 
 ## After building
 
@@ -48,7 +48,7 @@ M-19 | drift-analysis | situation | ambient | the pioneer asks what happened, or
 ## Review and the standard
 
 M-16 | review-due | hook: Stop | must | the stop-gate says pioneer-owned items wait, no batch open | — | agent: kit-batch-assembler, then meta-skill-builder → Review Batch | proposed
-M-17 | batch-decided | hook: Stop | must | every item in the open batch carries a decision | — | script: reveal-key.sh; meta-skill-builder → Reveal | proposed
+M-17 | batch-decided | hook: Stop | must | every item in the open batch carries a decision | — | script: close-batch.sh, then reveal-key.sh; meta-skill-builder → Reveal | proposed
 M-22 | node-change | lifecycle | must | a candidate is adopted into a skill, or a skill is created, split or retired | edits that change no guidance | meta-skill-builder; meta-manifest → Manifest Update Protocol; meta-map → Node change | proposed
 M-26 | extraction | situation | must | the pioneer judges type-category nodes ready, or the maturity instruments pass | one node being adopted or updated (M-22) | meta-extract; meta-casebook → Reconstruction tests; agent: kit-reconstructor | proposed
 

@@ -1,6 +1,6 @@
 ---
 name: kit-recorder
-description: Use when the main session must add observations to the ledger while a review batch is open and the ledger is closed to it (map M-11, M-20). Appends observations exactly as dictated, assigns their ids, and reports the ids back. Writes nothing else, judges nothing, and never touches candidates, batches or sealed keys.
+description: Use when the main session must add observations to the ledger while a review batch is open and the ledger is closed to it (map M-11). Appends observations exactly as dictated, assigns their ids, and reports the ids back. Writes nothing else, judges nothing, and never touches candidates, batches or sealed keys.
 model: sonnet
 effort: low
 maxTurns: 8

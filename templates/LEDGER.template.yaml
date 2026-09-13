@@ -5,8 +5,9 @@
 #
 # AGENT INSTRUCTIONS:
 # meta-bootstrap copies this file as the empty seed. Writers per section are fixed (meta-ledger/SKILL.md):
-# observations — the main agent, meta-learning, kit-session-auditor, kit-consolidator (drift recurrences),
-# kit-case-clerk (one per clerked correction, source: pioneer);
+# THE ONE WRITER LIST (contract-007 G-8), derived from the agents' write-scope hooks — every other list points here:
+# observations — the main agent (or kit-recorder while a batch is open), meta-learning, kit-session-auditor,
+# kit-consolidator (drift recurrences), kit-case-clerk (one per clerked correction, source: pioneer);
 # candidates — kit-consolidator only, except the decision block, stage and review_due, which the main agent
 # writes after a reveal; batches — kit-batch-assembler, then the main agent; map_proposals — kit-map-steward,
 # then the main agent; audits — kit-session-auditor; scores — kit-consolidator.

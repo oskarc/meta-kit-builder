@@ -17,7 +17,9 @@ last=$(json_str last_assistant_message)
 # `.*` is greedy, so the capture runs to the LAST "drift score" in the message; a message without the
 # phrase is passed through unchanged.
 visible=$(printf '%s' "$last" | sed -e 's/\(.*\)drift score.*/\1/')
-case "$(printf '%s' "$visible" | tail -c 400)" in
+# A question can sit before the block or after it (contract-007 G-6): check the closing stretch of both the text
+# before the block and the whole message. The deferral is logged; the map steward reads how often it happens.
+case "$(printf '%s' "$visible" | tail -c 400)$(printf '%s' "$last" | tail -c 400)" in
   *"?"*)
     telemetry stop-deferred question
     exit 0
@@ -36,7 +38,7 @@ id=""
 for b in $(rows "$bt" '$2=="false"' | awk '{print $1}'); do
   if batch_fully_decided "$b"; then id="$b"; break; fi
 done
-gate "Every item in review batch $id carries a decision. Run $HOOKS/close-batch.sh\" $id with Bash to mark it decided — the ledger stays closed to you until you do (M-16, meta-skill-builder)."
+gate "Every item in review batch $id carries a decision. Run $HOOKS/close-batch.sh\" $id with Bash to mark it decided — the ledger stays closed to you until you do (M-17, meta-skill-builder)."
 
 # 2. A decided batch must be revealed before anything else touches the ledger.
 id=$(first_id "$bt" '$2=="true" && $3=="false"')

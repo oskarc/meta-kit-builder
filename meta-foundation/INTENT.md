@@ -1,7 +1,7 @@
 # Intent
 
 <!-- ALWAYS LOADED via CLAUDE.md beside FOUNDING.md and MAP.md; all else is reached through the map or fired.
-Aligned to the founding statement and ratified by the pioneer 2026-09-13 (contract-006). Keep under ~5 KB. -->
+Aligned to the founding statement (base kit contract-006, 2026-09-13). Keep under 5,120 bytes: checks/G1-size.sh fails otherwise. -->
 
 **The standard is already known; the kit draws it out.** An organisation's standards are rarely written down but they are always known — they live as the developer's theory of the work. The kit's job is to draw that theory out, progressively, as the work is done: what the pioneer notices, corrects and decides becomes skills that explain and checks that enforce. The skills and checks together *are* the organisation's standard. The work rises when the pioneer's judgement is present and active; it drifts when it is not.
 

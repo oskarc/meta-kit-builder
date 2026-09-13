@@ -3,7 +3,7 @@ name: meta-ledger
 description: Use when recording what implementation, verification, drift or an audit taught (observations); when consolidating, holding, scoring or fading candidate learnings; when assembling, presenting, closing or revealing a review batch; or when reading the maturity instruments. Governs layer 6 — LEDGER.yaml, the evidence the standard evolves from, which is never loaded whole into working context.
 ---
 
-> **Map:** M-20, M-29 load this node; M-11, M-14, M-16 and M-17 write to it through their agents · **Load:** consulted offline by agents and scripts; its sections on trigger · **Recognise it by:** "this might belong in the standard" or "is the standard actually getting better?" · **Not when:** deciding what enters the standard — that is the pioneer, at a review batch (meta-skill-builder)
+> **Map:** M-20, M-29 load this node; M-11, M-14, M-15, M-16, M-17 and M-21 write to it through their agents (the one writer list is `templates/LEDGER.template.yaml`'s header, derived from the agents' write scopes) · **Load:** consulted offline by agents and scripts; its sections on trigger · **Recognise it by:** "this might belong in the standard" or "is the standard actually getting better?" · **Not when:** deciding what enters the standard — that is the pioneer, at a review batch (meta-skill-builder)
 
 **This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.**
 
@@ -45,7 +45,7 @@ Raw, cheap, append-only. Written by the main agent after implementation (the Sta
 
 Created and updated only by **kit-consolidator**. The main agent writes a candidate's `decision` block, `stage` and `review_due` after a reveal; nothing else writes candidates.
 
-**A candidate is read against the skill it is aimed at.** When the consolidator creates a candidate, and again when it flags one due, it opens the target skill and writes `contradicts:` — file and passage, **quoted verbatim**, for every sentence the claim would make false; `contradicts: []` when there is none (contract-004 G-7). The batch then offers `update`, `retire` or `add` beside `decline`, so a learning is as likely to remove a rule as to add one — the only shrink path the kit has apart from the map budget. Whose word the claim is decides when it is due: a `source: pioneer` candidate with a non-empty `contradicts` is due at once; a candidate from any other source waits for independence like the rest, because a drifting agent must not rewrite the rule it drifted from.
+**A candidate is read against the skill it is aimed at.** When the consolidator creates a candidate, and again when it flags one due, it opens the target skill and writes `contradicts:` — file and passage, **quoted verbatim**, for the sentences the claim would make false — at most three, the most consequential, with a note when there are more; `contradicts: []` when there is none (contract-004 G-7). The batch then offers `update`, `retire` or `add` beside `decline`, so a learning is as likely to remove a rule as to add one — the only shrink path the kit has apart from the map budget. Whose word the claim is decides when it is due: a `source: pioneer` candidate with a non-empty `contradicts` is due at once; a candidate from any other source waits for independence like the rest, because a drifting agent must not rewrite the rule it drifted from.
 
 ### Stages
 

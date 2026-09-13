@@ -26,7 +26,7 @@ add_flag() { # COUNT TEXT ROUTE — presence only, never the number
 }
 
 add "$(nrows "$bt" '$2=="true" && $3=="false"')" "Review batches decided, key unopened" "M-17 run reveal-key.sh"
-add "$(nrows "$bt" '$2=="false"')" "Review batches open, awaiting the pioneer" "M-16 resume the batch; ledger and casebook stay closed until the reveal"
+add "$(nrows "$bt" '$2=="false"')" "Review batches open, awaiting the pioneer" "M-16 resume the batch; the ledger stays closed until the reveal, the casebook stays open"
 add "$(nrows "$ct" '$2=="implemented" && $4=="false"')" "Contracts implemented, session not audited" "M-11 kit-session-auditor"
 add "$(late_test_revisions | grep -c .)" "Contracts whose acceptance tests were revised after the verification report" "M-18 record the drift, then withdraw the revision or draw a follow-up contract"
 add "$(nrows "$ct" '$2=="implemented" && $3=="reported"')" "Contracts verified-but-not-closed (corrected or open clauses)" "M-12 put them to the pioneer, then set status or re-verify"
@@ -38,16 +38,25 @@ add "$(count_matches '^[[:space:]]+clerked:[[:space:]]*false' "$CORRECTIONS")" "
 add "$(count_matches '^[[:space:]]+status:[[:space:]]*(watching|mitigated)' "$DRIFT")" "Drift entries watching or mitigated" "M-18 stay alert to those aspects"
 add "$(count_matches '^[[:space:]]+stewarded:[[:space:]]*false' "$LEDGER")" "Map misses not yet stewarded" "M-21 kit-map-steward at 3"
 
+# Same items as the stop-gate's step 10, so the two backlog readers never disagree (contract-007 G-5): unratified
+# base entries wait for the install-time ratification pass while MAP.md carries `ratification: deferred`.
+props=0
+if ! grep -q 'ratification: deferred' "$MAPFILE" 2>/dev/null; then
+  props=$(count_matches '\|[[:space:]]*proposed[[:space:]]*$' "$MAPFILE")
+fi
 pending=$(( $(count_matches '^[[:space:]]+review_due:[[:space:]]*true' "$LEDGER") \
           + $(count_matches '^[[:space:]]+state:[[:space:]]*pending' "$LEDGER") \
-          + $(count_matches '^[[:space:]]+pioneer_ranking:[[:space:]]*pending' "$KIT/meta-casebook/CASEBOOK.yaml") \
-          + $(count_matches '\|[[:space:]]*proposed[[:space:]]*$' "$MAPFILE") ))
-add_flag "$pending" "Pioneer-owned items are waiting (candidates, map proposals, unratified entries or unranked cards)" "M-16 kit-batch-assembler assembles the batch"
+          + $(count_matches '^[[:space:]]+pioneer_ranking:[[:space:]]*pending' "$CASEBOOK") \
+          + $(count_matches '^[[:space:]]+conflict:[[:space:]]*P-' "$CASEBOOK") \
+          + $(count_matches '^[[:space:]]+status:[[:space:]]*mitigated' "$DRIFT") \
+          + props ))
+add_flag "$pending" "Pioneer-owned items are waiting (candidates, map proposals, unratified entries, unranked cards, precedent conflicts or drift resolutions)" "M-16 kit-batch-assembler assembles the batch"
 
 add "$(nrows "$ct" '$5=="no" && ($3=="none" || $3=="awaiting-evidence" || $3=="reported")')" "Contracts with no bearing" "M-24 surface to the pioneer"
 
 if [ -f "$FOUNDING" ]; then
-  if grep -qE 'Not yet given|Deferred by the Pioneer' "$FOUNDING"; then
+  # anchored at line start: the template's own instruction comment quotes the deferral phrase (contract-007 rehearsal, 4f)
+  if grep -qE '^\*?(Not yet given|Deferred by the Pioneer on)' "$FOUNDING"; then
     lines="${lines}- Founding statement not given or deferred -> M-24 surface it before drawing contracts
 "
   fi
@@ -58,6 +67,13 @@ if [ -f "$FOUNDING" ]; then
     lines="${lines}- Founding amendments missing a cause or a binding clause -> M-24 surface to the pioneer
 "
   fi
+fi
+
+# A staged kit is an upgrade waiting (M-27). The staged copy of meta-bootstrap knows what it added; the installed
+# copy cannot (contract-007).
+if [ -d "$ROOT/.claude/kit-incoming" ]; then
+  lines="${lines}- A newer kit is staged in .claude/kit-incoming/ -> M-27 follow the STAGED kit's meta-bootstrap/SKILL.md, Upgrading an Existing Install: rehearse on a copy first
+"
 fi
 
 if [ -z "$lines" ]; then

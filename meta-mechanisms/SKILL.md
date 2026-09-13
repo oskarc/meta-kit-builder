@@ -3,7 +3,7 @@ name: meta-mechanisms
 description: Use when adding, changing or debugging the kit's hooks and agent scopes; when a prose rule has regressed twice and should become something that fires on its own; or when a kit ceremony seems to have stopped happening. Governs layer 5 of the kit — the hooks that run the lifecycle, the path scopes that keep agents blind, the blind that covers an open review batch, the seal on batch keys, and the telemetry the map is judged by.
 ---
 
-> **Map:** M-30 loads this node; M-01, M-02 and M-11–M-21 fire through this layer · **Load:** on trigger — mechanisms fire, they are never loaded to work · **Recognise it by:** "this should have happened and nobody remembered" · **Not when:** the rule needs judgement to apply (that stays prose, in a node), or a node is being added or changed (M-22)
+> **Map:** M-30 loads this node; M-01, M-02, M-07 (cue), M-11–M-17, M-21 and M-24 fire through this layer — M-18, M-19 and M-20 are situations the agent recognises for itself · **Load:** on trigger — mechanisms fire, they are never loaded to work · **Recognise it by:** "this should have happened and nobody remembered" · **Not when:** the rule needs judgement to apply (that stays prose, in a node), or a node is being added or changed (M-22)
 
 **This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.**
 
@@ -59,7 +59,7 @@ Step 10 fires on three or more due candidates, or on any pending map proposal, u
 
 **Every step names a write that ends it.** A task whose only exit the agent cannot reach would repeat every turn and hide every step below it, which is the failure `drift-002` records.
 
-**Guards.** `stop_hook_active` allows one forced continuation per turn, and Claude Code caps consecutive continuations at eight. A turn whose visible text ends by asking the pioneer a question is never extended: the guard cuts everything from the **last** `drift score` marker — the block that closes every output, a phrase that also appears in ordinary prose — and then looks for a question mark in the closing 400 characters of what remains. A late question mark that was not a question costs one turn of delay; a buried question is the worse failure. The gate uses `additionalContext`, which continues the conversation without reporting a hook error.
+**Guards.** `stop_hook_active` allows one forced continuation per turn, and Claude Code caps consecutive continuations at eight. A turn whose visible text ends by asking the pioneer a question is never extended: the guard splits the text at the **last** `drift score` marker — the block that closes every output, a phrase that also appears in ordinary prose — and looks for a question mark in the closing 400 characters of each side, before the block and after it (contract-007 G-6). A deferral is written to telemetry as `stop-deferred|question`, which kit-map-steward reads: a session that defers turn after turn is a lifecycle that has stopped, not a conversation. A late question mark that was not a question costs one turn of delay; a buried question is the worse failure. The gate uses `additionalContext`, which continues the conversation without reporting a hook error.
 
 ## Agent scopes
 
@@ -116,7 +116,7 @@ The scripts read state through flat keys. Two rules make that parsing honest, an
 | LEDGER.yaml | entry-opening `obs_id`, `cand_id`, `batch_id`, `prop_id`, `audit_id`; `consolidated`, `stewarded`, `review_due`, `state: pending`, `decided`, `revealed` |
 | CORRECTIONS.yaml | `clerked` |
 | CASEBOOK.yaml | `pioneer_ranking: pending`, `conflict: P-NNN` |
-| DRIFTLOG.yaml | `status` (including `mitigated`, which makes a resolution item due) |
+| DRIFTLOG.yaml | `status` (`watching` is counted in the backlog; `mitigated` makes a resolution item due) |
 | MAP.md | the trailing `proposed` / `ratified` / `declined` column, and the `ratification: deferred` marker |
 | FOUNDING.md | `### Amendment`, `**Caused by:**`, `**Now binds:**`, "Not yet given", "Deferred by the Pioneer" |
 | batches/B-NNN.md | `## I-n` headings, `Decision:` lines with any non-empty value (bold markers allowed) |
@@ -129,7 +129,7 @@ bash, sed, awk, grep, tr and date only — no jq, no python. **This is the tool 
 
 ## Adding or changing a mechanism
 
-A mechanism is a node change and needs a contract (M-30). The contract's Tier 3 names the event, the files and keys read, the output, and its Tier 4 the fixture test: a sample hook input and the exact output expected. Run the fixture before and after — **and walk the lifecycle, not only the script**: one batch and one contract through every state, because each hook can pass while the loop they form deadlocks. The walks ship with the kit: `tests/walk.sh` drives the stop-gate through 36 states and diffs against `tests/walk.expected`; `tests/walk-004.sh` covers the ownership check, late test revisions, retirement and the rebuild plan seed, and exits non-zero on any failure. Extend them with every mechanism change; a state the walk does not visit is a state nobody has seen. Add the row to the inventory, the keys to the marker-key contract, and — when the mechanism replaces a prose rule — record `mitigation_medium: mechanism` on the drift entry it answers.
+A mechanism is a node change and needs a contract (M-30). The contract's Tier 3 names the event, the files and keys read, the output, and its Tier 4 the fixture test: a sample hook input and the exact output expected. Run the fixture before and after — **and walk the lifecycle, not only the script**: one batch and one contract through every state, because each hook can pass while the loop they form deadlocks. Every walk exits non-zero on a failure. `tests/walk.sh` ships with the kit and runs in any project: it drives the stop-gate through 36 states and diffs against `tests/walk.expected` (regenerate that file only when a gate message changed by design — the command is in the script's header). `tests/walk-004.sh` (the ownership check, late test revisions, retirement, the batch) and `tests/walk-007.sh` (what session-start says, the question guard, the size check, import-loaded owners, the README's structure) are the base kit's own contract walks: they read this repository's templates, docs and manifest, and do not travel. The checks under `checks/` are run by the verifier and on every upgrade; `G1-size.sh` travels, the `P-NNN.sh` checks are this repository's own precedents and do not. Extend them with every mechanism change; a state the walk does not visit is a state nobody has seen. Add the row to the inventory, the keys to the marker-key contract, and — when the mechanism replaces a prose rule — record `mitigation_medium: mechanism` on the drift entry it answers.
 
 ## Failure modes
 
