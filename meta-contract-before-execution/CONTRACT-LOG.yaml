@@ -659,7 +659,7 @@ contracts:
       untested: how the nuance holds in use — the pioneer's words above; G-10's "no agent decides", read from
                 the files; whether the form stays enforced in a live session, which only stage 1 can show.
     red_test: {broke: G-7, went_red: T-7, how: "M-31 appended to templates/MAP.template.md; walk-004 state 75 failed ('no M-31 in MAP.template.md — still present'); restored; walk green again", date: 2026-09-13}
-    status: implemented
+    status: verified
     verification_state: reported
     verification:
       date: 2026-09-13
@@ -809,6 +809,15 @@ contracts:
           evidence: |
             T-11 pass against the 2026-09-13 revision; details under UC-8. Committed in 27ed29a; working tree clean.
       summary: {verified: 10, corrected: 2, open: 7}
+      pioneer_confirmation:
+        date: 2026-09-13
+        said: "We can close 006 for now, it will be measured over the coming week in other repos."
+        covers: [UC-1, G-10, UC-7, G-9, T-9, T-1, T-3, T-10, UC-2, UC-6, G-1, G-3, G-4]
+        note: |
+          UC-1 and G-10 ("the form is enforced in use") are confirmed as closed here on the pioneer's word and
+          will be measured in the coming week on other repositories; T-1, T-3, T-10, UC-2, UC-6, G-1, G-3 and
+          G-4 were closed by new evidence after the report (fixture runs recorded under tests/results/, wording
+          fixed); UC-7, G-9 and T-9 by the ratified INTENT.md. UC-5: the pioneer's minutes stay unmeasured.
       open_needs:
         - "UC-1: one correction in CORRECTIONS.yaml with the three incident answers filled, and one clerk-written check kept under meta-mechanisms/checks/"
         - "UC-2, G-1, G-3: the walks T-1 and T-3 name — a candidate made due by one different-reading sighting; an assembler run on fixtures with two and with three revealed batches — as scripts under tests/ or recorded runs under tests/results/"
