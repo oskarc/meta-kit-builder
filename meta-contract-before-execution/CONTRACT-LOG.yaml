@@ -1154,7 +1154,7 @@ contracts:
     observations: [O-031, O-032, O-033]
     revisions:
       - what: "Found while building the rehearsal fixture: the map routes an upgrade to the INSTALLED meta-bootstrap, whose upgrade text predates the 004-006 migrations it must apply. Added, beyond G-2..G-4's list: session-start.sh prints a staged-kit line pointing at the STAGED copy when .claude/kit-incoming/ exists, and the bootstrap's upgrade section opens by deferring to the staged copy (gap-032). One hook line and one paragraph; no new decision by any mechanism."
-        authorised_by: "pending - surfaced to the pioneer with the implementation report, 2026-09-13 (M-08: the work departed from the approved list and says so)"
+        authorised_by: "Pioneer, 2026-09-13: 'The additions you made for point 1 is valid and can stay.' (after the implementation report; C-010 records the same message)"
         date: 2026-09-13
         tests_changed: []      # walk-007 gains no state for it; T-4's rehearsal is where it shows
       - what: "T-4's pass rule as approved — decisions asked equals files that differed, troubleshooting zero — cannot be met by any upgrade, because the procedure itself asks up to four questions that belong to no file (the stale list, contracts to verify, the map question when the budget forces it, the ratification pass). The bootstrap's rule was widened to allow those four; under it fx014 (round 4) and fx013 (round 6) pass and the Classes copy fails on two tooling steps. Under the rule as approved no rehearsal passes. The verifier judged T-4 by the approved text and marked it fail (2026-09-13); this entry records the widening as the revision it is, for the pioneer to authorise or refuse."

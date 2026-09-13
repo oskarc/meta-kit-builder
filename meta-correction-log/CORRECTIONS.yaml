@@ -206,6 +206,33 @@ corrections:
     precedent: null
     clerk_note: null
 
+  - corr_id: C-010
+    date: 2026-09-13
+    contract_id: contract-007
+    moment: M-12
+    grade: detail
+    intervention: redirected
+    agent_offered: |
+      The upgrade's step 3 read "both kits in full" — the kit files on both sides — and left the project's own
+      records to the migration step; the Classes rehearsal read the contract log only where the manifest needed it.
+    pioneer_said: |
+      "The additions you made for point 1 is valid and can stay. When upgrading the agent SHOULD read the
+      contracts log for verification, its important to get the \"lay of the land before walking it\" to use your
+      language."
+    reason_given: |
+      "its important to get the lay of the land before walking it"
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: null
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no
