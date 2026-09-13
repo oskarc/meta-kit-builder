@@ -136,3 +136,40 @@ entries:
     reviewed: null
     recurrence_count: 1
     related_drifts: [drift-001]
+
+  - drift_id: drift-004
+    surfaced_in: 2026-09-13 / round-5 research - the "70% of steps" figure traced to its source
+    surfaced_by: self
+    aspect: evidence-as-work
+    description: |
+      While asking the correction log's three questions on 2026-09-13, the agent told the pioneer that a
+      study had found experts describing a process miss about 70% of the steps actually required. The
+      pioneer used that figure in their own answer to "where have you seen this before" (C-008), and the
+      clerk carried their words into precedent P-008. The figure does not trace to a primary study. It was
+      stated from memory as though it were a measured result, which is the evidence-as-work aspect failing
+      at the exact moment the kit was eliciting the pioneer's own standard.
+    evidence: |
+      Traced in round 5 by counting occurrences in the extracted texts: Feldon 2007 (the automaticity
+      paper) contains no instance of "70%" and none of "omit"; the Clark/Feldon/van Merrienboer CTA chapter
+      states it once, citing two other book chapters; Tofel-Grehl and Feldon's 2013 meta-analysis states it
+      once, citing a third book chapter. It is a round number passed between chapters by one research
+      group, not a measurement. The real primaries say something narrower and more useful: Chao and
+      Salvendy (1994), six expert programmers troubleshooting with all actions recorded, found no single
+      expert able to report more than 41% of their diagnostic actions, 53% of their debugging actions or
+      29% of their interpretations - and that aggregating all six raised coverage to 87%, 88% and 62%.
+      Sullivan et al. (2014), three expert surgeons, found 71% of clinical knowledge steps, 51% of action
+      steps and 73% of decision steps omitted, and prompting raising described steps from 44% to 66%.
+      Extracts: research/sources/round5/02-feldon2007.txt, 02-clark-feldon-cta-chapter.txt,
+      02-tofelgrehl-feldon-meta.txt, 02-pubmed-cta-limitations.txt. Report: research/round5/02-tacit-and-explicit.md.
+    reaction: |
+      The pioneer's words are not rewritten: C-008 and P-008 keep them verbatim, because a recorded
+      correction is the record of what was said, not of what was true. What changes is everything around
+      them - a clerk_note on C-008 marks that the figure inside the pioneer's sentence came from the agent
+      and does not trace, and names the primaries that do. The kit stops citing "70%" anywhere. The
+      precedent P-008 itself is unaffected: its holding is about who a record is written for, which the
+      pioneer decided and which stands regardless of the number that prompted it.
+      mitigation_medium: prose - the standing rule already existed (M-09, evidence-as-work) and was not
+      followed; no new mechanism is proposed, because a check cannot tell whether a number said aloud in
+      conversation was traced. The elevation ladder applies if this recurs.
+    status: watching
+

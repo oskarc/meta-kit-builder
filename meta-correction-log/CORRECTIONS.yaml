@@ -178,7 +178,13 @@ corrections:
     recorded_by: main-agent
     clerked: true
     precedent: [P-008]
-    clerk_note: null
+    clerk_note: |
+      The pioneer's seen_before answer quotes a figure the agent had given them in conversation - "a study
+      claimed experts who describe a process missed about 70% of the steps actually required". Round-5
+      research traced it: it does not come from a primary study (drift-004). The pioneer's words stand as
+      recorded. The traced primaries are Chao and Salvendy (1994) on six expert programmers - at most 41%
+      of diagnostic actions reported by any one expert, rising to 87% when all six are aggregated - and
+      Sullivan et al. (2014) on three surgeons. The correction P-008 rests on does not depend on the figure.
 
   - corr_id: C-009
     date: 2026-09-13
