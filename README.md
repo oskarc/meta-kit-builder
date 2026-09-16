@@ -242,13 +242,14 @@ Silence is not the measure; failure produces silence too. The ledger and the con
 
 ## Status
 
-The base building kit is at **v0.15**. Since the six-layer form was built and reviewed (contracts 001 and 002), five contracts have moved it:
+The base building kit is at **v0.16**. Since the six-layer form was built and reviewed (contracts 001 and 002), six contracts have moved it:
 
 - **Contract-003** ratified the founding statement's place in every contract: the bearing, read against `FOUNDING.md`, with redraw and reevaluation told apart.
 - **Contract-004** gave every skill the records it owns and a hook that notices when a record is edited without its skill being read, and made the consolidator read each candidate against the text of the skill it would change — so a learning can update or retire a rule as readily as add one. It also made acceptance tests the fourth tier of every contract, frozen at approval.
 - **Contract-005** made the pioneer's corrections the place where the standard gets written: three questions asked at the moment of a correction, and a case clerk that turns the answer into a precedent and, where it can be tested, into a check that fails.
 - **Contract-006** subtracted what the kit's own research could not support. Scores computed over evidence from one person, one model and one codebase were removed rather than tuned; nothing in the kit scores the pioneer; the rebuild experiment was withdrawn to `docs/rebuild-design.md` with the conditions for its return; the intent was aligned to the founding statement and ratified.
 - **Contract-007** made the kit ready to travel: the version moves, the upgrade migrates everything 004–006 added, stale files are listed and removed only on confirmation, and the upgrade is rehearsed on a copy before it touches a project. It also corrected the hooks where they told the agent something false, made the lifecycle walks fail when a state is wrong, added the size check, and re-evaluated this README line by line (`docs/readme-review.md`).
+- **Contract-008** made the upgrade compare by mechanism after the first real fork lost three of its own evolutions and eight registry nodes without a question: the kit keeps an installed copy of every meta skill as the yardstick, asks only where a project wrote lines of its own (reapply on top, or replace), checks a migration for completeness and validity as well as preservation, computes the map's roots by id, lets a deferred drift entry rest at `legacy`, and keeps the rehearsal log.
 
 The first evaluation in a project other than this one is under way and not yet reported. Known limits are tracked in the manifest's gap queue: independence with a single pioneer; a pioneer who can always read the ledger themselves; the marker-key dependency; this repository not running its own mechanisms in a session; subagent inheritance of deny rules; transcript access for the auditor, and agents' own transcripts going unaudited; the reconstruction test's blinding resting on an instruction rather than a mechanism; the rebuild experiment awaiting its conditions; and a contradicting correction that is due at once still waiting for a batch to open.
 

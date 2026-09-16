@@ -7,7 +7,7 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.15            # the six-layer form after contracts 003–007: tier 4, ownership, the subtraction, upgrade readiness
+  version: 0.16            # the six-layer form after contracts 003–008: tier 4, ownership, the subtraction, upgrade readiness, the upgrade that compares by mechanism
   parent_kit: null
   status: active
 

@@ -116,7 +116,7 @@ The scripts read state through flat keys. Two rules make that parsing honest, an
 | LEDGER.yaml | entry-opening `obs_id`, `cand_id`, `batch_id`, `prop_id`, `audit_id`; `consolidated`, `stewarded`, `review_due`, `state: pending`, `decided`, `revealed` |
 | CORRECTIONS.yaml | `clerked` |
 | CASEBOOK.yaml | `pioneer_ranking: pending`, `conflict: P-NNN` |
-| DRIFTLOG.yaml | `status` (`watching` is counted in the backlog; `mitigated` makes a resolution item due) |
+| DRIFTLOG.yaml | `status` (`watching` is counted in the backlog; `mitigated` makes a resolution item due; `legacy` — a pre-upgrade entry the pioneer deferred — is counted nowhere and presented in no batch) |
 | MAP.md | the trailing `proposed` / `ratified` / `declined` column, and the `ratification: deferred` marker |
 | FOUNDING.md | `### Amendment`, `**Caused by:**`, `**Now binds:**`, "Not yet given", "Deferred by the Pioneer" |
 | batches/B-NNN.md | `## I-n` headings, `Decision:` lines with any non-empty value (bold markers allowed) |

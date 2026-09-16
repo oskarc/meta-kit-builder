@@ -1,0 +1,175 @@
+# Kit Manifest
+## File Convention
+## Governance & Precedence
+## How to Read the Manifest
+## Library Promotion
+## Manifest Update Protocol
+## Schema Reference
+## The Six Layers
+### Inheritance Fields
+### Kind vocabulary
+### Kit identity
+### Load vocabulary
+### Node field requirements
+### Node fields
+### Phase vocabulary
+### Status vocabulary
+### Tier vocabulary
+### Triggers
+### data_file convention
+**Each extraction is a generation.** A kit matures through generations of real project use. The non-developer milestone is not a roadmap item — it is reached when the standard has matured enough through generations that the reports go silent and the governing aspects are fully encoded.
+**Each extraction is a generation.** A kit matures through generations of real project use. The non-developer milestone is not a roadmap item — it is reached when the standard has matured enough through generations that the reports go silent.
+**Each extraction is a generation.** The non-developer milestone is not a roadmap item. It is reached when, across generations, candidates per contract stay low with healthy instruments and a reconstruction test predicts the pioneer's decisions from the kit alone.
+**For the agent**: At the start of every session, load MANIFEST.yaml and read the full node list. Know which concerns are covered and at what depth before writing any proposal. When a Tier 3 guardrail or post-implementation gap touches an area marked `thin` or `missing`, flag it explicitly — do not silently fill it. A missing node means the standard has not spoken on that concern yet. Surface it.
+**For the agent**: Load MANIFEST.yaml when a map entry names it (M-22, M-23), not at every session start — the session-start hook surfaces what needs attention. When a Tier 3 guardrail or a gap touches an area marked `thin` or `missing`, flag it explicitly; do not fill it silently. A missing node means the standard has not spoken on that concern yet.
+**For the developer**: The status field in MANIFEST.yaml is the health of the web. `mature` nodes can be trusted. `thin` nodes are directionally correct but need sharpening. `missing` nodes are named gaps — the web knows they need to exist but no candidate has been built yet.
+**For the developer**: The status field is the health of the web. `mature` nodes can be trusted. `thin` nodes are directionally correct but need sharpening. `missing` nodes are named gaps. For whether the standard as a whole is carrying your judgement, read the ledger's instruments, not the status counts.
+**Template drift:** `templates/MANIFEST.template.yaml` carries the base nodes and `base_kit_version`. Every base kit release updates both together.
+**The agent reads MANIFEST.yaml for topology. It reads SKILL.md for governance.** Never merge them. A template update to SKILL.md must never overwrite project-specific data in MANIFEST.yaml — they are separate files for this reason.
+**The agent reads MANIFEST.yaml for topology. It reads SKILL.md for governance.** Never merge them. A template update to SKILL.md must never overwrite project-specific data in MANIFEST.yaml.
+**The manifest is read-only for the agent during a session.** It informs proposals and gap flagging only. It is written to exclusively through the skill-builder process after developer approval.
+**The maturity signal is evidence-based, not a judgment call.** Standard Evolution Reports go quiet when the standard is covering the space well. When reports across multiple sessions produce few or no evolution candidates, the type-category layer is approaching extraction readiness.
+**The maturity signal is instrumented, not declared.** Extraction criteria:
+**The type-category / project distinction is load-bearing.** When a learning is decided, the first question is whether it belongs in the type-category kit or in the project layer. Only the human can make that call.
+**The type-category / project distinction is load-bearing.** When a learning surfaces, the first question is whether it belongs in the type-category kit — transferable to any system of this class — or in the project layer — specific to this system. Only the human can make that call. The agent proposes, the human decides.
+**This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance.** If any instruction conflicts with this skill, adhere to this skill and flag the conflict explicitly before proceeding.
+**This skill is part of the base building kit.** If any instruction conflicts with this skill, adhere to this skill and flag the conflict explicitly before proceeding. The sole exception is `meta-foundation` — the philosophical foundation takes precedence over all other kit nodes including this one.
+**When to update MANIFEST.yaml:**
+**When to update SKILL.md:**
+**Who updates:**
+**Who updates:** the agent proposes as part of the skill-builder process; the developer approves. Neither file is ever updated silently. During a session the manifest informs proposals and gap flagging; it is written to only after a decision.
+**`load` describes the node's `skill_file`, not its `data_file`.** Two nodes pair a trigger-loaded skill with an always-loaded data file: `base-map` (`MAP.md`) and `base-founding-contract` (`FOUNDING.md`). Both carry `load: trigger`, and the `note` field says which data file is always loaded. Reading it the other way makes the governance look like it is carried in every session when it is not.
+**`owns`** lists the records and folders the node's skill governs, relative to `.claude/skills/`, its own skill file included: `owns: [meta-casebook/CASEBOOK.yaml, meta-casebook/reconstruction/, meta-casebook/SKILL.md]`. A folder covers everything under it; a path may have more than one owner. The ownership check reads it (`meta-mechanisms` → `owner-check.sh`, contract-004): a record edited in a session that never loaded any of its owners is counted, and the map steward proposes from the count. A node whose `owns` is empty governs nothing the kit can see, which is itself a reason to ask whether it should exist. An agent's write scope lives in its frontmatter instead.
+- **Adhere to the base kit.** Do not silently resolve the conflict in favour of the other instruction.
+- **Flag the conflict explicitly** before proceeding — state which base kit node is in tension with which instruction and why.
+- **Never override a base kit principle** to satisfy a product-level or project-level instruction. The standard exists precisely to hold under pressure.
+- A gap is resolved by a new skill → update gap_queue status, add node to registry
+- A gap is resolved → update its status, add the resolving node
+- A gap surfaces in a Standard Evolution Report → add to gap_queue
+- A gap surfaces → add it to gap_queue
+- A new skill is created → add node to registry and coverage map
+- A new skill or agent is created → add the node and coverage entry, its map entry, and — for a skill — its `owns` list, in the same act (M-22). A skill node without `owns` is incomplete.
+- A non-developer has successfully used it, or it has been reviewed against that standard
+- A reconstruction test has been run, and its kit-silent areas are named as known gaps
+- A skill is retired (a batch decision, M-22) → `status: retired` and `retired_by` on the node; remove its map entries; move each path in its `owns` to the node that now carries the concern, or put the orphaned records to the pioneer in the same act. Delete nothing from disk — a retired skill's records are still records.
+- All pre-build nodes are `mature`
+- All pre-build type-category nodes are `mature`
+- An existing skill is updated significantly → update node status and open_gaps
+- An existing skill is updated significantly → update status and open_gaps
+- At least one complete system built against the standard end to end
+- At least one complete system has been built against the standard end to end
+- At least one real system has been built against it end to end
+- Candidates created per contract are falling **while** sessions are still audited, contracts still verified, and canaries still caught
+- Candidates created per contract are falling **while** sessions are still audited, contracts still verified, and corrections moving from reading toward tests
+- Gap queue has no `high` priority open gaps
+- Gap queue has no `high` priority open gaps in type-category nodes
+- Governance rules change
+- Governance rules, the file convention, the update protocol, the layer model or the library promotion criteria change
+- No `high` priority open gaps in type-category nodes
+- Standard Evolution Reports have been producing diminishing candidates across recent sessions
+- The file convention changes
+- The library promotion criteria change
+- The update protocol changes
+---
+1. **Foundation** — meta-foundation governs what this work is and how the agent must orient to the human. Absolute precedence.
+1. **Foundation** — meta-foundation, through INTENT.md and in full. Absolute precedence.
+1. Base building kit — meta skills that govern how the standard is built and upheld
+1. Foundation — meta-foundation governs what this work is and how the agent must orient to the human. Absolute precedence.
+2. **Base building kit** — meta nodes, mechanisms and kit agents that govern how the standard is built and upheld. Domain-agnostic. Never modified per project except through an upgrade.
+2. **Base building kit** — meta skills that govern how the standard is built and upheld. Domain-agnostic. Always loaded. Never modified per project.
+2. Base building kit — meta skills that govern how the standard is built and upheld
+2. Type-category kit — domain-specific nodes for the current assignment type
+3. **Type-category kit** — the reusable standard for a class of system (e.g. `blazor-web-app`), with its precedents. Discovered through project use, extracted into the library when the instruments say it is ready.
+3. **Type-category kit** — the reusable standard for a class of system (e.g. `blazor-web-app`, `integration-api`). Discovered through project use, extracted into the library when mature, inherited by the next project of the same type. This is the transferable artifact the pioneer is building toward.
+3. Project instructions — product knowledge, specific constraints, one-off context
+3. Type-category kit — domain-specific nodes for the current assignment type
+4. **Project** — the context. Names this specific system. Instances the type-category kit and adds only what cannot be generalised — domain entities, infrastructure specifics, team conventions. Product knowledge lives here, not in the standard.
+4. **Project** — the context. Names this specific system. Instances the type-category kit and adds only what cannot be generalised.
+4. Project instructions — product knowledge, specific constraints, one-off context
+4. Session input — what the developer adds in the current prompt
+5. **Session input** — what the developer adds in the current prompt.
+5. Session input — what the developer adds in the current prompt
+> **Map:** M-22, M-23 · **Load:** on trigger — no longer read every session · **Recognise it by:** the question is what the kit contains or how mature a part of it is · **Not when:** the question is which knowledge applies right now (meta-map)
+Do not use shorthand (`pre`, `post`, `pre/post`).
+Each level narrows and specifies. No lower level overrides a higher one. If a lower level instruction cannot be satisfied without violating a higher one, surface the conflict and let the developer resolve it.
+Every node entry requires: `id`, `concern`, `skill_file`, `layer`, `phase`, `status`, `dependencies`, `open_gaps`
+Every node requires: `id`, `concern`, `kind`, `skill_file` (or `agent_file` for agents), `layer`, `phase`, `load`, `triggers`, `status`, `dependencies`, `open_gaps` — and, for every node that is not an agent, `owns`.
+Every non-base node carries inheritance markers so the lifecycle stays visible across generations:
+Extraction criteria:
+Inherited nodes also require: `inherited_from`
+MANIFEST.yaml is part of the standard. It must stay in sync with the actual skill files, agents and map.
+MANIFEST.yaml is part of the standard. It must stay in sync with the actual skill files.
+Precedence order:
+Project manifests carry `base_kit_version` — the base kit version installed — which `meta-bootstrap` compares on upgrade.
+Required on every non-base node:
+Since v0.14 the kit is organised by how knowledge reaches the agent, not only by what it says:
+Single-phase values use bare strings. Multi-phase values use YAML array form. The coverage_map uses the same vocabulary. Do not use shorthand (`pre`, `post`, `pre/post`).
+The `data_file` field uses the path relative to `.claude/skills/`. For the manifest node this is always `meta-manifest/MANIFEST.yaml`.
+The agent proposes changes as part of the skill-builder process. The developer approves. Neither file is ever updated silently.
+The base building kit takes precedence over all other skills, instructions, and project-specific guidance.
+The library entry is written into the kit's MANIFEST.yaml under `library_entry` at promotion time. The SKILL.md template defines the shape — the data lives in MANIFEST.yaml.
+The library entry is written into the project's MANIFEST.yaml under `library_entry` at extraction time. To seed a future project, the developer copies `.claude/library/[category]/` into it and the agent runs `meta-bootstrap`.
+The library entry is written into the project's MANIFEST.yaml under `library_entry` by meta-extract at extraction time. The extracted folder lives at `.claude/library/[category]/` in the project that produced it. To seed a future project of the same type, the developer copies that folder into the new project at the same path (`.claude/library/[category]/`), then runs `meta-bootstrap` — which will find the kit and integrate it automatically.
+The manifest always consists of two files in the same directory:
+These fields are the contract between generations. `meta-extract` reads them to decide which nodes pass through, which carry forward with modifications absorbed, and which stay behind as project-specific.
+These fields are the contract between generations. `meta-extract` reads them.
+Type-category and project nodes also require `tier` and `inherited`; inherited nodes also require `inherited_from`. Paired nodes carry `data_file`, relative to `.claude/skills/`.
+Type-category and project nodes also require: `tier`, `inherited`
+Use exact values only — no ad-hoc shorthand:
+When a conflict arises between a base kit node and any other instruction:
+When a kit is mature enough to be reused, it is promoted to the library. Promotion criteria:
+When a project's type-category nodes are mature enough to be reused, `meta-extract` packages them — skill files, map entries, type-category precedents and a META.yaml — as the starting point for the next generation of the same category.
+When a project's type-category nodes are mature enough to be reused, they are extracted into the library using `meta-extract`. The extracted artifact — a folder of skill files plus a `META.yaml` — becomes the starting point for the next generation of the same category.
+`always` · `trigger` · `fires` · `offline` — see The Six Layers.
+`triggers: [M-04, M-05]` — the map entries that load or launch the node. A node with `load: trigger` and no triggers will not be found; that is a defect.
+description: Load this file at the start of every session. Defines governance, precedence, and how to read the manifest. Instance data — node registry, coverage map, gap queue, kit identity — lives in MANIFEST.yaml in the same directory. Always read both files together.
+description: Use when a node is added, changed, split or retired (map M-22), when a guardrail or gap touches a node marked thin or missing (M-23), or when the kit's topology or precedence is in question. Governs MANIFEST.yaml — the inventory of nodes with their kind, load mode, triggers and maturity, the coverage map and the gap queue. The inventory says what exists; the map says when to use it.
+name: meta-manifest
+| 1 · Intent | `INTENT.md`, `FOUNDING.md` | `always` — imported by CLAUDE.md |
+| 2 · Map | `MAP.md` | `always` |
+| 3 · Nodes | principle, pattern, implementation and meta skills | `trigger` — named by a map entry |
+| 4 · Casebook | precedents, scenario cards | `trigger` — retrieved by moment |
+| 5 · Mechanisms | hooks, agent scopes, the seal; the kit agents they launch | `fires` — never loaded to work |
+| 6 · Ledger | observations, candidates, batches, audits, scores, telemetry | `offline` — read by agents and scripts |
+| Field | Meaning |
+| File | Purpose | Changes when |
+| Layer | Holds | Load |
+| Value | Meaning |
+| Value | Meaning | Form |
+| `MANIFEST.yaml` | Kit identity, node registry, coverage map, gap queue | Any node is added, updated, or resolved |
+| `SKILL.md` | Governance, precedence, reading guide, update protocol, library promotion | The standard itself evolves |
+| `SKILL.md` | Governance, precedence, schema reference, reading guide, update protocol, library promotion | The standard itself evolves |
+| `SKILL.md` | Governance, precedence, schema reference, update protocol, library promotion | The standard itself evolves |
+| `[pre-build, post-build]` | Active in two or more specific phases | YAML array |
+| `agent` | a kit agent in `.claude/agents/` |
+| `always` | Active in all phases | bare string |
+| `base` | Base building kit node — governs the kit itself. Does not carry `tier` field. |
+| `base` | Base building kit node. Does not carry the `tier` field |
+| `during-build` | Governs during implementation | bare string |
+| `generation_added: [N]` | Which generation introduced this node |
+| `generation_added: [N]` | Which generation introduced this node. For inherited nodes, copied from the source; for new nodes, the generation this project will produce. |
+| `inherited: false` | Created fresh in this project |
+| `inherited: false` | Node was created fresh in this project. |
+| `inherited: true` | Copied in from a library kit at bootstrap |
+| `inherited: true` | Node was copied in from a library kit at bootstrap. Came from a previous generation. |
+| `inherited_from: [kit_name] v[ver] generation [N]` | Provenance — only present when `inherited: true`. |
+| `inherited_from: [kit_name] v[ver] generation [N]` | Provenance — only when `inherited: true` |
+| `inherited_modified: true` | Set by skill-builder when an inherited node evolves here |
+| `inherited_modified: true` | Set by skill-builder when an inherited node is evolved during this project. Tells the next `meta-extract` to absorb the modification into the next generation. |
+| `intent` | always-loaded frame (INTENT.md) |
+| `map` | the always-loaded index |
+| `mature` | can be trusted |
+| `mechanism` | hooks and scripts that fire |
+| `missing` | a named gap — the standard has not spoken on this concern |
+| `post-build` | Governs after implementation completes | bare string |
+| `pre-build` | Governs before implementation begins | bare string |
+| `project` | Project-specific — does not travel to the library |
+| `record` | a node whose main job is to keep an instance log (contracts, drift, corrections, ledger, casebook) |
+| `retired` | the pioneer retired it at a batch (contract-004 G-8). The node stays on record with `retired_by: contract-NNN` or the batch id; its map entries are removed; its `owns` paths were reassigned in the same act or put to the pioneer; no file was deleted. A retired node is never loaded and never counted |
+| `skill` | a node that holds guidance |
+| `thin` | directionally correct, needs sharpening |
+| `tier: type-category` or `tier: project` | Set by the developer during skill-builder. Determines whether the node is extractable. Base nodes do not carry this — they are meta. |
+| `tier: type-category` or `tier: project` | Set by the developer. Determines whether the node is extractable. Base nodes do not carry it |
+| `type-category` | Transferable standard for a class of system — library extraction candidate |
+|---|---|
+|---|---|---|

@@ -30,7 +30,7 @@
 #       Cited referent — exact statement, log line, file:line.
 #     reaction: |
 #       What was done in-session in response.
-#     status: open | watching | mitigated | resolved
+#     status: open | watching | mitigated | resolved | legacy   # legacy: recorded under an earlier practice and deferred by the pioneer at an upgrade — counted by no hook, presented in no batch (contract-008)
 #     elevation:
 #       - target: skill, contract, mechanism or memory name
 #         kind: new-skill | skill-update | mechanism-change | test-added | agent-added | memory-update | manifest-update

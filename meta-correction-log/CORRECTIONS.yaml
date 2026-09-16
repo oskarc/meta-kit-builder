@@ -269,6 +269,73 @@ corrections:
     precedent: null
     clerk_note: null
 
+  - corr_id: C-012
+    date: 2026-09-13
+    contract_id: null
+    moment: M-07
+    grade: approach
+    intervention: redirected
+    agent_offered: |
+      A source listing for round 5 that named six primaries read end to end, nine round-5 documents read in
+      full, 509 extracts read by the five researchers and not by the agent, and a quote check over reports 04
+      and 05 that the agent itself described as inconclusive rather than making it conclusive.
+    pioneer_said: |
+      "It sounds like you didnt read it through, and didnt present a thorough result."
+    reason_given: |
+      none given
+    noticed: |
+      not yet asked
+    would_have_been_right: |
+      not yet asked
+    seen_before: |
+      not yet asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      Recorded against the standing rule the pioneer gave on 2026-09-13 and which is held in the agent's
+      memory: "remember no lamplighting, read everything in full without memory or guessing." Two specific
+      failures the agent accepts: the synthesis 06-new-eyes.md was written while report 04 had been read only
+      to line 859 of 1,095, and the verification of reports 04 and 05 was reported in its incomplete state
+      instead of being finished.
+
+  - corr_id: C-013
+    date: 2026-09-16
+    contract_id: contract-008
+    moment: M-07
+    grade: tier-redraw
+    intervention: redirected
+    agent_offered: |
+      Contract-008 G-1 as approved: where a meta skill carries residue (project-authored lines), the upgrade asks
+      one question per file with three answers — overwrite with the staged copy, keep yours, or port the staged
+      changes into yours — and the Classes application put seven skills to the pioneer on those terms.
+    pioneer_said: |
+      "When someone upgrades they get the question if they want to reaply their changes ontop of the updated
+      skills, and the agent asks how to resolve if there is some form of conflict. So option A is reapply, option
+      B is replace with upgraded skills.
+
+      Baseline is that no meta skills should be changed, if they do they are kind of on their own"
+    reason_given: |
+      none beyond the baseline stated: meta skills are the kit's, and a project that changes them is on its own.
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      A tier-redraw of contract-008 UC-1/G-1: the question keeps its trigger (residue, never a diff against the
+      staged copy) and loses one answer. "Keep yours" is withdrawn — the upgraded skill is always taken; the
+      pioneer's residue is either reapplied on top of it (A) or dropped (B); a residue line that cannot be
+      reapplied cleanly is a conflict the agent asks about rather than resolves. Recorded as revision 1 on the
+      contract-008 entry, authorised by this message.
+
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no

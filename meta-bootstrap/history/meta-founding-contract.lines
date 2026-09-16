@@ -1,0 +1,113 @@
+  becomes trivially in service, because the thing it serves was edited to make
+  expensive.
+  it so. Prevented by append-only, and by the ratifies-versus-binds test.
+  manifest. A bearing states a change of state.
+  permanently readable.
+  progressed to.
+  redirected, which are the only two things it is for.
+  right; a maximally agreeable bearing is not neutral, it is inert. Whatever
+  that it need not have before.
+  the contract is wagering belongs on the first line.
+  traceable to contracts by id.
+  what stops being renegotiated case by case.
+  with cannot steer. It states a change of state, never a list of work.
+  wrong. It is not a preface.
+"The Approval Gate". `bearing` is a field on every entry in `CONTRACT-LOG.yaml`.
+# Founding contract
+## Failure modes
+## Foundational and feature contracts are measured differently
+## Instance
+## It is living, and it grows by addition
+## The bearing
+## Two grades of correction
+## What is enforceable, and what is not
+## What it is
+### Amending is a pioneer act
+### The sharp test
+**A correction is generative, not a veto.** The pioneer reflects and describes
+**An amendment that only ratifies is suspect; one that also binds is earned.**
+**Every contract opens with a statement of at most two sentences: what the
+**Judging a contract's service by its proximity to what a user sees is the
+**Neither party can see the end of the work.** If either could, the practice
+**The content is not mechanically measurable.** Whether a bearing serves the
+**The form is enforceable, and should be.** A check may assert that the
+- **Amendments are appended and datestamped.** They say where the project has
+- **Each amendment names what caused it** — the work that revealed the nuance,
+- **Each amendment names what it now binds** — what future work must honour
+- **If the bearing and the tiers disagree, the bearing wins** and the tiers are
+- **It must be capable of being wrong.** A bearing that cannot be disagreed
+- **It must expose its bet.** The pull is to phrase it so it sounds obviously
+- **Service is judged by user-visibility.** See above; this one is quiet and
+- **The bearing becomes a summary.** "This contract adds X, Y and Z" is a
+- **The bearing goes vague to avoid being wrong.** Then it cannot be refused or
+- **The original text is never rewritten.** It stands as first written,
+- **The statement drifts to match the work.** The worst outcome: every contract
+- A **feature** contract is measured by what becomes **possible**.
+- A **foundational** contract is measured by what it makes **governable** —
+---
+> **Map:** M-24 · **Load:** on trigger — `FOUNDING.md` itself is always loaded · **Recognise it by:** a bearing may sit outside the statement, the statement is missing, or an amendment comes up · **Not when:** drawing a bearing that plainly serves the statement (meta-contract-before-execution)
+A reevaluation may legitimately end with the contract not existing. A redraw
+A retro-fitted amendment licenses what was already done and constrains nothing.
+An **internal** statement about the project as a body of work: what it is, how
+An honest one usually makes future work *harder*, because a nuance discovered
+Because neither can, the *purpose* has to carry what the *destination* cannot —
+Development is an evolutionary lifecycle; part of the work is letting something
+It is **not** a product vision. It does not describe an audience, a market, or
+Judging the first by the second's measure pushes a practice toward features and
+Part of the enforceable form is now mechanised (`meta-mechanisms`): the
+Step 3 asks the pioneer for the statement — placed after the agent's
+The agent may surface that a contract's bearing sits outside the statement as
+The bearing rule and the two grades of correction are applied where contracts
+This project's statement and its amendments live in `FOUNDING.md`, beside this
+`FOUNDING.md` into the library.
+always ends with a contract. **Treating a bearing correction as a redraw
+and a binding clause, and that every contract carries a bearing of at most two
+and the founding contract is where that purpose is written down.
+are drawn — see `meta-contract-before-execution/SKILL.md`, "The Bearing" and
+away from the ordering that keeps features coherent.
+because it settles how every surface is permitted to look and ties the whole
+byte-unchanged, and that a bearing is at most two sentences (gap-009). A new
+carries `FOUNDING.md` into the library.
+cause or a binding clause. Not yet mechanised: that the original block is
+change so a contract fits is the corruption of the mechanism**, and it is the
+characteristic misreading.** It systematically undervalues the foundational
+description is the reorientation; it is also where amendments are earned, when
+description wearing a statement's clothes.
+description: The project's own statement of what it is — internal, behind the scenes, never about the product's audience — held as an original text that is never rewritten plus dated amendments saying where the project has progressed to. Every contract opens with a two-sentence BEARING in service of it. Correcting a bearing is a reevaluation (the direction is off in some respect), not a redraw (an adjustment within a direction already correct). An amendment must name what caused it and what it now binds; one that only ratifies work already done is retro-fitting, and retro-fitting turns the statement into a check that cannot fail at the top of the practice. Amending is a pioneer act. The content is unmeasurable and reached by reflection; only the form is enforceable.
+file, which CLAUDE.md imports so it is loaded in every session. The skill is
+file. The skill is transferable; the statement is not. A new project is seeded
+founding statement. It is the first thing drawn and the first thing read.
+from `templates/FOUNDING.template.md` by `meta-bootstrap` (Step 4), which asks
+how the contract should better be in service of the founding statement. That
+invisible to any user and is *directly* in service of the founding statement,
+is a constraint discovered. If an amendment cannot be shown to bind, it is a
+it happens.
+it should hold together, what ordering it is meant to have.
+layer the practice most exists to build, and it is quiet — nothing fails when
+made.
+name: meta-founding-contract
+one that would be hardest to see afterwards.
+orientation, so it is made against a reading they can correct — and Step 6e
+original block is byte-unchanged, that every amendment carries a date, a cause
+point of the contract is, and how it shows direction.** It is in service of the
+project is seeded from `templates/FOUNDING.template.md` by `meta-bootstrap`:
+records it verbatim, or records the deferral. `meta-extract` never carries
+reflection shows the statement was incomplete rather than the contract wrong.
+repairs the tiers and lets the wrong direction survive the correction.**
+sentences. It cannot judge whether an amendment is earned — it can refuse one
+session-start hook flags a statement not yet given and amendments missing a
+statement is reached by reflection. Any check that claimed to score it would be
+stop-gate flags a live contract recorded without a bearing, and the
+take shape. Understanding deepens, and the statement must be able to say so.
+the most dangerous artifact in the kit: a green light on a judgement nobody
+the pioneer for the statement and records it verbatim. `meta-extract` never
+together.
+transferable; the statement is not.
+what an end user should feel. A design system for colour and iconography is
+would be specification and delivery, and the ceremonies would be overhead.
+written in a shape that hides the question.
+written — that is a finding, and a useful one. **Proposing that the statement
+| The pioneer corrects | Meaning | Consequence |
+| a tier or use case | an adjustment within a direction already correct | **redraw** — the contract is drawn again in full |
+| the bearing | the direction is off in some respect | **reevaluation** — everything below was derived from it, so it is re-decided, not repaired |
+|---|---|---|

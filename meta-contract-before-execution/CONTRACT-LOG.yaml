@@ -1620,3 +1620,162 @@ contracts:
         tests_changed: [T-4]
     cost: {turns: 79, tokens: null, pioneer_minutes: null}    # turns = main-session assistant messages from approval (13:49Z) to implemented (15:40Z), tool-call rounds included — contract-006's 15 counted visible replies only, so the two are not comparable and this is the count from here on; tokens not measured for the main session (the thirteen rehearsal agents used about 5.0 million between them); minutes: the pioneer's, to be asked
     work_id: null
+
+  - contract_id: contract-008
+    feature: the upgrade compares by mechanism — an installed copy of every meta skill as the yardstick, history only for forks that predate it, a migration check for completeness and validity, roots by id, a legacy status for drift, the rehearsal log kept, and the Classes run made whole
+    type: contract
+    follows: contract-007
+    date_proposed: 2026-09-15
+    date_approved: 2026-09-16
+    approval: approved-at-gate     # pioneer: "Then we can approve the contract" (2026-09-16), after UC-1 was revised in the same exchange
+    bearing: |
+      The upgrade stops asking an agent to compare structured records by reading, and stops asking the pioneer questions a mechanism can answer: the kit keeps the installed copy of every meta skill as the yardstick it already keeps for agents and templates, the base kit's own history stands in only for a fork that predates that copy, the migration is verified for completeness and validity as well as preservation, and a pioneer's deferral gets a value the record can hold. The bet: the first upgrade on a real fork overwrote three of the pioneer's own evolutions without a question and registered six fewer nodes than the template carries, and no sentence added to step 7 would have caught either — only a comparison the agent cannot get wrong.
+    # Bears against paragraphs one and three of the founding statement: kits that travel, and "the skills that
+    # make up the kit are the organisation's standards" — a fork's evolved skill overwritten silently is the
+    # standard overwritten silently. Drawn from the analysis of report-010 (the Classes upgrade) on 2026-09-15:
+    # twelve pre-upgrade meta skills hashed against every committed base-kit version — four untouched, six
+    # carrying project-authored lines (three of them overwritten without a question), two wrap noise.
+    tier_1: |
+      As the pioneer, I stage a new kit into a project whose kit I have been evolving for months, some of it
+      before the kit had a baseline. I want the upgrade to tell me exactly which lines I wrote in each skill and
+      ask me about those — not to ask me twelve questions, and not to decide for me by guessing what counts as
+      "project content". I want the migrated records to be complete and valid, not only unbroken: if the
+      template registers eight agents, my manifest has eight agents afterwards. When I say "leave those
+      seventeen drift entries for later", I want the kit to hold that answer instead of offering them to me two
+      at a time for nine batches. And I want the rehearsal's evidence kept, so the report that says "six defects
+      caught on the copy" can be checked by someone who wasn't there. Without this, every pre-0.15 fork that
+      upgrades pays the same three costs: lost evolutions, an incomplete registry, and a backlog that will not
+      clear. The second user is whoever runs the next upgrade on the next fork.
+    tier_2: |
+      UC-1  Yardstick, not history. At install and at every upgrade the kit keeps the installed copy of each
+            meta skill and INTENT.md, as it already keeps agents under skills/agents/ and templates under
+            skills/templates/. On an upgrade a meta skill is compared three ways — project copy, installed copy,
+            staged copy: lines in the project's copy that the installed copy never had are the project's own,
+            and the one question shows those lines: overwrite, keep, or port. No residue, no question. A fork
+            with no installed copy (installed before this contract) is compared once against every committed
+            base-kit version of the file, which stands in for the installed copy; where that history is not
+            reachable the upgrade says so and falls back to one question per differing skill. Edge: re-wrapping
+            and whitespace are not residue. (Revised from the proposal's history-shipping version in the
+            exchange of 2026-09-16 — history is the fallback, not the mechanism.)
+      UC-2  Migration verified three ways. After step 7, each migrated record parses; the number of fields
+            inserted equals the number of entries that lacked them; and every node id in the staged template's
+            nodes: is present in the migrated manifest, renames matched by skill_file. Failure names the file and
+            the figure, and the rehearsal does not pass on it. Edge: a project node the template never had is
+            not a missing node.
+      UC-3  Roots by id. Step 8's "no other node names it as a dependency" is computed over manifest ids joined
+            through skill_file, by script, and the count written into proposed-entries.md comes from that run.
+            Edge: a skill registered under two ids counts once.
+      UC-4  A deferral the record can hold. legacy is a drift status. Step 7 asks once, as a standing question,
+            whether pre-upgrade entries at mitigated are reviewed in batches or marked legacy; the hooks and the
+            batch assembler ignore legacy, and the value is enumerated everywhere the marker-key contract
+            requires. Edge: an entry the pioneer later reopens returns to watching.
+      UC-5  The rehearsal log is kept beside the step-9 report, so the three numbers and every defect the copy
+            caught are on record after the copy is gone.
+      UC-6  The template rule's instance-file question is asked as its own question, visibly distinct from the
+            skills question — report-010's third recommendation, kept as written.
+      UC-7  First application: the Classes install. UC-1 is run on the twelve pre-upgrade skills from aef4651
+            and the six with project-authored lines are put to the pioneer as the question that was skipped;
+            the eight agent nodes and their coverage lines are registered; the roots figure is corrected to the
+            computed count and the map question re-asked; the seventeen drift entries take the UC-4 question;
+            report-010's altered quotation of the pioneer's failure condition is restored verbatim.
+      Refused, and not in this contract: the grep-for-project-content test recommended by report-010. Measured
+      on the twelve skills it classified, it missed three of six forks.
+    tier_3: |
+      G-1  (UC-1)     meta-bootstrap: install step 5 and upgrade step 5 write the installed copy of every meta
+                      skill and INTENT.md under .claude/skills/installed/ (refreshed at each upgrade, after the
+                      pioneer's answers are applied); step 3's evolved branch compares line-based over content
+                      with carriage returns and trailing whitespace removed; "untouched" means every non-blank
+                      line of the project's copy appears in the installed copy (or, for a fork without one, in
+                      some prior committed base-kit version); the question, when asked, quotes the residue lines
+                      in full. A fork without an installed copy and without reachable history falls back to the
+                      current one-per-skill branch and says so in the classification. applies C-010.
+      G-2  (UC-2)     meta-mechanisms/checks/G2-migration.sh, run at step 9 in rehearsal and real run: a
+                      structural walk of each migrated record's marker keys in bash, sed and awk (contract-001
+                      G-3 — no parser is assumed; the node says exactly what "parses" means), the insertion
+                      count per record, and template-node completeness against the staged
+                      MANIFEST.template.yaml. Non-zero exit names file and figure. Step 2's rehearsal pass rule
+                      gains "and G2-migration.sh exits 0".
+      G-3  (UC-3)     meta-mechanisms/checks/roots.sh prints the project node ids not named in any other node's
+                      dependencies, joined through skill_file, counting a skill registered under two ids once;
+                      step 8 uses its output and nothing else for the count. applies P-006 — the map allowance
+                      does not move.
+      G-4  (UC-4)     DRIFTLOG.template.yaml's enumeration becomes open | watching | mitigated | resolved |
+                      legacy; the marker-key table in meta-mechanisms/SKILL.md names it; session-start.sh,
+                      stop-gate.sh and kit-batch-assembler.md are confirmed to ignore it, with a walk-007 state
+                      added; step 7 gains the standing question, phrased like the contract log's.
+      G-5  (UC-5)     Step 2 writes the rehearsal log to the project's report folder (docs/reports/ where it
+                      exists, else beside the step-9 report) as rehearsal-<date>.md, and step 9's report links
+                      it; the copy is still discarded.
+      G-6  (UC-6)     Step 7's MANIFEST.yaml line says the base-node-lines question is asked, and step 2's list
+                      of standing questions names it as the instance-file question in words that cannot be read
+                      as the skills question.
+      G-7  (UC-7)     The Classes fixes are done under this contract's rules, on the Classes tree, each change
+                      recorded in report-010's successor, nothing committed in either repository without the
+                      pioneer's say; the three overwritten evolutions are not restored by the agent — they are
+                      shown and asked. From the pre-mortem: the successor report lists what it did not check,
+                      so silence is never read as a clean result. applies P-008.
+      G-8  (all)      No mechanism or agent decides anything new; nothing beyond this list; every changed script
+                      fixture-tested and walk-007 extended; applies P-004 and P-007. Precedents: applies P-001
+                      (a retarget, not local patches), P-004, P-006, P-007, P-008. Founding statement: serves
+                      paragraphs one and three directly.
+    disappointment: |
+      G-1 to G-8, the pioneer, 2026-09-16: "If the upgrade run still leaves issues unresolved that means this
+      wasnt the accurate fix i expected."
+    premortem: |
+      "If the upgrade was silent about issues or missed critial parts it didnt reveal." — the pioneer, 2026-09-16.
+      Lands on T-2 (completeness is checked, not assumed) and T-7, and adds the "what was not checked" list to G-7.
+    tier_4: |
+      T-1  (G-1)      A skill the project edited by two lines is shown as exactly those two lines and asked about
+                      once; a skill only the kit changed is not asked about. Fixture install with installed
+                      copies under .claude/skills/installed/: one meta skill edited by two lines, one untouched
+                      while the staged copy moved on — expected one question quoting the two lines, none for the
+                      other. Same fixture with the installed copies deleted and the base-kit history reachable:
+                      same result. History unreachable: the one-per-skill statement, in words.
+      T-2  (G-2)      The migration check fails on the three defects the Classes rehearsal found by hand.
+                      G2-migration.sh exits 0 on a correctly migrated fixture and exits 1 naming file and figure
+                      on each of: a severed block scalar, one entry missing its inserted field, one template node
+                      absent from the manifest.
+      T-3  (G-3)      The roots script gives the number report-010 got wrong. On the pre-upgrade Classes manifest
+                      (aef4651) it prints 16 ids; on a fixture where a node is named by two others, that node is
+                      absent from the output.
+      T-4  (G-4)      A drift entry marked legacy is left alone. walk-007 gains a state: an entry at status: legacy
+                      raises no session-start line and enters no batch; greps show legacy in the template
+                      enumeration and the marker-key table.
+      T-5  (G-5)      The rehearsal leaves its evidence behind. After a fixture rehearsal the log file exists with
+                      the three numbers and every defect listed; the copy is gone.
+      T-6  (G-6)      The two questions cannot be read as one. Step 2's standing-question list names the
+                      instance-file question in those words; step 7's manifest line says it is asked.
+      T-7  (G-7, the disappointment)  The Classes run leaves none of the six issues open. Checked afterwards, all
+                      of: the six skills' residue lines were shown and the pioneer's six answers are on record;
+                      the manifest holds eight agent- nodes and their coverage lines; proposed-entries.md states
+                      the count roots.sh prints; the seventeen drift entries carry the pioneer's answer and
+                      session-start's backlog line reflects it; report-010's quotation matches
+                      meta-bootstrap/SKILL.md:349 verbatim; nothing else in the Classes tree changed. Any one open
+                      fails the contract.
+      T-8  (G-8)      Nothing else moved. walk-007 extended and green; every check under checks/ exits 0; git diff
+                      --stat in both repositories names only the paths this contract lists.
+      untested: whether the installed copies stay worth their weight over many upgrades — the pioneer's judgement
+                after the second one; whether G-1's fallback sentence reads well to a newcomer (P-008).
+    red_test: {broke: G-4, went_red: T-4, how: "the drift template's enumeration edited back to `open | watching | mitigated | resolved` (legacy removed); walk-007 state 121 failed ('121 enumeration'), 48 passed 1 failed; restored; walk-007 49/49 green again", date: 2026-09-16}
+    status: implemented
+    verification_state: awaiting-evidence
+    audited: false
+    transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    observations: [O-034, O-035, O-036]
+    revisions:
+      - what: "UC-1/G-1 redrawn at the gate: the residue question has two answers, reapply on top of the upgraded skill or replace, never keep the old file; a residue line that cannot be reapplied cleanly is a conflict the agent asks about; the rehearsal stubs reapply. The pioneer set the baseline that meta skills are not meant to be changed by a project. Recorded as C-013."
+        authorised_by: "Pioneer, 2026-09-16: 'So option A is reapply, option B is replace with upgraded skills. Baseline is that no meta skills should be changed, if they do they are kind of on their own' (C-013 carries the message verbatim)"
+        date: 2026-09-16
+        tests_changed: []   # T-1 checks the trigger and the quoting, not the answer set
+      - what: "The version moves to 0.16 (manifest, template base_kit_version, README, walk-007 states 105 and 112d). Not in the approved list; without it no installed kit can tell it is behind and the Classes upgrade the pioneer asked to run from the Classes repo could not start."
+        authorised_by: "Pioneer, 2026-09-16: 'i will try to update the classes repo from there instead' - the instruction requires it; recorded as the deviation it is, for the pioneer to confirm or refuse"
+        date: 2026-09-16
+        tests_changed: []
+    # G-7 (the Classes application) is not run from this session: the pioneer chose to run the upgrade from the
+    # Classes repository against this kit staged at 0.16, so that the procedure itself answers the seven residue
+    # questions, the instance-file question, the drift-legacy question and the map question on 16 roots. T-7 is
+    # judged on that run. The residue measurement this session made is recorded in the Classes repo at
+    # docs/reports/contract-008-residue-2026-09-16.md. G2-migration.sh exits 1 on this tree because contracts
+    # 001-005 lack the contract-006 fields; the backfill is a record change the pioneer has not yet ruled on.
+    cost: {turns: 110, tokens: null, pioneer_minutes: null}    # turns = main-session assistant messages from approval (2026-09-15T22:48Z) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
+    work_id: null

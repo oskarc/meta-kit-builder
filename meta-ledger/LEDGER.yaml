@@ -576,6 +576,60 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-034
+    date: 2026-09-16
+    source: implementation
+    contract_id: contract-008
+    refs: [G-1, meta-mechanisms/tests/results/contract-008-T-1.md, docs/reports/contract-008-residue-2026-09-16.md (Classes)]
+    statement: |
+      a project's own edits to a kit skill can be measured, not judged: the lines of its copy that the installed
+      copy never had are the residue, and on the first real fork the residue (against the base kit's history,
+      the stand-in) was zero for four of twelve skills, project-authored for six, and re-wrapping noise for two
+      — while the grep-for-project-content judgement the upgrade had used missed three of the six.
+    level_guess: implementation
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-035
+    date: 2026-09-16
+    source: implementation
+    contract_id: contract-008
+    refs: [G-2, meta-mechanisms/checks/G2-migration.sh]
+    statement: |
+      a shape rule over YAML written by hand cannot tell a severed block scalar from a plain multi-line scalar,
+      and the records legally hold both; what is mechanical without a parser is field counts per entry, node
+      completeness against the template, and the contiguity of every pre-migration block scalar against the
+      copy step 7 already takes — the check that finds the sever needs the before, not a grammar.
+    level_guess: implementation
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-036
+    date: 2026-09-16
+    source: implementation
+    contract_id: contract-008
+    refs: [G-3, meta-mechanisms/checks/roots.sh, meta-mechanisms/tests/fixtures/classes-manifest-aef4651.yaml]
+    statement: |
+      a procedure that names a relation the manifest holds ("no other node names it as a dependency") but not
+      the join it runs through will be computed on the wrong key: dependency lists name ids and folders carry a
+      layer prefix, so folder matching reported 93 roots of 96 where the ids give 16 — and the number travelled
+      into the report and into the question put to the pioneer.
+    level_guess: implementation
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
 
 batches: []

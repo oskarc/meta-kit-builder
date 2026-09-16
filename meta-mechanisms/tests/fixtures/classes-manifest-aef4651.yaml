@@ -1,0 +1,2097 @@
+# MANIFEST.yaml
+# Instance data for the Classes kit. Governed by SKILL.md in the same directory.
+# Updated only through the skill-builder process with developer approval.
+
+kit_identity:
+  kit_name: classes-kit
+  kit_type: type-category
+  category: bannerlord-campaign-mod
+  version: 0.2
+  parent_kit: base-building-kit
+  status: active
+
+nodes:
+
+  # --- Base meta-nodes (inherited from base-building-kit, copied locally) ---
+
+  - id: base-foundation
+    concern: Philosophical foundation and operational frame — what this work is, the human's role, the agent's role, the governing aspects. Six governing aspects encoded — lay-of-the-land, stop-when-discipline-falls, partner-as-mirror, evolution-from-elevation, evidence-is-the-work, and (Gen-3 2026-05-25) discipline-is-the-work.
+    skill_file: meta-foundation/SKILL.md
+    layer: meta
+    phase: [pre-build, during-build, post-build]
+    status: mature
+    generation_evolved: 4
+    dependencies: []
+
+  - id: base-founding-contract
+    concern: The project's own statement of what it is, held as an immutable original plus dated amendments; the bearing every contract opens with, and the two grades of correction (reevaluation when the direction is off, redraw when it is an adjustment within a correct direction). Instance lives in FOUNDING.md beside the skill.
+    skill_file: meta-founding-contract/SKILL.md
+    layer: meta
+    phase: [pre-build, during-build, post-build]
+    status: seeded
+    generation_evolved: 1
+    dependencies: [base-foundation]
+    open_gaps:
+      - Gen-2 update (2026-05-24) — added "Evidence is the work, not a detour from it" as the 5th governing aspect, in response to v0.4 class batch drift incidents drift-001 (silent effect substitution under unverified host APIs) and drift-002 (build-cycle treated as verification shortcut). Also absorbed the "SER-silence as maturity signal" closing sentence from VillageInvestment+TOR kits (cross-kit consolidation — all three kit foundations now substantively identical; verified by character-count + normalised-content equality).
+      - Gen-3 update (2026-05-25) — added "Discipline is the work, not overhead on it" as the 6th governing aspect, in response to drift-003 (ceremony decay during v0.5 ship session — meta-antidrift never run despite skill being loaded, SER skipped on v0.5 ship, three-tier abbreviated to "three options at same scope" instead of proper User Scenario / Use Cases / Guardrails, audit-derived drift patterns not logged). The 6th aspect is meta to the other five — when practice is treated as overhead, every other aspect can be silently skipped. Surfaced incident is documented in drift-003 with elevation linking back to this node. Cross-kit propagation to VillageInvestment + VillageInvestmentTOR foundations is pending — they currently sit at Gen-2.
+      - Gen-4 update (2026-05-27) — extended the "Evolution from elevation, not recovery" aspect with the recurrence-triggered elevation-depth rule. When the same drift root-cause recurs across multiple elevations at the principle / memory / doc-methodology layer, the next elevation must descend to the enforcement layer (a check that fires automatically without requiring the agent or human to remember). Surfaced by drift-006 — substitution-as-final-design root recurred across drift-001 (memory write), drift-005 (doc methodology reinforcement), and drift-006 itself; the drift-006 elevations are the first at the enforcement layer (G4 registration-time validator + G5 API split). Cross-kit propagation to VillageInvestment + VillageInvestmentTOR foundations is pending — both currently lag at Gen-2.
+      - Gen-5 update (2026-07-25, Slaver SER C1) — extended the "Lay of the land" aspect: the survey must cover the feature's ENTIRE defining surface (data, config, rule/perk trees), not just runtime behaviors, and a contract's anchors must record the tree. Surfaced when the Slaver Option-A contract anchored behaviors only and missed that the 15-perk prisoner tree already implemented the abstract system's headline (passive income), forcing the Option-B redraw.
+    note: Load before all other skills. Takes precedence over all other kit nodes including governance in meta-manifest. Gen-4 (2026-05-27) extends the elevation aspect with the recurrence-triggered enforcement-layer rule — VillageInvestment + TOR foundations are now lagging at Gen-2 until cross-kit propagation happens.
+
+  - id: base-bootstrap
+    concern: First-run installation — introduces the practice to the developer, establishes kit authority in the environment, orients to the project, creates the project manifest
+    skill_file: meta-bootstrap/SKILL.md
+    layer: meta
+    phase: [pre-build]
+    status: mature
+    dependencies: [base-foundation]
+    open_gaps: []
+    note: Runs once per project. After completion the kit is load-bearing and this skill is not invoked again.
+
+  - id: contract-artifact
+    concern: >-
+      HOW a contract is delivered, not what it contains. Every contract is drawn
+      in full in chat AND published as an artifact. Two templates — an ANALYSIS
+      REPORT for findings and judgement, an EXECUTION CONTRACT for a build plan.
+      The artifact must make verification state visible at a glance — what was
+      checked against source, what is judgement, what is still open.
+    skill_file: meta-contract-artifact/SKILL.md
+    layer: meta
+    phase: [pre-build, post-build]
+    status: emerging
+    generation_added: 15
+    generation_evolved: 15
+    dependencies: [verify-the-output-not-the-mechanism, bannerlord-subagent-verification, checks-fail-closed]
+    origin: |
+      A concept subagent reported a class income figure as computed evidence; the
+      arithmetic was wrong by 28%. In chat prose the wrong figure and the verified
+      ones read identically. The delivery layer, not the contract content, is what
+      failed — so the fix is a delivery rule rather than another content rule.
+    open_gaps:
+      - >-
+        Storage and the contract log were added after the first two artifacts
+        existed, so both were stamped and filed retroactively. Nothing enforces
+        that a future contract is stored, registered, or stamped — the rule is
+        prose, and this kit has learned twice that a prose rule with no check
+        rots quietly.
+      - >-
+        Both templates are defined. Neither has been used enough to call mature —
+        Template A has one instance (a concept review whose central figure it caught
+        wrong), Template B has one (the slave-market contract that shaped it).
+      - The tension with "contract in chat, never a file" is resolved in prose (chat is primary, redraw whole, artifact is a rendering) but nothing enforces it. An amended-in-place artifact would violate it silently.
+
+  - id: base-contract
+    concern: Contract before execution — spec lock (design-heavy features) + three-tier proposal + approval gate + standard evolution report
+    skill_file: meta-contract-before-execution/SKILL.md
+    layer: meta
+    phase: [pre-build, post-build]
+    status: mature
+    generation_evolved: 2
+    dependencies: [contract-artifact]
+    verified_by:
+      - tools/verify/verify_contract_log.py
+      - tools/verify/negative_contract_log.py
+    open_gaps:
+      - Proposal format not yet templated for non-developer legibility
+      - Gen-3 update (2026-08-24, drift-038) - the id is claimed from the log and the entry is written at the gate; verify_contract_log enforces it from contract-011 on. Entries 011-013 are reconstructed after a compaction and say so.
+      - No guidance on handling partial approvals
+      - Gen-2 update (2026-05-26) — added Spec Lock layer for design-heavy features, surfaced during v0.8a/v0.8b loops where the user repeatedly redirected mid-three-tier because design questions were buried inside Tier 2 use cases. Spec lock sits upstream of three-tier; resolves the "what is this feature" question explicitly via AskUserQuestion polling before the "how do we build it" three-tier begins. Cross-kit propagation pending VI + TOR.
+
+  - id: base-learning
+    concern: Learning loop — diffing what the contract predicted against what verification confirmed, and elevating the gap into the standard
+    skill_file: meta-learning/SKILL.md
+    layer: meta
+    phase: [post-build]
+    status: emerging
+    generation_added: 14
+    dependencies: [base-contract, base-skill-builder]
+    open_gaps:
+      - >-
+        Installed verbatim from upstream during the Gen-14 reconciliation and not
+        yet run once. LEARNINGLOG.yaml does not exist, and it cannot until a
+        contract reaches status verified — this kit has two logged contracts, one
+        implemented and one approved.
+      - >-
+        The skill asks that whatever reads MANIFEST.yaml and DRIFTLOG.yaml at
+        session start also surface a count of contracts awaiting a learning diff.
+        CLAUDE.md now names the skill, but the count is prose, not a check.
+
+  - id: base-skill-builder
+    concern: Abstraction loop — classifying learnings, updating skills, raising the standard
+    skill_file: meta-skill-builder/SKILL.md
+    layer: meta
+    phase: [post-build]
+    status: mature
+    dependencies: [base-contract]
+    open_gaps:
+      - No guidance on deprecating outdated nodes
+      - Conflict resolution between two nodes covering overlapping concerns not addressed
+      - Gen-2 update (2026-07-25, Slaver SER C2) — the "Template drift" anti-pattern was generalized beyond documents to co-owned RUNTIME renderers (two surfaces formatting the same model field are co-owned; edit one, verify the other). Surfaced by the ExtraPassives "In Short" gap where BuildTooltip iterated a collection and CurrentEffectText did not.
+
+  - id: base-manifest
+    concern: Kit topology — node registry, coverage map, gap tracking, self-organisation
+    skill_file: meta-manifest/SKILL.md
+    data_file: meta-manifest/MANIFEST.yaml
+    layer: meta
+    phase: [pre-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Library forking process not defined
+      - No versioning strategy for breaking changes to node schema
+
+  - id: base-drift-eventlog
+    concern: Persistent log of drift incidents — when discipline fell, what evidence supported the call, the in-session reaction, the lifecycle of any elevation that absorbed the learning. Each entry carries enough context for cross-session pattern recognition (recurrence counts, related drifts) so drift becomes cumulative rather than ephemeral.
+    skill_file: meta-drift-eventlog/SKILL.md
+    data_file: meta-drift-eventlog/DRIFTLOG.yaml
+    layer: meta
+    phase: [during-build, post-build]
+    status: mature
+    dependencies: [base-foundation]
+    open_gaps:
+      - Stood up 2026-05-24 in response to v0.4-batch closing-SER drift incidents (silent substitution + build-cycle-as-verification). Two entries logged at creation. No prior history to migrate.
+    note: SKILL.md mirrored from VillageInvestment kit; DRIFTLOG.yaml is Classes-kit-specific instance data. Entries appended on human-flagged or self-detected drift only.
+
+  - id: base-antidrift
+    concern: Post-output drift scoring — compact evidence-based check against governing aspects and active skills after every output. Block is self-checking on its own format (9th line added 2026-05-26).
+    skill_file: meta-antidrift/SKILL.md
+    layer: meta
+    phase: always
+    status: mature
+    generation_evolved: 2
+    dependencies: [base-foundation]
+    open_gaps:
+      - Gen-2 update (2026-05-26) — added 9th line "format compliance" with DEGRADED signal. Closes the silent-format-degradation enforcement gap surfaced by drift-003 recurrence on 2026-05-26. The 6th governing aspect added 2026-05-25 raised awareness of ceremony decay but did not prevent silent commit; this Gen-2 update adds the enforcement layer below the principle. Effectiveness untested — drift-003 stays `watching` pending observed-silence on DEGRADED across subsequent sessions. Cross-kit propagation to VillageInvestment + VillageInvestmentTOR pending — both kits carry meta-antidrift at Gen-1 (mirrored from VI 2026-05-25).
+    note: Mirrored from VillageInvestment kit 2026-05-25. Runs after every output. Must be in the continuous load order — already in CLAUDE.md item 5. Gen-2 (2026-05-26) adds format-compliance self-check; cross-kit propagation to VI + TOR pending.
+
+  - id: base-antidrift-expand
+    concern: Session-level drift analysis — full pattern mapping, implicit approval accumulation, discipline fall point, elevation vs recovery assessment
+    skill_file: meta-antidrift-expand/SKILL.md
+    layer: meta
+    phase: post-build
+    status: mature
+    dependencies: [base-antidrift, base-foundation]
+    open_gaps: []
+    note: Mirrored from VillageInvestment kit 2026-05-25. Invoked explicitly by the human. Not part of the continuous load order.
+
+  - id: base-extract
+    concern: Type-category kit extraction — separates transferable nodes from project nodes, produces library artifact and META.yaml
+    skill_file: meta-extract/SKILL.md
+    layer: meta
+    phase: post-build
+    status: mature
+    dependencies: [base-manifest, base-skill-builder]
+    open_gaps: []
+    note: Mirrored from VillageInvestment kit 2026-05-25. Run when developer decides nodes are mature enough for library promotion.
+
+  - id: base-embed-before-own
+    concern: When extending a host system, embed inside its surfaces before owning a parallel surface — and use the host's specialised widget classes, not generic substitutes. Two failure modes — structural (parallel surface forces re-solving chrome/lifecycle/cross-extension) and behavioural (widget downgrading silently drops state machines, navigation, focus).
+    skill_file: principle-embed-before-own/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Non-Bannerlord worked examples are asserted but not detailed
+      - No formal "extension-point inventory" procedure for the host audit
+
+  - id: base-host-already-does-it
+    concern: Before claiming a mod / extension needs new infrastructure to support a host feature, verify the host doesn't already do it without that infrastructure. Diagnostic counterpart to base-embed-before-own.
+    skill_file: principle-host-already-does-it/SKILL.md
+    layer: principle
+    phase: [pre-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - No checklist for "host loading path" audit
+      - Boundary with base-embed-before-own described in prose; could be tabulated
+
+  - id: base-verify-api-shape
+    concern: When coding against a closed-source library where docs are missing, verify the API's actual shape by inspecting the binary — decompilation, symbol dump, runtime introspection — before writing the client code. Recall is a hypothesis; the binary is the spec.
+    skill_file: principle-verify-api-shape/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: mature
+    generation_evolved: 13
+    dependencies: []
+    open_gaps:
+      - Platform-specific recipes for non-.NET stacks left to type-category kits
+      - No guidance for verifying runtime semantics vs declared shape
+      - Gen-13 added the timing clause (a subscription registered after its event has fired is indistinguishable from a working one at every point a compiler or decompiler can see). It states how to establish firing order but offers no mechanical check for it — the current advice is "prefer the event the codebase already uses", which is a heuristic, not a verification.
+
+  # --- Type-category nodes (built through use) ---
+  # Naming convention: [layer]-[name]/SKILL.md
+  # Layer prefixes: principle- | pattern- | implementation- | meta-
+  # The folder carries layer identity. The file is always SKILL.md.
+  # Manifest skill_file field uses the joined form: pattern-foo/SKILL.md
+
+  - id: decompile-vanilla
+    concern: Bannerlord-specific recipe for the principle-verify-api-shape workflow — use ilspycmd against TaleWorlds / SandBox / UIExtenderEx DLLs to verify type signatures before writing the client code. Includes standard DLL locations and the trust hierarchy when sources disagree.
+    skill_file: pattern-decompile-vanilla/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: [base-verify-api-shape]
+    open_gaps:
+      - Non-Bannerlord adaptations (Java, native) only sketched
+      - No automated dependency-version diff to flag when a re-verification is due
+
+  - id: artifact-as-living-reference
+    concern: The reference artifact is the living contract ruled on through renders — build and reference move together, the look is spec, one home per fact
+    skill_file: principle-artifact-as-living-reference/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build, verify]
+    status: mature
+    dependencies: []
+    open_gaps: []
+    # Matured 2026-08-21: contract-013 transferred the full treatment to the
+    # Hersir in one contract with no shared-component forks - every clause held,
+    # and the two-class fidelity suite caught a real reference drift on arrival.
+
+  - id: render-vs-declared
+    concern: Rendered output is not the declared value — size visual elements from rendering, not nominal spec
+    skill_file: principle-render-vs-declared/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Examples beyond text rendering (animation scale headroom, font fallbacks, DPI rounding) not yet enumerated in the skill body
+
+  - id: text-stack-row-pitch
+    concern: Vertical text-widget stacks — derive row pitch from font-metric height plus explicit clearance, not from point size
+    skill_file: pattern-text-stack-row-pitch/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: mature
+    dependencies: [render-vs-declared]
+    open_gaps:
+      - Bannerlord-specific pt → SuggestedHeight table lives in project CLAUDE.md, not yet promoted to an implementation- skill in this kit
+      - No worked example for non-Bannerlord frameworks (CSS, SwiftUI) — pattern claims transferability but only Bannerlord usage is documented
+
+  - id: prescription-vs-diagnosis
+    concern: Consuming external recommendations — separate diagnosis (high trust) from prescription (hypothesis), verify before applying
+    skill_file: principle-prescription-vs-diagnosis/SKILL.md
+    layer: principle
+    phase: [during-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - No non-Bannerlord worked example — principle claims general scope but only the Bannerlord landing exists
+
+  - id: bannerlord-subagent-verification
+    concern: Bannerlord-specific verification step for subagent recommendations — which sources to grep / decompile per recommendation type, trust hierarchy when conflicting with skills
+    skill_file: pattern-bannerlord-subagent-verification/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: mature
+    dependencies: [prescription-vs-diagnosis]
+    open_gaps:
+      - Specific footgun catalog lives in external bannerlord-gauntlet-ui skill — no cross-reference index from this kit
+      - No guidance on how to update the gauntlet-ui skill when a new footgun surfaces through this pattern (process is implied, not specified)
+
+  - id: engagement-contract
+    concern: Every visible user-facing surface implies an engagement contract — if the runtime can't honour the engagement, change the surface; don't ship the breach behind a label
+    skill_file: principle-engagement-contract/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build, post-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - No worked example outside Bannerlord — principle claims general scope, only this kit's evidence so far
+      - Counter-example boundary (when a surface is "informational and exempt") is qualitative; no formal test for it
+
+  - id: predicate-feasibility-audit
+    concern: Before authoring runtime-observed content, walk the spec against the event surface; classify each predicate as wired / patch-needed / substituted / cut / unresolved. Liveness is not efficacy — an effect read inside another subsystem's handler is often gated on that subsystem being active, and a proximity-matching script cannot tell the two apart. A script narrows the candidate set; it never renders the verdict.
+    skill_file: pattern-predicate-feasibility-audit/SKILL.md
+    layer: pattern
+    phase: [pre-build]
+    status: mature
+    generation_evolved: 13
+    dependencies: [engagement-contract, checks-fail-closed]
+    open_gaps:
+      - No tabular template for the audit output — currently described prose-style
+      - The unresolved verdict is new and has never blocked an authoring pass in anger; whether it is honoured or quietly downgraded to "probably fine" is untested.
+      - Bannerlord-specific event-surface gap catalogue (the implementation layer beneath this pattern) not yet promoted to its own implementation-* node
+
+  - id: source-attributed-aggregation
+    concern: Aggregation caches that may need conditional gating per source — keep contributions enumerable, don't collapse to per-type sums that lose source identity
+    skill_file: pattern-source-attributed-aggregation/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - No worked migration example from per-type cache to per-source cache (the classes-kit retrofit hasn't happened yet — Phase 4 is the trigger)
+      - Read-path cost guidance is qualitative — no benchmarks for when the per-source overhead matters in hot loops
+
+  - id: idempotent-attach-with-retry
+    concern: Attaching to a host whose lifecycle isn't directly observable — pair the natural attachment hook with a retry on a periodic signal, gated by an attach-once flag
+    skill_file: pattern-idempotent-attach-with-retry/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Detachment / re-attachment lifecycle (host re-init mid-session) not addressed — pattern only handles initial attach
+      - No guidance on choosing between competing periodic signals when several are available
+
+  - id: named-clause-decomposition
+    concern: Predicates that need both pass/fail evaluation AND clause-by-clause introspection — express as named clause atoms plus a top-level composer, never as a monolithic boolean
+    skill_file: pattern-named-clause-decomposition/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Composition-operator complexity (NOT, OR, weighted) only briefly discussed — no worked example beyond AND-of-clauses
+      - No guidance for predicates with mutable inputs (clauses-must-be-pure rule is asserted, not motivated)
+
+  - id: behavior-local-vs-published-state
+    concern: New gameplay state in a campaign behavior — decide via the consumer-set test whether to keep state local (direct read/write) or publish via synthetic event for cross-subsystem readers
+    skill_file: pattern-behavior-local-vs-published-state/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: mature
+    generation_evolved: 2
+    dependencies: []
+    open_gaps:
+      - Migration tooling (state → event when consumer-set grows) is described in prose but not templated
+      - No guidance on how to discover the actual consumer-set in a large kit (grep-based audit is implied, not specified)
+      - Gen-2 update (2026-05-24) — added "Validating Recurrences" section documenting 6 fresh applications of the keep-local default in the v0.4 class batch (Marshal/SeaKing/Privateer/Ranger refund + 2 mission behaviors). Pattern held at v0.4 scale; no forced re-decoupling. Evidence accumulation, not depth change.
+
+  - id: atomic-ship-gate
+    concern: The unit of "shipping" is the registration line that makes a feature player-visible, NOT the source files that support the feature. Order the work so the registration line lands LAST — source can land incomplete while the registration is off; the feature only exists in runtime when the registration line is added. Pattern prevents half-built features from leaking mid-implementation by giving the engagement-contract surface a discrete on/off switch.
+    skill_file: pattern-atomic-ship-gate/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build, post-build]
+    status: mature
+    generation_added: 2
+    dependencies: [engagement-contract]
+    open_gaps:
+      - No worked example for implicit-visibility shapes (convention-based discovery, reflection scanning, filesystem-based loading) beyond the prose pointer
+      - Boundary with feature-flag patterns (which gate visibility in code rather than via registration) only sketched
+
+  - id: migration-by-removal
+    concern: Save migrations that retire IDs from a persistent set/dict can be idempotent via natural emptiness — the post-state is its own "done" flag. Second load finds nothing to remove and exits cleanly. No save-version field, no "migration ran" boolean. Applies only to removal-only migrations; data-transforming migrations need version tracking.
+    skill_file: pattern-migration-by-removal/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: mature
+    generation_added: 2
+    dependencies: [behavior-local-vs-published-state]
+    open_gaps:
+      - Cross-engine adaptations (non-Bannerlord save shapes) not documented — the .NET / Bannerlord implementation block is specific
+      - No guidance on what to do when a migration starts as removal-only and later needs to become transformational
+
+  - id: event-surface-is-the-spec
+    concern: When designing a predicate that the runtime must observe (challenge, achievement, gate, log condition), the event surface available at the layer where the predicate evaluates IS the design spec. Consult it before authoring; don't design a predicate that needs data the event API doesn't carry. Right design moves are NARROW the predicate to fit the surface OR ADD A RELAY (writer at the data-rich layer + reader at the predicate-evaluation layer). Wrong move is silent substitution after the fact.
+    skill_file: principle-event-surface-is-the-spec/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: mature
+    generation_added: 2
+    dependencies: [predicate-feasibility-audit, engagement-contract]
+    open_gaps:
+      - The narrow-vs-relay decision tree is described in prose but not formalised as a checklist
+      - No worked example for the relay path (the worked example shows the narrow path); a relay-form worked example would balance the principle
+
+  - id: approximation-policy
+    concern: When substituting an unobservable predicate with an observable one, the substitution is honest only if the user wouldn't notice the change; otherwise the surface is broken differently and should be cut or rewritten, not silently approximated
+    skill_file: pattern-approximation-policy/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: [engagement-contract, predicate-feasibility-audit]
+    open_gaps:
+      - Substitution-count tracking is recommended but not templated
+      - "'Noticeability test' is qualitative — no formal procedure for resolving disagreements about whether a user would notice"
+
+  - id: meta-first
+    concern: Meta-skills are governance and load before any work — strict adherence comes first, everything else operates within meta-imposed constraints
+    skill_file: principle-meta-first/SKILL.md
+    layer: principle
+    phase: [pre-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Belongs in the base building kit, not classes-kit — currently landed locally pending base-kit promotion. When promoted, this kit's local copy should retire and reference the base node.
+      - No defined procedure for "session continues across reset / context limit" — does the loaded meta state survive, or must it reload?
+
+  - id: font-safe-glyphs
+    concern: Player-visible strings must restrict to glyphs in the rendering font's coverage — typographic symbols (≤ ≥ − × …) commonly fall back to missing-glyph artefacts; prefer ASCII + natural language
+    skill_file: pattern-font-safe-glyphs/SKILL.md
+    layer: pattern
+    phase: [during-build, post-build]
+    status: mature
+    dependencies: [render-vs-declared]
+    open_gaps:
+      - No automated audit tool yet — the sweep is manual grep over a known character class; could be templated as a CI check
+      - Localised-string font coverage (translator-introduced glyphs) called out but not given operational guidance for resolving
+
+  # --- Nodes mirrored from VillageInvestment kit 2026-05-25 ---
+  # Cross-kit symmetry pass — VI had 22 nodes Classes was missing, including
+  # meta-antidrift (per-output drift scoring) and several Bannerlord-specific
+  # patterns directly relevant to current crash-investigation and UI work.
+
+  - id: pattern-evidence-audit
+    concern: A pattern extracted from a failure inherits that failure's diagnosis — if the diagnosis was wrong (fixable bug, not architectural mismatch), the pattern is wrong by construction; audit motivating evidence before adopting a pattern as the default for a domain
+    skill_file: principle-pattern-evidence-audit/SKILL.md
+    layer: principle
+    phase: pre-build
+    status: mature
+    dependencies: []
+    open_gaps:
+      - No tooling for systematic re-audit of mature patterns — currently a manual judgement triggered when "something feels off"
+      - Overlap with prescription-vs-diagnosis is real but the boundary (external vs kit-internal prescription) is qualitative
+
+  - id: revealed-content-carries-latent-bugs
+    concern: A change that reveals content the previous layout/state/config was hiding — layout fixes, gate fixes, feature flag ramps, dataset migrations, locale rollouts — exposes every latent bug in that content on the same change. Budget N+1 verification cycles, where N is the cost you'd have estimated treating the change as ordinary. Read every revealed surface against realistic data BEFORE shipping, not after.
+    skill_file: principle-revealed-content-carries-latent-bugs/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build, post-build]
+    status: mature
+    dependencies: [render-vs-declared, engagement-contract]
+    open_gaps:
+      - "'N+1 cycle budget' is a heuristic, not a measured estimate — no calibration data on how often reveal-style changes actually surface latent bugs"
+      - Non-Bannerlord generalisations (feature flags, permission gates, A/B tests, locale rollouts) asserted but not given concrete worked examples
+
+  - id: bannerlord-screen-extension
+    concern: Choosing between panel injection (default) and owned-screen-via-GameState (narrow exception) for Bannerlord screen extensions; full mechanics for both paths plus the decision rule
+    skill_file: pattern-bannerlord-screen-extension/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: [base-embed-before-own, render-vs-declared]
+    open_gaps:
+      - Cross-mod cooperation in the owned-screen path is named as "no clean fix" — no escape-hatch pattern documented for genuinely-required owned-screens that must coexist with other mods' tab injections
+      - Migration path "owned-screen → panel injection" is sketched in prose but not templated
+      - Gen-3 follow-up — the worked example in this skill still uses `[ViewModelMixin]` without `handleDerived: true`. Cross-reference [[bannerlord-viewmodelmixin-handle-derived]] inline at the example, or update the example to the safer default
+
+  - id: bannerlord-viewmodelmixin-handle-derived
+    concern: "UIExtenderEx `[ViewModelMixin]` defaults to exact-type matching of the host VM and silently skips subclasses — when any module substitutes a subclass for the vanilla host (official DLC, community framework, total-conversion mod), the mixin stops attaching with no exception and no log. Default to `[ViewModelMixin(handleDerived: true)]` for any host VM that drives a top-level screen. The diagnostic fingerprint is silent and visual — structural prefab content still renders, bound data falls back to widget defaults (including `IsVisible='@IsSelected'` defaulting to true), and `Command.Click='@Method'` bindings become no-ops."
+    skill_file: pattern-bannerlord-viewmodelmixin-handle-derived/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: [bannerlord-screen-extension, base-verify-api-shape, prescription-vs-diagnosis, decompile-vanilla]
+    open_gaps:
+      - "'Plausibly subclassable' list is enumerated as ClanManagementVM-tier screen VMs; no canonical registry yet of which vanilla VMs are known-subclassed by which official DLC / community framework"
+      - No automated audit pass — currently relies on the author asking the question per mixin authored
+
+  - id: bannerlord-state-push
+    concern: "`gsm.PushState(gsm.CreateState<T>())` is the canonical Bannerlord state-push pattern — `PushState(new T())` skips the `OnCreateState` callback chain and produces an unrendered state"
+    skill_file: pattern-bannerlord-state-push/SKILL.md
+    layer: pattern
+    phase: during-build
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Mod-assembly auto-discovery timing (when `CollectTypes` runs vs when the mod loads) is described but not deterministic — manual `RegisterListener` fallback is the workaround
+      - No worked example for parameterised state construction beyond a one-liner
+
+  - id: bannerlord-brush-literal
+    concern: Gauntlet `Brush` attribute is parse-time literal, not a runtime binding — for per-item brush variation split into N collections × N templates
+    skill_file: pattern-bannerlord-brush-literal/SKILL.md
+    layer: pattern
+    phase: during-build
+    status: mature
+    dependencies: [render-vs-declared]
+    open_gaps:
+      - No comprehensive list of which Gauntlet attributes are parse-time vs runtime — current guidance is "grep vanilla; if vanilla never uses `Attr=\"@...\"`, it's parse-time"
+      - Sub-attribute binding mechanics (`Brush.FontColor` etc.) are mentioned but not fully enumerated
+
+  - id: bannerlord-event-block-subtree
+    concern: What actually blocks a Gauntlet hit-test — `DoNotAcceptEvents` excludes ONLY its carrier (children stay reachable); `DoNotPassEventsToChildren` is the flag that stops the walk entering a subtree; recursion is additionally gated on each child's measured area, so a zero-sized ancestor silently excludes everything beneath it. The hit list is innermost-first and `PreviewEvent` returning true CLAIMS the event.
+    skill_file: pattern-bannerlord-event-block-subtree/SKILL.md
+    layer: pattern
+    phase: during-build
+    status: mature
+    generation_added: 8
+    generation_evolved: 14
+    dependencies: [render-vs-declared, bannerlord-itemtemplate-root-binding, verify-the-output-not-the-mechanism]
+    correction_history:
+      - generation: 14
+        date: 2026-08-10
+        was: "`DoNotAcceptEvents` is subtree-scoped — the walker does not enter the subtree; to make a child hit-testable inside such a region, lift it to a sibling of the blocking ancestor."
+        falsified_by:
+          - "Decompile — EventManager.CollectEnableWidgetsAt gates recursion on DoNotPassEventsToChildren and gates widgets.Add on DoNotAcceptEvents. Two flags, two jobs."
+          - "Running game — a ButtonWidget beneath three DoNotAcceptEvents=\"true\" ancestors fired its command (Chancellor court map, banner select, breadcrumb `CourtMap: house selected player_faction`)."
+        why_it_survived: The node's own WRONG example declared no size policy between the blocker and the child, while its RIGHT example added explicit SuggestedWidth/SuggestedHeight. The lift almost certainly worked by introducing a measured area, not by escaping a subtree filter. Two variables changed at once and the wrong one was recorded as load-bearing.
+        cost: One round of rework on the Chancellor court pan viewport — the banner layer was lifted out of the canvas on this node's advice, which was structurally harmless but did not address the real fault (a DataSource-rebound scope leaving the layer unsized).
+    verified_by:
+      - tools/verify/verify_map_pan.py
+      - tools/verify/negative_map_pan.py
+    open_gaps:
+      - No diagnostic helper / runtime probe for "which ancestor is blocking this hit-test" — currently a manual upward walk with a size log at each level
+      - The measured-area gate is read from the decompile; no direct experiment isolating a zero-sized ancestor as the sole cause has been run
+
+  - id: bannerlord-hintwidget-role
+    concern: Gauntlet `HintWidget` is a hover-trigger overlay, not a layout container — using it as a CoverChildren wrapper collapses inner content; structure as a Widget container plus a sized HintWidget overlay sibling
+    skill_file: pattern-bannerlord-hintwidget-role/SKILL.md
+    layer: pattern
+    phase: during-build
+    status: mature
+    dependencies: [render-vs-declared, base-embed-before-own]
+    open_gaps:
+      - Layout-collapse behaviour under `CoverChildren` is documented empirically — no decompiled measure-pass reference yet
+      - No worked example for multi-region compound hints beyond the "use multiple sibling overlays" guidance
+
+  - id: build-sentinel
+    concern: When the running process holds a file lock on the built artifact (game with mod DLL loaded, long-lived service), a successful compile does not mean the running binary updated — emit a build-tag sentinel at module init so "did the new code load?" is one log line away
+    skill_file: pattern-build-sentinel/SKILL.md
+    layer: pattern
+    phase: [during-build, post-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Sentinel pattern is described in C#/Bannerlord terms; non-.NET ports (Java mods, native, Go services) only sketched in prose
+      - No tooling to bump BuildTag automatically per `dotnet build` — currently manual
+
+  - id: bannerlord-interface-method-patch
+    concern: Harmony-patching `void IXxx.Foo()` explicit interface implementations requires `type.GetInterfaceMap(typeof(IXxx))` — `AccessTools.Method(type, "Foo")` matches the protected override if one exists, returning the wrong method
+    skill_file: pattern-bannerlord-interface-method-patch/SKILL.md
+    layer: pattern
+    phase: during-build
+    status: mature
+    dependencies: []
+    open_gaps:
+      - No reverse-lookup pattern (interface method → implementing type list) documented for "patch all implementers of IXxx"
+      - The reflection-by-name limitation is general .NET, not Bannerlord-specific — could be extracted to a broader principle if the pattern recurs in other domains
+
+  - id: pending-handoff-on-activation
+    concern: Producer and consumer separated by a lifecycle boundary — defer the handoff through a one-shot static armed before the transition, consumed in a postfix on the consumer's activation hook, cleared idempotently before applying
+    skill_file: pattern-pending-handoff-on-activation/SKILL.md
+    layer: pattern
+    phase: during-build
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Multi-deferred-operation composition (queue a set of operations across one transition) is named as out-of-scope but no replacement pattern is yet defined
+      - No guidance on the boundary between "use a static" and "use a richer pending object" — currently qualitative
+
+  - id: bannerlord-numeric-attribute-coercion
+    concern: Gauntlet float-typed widget attributes (AlphaFactor, SuggestedWidth, Margin*, ScaleX/Y) accept runtime bindings but type-coerce the value at evaluation time — binding a string-typed VM property to a float attribute throws InvalidCastException and CTDs the screen during construction
+    skill_file: pattern-bannerlord-numeric-attribute-coercion/SKILL.md
+    layer: pattern
+    phase: during-build
+    status: mature
+    dependencies: [bannerlord-brush-literal, render-vs-declared]
+    open_gaps:
+      - Full list of which Gauntlet attributes are float-typed vs parse-time-literal not yet documented in the skill — current confirmed entry is AlphaFactor only
+      - Worked example of refactoring a string-typed VM property to numeric (vs alternative mechanisms like swapping the visual mechanic) not yet sketched
+
+  - id: bannerlord-inject-binding-for-conditional-gating
+    concern: Vanilla Bannerlord widgets whose attributes are hardcoded literals or absent (no IsVisible/MarginRight/IsEnabled binding) — when your mod needs to conditionally gate them, don't search for a property on the host VM that isn't there. Use PrefabExtensionSetAttributePatch to inject the binding and expose a DataSourceProperty on the mixin to drive it. Default property value must equal vanilla's literal so other tabs render unchanged.
+    skill_file: pattern-bannerlord-inject-binding-for-conditional-gating/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: [base-embed-before-own, base-verify-api-shape, bannerlord-screen-extension]
+    open_gaps:
+      - Worked variant for Brush attribute injection (which is parse-time literal, not bindable) is referenced but not fully documented in-line — relies on cross-reference to bannerlord-brush-literal
+      - No guidance on testing the gate's vanilla-default behaviour on every untouched tab — currently described as a developer responsibility but not templated
+
+  - id: bannerlord-horizontal-row-with-variable-labels
+    concern: Gauntlet ItemTemplate rows whose horizontal children include data-driven text labels of unbounded length — the intuitive `[CoverChildren, StretchToParent, CoverChildren, CoverChildren]` shape in a HorizontalLeftToRight ListPanel is a brittle allocator that collapses the middle child to ~10px when CoverChildren siblings exceed the parent width, producing per-glyph vertical text wrapping. Use a two-line shape — each line fully CoverChildren — with a Fixed-1-height StretchToParent-width Widget as the right-alignment mechanism on the secondary line.
+    skill_file: pattern-bannerlord-horizontal-row-with-variable-labels/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: [render-vs-declared]
+    open_gaps:
+      - Three-line and right-aligned-only variants are sketched but not given worked examples
+      - "'Realistic data' upper-bound check is qualitative — no procedure for systematically discovering the longest possible bound value"
+      - Boundary with the existing width-chain pattern called out in prose but not given a side-by-side diagnostic flow
+
+  - id: bannerlord-gauntlet-width-chain
+    concern: Gauntlet width inflation — a `WidthSizePolicy="StretchToParent"` child inside a chain of `CoverChildren` ancestors inflates an intermediate parent's *layout slot* to the canvas width without changing its *visible* width. The hidden inflation crowds out horizontal siblings. The audit walks every chain from each StretchToParent leaf up to the first definite-width ancestor; if that ancestor is the canvas, the chain is broken. Three structural fixes (Fixed leaf, CoverChildren leaf, definite-width intermediate parent).
+    skill_file: pattern-bannerlord-gauntlet-width-chain/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: [render-vs-declared]
+    open_gaps:
+      - Cross-references to `principle-probe-when-stuck` and `bannerlord-gauntlet-ui` still live at user-global ~/.claude/skills/ — extraction candidates if they recur enough in this kit's evidence
+      - No automated/CI form of the audit — currently a manual walk
+
+  - id: bannerlord-gauntlet-height-chain
+    concern: Gauntlet height inflation — vertical mirror of width-chain. A `HeightSizePolicy="StretchToParent"` child inside a chain of `CoverChildren` ancestors inflates every intermediate parent's vertical layout slot up to the first definite-height ancestor (ScrollablePanel or canvas). Critical divergence — the parent's `StackLayout.LayoutMethod` does NOT break the height chain; only eliminating the leaf or inserting a definite-height parent will. Three structural fixes (eliminate Fixed-height leaf, insert definite-height intermediate parent, brush-bake the visual).
+    skill_file: pattern-bannerlord-gauntlet-height-chain/SKILL.md
+    layer: pattern
+    generation_evolved: 20
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: [bannerlord-gauntlet-width-chain, render-vs-declared]
+    open_gaps:
+      - Gen-20 (2026-09-05, contract-054 SER) -- the runtime form: measure the furniture beside a sized element, never reserve it; a frame probe, the largest figure seen, re-arm on content change, the G17 line; exemplar RangerMapVM.ReportFurniture / GauntletClassScreen.ProbeChartFit; held by verify_ranger_chart_fit.py.
+      - Cross-references still live at user-global ~/.claude/skills/ — extraction candidates
+      - Divergence-from-width-chain warning is empirically grounded; if the layout-method fix turns out to work in some unseen height-chain shape, the skill needs revision
+
+  - id: bannerlord-gauntlet-pre-flight-audit
+    concern: Five-step structural audit (width-chain, height-chain, sibling-competition, peer-mirror, data-shape) to run on any Gauntlet layout change BEFORE claiming "build succeeded, ready for in-game test." Closes the gap between "compiles" and "behaves correctly when rendered." The build's success is necessary but not sufficient — each step catches a class of latent bug that would otherwise cost a full in-game restart cycle to discover.
+    skill_file: pattern-bannerlord-gauntlet-pre-flight-audit/SKILL.md
+    layer: pattern
+    phase: [during-build, post-build]
+    status: mature
+    dependencies: [bannerlord-gauntlet-width-chain, bannerlord-gauntlet-height-chain, base-embed-before-own, render-vs-declared, bannerlord-horizontal-row-with-variable-labels, revealed-content-carries-latent-bugs]
+    open_gaps:
+      - No automated/CI form of the audit — currently a manual walk; could be partially tooled with an XML linter checking sibling-competition and Find-path-depth heuristics
+      - Audit output format is described as prose; no structured template
+
+  - id: class-dashboard-ia
+    concern: The information architecture every class dashboard (active-mechanics panel) must follow — SIX universal areas in a fixed order (INTRO, STATUS, RESOURCE, LOOP, RANK, RECORD), each with fixed presentation rules, so a player re-learns only the mechanics when switching classes, never the map. Grounded in a nine-dashboard survey (2026-07-29) that found these six are already what all nine contain; the drift was arrangement/presentation, not content. Optional-but-standardized slots (RESOURCE-as-readout, RANK-as-ladder, read-only LOOP section) accommodate the outliers. Chancellor rebuilt to it as the reference; 6 classes conform with light touches; Castellan (blob->cards, decoupled verbs) and Warlord (grid->stacked) are the structural retrofits.
+    skill_file: pattern-class-dashboard-ia/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: emerging
+    generation_added: 4
+    dependencies: [embed-before-own, bannerlord-numeric-attribute-coercion, font-safe-glyphs, bannerlord-gauntlet-width-chain, engagement-contract, dashboard-as-journey]
+    open_gaps:
+      - Applied to Chancellor (reference) only; the 8 other dashboards are not yet retrofitted — Castellan (blob) and Warlord (grid) each need their own contract.
+      - The six-area order is asserted from one survey; not yet validated by building a second class to it from scratch.
+      - No structural enforcement — an XML/VM linter asserting the six areas are present and ordered would be the un-built enforcement layer.
+
+  - id: dashboard-extraction
+    concern: "How to extract a class mechanics dashboard from the monolithic ClassScreenVM into its own focused ViewModel without breaking the Gauntlet binding surface. The host VM keeps only visibility and instance properties; the dashboard VM owns its data, populate logic, and command handlers. Critical discipline: command handlers and private helpers are often scattered far from the populate method, so extraction requires a global search before any deletion."
+    skill_file: pattern-dashboard-extraction/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: emerging
+    generation_added: 9
+    dependencies: [class-dashboard-ia, guarded-source-mutation, bannerlord-numeric-attribute-coercion, engagement-contract]
+    open_gaps:
+      - Validated on Slaver, Marauder, Ranger, and Merchant Prince dashboards only; remaining dashboards (Sea-King, Hersir, Castellan, Chancellor/Vizier, Spymaster, Imperator, Marshal, Warlord) may surface new edge cases.
+      - No structural enforcement — a script that lists all fields/properties/methods referencing a given class identifier would make the global-search step reliable.
+
+  # --- v0.5 audit-driven elevation (2026-05-25) ---
+  # Surfaced during the full-kit Tier-3 audit. The natural-engagement
+  # principle distinguishes classes that progress through what the player
+  # naturally does (Slaver, Sea-King, Privateer, Marshal, Free Captain,
+  # Vizier) from classes that require rare scenarios (Engineer, Wall-Holder).
+  # Elevation from clarity, not recovery — surfaced from a full-kit read,
+  # not a single failure.
+
+  - id: natural-engagement
+    concern: A class must progress through what the player is naturally doing in their primary loop (party combat, recruitment, raid, trade, travel) or naturally progressing toward (fief, kingdom, clan tier). No-op-on-normal-play is forbidden; self-reinforcement is the bar. Distinguishes current-state / eventual-state (valid triggers) from rare-state (broken triggers — sieges defended, executions of unique targets, etc.). Sibling to engagement-contract — that principle audits surface honesty; this one audits trigger placement.
+    skill_file: principle-natural-engagement/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: mature
+    generation_added: 3
+    dependencies: [engagement-contract, event-surface-is-the-spec, predicate-feasibility-audit]
+    open_gaps:
+      - No quantitative threshold yet for "rare" — currently described as "once per 10 hours of normal play" but that's heuristic, not measured. Future tightening could anchor on event rates pulled from real campaign logs.
+      - The "eventual state" tolerance (fief ownership, kingdom membership) is correctly permissive for late-game arcs but doesn't yet specify how to handle players who deliberately avoid the arc (independent mercenary playthroughs, outlaw runs).
+
+  # --- v0.8 session-driven elevations (2026-05-26) ---
+  # Both surfaced during the v0.7/v0.8a/v0.8b shipping loops. Audit-doc-as-
+  # artifact validated by AUDIT_NATURAL_ENGAGEMENT_v0.6.md being referenced
+  # across 3 subsequent loops. Ask-vs-guess surfaced when the NavalDLC skills
+  # were missed by a vanilla-only reflection scope.
+
+  - id: audit-doc-as-artifact
+    concern: Analysis that spans many entities or will be referenced across multiple subsequent loops belongs in a structured project doc, not a chat response. The doc has three properties chat output lacks — stability (survives compaction), citability (file:line precision), and durability across session/model boundaries. Per-entity sections + summary tables make the doc citable; prose-form analysis decays even when written down. Threshold is forward-reference need, not size.
+    skill_file: principle-audit-doc-as-artifact/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build, post-build]
+    status: mature
+    generation_added: 3
+    dependencies: [engagement-contract]
+    open_gaps:
+      - No worked example outside the Bannerlord audit (`AUDIT_NATURAL_ENGAGEMENT_v0.6.md`) — principle claims general scope, only one project-evidence point so far
+      - The "promote mid-conversation" guidance is correct but no tooling/template for the in-conversation pivot (when an analysis turns out to need citation, the move from chat → doc is currently manual)
+
+  - id: ask-vs-guess-on-domain-gaps
+    concern: A negative evidence result is only diagnostic if the lookup space was correctly defined. When user-stated context implies an unverified source (DLC assemblies, third-party modules, runtime-registered types), the right move is to ask before treating "not found in what I checked" as "doesn't exist." Negative-confirmed-against-incomplete-scope is a quiet failure mode that produces wrong-foundation recommendations. Sibling principle to principle-verify-api-shape (verify positive claims against the binary) — this is the negative counterpart (verify lookup scope before claiming absence).
+    skill_file: principle-ask-vs-guess-on-domain-gaps/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: mature
+    generation_added: 3
+    dependencies: [base-verify-api-shape]
+    open_gaps:
+      - No formal lookup-scope checklist — currently described as "name the scope, identify what's outside it" but not templated
+      - Boundary with prescription-vs-diagnosis is implicit (both touch on epistemic discipline) but not enumerated
+
+  # --- v0.9.1 drift-006 elevations (2026-05-27) ---
+  # Both surfaced during the Sea-King challenge hotfix as enforcement-layer
+  # responses to the substitution-as-final-design recurrence. The pair sits
+  # below the existing principle-engagement-contract / feedback_no_silent_substitution
+  # principles, encoding the engineering moves that make those principles
+  # observable when they're violated. The new meta-foundation elevation aspect
+  # rule (Gen-4) requires elevations to descend to the enforcement layer when
+  # the same root-cause recurs at the principle layer.
+
+  - id: registration-time-validator
+    concern: At end of the registration phase, walk every handler-registration list and verify each key resolves in the central registry. Emit a diagnostic on miss; do not throw. Catches typo-class and stale-reference bugs at session start instead of at runtime, where the failure mode is usually a silent no-op observable only by the downstream user.
+    skill_file: pattern-registration-time-validator/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: thin
+    generation_added: 4
+    dependencies: [engagement-contract]
+    open_gaps:
+      - Single worked example (Bannerlord challenge dispatcher). Pattern claims general transferability but only one project-evidence point so far.
+      - No guidance on validator ordering when multiple registry/registration phases interleave — current pattern assumes a single end-of-phase point exists; multi-phase systems may need a sequence of validators.
+      - Boundary with `pattern-build-sentinel` is described in the Related Skills section but not formally tabulated.
+
+  - id: api-split-warn-and-pure
+    concern: To remove a silent-failure mode from an existing API without breaking back-compat — split into legacy (retain semantics, emit diagnostic on failure path) + new pure variant (capture the intent the failure path was hiding, no silent-failure mode). Migrate callers incrementally. Preserves correct callers; makes the failure mode publicly observable; gives new code an unambiguous surface for the corrected intent.
+    skill_file: pattern-api-split-warn-and-pure/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: thin
+    generation_added: 4
+    dependencies: [engagement-contract]
+    open_gaps:
+      - Single worked example (Bannerlord IChallengeContext.TryAddUnique split). Pattern claims general transferability but only one project-evidence point so far.
+      - No guidance on the eventual retirement path (when do you promote the diagnostic to hard-fail? when do you delete the legacy?) beyond "when no failure-path callers remain."
+      - "'Name the new method by positive intent, not negation' rule is asserted; no enumeration of common naming pitfalls beyond the one example."
+
+  # ---- v0.9.4 elevations (2026-05-28) -----------------------------------
+  # Three skills elevated from the v0.9.4 Hersir + Sea-King rework SER cycle:
+  # one pattern (sibling-concrete dual-bind) closing FINDING-A, and two
+  # principles (enforcement-layer-below-rules, central-gate exhaustive
+  # coverage) closing recurring meta-drifts surfaced across drift-006/008/009
+  # and drift-003/007/010/010-r1 respectively.
+
+  - id: dlc-sibling-model-dual-bind
+    concern: When a Harmony postfix targets a vanilla concrete (e.g. SandboxAgentApplyDamageModel) and a DLC ships a SIBLING concrete extending the same abstract base (e.g. NavalDLC NavalAgentApplyDamageModel), the postfix is silently dormant in DLC contexts. Dual-bind via reflection-bound HarmonyMethod onto the DLC sibling, gated on the DLC's detection helper. Same postfix body, two targets.
+    skill_file: pattern-dlc-sibling-model-dual-bind/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: thin
+    generation_added: 4
+    dependencies: [verify-api-shape]
+    open_gaps:
+      - Single worked example (v0.9.4 FINDING-A — 13 player-combat effects silently dormant in NavalDLC missions until v0.9.4 closed the gap as a side-effect of new Hersir/Sea-King naval wiring). Pattern claims general transferability but only one project-evidence point so far.
+      - The pattern relies on a DLC-detection helper (NavalDLCDetection.IsLoaded). Generalisation across multiple DLCs (e.g. BannerKings concrete substitutions) is asserted but not yet exercised.
+
+  - id: enforcement-layer-below-rules
+    concern: Rules-as-text live at the layer that authored them and are subject to the same execution pressure that produced the bug they protect against. To survive execution pressure, rules need a structural enforcement layer — pre-commit hook, build-time check, automated grep — at a level the agent doesn't author at runtime. When a rule has recurred 3+ times despite text elevations, the rule itself is not the missing layer; structural enforcement is.
+    skill_file: principle-enforcement-layer-below-rules/SKILL.md
+    layer: principle
+    phase: [post-build, pre-build]
+    status: thin
+    generation_added: 4
+    dependencies: [audit-doc-as-artifact, engagement-contract]
+    open_gaps:
+      - 6+ supporting data points (drift-007, drift-010, drift-010-r1, drift-003 r#2-4); first concrete enforcement-layer instance (Voice A pre-commit grep) is described in the worked example but not yet shipped as a `.git/hooks/pre-commit` file.
+      - Threshold heuristic (3 recurrences = elevate to structural enforcement) is asserted; not yet validated against contexts outside the Voice A pollution family.
+      - No general taxonomy of "enforcement-layer shapes" (pre-commit hook, runtime validator, build-step grep, CI assertion); the principle states the move, not the catalog of forms.
+
+  - id: central-gate-exhaustive-coverage
+    concern: A central dispatch gate must cover ALL paths that surface its protected resource. A gate protecting N% of paths is not an N%-effective gate; it is a 0%-effective gate that creates trust-it-everywhere expectations the un-gated surface betrays. When introducing or modifying a central gate, grep for ALL call sites and ALL paths that surface the same resource; document the comprehensive surface in the patch's commit message.
+    skill_file: principle-central-gate-exhaustive-coverage/SKILL.md
+    layer: principle
+    phase: [during-build]
+    status: thin
+    generation_added: 4
+    dependencies: [engagement-contract, registration-time-validator]
+    open_gaps:
+      - 3 worked drift examples (drift-006, drift-008, drift-009) all in the same challenge-system surface. Cross-domain transferability asserted but not yet demonstrated.
+      - Audit recipe ("grep for ALL paths that touch the resource") relies on grep being adequate; complex resource-access patterns may need a more structural enumeration.
+
+  - id: host-concurrency-is-unannounced
+    concern: "A host's threading model is not part of the extension contract. Host-invoked paths (Harmony patches on host models, callbacks) can run on any thread, and a host UPDATE can silently turn a serial call-site parallel without any signature change. Mod state reachable from such a path must be thread-safe by construction. Includes the lock-free-read / locked-rebuild snapshot recipe. Failure fingerprint: intermittent native CTD, no managed exception, triggered by a host patch you didn't ship."
+    skill_file: principle-host-concurrency-is-unannounced/SKILL.md
+    layer: principle
+    phase: [during-build]
+    status: thin
+    generation_added: 4
+    dependencies: [verify-api-shape, source-attributed-aggregation]
+    open_gaps:
+      - Single worked example (Classes v0.9.4.6 — v1.4.1 parallelized the per-party map tick, racing the un-locked ClassEffectCache/ClassChoiceRegistry into a native CTD). Cross-host transferability asserted but not yet demonstrated outside Bannerlord.
+      - The snapshot-publish recipe covers read-mostly caches; high-write-frequency shared state on a parallel host path would need a different structure (per-thread accumulation, concurrent collections) not yet documented here.
+      - No structural enforcement — a parallel stress harness over patched-model paths at debug startup is noted as the un-built enforcement-layer instance.
+
+  - id: recurrence-means-incomplete-fix
+    concern: A recurring failure whose signature matches a previously-"fixed" one is evidence the prior fix was incomplete or misdiagnosed — reopen the original diagnosis before attributing the recurrence to a new/external cause. Confidence in the closed fix is what biases toward "it must be something else this time"; the co-occurring innocent correlate (a user action, a driver, alt-tab) is a magnet for misattribution. Surfaced by the recurring SettlementVisual.Tick AV (Classes 2026-07-29), where the prior "fix" had closed a race that could not have been the cause.
+    skill_file: principle-recurrence-means-incomplete-fix/SKILL.md
+    layer: principle
+    phase: [during-build]
+    status: emerging
+    generation_added: 4
+    dependencies: [prescription-vs-diagnosis, host-concurrency-is-unannounced]
+    open_gaps:
+      - Single worked example, Bannerlord-native. General-scope claim (any bug with a history) asserted but not demonstrated cross-domain.
+      - No structural enforcement — a "same-signature recurrence" detector that flags a matching prior dump/log fingerprint would be the un-built enforcement-layer instance.
+
+  - id: bannerlord-screen-mutation-guards-visual-managers
+    concern: A full-screen Bannerlord campaign screen that mutates world state from its UI handlers must Harmony-skip the map's visual-manager OnTicks while it is on top — pausing campaign time does NOT stop the render-side visual tick (TWParallel.For over map visuals), so a structural world mutation from the screen races it into a native AV. Reflection-bound skip guard, single predicate, ungated application for always-present managers. Bannerlord landing of host-concurrency-is-unannounced for the owned-full-screen shape. Surfaced by the recurring SettlementVisual.Tick AV (Classes 2026-07-29) — the naval sibling manager was guarded in a prior fix, the vanilla settlement manager was not.
+    skill_file: pattern-bannerlord-screen-mutation-guards-visual-managers/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: emerging
+    generation_added: 4
+    dependencies: [host-concurrency-is-unannounced, bannerlord-screen-extension, recurrence-means-incomplete-fix]
+    open_gaps:
+      - SettlementVisual.Tick's exact per-frame reads confirmed by decompile; the full set of visual managers needing the guard (party visuals, encounter visuals) is not exhaustively enumerated.
+      - The deferral alternative (queue mutations to the campaign tick) is named but not worked as a recipe here.
+
+  - id: challenge-target-pacing
+    concern: When authoring tiered-counter challenges, set targets against the metric's real accumulation RATE (kills accumulate far faster than raids or renown), not a uniform/copied number; never let a milestone's condition be a subset of a counter's first tier (double-dip pays two rewards for one trivial action); and never let a threshold be zero or absent (Rule 3 — progress >= 0 is met at init, so a completion predicate with a default-zero target reads done before the player acts). Authoring-time checklist + rate-class table. Surfaced by Hersir shipping kill counters at raid-counter magnitudes; Rule 3 by a task predicate reading complete-on-accept (Classes 2026-07-29).
+    skill_file: pattern-challenge-target-pacing/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: thin
+    generation_added: 4
+    dependencies: [natural-engagement, predicate-feasibility-audit]
+    open_gaps:
+      - Single worked example (Hersir v0.9.4.5 re-pacing). Rate-class magnitude table is calibrated to the Classes kit's combat/economic mix; other game loops may need different bands.
+      - The authoring-time checklist is manual. A structural enforcement (build-time report of first-session-earnable points per class) is noted in the skill as the un-built enforcement-layer instance.
+      - Double-dip scan is currently eyeball; no automated "milestone condition ⊆ counter T1" check exists.
+
+  # ---- v0.9.4.9-.17 elevations (2026-05-31) -----------------------------
+  # Two new principle skills elevated from the v0.9.4.9-.17 load-crash
+  # investigation. The crash chain unsealed by v0.9.4.8's PatchAllIsolated
+  # hardening — ~234 patches that had been silently dormant under the
+  # pre-fix PatchAll abort-at-Vizier behaviour started applying at
+  # OnSubModuleLoad. Several of those patches' target types had
+  # host-singleton-dependent cctors (DefaultClanFinanceModel via
+  # Game.Current.GameTextManager.FindText); the patch-install chain
+  # triggered those cctors against unready singletons, poisoning the
+  # types for the rest of the process. Pre-warm attempts compounded the
+  # failure for the same reason. v0.9.4.15 resolved the chain by
+  # deferring PatchAllIsolated to OnGameStart, where Game.Current and
+  # GameTextManager are observably populated. RBM's pattern at scale
+  # confirms the deferred-apply-hook discipline empirically.
+
+  - id: cctor-prewarm-is-aggressive
+    concern: Triggering a host type's static initializer is an aggressive act when the cctor depends on host-singleton state. Pre-warming via RuntimeHelpers.RunClassConstructor poisons the type when prerequisites are unready — the runtime caches a TypeInitializationException against the type for the process lifetime, with no public API to clear it. Discipline is probe-before-trigger; never trigger as a defensive default.
+    skill_file: principle-cctor-prewarm-is-aggressive/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: thin
+    generation_added: 5
+    dependencies: [verify-api-shape, decompile-vanilla]
+    open_gaps:
+      - Single worked drift family (v0.9.4.9-.14 — DefaultClanFinanceModel cctor poisoning surfaced by attempted pre-warm at OnBeforeInitialModuleScreenSetAsRoot). Principle claims general .NET-runtime transferability but only this kit's evidence so far.
+      - Probe-before-trigger pattern as concrete recipe (the singleton-readiness probe shape, the "what counts as ready") is described in prose but not templated. A pattern-layer skill underneath the principle would carry the recipe.
+      - Boundary with `principle-host-prerequisite-aware-patching` is cross-referenced in both skills' bodies; the principles share the underlying poisoning mechanism. Trigger-paths differ (direct RunClassConstructor vs indirect via patch install).
+
+  - id: host-prerequisite-aware-patching
+    concern: When applying many patches against a host whose target methods' declaring types have state-dependent cctors, the patch-application hook must be chosen so prerequisites are observably ready. Patch installation can trigger target type cctors via the underlying detour-install chain (RuntimeHelpers.PrepareMethod and downstream) — applying at a hook where prerequisites are unready poisons the same way as pre-warming there. At scale (dozens-hundreds of patches), the probability that at least one target has a fragile cctor approaches certainty.
+    skill_file: principle-host-prerequisite-aware-patching/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: thin
+    generation_added: 5
+    dependencies: [verify-api-shape, cctor-prewarm-is-aggressive, central-gate-exhaustive-coverage]
+    open_gaps:
+      - Single worked drift family (v0.9.4.9-.15 — Bannerlord/Harmony/MonoMod patch-install chain triggering DefaultClanFinanceModel cctor poisoning when applied at OnSubModuleLoad). Comparative evidence from RBM SubModule confirms the deferred-apply-hook pattern empirically. Cross-host transferability asserted but only Bannerlord-side evidence so far.
+      - "'Pick the latest moment in the readiness window' is described as a heuristic; no formal procedure for identifying the window in a given host. The Bannerlord-specific lifecycle map (OSL/OBI/OBGS/BGS/OGL/OAGL/OGS) belongs in an implementation-layer skill underneath this principle."
+      - Per-type isolation + per-type observability is described as required at scale but the line between "small set, install at module load" and "deferred + isolated" is qualitative; no threshold count or fragility audit is templated.
+      - The detour-install chain claim ("PrepareMethod or downstream resolves the target's static call graph") is mechanism-level recall from MonoMod source. A documented breadcrumb-trace through the actual Harmony+MonoMod chain on the v0.9.4 evidence would harden the principle's "why" section.
+
+  # ---- v0.9.4.18 elevation (2026-06-01) ---------------------------------
+  # One new pattern elevated from the v0.9.4.18 / drift-014 surfacing —
+  # a player-reported recruit-all crash that signature-level binary
+  # verification (the kit's existing producer-side discipline) did not
+  # catch. The operational gap was at the call-graph survey layer:
+  # before mutating a host return value in a postfix, walk the consumer
+  # graph for the value-range invariants that downstream code trusts
+  # without re-validation, and re-apply identified invariants at the
+  # postfix tail. Pattern-level rather than principle-level: the why
+  # (signature shape ≠ contract shape) is implicit in the existing
+  # principle-verify-api-shape extended in spirit; this pattern is the
+  # concrete recipe for the post-call hook decision point.
+
+  - id: postfix-callgraph-survey
+    concern: When extension code is invoked by a host and touches host-owned data — a Harmony postfix that mutates a return, a Harmony prefix that sets __result to skip the original, or a MissionBehavior event handler that reads or writes through a host indexer — survey the host's call graph for the value-range / non-null / bounds / type-shape invariants downstream code trusts without re-validating. The host's signature does not tell you which invariants are load-bearing; only the call graph does. Re-apply identified invariants at the hook's tail, or restrict the hook's iteration / input range so the contract stays satisfied. Composes with pattern-decompile-vanilla (producer-side decompile) by extending the survey to consumer sites.
+    skill_file: pattern-postfix-callgraph-survey/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: thin
+    generation_added: 5
+    generation_evolved: 6
+    dependencies: [decompile-vanilla, verify-api-shape]
+    open_gaps:
+      - Three worked drifts across three Bannerlord-modding surface types (drift-014 postfix-return-mutation, drift-015 prefix-__result-mutation, drift-016 MissionBehavior event-handler-indexer-access). Pattern claims general post-call-hook transferability beyond Bannerlord (Minecraft mixins, Unity transpilers, REST middleware) but the three evidence points are all in one host's modding ecosystem.
+      - Step 2's enumeration of value-range / bounds / non-null invariant tells (Max/Min calls, range checks, indexed access, chained dereferences, arithmetic assumptions, monotonicity, backing array sizes vs enum ranges) is recall-derived from .NET idioms. Other hosts (C++ native, Java, scripting languages) may surface different tells; the step would benefit from a host-language-specific addendum.
+      - "'When the pattern does not apply' section enumerates exclusions but is qualitative — no formal procedure to decide whether a mutation 'strictly preserves all relevant invariants of the producer's value.' Drift-016's exclusion test (own both producer and consumer) clarifies the criterion but is still judgment."
+      - Audit-pass companion discipline named at the end of the skill body ("when the skill is adopted or its scope widens, run a one-shot codebase sweep") is not yet templated as a procedure — surfaced as a follow-on loop after this widening, not part of the skill itself.
+
+  # ---- v0.9.4.20 elevation (2026-06-02) ---------------------------------
+  # One new pattern elevated from drift-016's investigation arc: when
+  # investigating a crash, OS-level crash dumps are the primary evidence
+  # source; in-game logs are secondary because host exception wrappers
+  # cover specific threads only. Authored after three diagnosis turns
+  # at the start of drift-016's loop reached for "silent freeze /
+  # vanilla random / native code" hypotheses without checking the
+  # available dump files — the user surfaced the gap directly with
+  # "have you checked the dump files?" The pattern operationalises
+  # the meta-foundation's lay-of-the-land aspect at the specific
+  # crash-investigation decision point.
+
+  - id: dump-first-crash-diagnosis
+    concern: When investigating a crash, OS-level crash dumps are the primary evidence source; in-game logs are secondary because host exception wrappers cover specific threads only. Identify dump locations, load with dotnet-dump (or platform analyzer), extract exception type + thread + managed stack BEFORE forming any hypothesis. The host's "no managed exception logged" is not evidence that no managed exception occurred — only the dump can confirm or rule that out.
+    skill_file: pattern-dump-first-crash-diagnosis/SKILL.md
+    layer: pattern
+    phase: [during-build, post-build]
+    status: thin
+    generation_added: 6
+    dependencies: [decompile-vanilla, verify-api-shape]
+    open_gaps:
+      - Single worked drift (drift-016's investigation arc). Pattern claims general crash-investigation transferability across .NET hosts (Bannerlord, Unity, Stardew Valley SMAPI, ASP.NET) but only one Bannerlord-side evidence point so far.
+      - Step 2's specific tool invocation (dotnet-dump analyze -c "clrthreads"; -c "setthread <id>" -c "pe" -c "clrstack") is .NET-specific. Native hosts (C++ engines via windbg/lldb) need a parallel section that's only sketched in "When the pattern does not apply." The pattern would benefit from a windbg-side worked example once a native-side investigation is logged.
+      - "'When the pattern does not apply' enumerates 'no dump produced' and 'own controlled host where you wrap all threads' but doesn't address the case where MULTIPLE dumps are produced for the same crash (Windows Error Reporting + game's own crash collector + per-thread minidump). Current pattern picks one; a Step 1.5 covering 'reconcile multiple dumps for the same PID' is the next refinement."
+      - Audit-pass companion discipline named at the end of the skill body ("re-examine prior DRIFTLOG attributions against any dump files still on disk") is held as a separate follow-on loop. drift-015's symptom_attribution_note is the one entry the audit has touched so far; other DRIFTLOG attributions remain unexamined.
+
+  # Added 2026-06-14 (generation 7) from the Wave 1 SER — user-approved
+  # candidate. Motivating incident: the Wave 1 contract's G3 anchor
+  # ("rides the drift-016-corrected loop bound") was false; the
+  # user-directed verification pass caught the false claim, a live
+  # drift-016-family crash behind it, and a wrong stack-ceiling tunable
+  # in the same pass — all before implementation.
+  - id: contract-verification-pass
+    concern: After a three-tier contract is drawn and before implementation, re-verify every anchoring claim at its cited source and score it ANCHORED / GATED / FAILED, sweep any failure's family, then redraw the contract with scores visible and re-ask the gate. A failed anchor voids prior approval. Prior-session verification is GATED, not ANCHORED, until re-read.
+    skill_file: pattern-contract-verification-pass/SKILL.md
+    layer: pattern
+    generation_evolved: 20
+    phase: [pre-build]
+    status: thin
+    generation_added: 7
+    dependencies: [decompile-vanilla, verify-api-shape, postfix-callgraph-survey]
+    open_gaps:
+      - Gen-20 (2026-09-05, contract-054 SER) -- a use case's statement of how the game behaves today is an anchor, scored with the rest; contract-054's UC-4 was approved on a wrong reading of the accrual line and stopped in phase 2 for a redraw.
+      - Single worked incident (Wave 1 / drift-016 recurrence). The "always by default when claims are inherited" trigger is untested against session-time pressure — watch whether the pass actually runs unprompted on the next inherited-claim contract.
+      - No guidance yet on verification DEPTH for very large contracts (50+ claims) — current text implies exhaustive re-read; a triage rule (verify inherited + load-bearing first) may be the next refinement.
+
+  # ---- Slaver-redesign SER elevations (2026-07-25, generation 8) ----
+  # Five candidates approved per agent recommendation. Two new pattern skills
+  # (below); C1 extended meta-foundation "lay of the land" to the data/config/
+  # tree survey; C2 generalized meta-skill-builder "template drift" to co-owned
+  # runtime renderers; C5 added a Phase-3 guardrail-change clause to
+  # docs/rules/CONTRACT_SPEC.md (product detail, not a kit node).
+
+  - id: host-finance-integration
+    concern: Surfacing a mod's recurring value in a host's aggregate finance UI by adding a labeled line to the host's own calculation model. The correctness gate is decompile-verifying whether that model is ALSO the apply path (double-pay) before removing any parallel direct payment.
+    skill_file: pattern-host-finance-integration/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: thin
+    generation_added: 8
+    dependencies: [decompile-vanilla, verify-api-shape, engagement-contract]
+    open_gaps:
+      - Single worked instance (Slaver daily dividend -> DefaultClanFinanceModel "Expected Change"). Cross-host transferability (non-Bannerlord finance UIs) asserted on one evidence point.
+      - The compute-vs-apply verification is described as a decompile step; no checklist for hosts where display and apply are genuinely different methods.
+
+  - id: dashboard-amount-allocation
+    concern: Dashboard control for committing a QUANTITY from a pool across destinations — stepper (fixed increments + Max) driving a VM amount, a live preview derived from it, one action button per destination, amount clamped to the pool and re-previewed on every change, verbs returning the actual moved count.
+    skill_file: pattern-dashboard-amount-allocation/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: thin
+    generation_added: 8
+    dependencies: [render-vs-declared, engagement-contract]
+    open_gaps:
+      - Single worked instance (Slaver Sell/Conscript split). Multi-destination (>2) and preset-percent (25/50/100%) variants are sketched in the skill, not exercised.
+
+  - id: native-boundary-has-no-catch
+    concern: A managed try/catch cannot stop a native engine crash. When calling across a managed→native boundary (engine damage/physics/skeleton/render APIs — in Bannerlord, RegisterBlow and kin), correctness must be established BEFORE the call by validating/normalising inputs; there is no catch on the far side, and a native-crash fix gates on runtime evidence, never on the build. A wrapped call that still hard-crashes is the tell the guard was theatre.
+    skill_file: principle-native-boundary-has-no-catch/SKILL.md
+    layer: principle
+    phase: [during-build, post-build]
+    status: thin
+    generation_added: 8
+    dependencies: [verify-api-shape]
+    open_gaps:
+      - The concrete Bannerlord instance (a safe cross-agent synthetic blow) is NOT yet a shippable pattern. Two approaches crashed at runtime — verbatim AttackCollisionData copy, and the vanilla reflect re-target (UpdateCollisionPositionAndBoneForReflect + bone 0); the second also registered a blow that made sound but dealt no damage. Reconstructing a valid cross-agent collision (likely GetAttackCollisionDataForDebugPurpose, or a DamageCalculated minimal blow) remains open pending in-game verification. Until solved, the Ranger pierce effect is suppressed (inert, not crashing).
+    note: Surfaced by the Ranger pierce native crash (2026-07-25, Ranger-redesign SER Learning 2). The intended companion pattern-bannerlord-synthetic-blow was NOT created — its prescription (reflect re-target) was disproven at runtime; its true lesson lives here as evidence. A live instance of fix-authorised ≠ fix-verified.
+
+  - id: gate-the-count-not-the-credit
+    concern: When progress is credited by a periodic delta-read of an ever-growing external tally, gating the crediting STEP does not gate accumulation — the source grows behind the closed gate and the frozen baseline catches up in one jump when it reopens. To gate what counts, advance the baseline THROUGH the gate (poll every period, baseline always, credit only when open). Classify delta-baseline vs streak-progress vs peak before any blanket transform.
+    skill_file: principle-gate-the-count-not-the-credit/SKILL.md
+    layer: principle
+    phase: [during-build]
+    status: thin
+    generation_added: 8
+    dependencies: [commitment-gates-earning, central-gate-exhaustive-coverage]
+    open_gaps:
+      - Applied to the four redesigned classes' delta handlers only (16 converted). The other ~20 classes share the delta-baseline pattern and the same latent catch-up, unconverted.
+    note: Companion to commitment-gates-earning — that node sets the gate policy (accrual, not benefit); this one keeps the implementation from leaking accrual back via catch-up. Surfaced by the challenge active-class gating fix (2026-07-25, Ranger-redesign SER Learning 4).
+
+# Coverage map — Bannerlord campaign-mod concerns this kit will mature through use.
+# All non-meta nodes start `missing`; they get promoted to `thin` / `mature` as
+# real implementations surface them via Standard Evolution Reports.
+
+  - id: in-world-voice
+    concern: In-world prose (flavor, lore, intro, blurb) must read as written by a person inside the fiction, not by a system describing it — machine-authorship tells (balanced antithesis, em-dash appositives, colon-reveals, tidy triad closers, abstract energy-nouns, metronome rhythm) break immersion; assert what a thing IS, not what it isn't
+    skill_file: principle-in-world-voice/SKILL.md
+    layer: principle
+    phase: [during-build, post-build]
+    status: mature
+    dependencies: []
+    open_gaps:
+      - Reference register is named (WH40k codex/oath prose) but not embedded — a future version could carry 2-3 short exemplars in-skill so the anchor does not depend on external recall.
+    note: The why-layer for flavor voice. Its actionable pass is flavor-composition. Product-level application lives in docs/rules/CLASS_TEXT_RULES.md F5/F6.
+
+
+
+  - id: flavor-composition
+    concern: The repeatable cut for in-world prose — draft in voice, then hunt-and-cut a named tell-set, verify referents (who does what), frame on the positive (no disclaimers), vary sentence length, anchor to an exemplar. Enacts principle-in-world-voice
+    skill_file: pattern-flavor-composition/SKILL.md
+    layer: pattern
+    phase: [during-build, post-build]
+    status: mature
+    dependencies: [in-world-voice]
+    open_gaps:
+      - The tell-set is drawn from one rewrite (Warlord intro); watch whether new tells recur across more classes and fold them into the table as they do.
+    note: The how-layer for flavor voice. Cross-links in-world-voice. Enforced product-side by CLASS_TEXT_RULES F5/F6 and its checklist item.
+
+
+
+  - id: commitment-gates-earning
+    concern: Multi-path progression (classes / parallel skill lines / prestige tracks held at once) — gate resource ACCRUAL on the path being active/committed, but never gate the permanent BENEFIT already earned. Commitment throttles income, not equity. Make the earning state legible so a gated (frozen) path doesn't read as broken.
+    skill_file: principle-commitment-gates-earning/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: [engagement-contract]
+    open_gaps:
+      - Derived from one mod's class system (Warlord/Marauder resource loops). Watch whether the income/equity split holds for non-resource benefits (gated abilities, cooldowns) or needs refinement.
+    note: The design principle behind the Classes mod's active-class gating (accrual gated on GetActiveClass; standing stats Legion/Haul always-on). Legibility clause leans on principle-engagement-contract.
+
+
+  # --- Generation 9: the playbook layer (2026-07-30) ---
+  # Surfaced from a full read of all 71 prior nodes. The finding was that the
+  # standard was not thin or wrong — it was not RETRIEVED at the moment of
+  # action. Every drift in the session that produced this layer was a node the
+  # agent could name afterward. The kit indexed by CONCERN (what a node is
+  # about) and had no index by SITUATION (what governs what I am doing now).
+  #
+  # Playbooks are that index. They run as a fixed chronological pipeline on
+  # every contract — steps 1..8 — so no selection decision exists. Each step
+  # declares RUN (with findings) or N/A (with a reason falsifiable against the
+  # changed file set), which converts a silent skip into a checkable claim.
+  #
+  # NOTE ON IDS: playbook nodes keep their layer prefix in the id, unlike
+  # pattern-/principle- nodes which strip it. A bare `design` or `contract`
+  # is not self-describing in a dependency list; `playbook-design` is.
+  # Deliberate deviation from the strip convention, recorded here.
+
+
+
+  - id: playbook-orientation
+    concern: Pipeline step 1 of 8. Establish scope before narrowing — load the meta layer (foundation, manifest, driftlog watching/mitigated entries as the session alert list), confirm the repository's recovery path BEFORE any destructive work, enumerate existing implementations before authoring anything named after an entity, and confirm which binary is running before diagnosing behaviour. Carries two steps with no backing node deliberately (recovery-path check, enumerate-before-authoring) — both are one sentence and would be padding as skills.
+    skill_file: playbook-orientation/SKILL.md
+    layer: playbook
+    phase: [pre-build]
+    status: emerging
+    generation_added: 9
+    dependencies: [meta-first, ask-vs-guess-on-domain-gaps, build-sentinel, dump-first-crash-diagnosis, recurrence-means-incomplete-fix, pattern-evidence-audit, audit-doc-as-artifact]
+    open_gaps:
+      - The enumerate-before-authoring step has no backing node and no structural check; it relies on the agent running a grep it can skip.
+      - Untested across a full run. Whether step ordering survives contact with a real contract is observed, not declared.
+
+
+
+  - id: playbook-design
+    concern: Pipeline step 2 of 8. The questions-first playbook — holds nine design questions the Pioneer has previously had to supply unprompted (what space does this hold, what is the player's active verb, what culture/tone, what scales against what, what does the player see when it pays off, what happens when it is lost, what is the ceiling, where does the player's own party sit, clean slate or migration), then checks the answers against the design nodes. Its primary content is questions, not node references.
+    skill_file: playbook-design/SKILL.md
+    layer: playbook
+    phase: [pre-build]
+    status: emerging
+    generation_added: 9
+    dependencies: [natural-engagement, engagement-contract, event-surface-is-the-spec, predicate-feasibility-audit, commitment-gates-earning, gate-the-count-not-the-credit, base-embed-before-own, base-host-already-does-it, challenge-target-pacing, class-dashboard-ia, dashboard-amount-allocation, approximation-policy, stop-triggers-must-be-named]
+    open_gaps:
+      - The nine questions are mined from one session's dialogue with one Pioneer on one mod. Whether they generalise across domains is unverified.
+      - No mechanism forces the questions to be ASKED rather than answered on the Pioneer's behalf.
+
+
+
+  - id: playbook-contract
+    concern: Pipeline step 3 of 8. Drawing the contract — name which playbooks govern the work before implementation, draw in chat as one consolidated artifact, three tiers traceable downward, run the predicate feasibility audit, score every anchoring claim ANCHORED/GATED/FAILED at its source, state what is out of scope, hold the gate, and redraw whole on any change. Operationalises meta-contract-before-execution and CONTRACT_SPEC.md; restates neither.
+    skill_file: playbook-contract/SKILL.md
+    layer: playbook
+    phase: [pre-build]
+    status: emerging
+    generation_added: 9
+    dependencies: [predicate-feasibility-audit, contract-verification-pass, stop-triggers-must-be-named]
+    open_gaps:
+      - The "name the governing playbooks" step is the only place a skipped playbook is visible at a gate, and nothing enforces that the list is honest.
+
+
+
+  - id: playbook-implementation
+    concern: "Pipeline step 4 of 8. Building against the approved contract, routed into three sections that declare independently — host surface (read the binary, survey the call graph, assume parallel, guard native boundaries, check DLC siblings), UI surface (embed before own, layout chains both axes, binding types, the attributes that do not behave as they read, dashboard IA), and state and behaviour (consumer-set boundary, source attribution, exhaustive gate coverage, baseline-through-the-gate, registries and migrations). Three rules apply across all routes: guard every source mutation, land the registration line last, treat external recommendations as hypotheses."
+    skill_file: playbook-implementation/SKILL.md
+    layer: playbook
+    phase: [during-build]
+    status: emerging
+    generation_added: 9
+    dependencies: [guarded-source-mutation, atomic-ship-gate, prescription-vs-diagnosis, bannerlord-subagent-verification, base-verify-api-shape, decompile-vanilla, postfix-callgraph-survey, host-concurrency-is-unannounced, cctor-prewarm-is-aggressive, host-prerequisite-aware-patching, native-boundary-has-no-catch, dlc-sibling-model-dual-bind, bannerlord-interface-method-patch, base-embed-before-own, bannerlord-screen-extension, bannerlord-gauntlet-width-chain, bannerlord-gauntlet-height-chain, bannerlord-numeric-attribute-coercion, bannerlord-brush-literal, bannerlord-event-block-subtree, bannerlord-hintwidget-role, bannerlord-horizontal-row-with-variable-labels, text-stack-row-pitch, class-dashboard-ia, dashboard-amount-allocation, dashboard-extraction, font-safe-glyphs, bannerlord-viewmodelmixin-handle-derived, bannerlord-inject-binding-for-conditional-gating, bannerlord-state-push, pending-handoff-on-activation, idempotent-attach-with-retry, bannerlord-screen-mutation-guards-visual-managers, behavior-local-vs-published-state, source-attributed-aggregation, central-gate-exhaustive-coverage, gate-the-count-not-the-credit, registration-time-validator, api-split-warn-and-pure, migration-by-removal, host-finance-integration, named-clause-decomposition]
+    open_gaps:
+      - Section C carries one rule with no backing node (a cache whose build calls out to extension code must pass its partial state in; a derived cache subscribes to its source's invalidation). Unprocessed SER candidate from the Marshal build — held to one sentence pending a node, which is a live drift risk between the two layers until authored.
+      - The three-way routing is asserted from one corpus read. Whether host/UI/state is the right partition is observed, not declared.
+
+
+
+  - id: playbook-text
+    concern: Pipeline step 5 of 8. Authoring player-facing text — establish which register applies (flavour prose, mechanical lines, or verb-first objectives, each under different rules), draft in voice, run the tell-cut as a separate pass, apply the F7-F12 composition rules, say only what is true, restrict to font-safe glyphs, and guard the edit. Routes to docs/rules/CLASS_TEXT_RULES.md as the authoritative project standard.
+    skill_file: playbook-text/SKILL.md
+    layer: playbook
+    phase: [during-build]
+    status: emerging
+    generation_added: 9
+    dependencies: [in-world-voice, flavor-composition, engagement-contract, font-safe-glyphs, guarded-source-mutation]
+    open_gaps:
+      - The kit's text layer is two nodes while the real standard (CLASS_TEXT_RULES F1-F12, E-rules, A1, O1-O2) lives in a project doc the kit cannot see. F7-F12 are transferable and are candidates for promotion into the kit proper.
+
+
+
+  - id: playbook-verify-implementation
+    concern: Pipeline step 6 of 8. First verify pass — is it real. Confirm the loaded binary matches the built one (a failure here invalidates the two downstream passes), run the Gauntlet pre-flight audit in full when UI was touched, budget the exposure surface on reveal-style changes, survey consumers when a host hook was authored, re-score the contract's anchors against what landed, check grant-consumption-surface for every declared effect, check the ship gate, sweep stale comments, and verify every binding resolves. States explicitly that runtime-dependent work is fix-authorised, not fix-verified, until observed running.
+    skill_file: playbook-verify-implementation/SKILL.md
+    layer: playbook
+    phase: [post-build]
+    status: emerging
+    generation_added: 9
+    dependencies: [build-sentinel, bannerlord-gauntlet-pre-flight-audit, revealed-content-carries-latent-bugs, postfix-callgraph-survey, contract-verification-pass, engagement-contract, atomic-ship-gate, audit-doc-as-artifact, registration-time-validator]
+    open_gaps:
+      - Step 9 (bindings resolve) is a manual walk. The build-time prefab/VM binding validator that would make it structural is proposed and unbuilt.
+      - Steps 1, 2 and 9 are mechanizable and remain manual; this playbook is a text layer over checks that could sink below it.
+
+
+
+  - id: playbook-verify-design
+    concern: Pipeline step 7 of 8. Second verify pass — is it right. Classify every trigger current/eventual/rare (30%+ rare is broken regardless of build quality), rate-check every number that was chosen rather than derived against the metric's real accumulation rate, walk every surface to its runtime path, test each substitution for noticeability, check the accrual-gated/benefit-ungated split and its implementation, check dashboard conformance, and confirm the built result still answers playbook-design's nine questions the way the Pioneer answered them. The one verify pass that cannot be mechanized — nothing in it is greppable.
+    skill_file: playbook-verify-design/SKILL.md
+    layer: playbook
+    phase: [post-build]
+    status: emerging
+    generation_added: 9
+    dependencies: [natural-engagement, challenge-target-pacing, engagement-contract, approximation-policy, commitment-gates-earning, gate-the-count-not-the-credit, class-dashboard-ia, playbook-design]
+    open_gaps:
+      - Wholly judgement-based, so it is the pass most likely to be declared RUN without being run. No structural check is possible for most of it.
+      - Its first real subject is the Marshal, whose 28 role values, 6 edicts, Repute curve and challenge targets were all chosen without a rate-check and remain unreviewed.
+
+
+
+  - id: playbook-verify-text
+    concern: Pipeline step 8 of 8 and the last playbook to run. Third verify pass — does it read. Re-run the composition cut on shipped strings, sweep every player-facing surface for developer-talk (implementation leak and design-accounting leak, the kit's most-recurred failure at three recurrences, every one surfaced by a player after shipping), sweep for unhonoured promises, sweep for non-ASCII glyphs, and confirm stated magnitudes match what the implementation grants. Then CLOSES THE CONTRACT by typing one open question to the Pioneer — "How was the run?" — asked in plain text, never as a structured choice, and routes the answer to nothing, to a DRIFTLOG entry, or to a skill-builder candidate. Answers usually land in one of three shapes (went well / there was drift / something is missing); an answer fitting none of them is the informative case.
+    skill_file: playbook-verify-text/SKILL.md
+    layer: playbook
+    phase: [post-build]
+    status: emerging
+    generation_added: 9
+    dependencies: [flavor-composition, in-world-voice, audit-doc-as-artifact, engagement-contract, font-safe-glyphs, enforcement-layer-below-rules, playbook-text, playbook-contract]
+    open_gaps:
+      - The Voice A grep is described but not scripted; the pre-commit hook that principle-enforcement-layer-below-rules argued for at three recurrences is still unbuilt.
+      - The closing question's routing depends on the agent honouring it. An answer reporting drift that produces no DRIFTLOG entry reduces the question to sentiment.
+
+
+
+  - id: dashboard-exact
+    concern: >-
+      The driver of the instrument-first exactness pipeline for one class
+      dashboard against its v2 drawing: reader hub and mappers, instrument,
+      drafter, then one writer per approved phase. The pair list is the
+      check's data; the driver carries reports, runs the sweep detached, and
+      reads the diff as the evidence. Registered at generation 19 after the
+      Seat (contract-052) and the Frontier (contract-053) ran through it.
+    skill_file: dashboard-exact/SKILL.md
+    layer: playbook
+    phase: [pre-build, during-build]
+    status: emerging
+    generation_added: 19
+    generation_evolved: 20
+    dependencies: [checks-fail-closed, membership-is-per-element, contract-verification-pass, contract-artifact, prefer-the-failure-that-shows, bannerlord-gauntlet-height-chain]
+    enforcement: tools/audit/build_check.py --lint (pair-list shape); tools/verify/verify_the_<slug>_exact.py and negative_the_<slug>_exact.py, generated from pairs.tsv
+    open_gaps:
+      - Gen-20 (2026-09-05, contract-054 SER) -- the reader pairs layout rules as rows of the `layout` kind (fill/content/fixed); the render round is scheduled after the first visible phase; writers are briefed with line numbers and reader forms. `build_check.py --reach` reports the stylesheet's rules against the rows that cite them: the Frontier's list cites 95 of 277 rules, 182 uncited across 52 selectors, and that figure is the honest denominator of its "93 of 100 exact". The floor below which a region cannot enter a contract is still a ruling to take, per region, on the next audit.
+      - The stage definitions register only when the session opens in the module; opened above it, the writer runs as a general-purpose agent with no round cap, and seven phases ran three to five times budget.
+      - The record grid applies EntryGap on both sides of an entry; a left/right split is a G-2-safe kit change no contract has taken yet.
+
+
+  - id: guarded-source-mutation
+    concern: "When mutating an existing source file you cannot hold entirely in view, replace by exact string asserted at exactly one match; use a pattern only after enumerating what it matches. An unguarded non-greedy regex anchors at the FIRST occurrence of its opening token, not the one you were looking at, and consumes to the next closing token with no error and no diff preview. Failure is asymmetric — matching too little fails loudly, matching too much succeeds silently. Also carries two supporting habits: know the recovery path before mutating, and anchor patterns on the tail boundary rather than the opening token."
+    skill_file: pattern-guarded-source-mutation/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: emerging
+    generation_added: 9
+    dependencies: [stop-triggers-must-be-named, ask-vs-guess-on-domain-gaps]
+    open_gaps:
+      - Recurrence count is 1. Per principle-enforcement-layer-below-rules a node is the correct response at this count, not a hook — but if it recurs, the structural check (a wrapper that refuses uncounted replacement) is the next layer.
+
+
+
+  - id: stop-triggers-must-be-named
+    concern: A governing aspect that says "stop when discipline falls" does not fire, because recognising the moment is exactly the judgement execution pressure consumes — an instruction depending on the faculty it protects fails when needed. Stopping becomes reliable only when the specific moments are enumerated as a register the agent matches against rather than reasons about. Register starts with four entries (a finding that something cannot be implemented as specified; damage you cannot cleanly undo; the contract no longer describing the work; any outward-facing or hard-to-reverse action) and grows by one rule — every time the human has to name a stop, that moment becomes an entry.
+    skill_file: principle-stop-triggers-must-be-named/SKILL.md
+    layer: principle
+    phase: always
+    status: emerging
+    generation_added: 9
+    dependencies: [enforcement-layer-below-rules, guarded-source-mutation, predicate-feasibility-audit, approximation-policy]
+    open_gaps:
+      - Two of the four entries were named by the human on the same day the node was authored; the register's growth rule is asserted, not yet observed working.
+      - Nothing structurally forces a match-check against the register at the moments it covers.
+
+
+
+  - id: host-failure-shape-is-unannounced
+    concern: A host never documents how it represents failure, and the representation is rarely the assumed null — a missing resource may return a well-formed but invalid object, a shared sentinel, or a success value whose failure was reported only through a log. A guard written against an assumed representation never fires, leaving the code silently satisfied while the host's log fills with errors. The failure state is measured with a probe before any guard is designed around it, and the measurement is recorded beside the guard so a later reader does not simplify it back to a null check.
+    skill_file: principle-host-failure-shape-is-unannounced/SKILL.md
+    layer: principle
+    phase: [during-build, post-build]
+    status: emerging
+    generation_added: 10
+    generation_evolved: 11
+    dependencies: [verify-api-shape, contract-verification-pass, dump-first-crash-diagnosis]
+    open_gaps:
+      - Authored from a single surfacing incident (Bannerlord texture resolution returning an invalid non-null Texture). The null-assumption shape is expected to recur at other host boundaries — parse results, handle lookups, save-load restores — but has not yet been observed there.
+      - The principle says "measure before guarding" but nothing structurally forces the measurement; it currently relies on the contract's GATED-anchor discharge step to fire.
+      - Gen-11 update (2026-08-07, Ranger map SER C1) — added the "a gate's wording is itself a hypothesis" corollary and the dead-gate evidence. Extends the principle from guards to CONTRACT GATES: a GATED anchor phrased so that it can only return yes has tested the phrasing, not the host. The corrective act is to discharge by reading the host's own consumer rather than confirming a property exists. Surfaced when the map contract's positioning gate ("do PositionXOffset/PositionYOffset accept bound values") was satisfiable by declaration, while vanilla's actual consumer bound a different property in a different unit space.
+      - The corollary shares the parent gap: nothing structurally forces a gate to be written falsifiably. A validator over contract text could check for gates whose subject is "does X exist", but none is built.
+
+
+
+  - id: bannerlord-runtime-sprite-injection
+    concern: Shipping custom UI art in a Bannerlord mod without a packed .tpac archive. Gauntlet resolves sprite sheets through the native resource system, so loose PNGs never load by any layout — but SpriteCategory holds its sheets in a public mutable list that SpritePart re-reads on every draw, so the sheet can be replaced at runtime from a PNG on disk. Removes the Modding Kit from the shipped product entirely and makes art iteration a file swap rather than a build.
+    skill_file: pattern-bannerlord-runtime-sprite-injection/SKILL.md
+    layer: pattern
+    phase: during-build
+    status: emerging
+    generation_added: 10
+    dependencies: [host-failure-shape-is-unannounced, idempotent-attach-with-retry, decompile-vanilla, build-sentinel]
+    open_gaps:
+      - Exercised once, for one sprite in one category. Multi-category and multi-sheet cases are untested, as is behaviour across a save/load cycle or a UI resource refresh (UIResourceManager.Refresh may re-run the failing load and restore the invalid texture).
+      - The generator's destructive AllAvailableModules behaviour is documented as a hazard but not guarded by anything mechanical.
+
+
+
+  - id: measure-the-data-before-the-surface
+    concern: A UI question phrased as "will it be readable" — collisions, overflow, extent, aspect — is usually a question about the DISTRIBUTION of the data being rendered, and is computable from source data before any widget exists. Classifies such questions at the moment a contract marks them GATED, so a gate that is really an unfinished measurement is computed rather than deferred to playtest. Runtime-gates only what genuinely depends on rendering (fonts, feel, frame rate). Returns a stronger answer than inspection — a fact about the whole population rather than about one screenshot — and does not spend the human's playtest budget on arithmetic.
+    skill_file: pattern-measure-the-data-before-the-surface/SKILL.md
+    layer: pattern
+    phase: [pre-build, during-build]
+    status: emerging
+    generation_added: 11
+    dependencies: [contract-verification-pass, host-failure-shape-is-unannounced, decompile-vanilla, engagement-contract]
+    open_gaps:
+      - Authored from a single surfacing incident (nearest-neighbour spacing of 120 map pips computed from settlements.xml). The classification table lists six computable question shapes, but only the spacing and extent rows have actually been exercised.
+      - The pattern relies on the agent noticing that a legibility question is a distribution question. Nothing forces the check — it is a judgement applied when anchors are marked GATED, and a contract that never marks the question at all bypasses it entirely.
+      - No guidance yet on the case where the source data is only available at runtime (procedurally generated or mod-composed collections), where the offline computation is genuinely unavailable.
+
+
+
+  - id: host-registry-ownership
+    concern: Writing into a shared host registry (trackers, markers, listeners, overlays, reservations) requires two facts established first — does it refcount, and is it saved. Refcounted-and-saved means ownership must be persisted beside the state that caused the registration, adoption on load must be explicit, and removal must be non-forced so a co-owner (including the player, acting through the host's own UI) survives. Static ownership tracking leaks an entry on every reload; no ownership tracking orphans it forever.
+    skill_file: pattern-host-registry-ownership/SKILL.md
+    layer: pattern
+    phase: during-build
+    status: emerging
+    generation_added: 11
+    dependencies: [idempotent-attach-with-retry, verify-api-shape, host-already-does-it, behavior-local-vs-published-state]
+    open_gaps:
+      - Authored from one registry (VisualTrackerManager) in one host. The refcounted-and-saved combination is expected in listener and overlay registries too, but has not been observed there.
+      - Written, not yet runtime-verified — the adopt-on-load branch has never executed, since the feature has not been played. The save/reload cycle is exactly the path the pattern exists to protect, and it is the least tested one.
+      - No mechanical guard. Nothing prevents a future call site from invoking Register from a populate path; correctness rests on Sync being the only entry point.
+
+
+
+  - id: quantised-progression-eats-levels
+    concern: A progression curve authored in floats and consumed as integers silently deletes levels. Diminishing-returns coefficients truncate to the same integer at small base values, so a purchased level changes nothing — invisible to the player, to review, and to the tooltip, which renders the authored magnitude rather than the applied one. The fix belongs at the single place the value is produced (make the ladder monotonic by construction), never at the authoring sites (raising bases rebalances content and leaves the mechanism intact), and must be paired with a registration-time validator or the next small-base effect reintroduces it.
+    skill_file: pattern-quantised-progression-eats-levels/SKILL.md
+    layer: pattern
+    phase: [during-build, post-build]
+    status: emerging
+    generation_added: 12
+    dependencies: [registration-time-validator, engagement-contract, enforcement-layer-below-rules, render-vs-declared]
+    open_gaps:
+      - The monotonic ladder changes live numbers for effects that were already healthy, because rounding replaces truncation (four ladders shifted by 1 at their top rung). The pattern does not say how to decide when that collateral is acceptable; here the Pioneer authorised it explicitly.
+      - The validator checks equality between adjacent rungs. It does not catch a rung that steps by an amount too small to perceive — a base of 200 laddering 200/340/440/510 passes, but whether +100 is felt is a design question no check can answer.
+      - Authored from one curve shape (diminishing, four levels). Untested against linear or accelerating curves, where the collision arithmetic differs.
+
+
+
+  - id: checks-fail-closed
+    concern: A check that cannot see the whole of what it checks must report INCONCLUSIVE, never PASS and never ABSENT. Bounded output, an uninstalled tool, a failed parse, and a matcher that does not model the structure it matches all produce a clean-looking result instead — and every one fails in the direction that stops anyone looking further. A missing check leaves an obvious gap; a broken check fills the gap with a green tick. Where a check can compute the answer rather than pattern-match for it, computing is the stronger instrument.
+    skill_file: pattern-checks-fail-closed/SKILL.md
+    layer: pattern
+    phase: [during-build, post-build]
+    status: emerging
+    generation_added: 13
+    generation_evolved: 19
+    dependencies: [prefer-the-failure-that-shows, enforcement-layer-below-rules, contract-verification-pass, measure-the-data-before-the-surface, host-failure-shape-is-unannounced]
+    enforcement: tools/verify/harness.py — require_tool / require_file / require_nonempty / search_all (no limit parameter exists) / slice_between + slice_from (Gen-14) / run (aborts on non-zero) / parse_xml / code_of / literals_of / equals / inconclusive. Exit 2 is INCONCLUSIVE and distinct from exit 1. Gen-14 also adds tools/verify/negative_map_terrain.py — every guarantee is broken in turn and the suite must exit non-zero, so no check is trusted that has only been observed passing.
+    open_gaps:
+      - Nothing forces a verification script to IMPORT the harness. An author who hand-rolls checks bypasses the whole node, which is the same gap the pattern was created to close one level up.
+      - The harness is Python. Verification written in any other language re-implements it or does without.
+      - "'Compute rather than match' is stated as preferable but has no test. Whether a given check COULD have been computed is a judgement the node does not help make."
+      - "Gen-14 (2026-08-09) — added two instruments the node had not covered. (a) A check observed only passing is untested code: a literal \\b written through a shell heredoc arrived in three verifier regexes as a backspace character, and a blanket repair weakened them to \\s, while all 184 checks continued to report green. Negative tests are now the enforcement. (b) A standalone reproduction is evidence about the reproduction: a distance metric was verified with a binary heap and two seeds while the shipped code used a Dial bucket ring and 133, so the structure most likely to be wrong was never executed. Rule added — reproduction-verified is not shipped-verified unless the reproduction ran the shipped structure at production scale."
+      - Gen-19 (2026-09-05, contract-053 SER) -- rule 2b (reach is measured against the source's own count), rule 4b (a re-aimed reader is watched red before the value moves) and the negatives' third property (every plant is data the anchor audit can enumerate). Enforcement owed: the per-region completeness report in build_check.py --lint; the function plants of negative_ranger_district.py as a CASES table the audit walks.
+      - The negative suite is per-verifier and hand-written. Nothing generates a case from a guarantee, so a check added without a matching negative case is trusted on the old terms.
+
+
+
+  - id: split-by-thing-and-job
+    concern: Before migrating names onto a vocabulary, split every name by (thing, job) so each does one job; a two-job name mapped to one value inherits the ambiguity as findings that look like defects in the target.
+    skill_file: pattern-split-by-thing-and-job/SKILL.md
+    layer: pattern
+    phase: [pre-build]
+    status: emerging
+    generation_added: 18
+    generation_evolved: 18
+    dependencies: [checks-fail-closed]
+    enforcement: tools/verify/derive_artifact_palette.py splits_for / MINORITY_SHARE / MINORITY_FLOOR; the split count asserted by verify_design_system_colour check_v2_wears_the_palette
+    open_gaps:
+      - The threshold (a quarter, two uses) is stated for colour vocabularies only; other migrations need their own stated share.
+  - id: intersect-before-asking
+    concern: When one evidence source cannot decide a case, intersect it with an orthogonal source before putting the case to a human; the residue is the real ruling, already narrowed.
+    skill_file: principle-intersect-before-asking/SKILL.md
+    layer: principle
+    phase: [during-build, post-build]
+    status: emerging
+    generation_added: 18
+    generation_evolved: 18
+    dependencies: [ask-vs-guess-on-domain-gaps, membership-is-per-element, checks-fail-closed]
+    enforcement: tools/verify/derive_markup_palette.py; tools/verify/verify_dashboard_alignment.py
+    open_gaps:
+      - Flagged at approval as the constructive half of read-before-you-ask; if read as a restatement it should merge, not stand alone.
+  - id: membership-is-per-element
+    concern: A check that tests everything-this-file-uses-is-in-the-set-its-reference-uses is a screen, not a judge; sanction is per element, so a set-level pass proves only that the file names nothing the reference lacks.
+    skill_file: principle-membership-is-per-element/SKILL.md
+    layer: principle
+    phase: [during-build, post-build]
+    status: emerging
+    generation_added: 18
+    generation_evolved: 19
+    dependencies: [checks-fail-closed, intersect-before-asking, render-census-against-the-palette]
+    enforcement: none yet -- the per-element alignment check, keyed (element, slot), is the named open instrument; the per-dashboard exact checks (verify_the_*_exact.py) are its per-element form for one dashboard each
+    open_gaps:
+      - The per-element successor to verify_dashboard_alignment is not built; the set check's green is bounded by this principle until it is.
+      - Gen-19 (2026-09-05, contract-053 SER) -- the corollary at the site: one drawing value that reaches N game sites is N rows. Stated on the node; the reader stage's brief carries it.
+  - id: prefer-the-failure-that-shows
+    concern: Between two ways to be wrong, choose the one whose wrongness is visible; a tiebreak, an exemption or a floor made under uncertainty is judged by which mistake would be noticed, because the unnoticed mistake is the one that ships.
+    skill_file: principle-prefer-the-failure-that-shows/SKILL.md
+    layer: principle
+    phase: [during-build, post-build]
+    status: emerging
+    generation_added: 18
+    generation_evolved: 18
+    dependencies: [checks-fail-closed, verify-the-output-not-the-mechanism, render-census-against-the-palette]
+    enforcement: derive_artifact_palette.py dominant_group (text > metal > ground); verify_source_colours.py EXCEPTIONS keyed to rulings with an asserted size; pattern-checks-fail-closed rule 2a
+    open_gaps:
+      - Three instances are recorded; the principle was reached by three separate roads before being seen as one. A fourth road is the test of whether it is a principle or a coincidence.
+  - id: verify-the-output-not-the-mechanism
+    concern: Cheap, cached, thread-safe and correct are four independent claims, and a suite that tests only the first three reads as coverage while providing none. Verification drifts toward whatever is greppable, so mechanism checks accumulate and correctness checks never get written. Any component deriving a dataset emits a census of its own output — counts per category, or min/median/max per magnitude — read against a claim stated in advance, so a result that cannot possibly be right is visible without a screenshot.
+    skill_file: principle-verify-the-output-not-the-mechanism/SKILL.md
+    layer: principle
+    phase: [during-build, post-build]
+    status: emerging
+    generation_added: 14
+    dependencies: [checks-fail-closed, measure-the-data-before-the-surface, verify-api-shape]
+    enforcement: RangerMapTerrain logs a ground census and a branch census on every build; RangerMapClaims logs per-region seeds / ownCell / ownDisc / cells / border / interior. playbook-verify-implementation now requires a census before the step may declare RUN.
+    open_gaps:
+      - A census makes a wrong distribution VISIBLE; it does not make anyone look. The step says to state the expected claim first, but nothing enforces that the claim was stated before the numbers were read, and reading a census afterwards invites rationalising whatever appeared.
+      - Surfaced from a classifier over a spatial grid, where "four of ten categories never appear" is obviously wrong at a glance. For outputs whose correct distribution is genuinely unknown, the census is a baseline for change detection rather than a correctness check, and the node does not yet distinguish the two uses.
+      - No guidance on census cost for datasets too large to summarise in one pass, or streamed ones where there is no single build moment to log at.
+
+
+
+  - id: derived-beats-cached
+    concern: If a table can be derived from the system's own state, storing it converts a correctness property into a maintenance obligation that nobody discharges. A stale table does not throw and stays internally consistent — it is wrong only in what it lacks, and absence is the one thing a table cannot report about itself. Before authoring a lookup table, attempt the derivation and replay it against the table; if it reproduces it, the table was never data, and it becomes the derivation's regression fixture.
+    skill_file: principle-derived-beats-cached/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: emerging
+    generation_added: 13
+    dependencies: [measure-the-data-before-the-surface, migration-by-removal, engagement-contract]
+    open_gaps:
+      - The counterweight (store when derivation is expensive, when the value must be stable against its source changing, or when the table carries judgement no rule reproduces) is stated but the boundary is not sharp. "Authored content is not a cache; authored description of state is" is the test, and it needs more instances before it can be trusted as one.
+      - Surfaced from one instance in one medium (a data table). The two supporting instances — a fixed pixel width and a proposed pre-rendered image — were recognised only in hindsight, so the node has not yet been used to PREVENT the shape, only to name it.
+
+
+
+  - id: added-persisted-field-is-null
+    concern: "A field added to a persisted type comes back null on data written before it existed — the initialiser runs on construction, never when a deserialiser populates the object. Normalise every collection at one place on load and make that place the obvious home for a new field. Pair it with the rule that a guard finding an unexpected null normalises and logs rather than returning silently: a silent guard turns a fault into an absence in the log, which is far more expensive to find than an error."
+    skill_file: pattern-added-persisted-field-is-null/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: emerging
+    generation_added: 13
+    dependencies: [checks-fail-closed, engagement-contract, behavior-local-vs-published-state]
+    open_gaps:
+      - The normalisation list is maintained by a comment. Nothing mechanically fails when a new SaveableField is added and not registered there, which is exactly the failure mode the node describes.
+      - Verified against one serialiser (Bannerlord SaveableField). The general claim covers any deserialiser that populates rather than constructs, but that breadth is asserted rather than observed.
+
+
+
+
+  - id: verify-api-shape
+    concern: "When coding against a closed-source library where documentation is missing or unreliable, verify the API's actual shape by inspecting the binary before writing client code. Recall is a hypothesis; the binary is the spec. Existence, shape, reachability and the semantics of a FAILED call are four separate facts, and a binary answers only the first two by itself."
+    skill_file: principle-verify-api-shape/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: mature
+    generation_evolved: 14
+    dependencies: [decompile-vanilla]
+    open_gaps:
+      - "Registered late. The node was referenced as a dependency by four others while having no manifest entry at all, which no tool could report because the manifest did not parse."
+      - "Gen-14 (2026-08-09) - added the semantics of a FAILED call as a fourth fact. A negative answer carries only the negation of the question asked; reading one navmesh's silence as a positive fact produced the same bug three times in one function (missing face means Plain, then means sea, then a sea face means water), costing three ship-and-look cycles. Rule - where a classification has more than two outcomes, no single API's failure may select one of them."
+      - "The four-facts framing is stated but only shape and timing have worked examples in the node. Reachability and failure-semantics each have one instance."
+
+  - id: embed-before-own
+    concern: "When extending a host system, embed inside its surfaces before owning a parallel surface. The host already solves chrome, lifecycle, input and theming; a parallel surface re-solves all of them and drifts from the host on every update."
+    skill_file: principle-embed-before-own/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: mature
+    dependencies: [host-already-does-it]
+    open_gaps:
+      - "Registered late (2026-08-09) - referenced as a dependency while unregistered."
+
+  - id: host-already-does-it
+    concern: "Before claiming infrastructure X must be added to support feature Y, verify whether the host already supports it. The default assumption should be that a mature host solved the common case already."
+    skill_file: principle-host-already-does-it/SKILL.md
+    layer: principle
+    phase: [pre-build]
+    status: mature
+    dependencies: [verify-api-shape]
+    open_gaps:
+      - "Registered late (2026-08-09) - referenced as a dependency while unregistered."
+
+
+  - id: bannerlord-itemtemplate-root-binding
+    concern: "In Bannerlord Gauntlet an <ItemTemplate>'s ROOT widget may not carry its own DataSource. The list host overwrites the instantiated item root's binding path with the item index, silently destroying any DataSource declared there. A nested list must therefore bind on a child of the root, not on the root."
+    skill_file: pattern-bannerlord-itemtemplate-root-binding/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: emerging
+    dependencies: [bannerlord-gauntlet-pre-flight-audit]
+    open_gaps:
+      - "Registered late (2026-08-09) - the skill existed on disk and was never entered in the manifest, which no tool could report because the manifest did not parse."
+
+  - id: bannerlord-configure-then-bind
+    concern: A view that binds on assignment hears nothing set after it - notification-less opt-in slots on a Gauntlet view model must be configured on a local and assigned last; enforced by a sweep that refuses post-assignment mutation through a bound property
+    skill_file: pattern-bannerlord-configure-then-bind/SKILL.md
+    layer: pattern
+    phase: [during-build, verify]
+    status: mature
+    dependencies: [artifact-as-living-reference, checks-fail-closed]
+    open_gaps:
+      - Stated for Gauntlet; the same contract holds for any binding framework with notify/no-notify members and is only sketched in the principle line
+    # Entered 2026-08-24 from the contract-015 SER: three tuning rounds argued
+    # with an ordering defect until a pixel census named the plain button.
+
+  - id: render-census-against-the-palette
+    concern: When the look is the spec, the render is measurable - sample the on-disk screenshot for the palette's exact colours and for structural runs, and let the numbers arbitrate a render claim before anyone tunes; pairs with the build sentinel
+    skill_file: pattern-render-census-against-the-palette/SKILL.md
+    layer: pattern
+    phase: [verify]
+    status: mature
+    dependencies: [build-sentinel, artifact-as-living-reference, verify-the-output-not-the-mechanism]
+    open_gaps:
+      - The census scripts live in the session scratchpad; a standing tools/verify instrument that takes a screenshot path and a palette class is the next step
+    # Entered 2026-08-24 from the contract-015/017 SER: two premature fix
+    # claims were refuted by the human and settled by counting pixels.
+
+  - id: widen-signature-not-overload
+    concern: When a shared function is found to have been answering the wrong question, widen its signature so every call site fails to compile, and add no overload keeping the old arity - the callers on the wrong path are exactly the set you cannot enumerate by reading, and an overload retains them behind a green build while the repair reads as complete
+    skill_file: pattern-widen-signature-not-overload/SKILL.md
+    layer: pattern
+    phase: [during-build]
+    status: emerging
+    generation_added: 16
+    dependencies: [checks-fail-closed, derived-beats-cached, central-gate-exhaustive-coverage, engagement-contract, verify-the-output-not-the-mechanism]
+    open_gaps:
+      - Recurrence count is 1. The guarantee is held per-function by a negative case that reintroduces the overload; a standing check that no repaired signature gains a second declaration would be the structural layer if it recurs.
+      - The deprecation-surface carve-out for published APIs is named but not worked - it needs its own pattern before anyone follows it.
+    # Entered 2026-08-25 from the contract-020 SER: a grade parameter absent from
+    # the market's price for three contracts, and the overload that would have
+    # kept three call sites silently on the old path.
+
+  - id: write-to-the-set-not-the-instance
+    concern: A string on a shared surface renders in every state the surface can hold, not the one in front of the author - text fitted to the visible instance names particulars that turn a general rule into a fact about two cases, and the reader learns the wrong rule; the test is to read the line back with any other member of the set substituted
+    skill_file: principle-write-to-the-set-not-the-instance/SKILL.md
+    layer: principle
+    phase: [during-build]
+    status: emerging
+    generation_added: 17
+    dependencies: [in-world-voice, render-vs-declared]
+    open_gaps:
+      - Recurrence count is 1 (contract-029, a mechanic's condition line naming the class being played beside the class described). The
+        substitution test is mechanical but nothing runs it; the product-level rule (CLASS_TEXT_RULES L4) is prose a human applies.
+
+  - id: surface-audits-the-system
+    concern: Building a surface that states what the system actually applies forces a comparison between promise and application that nothing else in a codebase reliably makes - reach for it deliberately when a subsystem has many producers and one shared store, and expect the surface to be right and the system to be wrong
+    skill_file: principle-surface-audits-the-system/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build]
+    status: emerging
+    generation_added: 17
+    dependencies: [engagement-contract, verify-the-output-not-the-mechanism, measure-the-data-before-the-surface, derived-beats-cached]
+    open_gaps:
+      - Recurrence count is 1 (contract-029 - twelve effect types across four classes applying one hundredth of their authored
+        magnitude, found by building the page that states the applied figure). The node claims the audit is cheap; that claim rests on
+        one instance and should be re-scored when a second surface is built this way.
+      - The twelve consumers it found are NOT fixed. Until they are, the node's own worked example is an open defect in the product.
+
+  - id: concurrent-session-ledger-and-commit
+    concern: Two agents in one checkout break a shared ledger's ids (claimed against a maximum that moves) and a commit's shape (split by authorship can separate a file from what it binds to) - enumerate the whole ledger at the moment of writing, and decide a commit's boundary by dependency rather than ownership
+    skill_file: pattern-concurrent-session-ledger-and-commit/SKILL.md
+    layer: pattern
+    phase: [during-build, post-build]
+    status: emerging
+    generation_added: 17
+    dependencies: [guarded-source-mutation, atomic-ship-gate, build-sentinel]
+    open_gaps:
+      - Recurrence count is 1 for each half, both in contract-029 (an id filed by a concurrent session during the draw; a tree whose
+        shared prefab could not be split from another session's view models). Nothing enforces either rule - the id check is a habit
+        and the commit-shape judgment is human.
+      - Says nothing about locking, branching or coordination between sessions. That is a real question and a different node.
+
+  - id: dashboard-as-journey
+    concern: A progression surface is the player's journey - in every state it can show, one glance answers where I stand, where I am in the loop and how far the career has come, and finds exactly one lit verb for the next act; position is the frame's fact and the act gated on it lives in the frame's band, never on a tab
+    skill_file: principle-dashboard-as-journey/SKILL.md
+    layer: principle
+    phase: [pre-build, during-build, post-build]
+    status: emerging
+    generation_added: 20
+    dependencies: [class-dashboard-ia, engagement-contract, artifact-as-living-reference]
+    open_gaps:
+      - Stated from one class and one session (the Ranger, contracts 055-059, 2026-09-06). The Pioneer named it the core the
+        foundational statement for classes is to be drawn from; it is a strong hypothesis until a second dashboard is read against it.
+      - The per-state check (three answers, one verb) is run by hand in the drawing's self-consistency pass; nothing enforces it.
+      - The code contract that moves the Ranger's game and check from v3 to v6 has not been drawn; the principle is held by a drawing only.
+
+coverage_map:
+  - concern: Philosophical foundation & governing aspects
+    node_id: base-foundation
+    layer: meta
+    phase: always
+    status: mature
+
+
+  - concern: Project onboarding & authority establishment
+    node_id: base-bootstrap
+    layer: meta
+    phase: pre-build
+    status: mature
+
+
+  - concern: Contract & proposal
+    node_id: base-contract
+    layer: meta
+    phase: pre/post
+    status: mature
+
+
+  - concern: Skill evolution
+    node_id: base-skill-builder
+    layer: meta
+    phase: post
+    status: mature
+
+
+  - concern: Kit topology
+    node_id: base-manifest
+    layer: meta
+    phase: pre
+    status: mature
+
+
+  - concern: Embed before own — extend host surfaces; use host widget classes
+    node_id: base-embed-before-own
+    layer: principle
+    phase: pre/during
+    status: mature
+
+
+  - concern: Host already does it — verify before claiming infrastructure
+    node_id: base-host-already-does-it
+    layer: principle
+    phase: pre-build
+    status: mature
+
+
+  - concern: Verify API shape against the binary
+    node_id: base-verify-api-shape
+    layer: principle
+    phase: pre/during
+    status: mature
+
+
+  - concern: Bannerlord decompile-vanilla recipe (ilspycmd workflow)
+    node_id: decompile-vanilla
+    layer: pattern
+    phase: pre/during
+    status: mature
+
+
+  # --- Bannerlord-specific concerns waiting for nodes ---
+
+
+  - concern: Save format & ID stability (SaveableField IDs are sacred once shipped)
+    node_id: null
+    layer: principle
+    phase: pre-build
+    status: missing
+
+
+  - concern: Hot-path allocation discipline (MissionTick / DailyTick / event walks)
+    node_id: null
+    layer: principle
+    phase: during-build
+    status: missing
+
+
+  - concern: Campaign-behavior lifecycle & registration order (OnGameStart sequencing)
+    node_id: null
+    layer: pattern
+    phase: during-build
+    status: missing
+
+
+  - concern: Harmony patch surface (which vanilla methods, why, and rollback safety)
+    node_id: null
+    layer: pattern
+    phase: during-build
+    status: missing
+
+
+  - concern: Gauntlet UI layout invariants (layout-method inversion, colour byte order, event-pass-through)
+    node_id: null
+    layer: implementation
+    phase: during-build
+    status: missing
+
+
+  - concern: Render vs declared — sizing from rendered output, not nominal spec
+    node_id: render-vs-declared
+    layer: principle
+    phase: pre/during
+    status: mature
+
+
+  - concern: Vertical text-stack row pitch (font-metric height + clearance)
+    node_id: text-stack-row-pitch
+    layer: pattern
+    phase: during-build
+    status: mature
+
+
+  - concern: Bannerlord Gauntlet text-size table (pt → SuggestedHeight numeric mapping)
+    node_id: null
+    layer: implementation
+    phase: during-build
+    status: thin
+
+
+  - concern: UIExtenderEx mixin & prefab-extension patterns
+    node_id: null
+    layer: pattern
+    phase: during-build
+    status: missing
+
+
+  - concern: ViewModel structure & ScreenBase hosting (ESC cascade, focus layers)
+    node_id: null
+    layer: pattern
+    phase: during-build
+    status: missing
+
+
+  - concern: Localization & string-table layout (language_data.xml, EN-first)
+    node_id: null
+    layer: pattern
+    phase: during-build
+    status: missing
+
+
+  - concern: Event-driven progression dispatch (filters, shared-keys, active-vs-owned semantics)
+    node_id: null
+    layer: pattern
+    phase: pre/during
+    status: missing
+
+
+  - concern: Approximation policy (when vanilla doesn't expose the exact predicate)
+    node_id: approximation-policy
+    layer: pattern
+    phase: pre/during
+    status: mature
+
+
+  - concern: Consuming external recommendations — diagnosis vs prescription
+    node_id: prescription-vs-diagnosis
+    layer: principle
+    phase: during-build
+    status: mature
+
+
+  - concern: Bannerlord subagent verification — which sources to check per recommendation type
+    node_id: bannerlord-subagent-verification
+    layer: pattern
+    phase: during-build
+    status: mature
+
+
+  - concern: Engagement contract — every visible surface implies a runtime path
+    node_id: engagement-contract
+    layer: principle
+    phase: pre/during/post
+    status: mature
+
+
+  - concern: Predicate-feasibility audit — verify event surface before content authoring
+    node_id: predicate-feasibility-audit
+    layer: pattern
+    phase: pre-build
+    status: mature
+
+
+  - concern: Source-attributed aggregation (caches that anticipate conditional gating)
+    node_id: source-attributed-aggregation
+    layer: pattern
+    phase: pre/during
+    status: mature
+
+
+  - concern: Idempotent attach-with-retry for hosts with non-observable lifecycles
+    node_id: idempotent-attach-with-retry
+    layer: pattern
+    phase: during-build
+    status: mature
+
+
+  - concern: Named-clause decomposition for predicates needing introspection
+    node_id: named-clause-decomposition
+    layer: pattern
+    phase: during-build
+    status: mature
+
+
+  - concern: Behavior-local vs published-via-event state — consumer-set decision test
+    node_id: behavior-local-vs-published-state
+    layer: pattern
+    phase: pre/during
+    status: mature
+
+
+  - concern: Atomic ship gate — registration line as the visibility switch; land it LAST
+    node_id: atomic-ship-gate
+    layer: pattern
+    phase: pre/during/post
+    status: mature
+
+
+  - concern: Migration by removal — natural-emptiness idempotence for save migrations that retire IDs
+    node_id: migration-by-removal
+    layer: pattern
+    phase: pre/during
+    status: mature
+
+
+  - concern: Event surface is the spec — predicate design fits the event API available at the predicate-evaluation layer
+    node_id: event-surface-is-the-spec
+    layer: principle
+    phase: pre/during
+    status: mature
+
+
+  - concern: Meta-first — governance loads before work
+    node_id: meta-first
+    layer: principle
+    phase: pre-build
+    status: mature
+
+
+  - concern: Font-safe glyphs in player-visible strings
+    node_id: font-safe-glyphs
+    layer: pattern
+    phase: during/post
+    status: mature
+
+
+  # --- Coverage for nodes mirrored from VillageInvestment kit 2026-05-25 ---
+
+
+  - concern: Post-output drift scoring
+    node_id: base-antidrift
+    layer: meta
+    phase: always
+    status: mature
+
+
+  - concern: Session-level drift analysis
+    node_id: base-antidrift-expand
+    layer: meta
+    phase: post-build
+    status: mature
+
+
+  - concern: Type-category extraction & library promotion
+    node_id: base-extract
+    layer: meta
+    phase: post-build
+    status: mature
+
+
+  - concern: Pattern evidence audit — patterns inherit their motivating diagnosis
+    node_id: pattern-evidence-audit
+    layer: principle
+    phase: pre-build
+    status: mature
+
+
+  - concern: Reveal-style changes carry latent bugs — N+1 verification cycle budget for the exposure surface
+    node_id: revealed-content-carries-latent-bugs
+    layer: principle
+    phase: pre/during/post
+    status: mature
+
+
+  - concern: Bannerlord screen extension — panel injection vs owned-screen
+    node_id: bannerlord-screen-extension
+    layer: pattern
+    phase: pre/during
+    status: mature
+
+
+  - concern: UIExtenderEx ViewModelMixin attaches by exact type — use handleDerived:true for any host VM plausibly subclassable by DLC/mods
+    node_id: bannerlord-viewmodelmixin-handle-derived
+    layer: pattern
+    phase: pre/during
+    status: mature
+
+
+  - concern: Bannerlord state push via gsm.CreateState<T>()
+    node_id: bannerlord-state-push
+    layer: pattern
+    phase: during-build
+    status: mature
+
+
+  - concern: Gauntlet Brush attribute is parse-time literal
+    node_id: bannerlord-brush-literal
+    layer: pattern
+    phase: during-build
+    status: mature
+
+
+  - concern: What blocks a Gauntlet hit-test (DoNotAcceptEvents is per-widget; DoNotPassEventsToChildren blocks the subtree; a zero measured area blocks it silently)
+    node_id: bannerlord-event-block-subtree
+    layer: pattern
+    phase: during-build
+    status: mature
+
+
+  - concern: Gauntlet HintWidget is a hover overlay, not a layout container
+    node_id: bannerlord-hintwidget-role
+    layer: pattern
+    phase: during-build
+    status: mature
+
+
+  - concern: Build-tag sentinel at module init
+    node_id: build-sentinel
+    layer: pattern
+    phase: during/post
+    status: mature
+
+
+  - concern: Harmony patching of explicit interface implementations via InterfaceMap
+    node_id: bannerlord-interface-method-patch
+    layer: pattern
+    phase: during-build
+    status: mature
+
+
+  - concern: Pending-handoff across lifecycle boundary
+    node_id: pending-handoff-on-activation
+    layer: pattern
+    phase: during-build
+    status: mature
+
+
+  - concern: Gauntlet float-typed attribute bindings type-coerce strings — throws on non-numeric
+    node_id: bannerlord-numeric-attribute-coercion
+    layer: pattern
+    phase: during-build
+    status: mature
+
+
+  - concern: Inject IsVisible/numeric attribute bindings on vanilla widgets that have none — PrefabExtensionSetAttributePatch + mixin property
+    node_id: bannerlord-inject-binding-for-conditional-gating
+    layer: pattern
+    phase: pre/during
+    status: mature
+
+
+  - concern: Two-line row template for Gauntlet ItemTemplates with data-driven label lengths
+    node_id: bannerlord-horizontal-row-with-variable-labels
+    layer: pattern
+    phase: pre/during
+    status: mature
+
+
+  - concern: Gauntlet width-chain inflation — StretchToParent inside a CoverChildren chain inflates layout slot to canvas width
+    node_id: bannerlord-gauntlet-width-chain
+    layer: pattern
+    phase: pre/during
+    status: mature
+
+
+  - concern: Gauntlet height-chain inflation — StretchToParent inside a CoverChildren chain inflates layout slot to ScrollablePanel/canvas height; layout-method fix from width-chain does NOT transfer
+    node_id: bannerlord-gauntlet-height-chain
+    layer: pattern
+    phase: pre/during
+    status: mature
+
+
+  - concern: Five-step pre-flight structural audit before claiming a layout change is ready for in-game test
+    node_id: bannerlord-gauntlet-pre-flight-audit
+    layer: pattern
+    phase: during/post
+    status: mature
+
+
+  - concern: Manual smoke-test path (per-feature happy-path verification)
+    node_id: null
+    layer: pattern
+    phase: post-build
+    status: missing
+
+
+  - concern: Game-design fit — class progresses through what the player naturally does (or naturally progresses toward), not rare scenarios
+    node_id: natural-engagement
+    layer: principle
+    phase: pre/during
+    status: mature
+
+
+  - concern: Analysis spanning many entities or referenced across multiple loops belongs in a project doc, not chat
+    node_id: audit-doc-as-artifact
+    layer: principle
+    phase: pre/during/post
+    status: mature
+
+
+  - concern: Negative evidence results are diagnostic only when lookup scope is verified — ask before assuming absence
+    node_id: ask-vs-guess-on-domain-gaps
+    layer: principle
+    phase: pre/during
+    status: mature
+
+
+  - concern: Registration-time validation — walk handler-registration lists at session start, diagnostic on unknown keys
+    node_id: registration-time-validator
+    layer: pattern
+    phase: during-build
+    status: thin
+
+
+  - concern: API split to remove silent-failure mode — legacy warns on failure path, new pure variant captures hidden intent
+    node_id: api-split-warn-and-pure
+    layer: pattern
+    phase: during-build
+    status: thin
+
+
+  - concern: cctor pre-warm is aggressive, not defensive — triggering a host type's static initializer against unready host-singleton state poisons the type for the process lifetime; discipline is probe-before-trigger
+    node_id: cctor-prewarm-is-aggressive
+    layer: principle
+    phase: pre/during
+    status: thin
+
+
+  - concern: Patch-application hook must observe target-type cctor prerequisites — patch installation can trigger target cctors via the detour-install chain; at scale defer apply hook to a moment where host singletons are observably ready
+    node_id: host-prerequisite-aware-patching
+    layer: principle
+    phase: pre/during
+    status: thin
+
+
+  - concern: Call-graph survey for extension hooks — Harmony postfix mutating return, Harmony prefix setting __result, MissionBehavior event handler accessing host data. Walk the host's call graph for invariants downstream code trusts without re-validating; re-apply at the hook's tail or restrict the hook's input/iteration range
+    node_id: postfix-callgraph-survey
+    layer: pattern
+    phase: pre/during
+    status: thin
+
+
+  - concern: Dump-first crash diagnosis — OS-level crash dumps are primary evidence; in-game logs are secondary because host exception wrappers cover specific threads only. Extract exception + thread + managed stack from dump before forming any hypothesis
+    node_id: dump-first-crash-diagnosis
+    layer: pattern
+    phase: during/post
+    status: thin
+
+
+  # --- Voice / flavor-writing skills (extracted 2026-07-24, Warlord intro rewrite) ---
+
+
+gap_queue:
+  # Gaps surface here through Standard Evolution Reports as work happens.
+  # Format:
+  #
+  # - gap_id: gap-NNN
+  #   concern: [area]
+  #   surfaced_by: [contract-before-execution | skill-builder | manual]
+  #   surfaced_in: [session or feature]
+  #   description: [what the agent had to improvise]
+  #   candidate_level: [principle | pattern | implementation | unknown]
+  #   priority: [high | medium | low]
+  #   status: [open | in-progress | resolved]
+  #   resolved_by: [skill or node that closed this, when resolved]
+  - gap_id: gap-001
+    concern: pair-list completeness
+    surfaced_by: contract-before-execution
+    surfaced_in: contract-053 phase 8 row audit (2026-09-05)
+    description: build_check.py --lint validates a pair list's shape and says nothing about how much of the stylesheet it pairs; a dozen rules went unpaired in two regions and were found by hand.
+    candidate_level: implementation
+    priority: high
+    status: in-progress
+    resolved_by: build_check.py --reach (2026-09-05) reports the rules against the rows per selector; the per-region floor is the ruling still to take
+  - gap_id: gap-002
+    concern: negative plants outside the anchor audit's reach
+    surfaced_by: contract-before-execution
+    surfaced_in: contract-053 phase 7 (2026-09-05)
+    description: audit_negative_anchors.py walks CASES tables only; negative_ranger_district.py plants through functions and its record-row plant went undefended for a phase unnoticed.
+    candidate_level: implementation
+    priority: medium
+    status: open
+  - gap_id: gap-003
+    concern: the stage agents' registration
+    surfaced_by: contract-before-execution
+    surfaced_in: contract-053 phases 1-7 (2026-09-05)
+    description: .claude/agents/dashboard-exact/*.md are not seen by a session opened above the module; the writer's ten-round cap never bound and every phase overran it three to five times.
+    candidate_level: implementation
+    priority: medium
+    status: open
+  - gap_id: gap-004
+    concern: the record grid's entry gap
+    surfaced_by: contract-before-execution
+    surfaced_in: contract-053 phase 7 (2026-09-05)
+    description: DashboardRecordGrid applies EntryGap as MarginLeft and MarginRight on every entry, so two entries render at twice the drawing's gap while the row reads EXACT; a left/right slot pair with defaults equal to today's is the G-2-safe fix.
+    candidate_level: implementation
+    priority: low
+    status: open
+  - gap_id: gap-005
+    concern: layout rules in the pair lists
+    surfaced_by: contract-before-execution
+    surfaced_in: contract-054 (2026-09-05)
+    description: >-
+      exactlib has a `layout` kind (fill/content/fixed) but no dashboard's pair list carries a layout row yet; the Frontier's chart svg width is a ruled hole (F45b). The next audit's reader pairs each region's width, height and flex rules, and the first green layout rows prove the kind. EXTENDED 2026-09-06 (SER of contracts 055-059, the Pioneer's word), a fixed height on a region whose content is data-driven is a reservation and hid or clipped its content four times in one session (the v3 list clip, two v4 scroll boxes, the v5/v6 bonus column).
+      Fourth recurrence at the note layer; the foundation's escalation clause applies.
+      The layout kind carries a rule that a data-driven region's height is fill or content, never fixed, and the check fails a drawing or a pair list that reserves one.
+    candidate_level: implementation
+    priority: high
+    status: open
+
+library_entry: null
+# Filled at promotion time:
+#
+# library_entry:
+#   kit_name: classes-kit
+#   category: bannerlord-campaign-mod
+#   description: [one sentence]
+#   built_from: base-building-kit
+#   node_count: [number of mature nodes]
+#   known_limitations: [what this kit does not cover]
+#   recommended_for: [system types this handles well]
+#   not_recommended_for: [system types outside scope]

@@ -17,7 +17,7 @@ kit_identity:
   category: __CATEGORY__
   version: 0.1
   parent_kit: base-building-kit
-  base_kit_version: 0.15
+  base_kit_version: 0.16
   library_kit: __LIBRARY_KIT__
   status: active
 

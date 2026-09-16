@@ -1,0 +1,54 @@
+# The map
+## Entry format
+## Extraction
+## Failure modes
+## Node change (M-22)
+## Rules
+## Telemetry and misses
+## What is always loaded
+**Budget.** At most ~40 entries and ~8 KB — guarantee G-1 of contract-001, and the budget is the allowance, not a number to move when the map outgrows it. The 30 base entries measure **6,974 bytes** (contract-004 added M-31; contract-006 withdrew it), leaving ~1.2 KB: room for roughly six project entries, not ten. Past that the map **prunes rather than extends** — an entry with no firing evidence is retired before a new one is added. Measure, never estimate: `wc -c` on MAP.md is the only figure worth quoting, and a stated size that was never measured has already been wrong twice (C-006, drift-003). When more than three entries match one moment, load the `must` entries and INTENT.md only.
+**Budget.** At most ~40 entries and ~8 KB — guarantee G-1 of contract-001, and the budget is the allowance, not a number to move when the map outgrows it. The 31 base entries measure **7,133 bytes** (M-31 added by contract-004), leaving ~1 KB: room for roughly five project entries, not ten. Past that the map **prunes rather than extends** — an entry with no firing evidence is retired before a new one is added. Measure, never estimate: `wc -c` on MAP.md is the only figure worth quoting, and a stated size that was never measured has already been wrong twice (C-006, drift-003). When more than three entries match one moment, load the `must` entries and INTENT.md only.
+**Budget.** At most ~40 entries and ~8 KB — guarantee G-1 of contract-001, and the budget is the allowance, not a number to move when the map outgrows it. The base entries' own size is deliberately not stated here: a figure written into prose goes stale, and this one had, twice. `checks/G1-size.sh` measures it and fails when the map is over the allowance, so what a project has left for entries of its own is whatever that check still passes. Past that the map **prunes rather than extends** — an entry with no firing evidence is retired before a new one is added. Measure, never estimate: `wc -c` on MAP.md is the only figure worth quoting, and a stated size that was never measured has already been wrong twice (C-006, drift-003). When more than three entries match one moment, load the `must` entries and INTENT.md only.
+**Every entry names its sibling** — unless the only caller is a hook, which cannot misroute. Overlapping entries are the main misrouting risk: the right family, the wrong skill. "Not when" is where that boundary lives, and it must say the same thing as the target node's `> **Map:**` header.
+**Name the moment before acting.** The UserPromptSubmit hook asks for it every turn. Stating the id is the situation assessment case-based reasoning calls for: the current situation restated in the index's terms before anything is retrieved.
+**Node headers.** Every node opens with a `> **Map:** …` line naming the entries that load it, how to recognise its moment, and what it is not for. The header and the map entry are co-owned: an edit to either is incomplete until the other is checked. An entry that launches an agent or runs a script names that agent or script; the node behind it lists the entry only if the entry loads the node itself.
+**Pointers, not content.** An entry holds no guidance of its own. If an entry needs more than a line, the node it points to needs a clearer section. **One exception, and it is narrow:** an entry whose type is `hook:` or `always` may have no file to point at — the hook has already said what is due, or the target is always loaded — and its load field then carries the one-line action instead (M-01, M-02, M-28). Any entry that names a file names only the file and its heading.
+**Project bindings.** An entry that references project vocabulary — a folder, a class, an API — marks it `{like-this}`, so a port re-binds the reference instead of carrying a stale name.
+**Retiring** (contract-004 G-8): the node stays in the manifest with `status: retired` and `retired_by`; its entries are **removed** from MAP.md, not marked declined — a declined entry still points at a node, a retired one would point at nothing; its `owns` paths move to the node that now carries the concern, or the orphaned records are put to the pioneer, in the same act. Nothing is deleted from disk. The steward's ownership evidence (`bypass` lines, meta-mechanisms → Telemetry) is one route to a retire proposal; a contradicted passage at a batch is the other.
+**The pioneer owns the map.** Context files an agent writes on its own measurably reduce task success; files a person writes improve it. The agent and the map steward propose; the pioneer ratifies at review batches. Entries shipped with the base kit start as `proposed` in every project, and bootstrap offers one ratification pass at install so the first ten batches are not spent on them.
+**The vocabulary is closed.** A new moment is a map change, proposed with evidence and ratified by the pioneer. Moment names describe the work as it is experienced — `pioneer-correction`, not `correction-log-write`.
+**This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.**
+- **Fires on everything.** An entry whose "when" is too broad trains the agent to skim what it loads. Narrow it, or demote it to ambient.
+- **Map written for the agent, by the agent.** Entries drift toward how the kit is built rather than how the work feels, and guidance creeps into the load field. Ratification is where that is caught.
+- **Never fires.** The moment is named in words nobody uses, or its target moved. Telemetry shows it; an inventory does not.
+- **Sibling confusion.** Two entries claim the same moment. Resolve it in "not when", not by loading both.
+---
+> **Map:** M-22 · **Load:** on trigger (MAP.md itself is always loaded) · **Recognise it by:** "the kit knew this and it didn't come up" or "this keeps coming up when it doesn't apply" · **Not when:** the kit has no knowledge on the concern at all (that is a gap: meta-manifest)
+A **miss** is kit knowledge that existed but did not load when it applied. Whoever notices — the agent, an agent, the pioneer — records an observation in the ledger with `source: map-miss` and `stewarded: false`. At three, the stop-gate launches the map steward, whose proposals (add, narrow, demote, split, retarget, retire) go to `LEDGER.yaml → map_proposals` and reach the pioneer in the next review batch. A miss is the event that adds an entry; a firing that is repeatedly irrelevant is the event that narrows one.
+Adding a node and adding its entry are one act — a node without an entry will not be found, and an entry without a node points at nothing. Retiring a node retires its entries. Splitting a node splits its entries and names the boundary between them. Changing a **mechanism** is M-30, not M-22: the hooks are not found by the map, they fire.
+Entries for type-category nodes travel with those nodes: meta-extract writes them into `META.yaml → map_entries`, each line naming the node it belongs to, and bootstrap appends them to the next project's map as `proposed`, renumbering the ids and updating each node's `triggers` and header to match. The project's own entries and its telemetry do not travel.
+Everything else is loaded by an entry, fired by a mechanism, or consulted offline by an agent.
+M-04 | feature-request | situation | must | asked to build, change or fix anything | questions that change nothing (M-25) | meta-contract-before-execution/SKILL.md → The Bearing | proposed
+One line per entry, pipe-separated:
+Status does not change routing. It records whose judgement the entry carries — and a `declined` entry is skipped by the batch assembler, so a refusal is final until someone proposes it again with new evidence.
+The manifest says what the kit contains. The map says **when to use what**. An agent that loads everything drowns its own rules; an agent that must decide on its own whether to look something up usually doesn't. The map removes that decision: it is small enough to sit in context at all times, and every entry points one hop to the knowledge a named moment calls for.
+Three files, imported by CLAUDE.md at launch:
+```
+`post-read.sh` logs every kit file the main session loads (`loaded|path`), and separately what a kit agent read (`loaded-agent|path`), which is never evidence that an entry fired. `subagent-stop.sh` logs each agent run — that is the firing evidence for entries whose load is an agent, and `reveal`/`batch-decided` for entries whose load is a script. An entry whose target is always loaded, or which names no file, has no firing evidence at all and is never judged by silence.
+description: Use when a map entry is missing, wrong, over-firing or never firing; when a node is created, split or retired; when the map steward's proposals reach the pioneer; or when deciding how kit knowledge should be found. Governs layer 2 — MAP.md, the always-loaded index from named moments to the knowledge each one calls for.
+name: meta-map
+| Field | Meaning |
+| File | Layer | Job |
+| `meta-foundation/INTENT.md` | 1 · Intent | What the work is in service of; the aspects; how work moves; the drift score block |
+| `meta-founding-contract/FOUNDING.md` | 1 · Intent | What this project is |
+| `meta-map/MAP.md` | 2 · Map | Moments → what to load |
+| channel | `must` — load before acting · `ambient` — available, load if it bears on the work |
+| id | `M-NN`, sequential, never reused (`M-100`+ once a project passes 99 entries, which the budget below makes unlikely) |
+| load | pointer(s): file, then `→` a section heading. One hop; never "see also" chains. Four abbreviations keep the map inside its budget: a bare node name means that node's `SKILL.md`; a bare record filename (`LEDGER.yaml`, `CASEBOOK.yaml`, `MANIFEST.yaml`) means that node's copy of it, since no two records share a name; `agent: kit-x` means the **deployed** `.claude/agents/kit-x.md`, never the copy that ships under `skills/agents/`; `script: x.sh` means `meta-mechanisms/hooks/x.sh`. Expanding an abbreviation is never wrong, only longer |
+| moment | the name of the situation, from the map's closed vocabulary |
+| not when | the nearest sibling it is confused with, and where that goes instead |
+| status | `proposed` (drafted, not yet ratified) · `ratified` (the pioneer accepted it) · `declined` (the pioneer refused it; the line stays so it is not re-proposed) |
+| type | `always` · `situation` (the agent recognises it) · `lifecycle` (a step in the kit's own flow) · `hook: Event` (a mechanism fires it) · combinations |
+| when | how to recognise the moment, in the words of the situation, not the node |
+|---|---|
+|---|---|---|
