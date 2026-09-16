@@ -616,7 +616,7 @@ observations:
     date: 2026-09-16
     source: implementation
     contract_id: contract-008
-    refs: [G-3, meta-mechanisms/checks/roots.sh, meta-mechanisms/tests/fixtures/classes-manifest-aef4651.yaml]
+    refs: [G-3, meta-mechanisms/checks/roots.sh]
     statement: |
       a procedure that names a relation the manifest holds ("no other node names it as a dependency") but not
       the join it runs through will be computed on the wrong key: dependency lists name ids and folders carry a

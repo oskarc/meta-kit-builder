@@ -1771,6 +1771,10 @@ contracts:
         authorised_by: "Pioneer, 2026-09-16: 'i will try to update the classes repo from there instead' - the instruction requires it; recorded as the deviation it is, for the pioneer to confirm or refuse"
         date: 2026-09-16
         tests_changed: []
+      - what: "T-3 no longer reads the pre-upgrade Classes manifest: that snapshot was removed from this repository on the pioneer's instruction (it is the project's record, not the kit's). State 117 now reproduces the same defect on a synthetic manifest - prefixed folders, bare ids - and the 16-root result on the real file is recorded in the Classes repo (docs/reports/contract-008-residue-2026-09-16.md and proposed-entries.md once re-run there)."
+        authorised_by: "Pioneer, 2026-09-16: 'id like us to drop that, it has nothing to do with the meta kit'"
+        date: 2026-09-16
+        tests_changed: [T-3]
     # G-7 (the Classes application) is not run from this session: the pioneer chose to run the upgrade from the
     # Classes repository against this kit staged at 0.16, so that the procedure itself answers the seven residue
     # questions, the instance-file question, the drift-legacy question and the map question on 16 roots. T-7 is
