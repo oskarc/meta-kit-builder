@@ -1814,7 +1814,7 @@ contracts:
     # T-8 still waits on the 001-005 backfill, which contract-009 puts to the pioneer. The run logged R-1, R-3, R-6, R-7 as
     # procedure gaps -> contract-009.
     # 2026-09-17: the pioneer confirmed the seven replace answers ("3 yes"); verification_state set to none so the verifier runs.
-    cost: {turns: 110, tokens: null, pioneer_minutes: null}    # turns = main-session assistant messages from approval (2026-09-15T22:48Z) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
+    cost: {turns: 110, tokens: null, pioneer_minutes: 30}    # turns = main-session assistant messages from approval (2026-09-15T22:48Z) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, given 2026-09-18 ("008 about 30min")
     work_id: null
 
   - contract_id: contract-009
@@ -2253,5 +2253,5 @@ contracts:
         authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
         date: 2026-09-18
         tests_changed: []
-    cost: {turns: 12, tokens: null, pioneer_minutes: null}    # main-session assistant messages from approval (2026-09-18) to implemented, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
+    cost: {turns: 12, tokens: null, pioneer_minutes: 10}    # main-session assistant messages from approval (2026-09-18) to implemented, counted from the transcript; tokens not measured; minutes: the pioneer's, given 2026-09-18 ("012 10min")
     work_id: null
