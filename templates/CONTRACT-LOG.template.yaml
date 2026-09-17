@@ -30,14 +30,15 @@
 #     tier_3: |
 #       [full technical guardrails text, as approved — each with an id and the use cases it holds: G-1 (UC-1) …;
 #        precedents applied or distinguished, trial and adopted candidates cited by id]
-#     disappointment: |                      # the pioneer's words, per guarantee, BEFORE tier_4 is written:
+#     disappointment: |                      # the pioneer's words, per guarantee, asked at the gate against the drafted tier_4:
 #       G-1 "…" · G-2 "…"                    # what result would make them say the guarantee was not met
 #     premortem: |                           # the pioneer's answer, verbatim, to "this shipped and failed — why?"
 #       "…"
 #     tier_4: |
 #       [full acceptance tests text, as approved — derived from the disappointment lines; each with an id and
 #        the guarantees it covers: T-1 (G-1, G-2) …; a command or check and its expected result, legible to the
-#        pioneer; closing with an untested: line naming every guarantee no test reaches. Frozen with the
+#        pioneer; closing with an untested: line naming every guarantee no test reaches, and a realigned: line
+#        naming the tests the disappointment lines moved from the agent's draft, or none. Frozen with the
 #        contract: changed only by a revision dated before the verification report]
 #     red_test: {broke: G-N, went_red: T-N}  # written before final approval: one guarantee deliberately broken,
 #                                            # the named test seen to fail, then restored (contract-006 G-5)

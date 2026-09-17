@@ -2177,3 +2177,81 @@ contracts:
         tests_changed: []
     cost: {turns: 32, tokens: null, pioneer_minutes: null}    # main-session assistant messages from approval (2026-09-18) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
     work_id: null
+
+  - contract_id: contract-012
+    feature: Tier 4 drafted with the tiers - the acceptance tests arrive with the bearing and Tiers 1-3, drawn from the agent's reading of the land after implementation, so the pioneer realigns on that reading before any code; the disappointment line still decides
+    type: contract
+    follows: contract-011
+    date_proposed: 2026-09-18
+    date_approved: 2026-09-18
+    approval: approved-at-gate     # pioneer: "its approved" (2026-09-18), after the redraw of C-018
+    bearing: |
+      Tier 4 is drafted with the tiers because the tests show the agent's reading of the work, and that reading is
+      what the pioneer realigns on. The bet: a wrong reading shows in a drafted test before it shows in the code,
+      and a blank Tier 4 hides it until after.
+    # Bears against paragraph five of the founding statement (the practice guides the pioneer, the pioneer guides
+    # the kit): a drafted test is the agent's understanding made visible at the moment the pioneer can still turn
+    # it. From C-017 ("id like the tier 4 to be suggested by the agent when drawing a contract so the pioneer can
+    # verify and re align if required from the get go") and C-018 ("a big point of having the agent draw tier 4 is
+    # to understand its reading, it goes move foundation to realign on"). Spec lock skipped: a change to one node's
+    # order. Precedents: applies P-007 (tests stay Tier 4, after the guardrails), P-008. No candidates; no batch open.
+    tier_1: |
+      One stop at the gate: bearing, Tiers 1 to 3 and a drafted Tier 4 arrive together.
+      Each drafted test is drawn from the agent's picture of the land after implementation - what will be true, and
+      how it would be seen - so reading the tests I read how the agent understood the work, and correct that
+      before anything is built.
+      My disappointment line per guarantee is still asked and recorded verbatim; "same as it says" keeps the draft.
+      Where my line reads a guarantee differently from the draft, the test is realigned before approval and the
+      entry says which tests moved.
+      The pre-mortem and the approval come in the same reply.
+    tier_2: |
+      UC-1 The order. The contract skill's Tier 4 section and Approval Gate say: draft Tier 4 with the tiers, ask
+           the disappointment lines, realign, then approve. Two stops become one.
+      UC-2 The record. Tier 4 closes with a realigned: line naming the tests the disappointment lines changed from
+           the draft, or none. The template's comment no longer says the lines come before Tier 4 is written.
+      UC-3 What a draft is made from (C-018). The section says a drafted test is drawn from the lay of the land
+           after implementation - what will be true of the records, the hooks and the pioneer's next session, and
+           how it would be seen - not from the text the agent intends to write. The builder-written-tests sentence
+           stays beside it, and the draft's anchoring is named as the sign to watch for.
+      Not included: any change to the red test, the verifier, or Template B.
+    tier_3: |
+      G-1 (UC-1) meta-contract-before-execution/SKILL.md, Tier 4 and the gate. applies P-007.
+      G-2 (UC-2) the same section's closing rule and the contract-log template's comment.
+      G-3 (UC-3) one paragraph in the same section. applies P-008.
+      G-4 (all) walk-007 gains states for the greps; every check exits 0, P-007's among them; nothing beyond this
+           list.
+    disappointment: |
+      G-1 to G-4, the pioneer, 2026-09-18: "disappointment line is same as pre mortem on this one." - that is: "if
+      the tier 4 is of too low quality, it must be draw from a lay of the land or rather the understanding of what
+      the land is post implementation."
+    premortem: |
+      "pre mortem is if the tier 4 is of too low quality, it must be draw from a lay of the land or rather the
+      understanding of what the land is post implementation." - the pioneer, 2026-09-18. Lands on T-3, the
+      section's rule for what a drafted test is made from, and on the untested line.
+    tier_4: |
+      T-1 (G-1) After this contract, a contract drawn in this kit reaches the pioneer with Tier 4 present in the
+           same message as Tiers 1 to 3, and the gate text names one stop. Seen by: the skill's Tier 4 and gate
+           sections, and contract-013's first draw.
+      T-2 (G-2) A contract's Tier 4 ends with a realigned: line, so the log shows which tests the pioneer's lines
+           moved. Seen by: the section names it, the template's comment no longer places the lines before Tier 4,
+           and contract-012's own entry carries it.
+      T-3 (G-3) The section states that a drafted test is drawn from the land after implementation, with the
+           builder-written-tests sentence still beside it. Seen by: both sentences present.
+      T-4 (G-4) Every walk green, P-007 still passing, the diff naming only the listed paths.
+      untested: whether the drafts are good enough to realign on - the evidence is the pioneer's correction lines
+           on the next contracts; a Tier 4 the pioneer never moves is either right or unread.
+      realigned: T-1 and T-3, by C-018 - the draft's purpose restated as the agent's reading, and T-3 given the
+           post-implementation rule.
+    red_test: {broke: G-3, went_red: T-3, how: "the rule 'a drafted test is drawn from the lay of the land after implementation' replaced by its opposite in the contract skill; walk-007 state 149 failed ('what a draft is made from'), 82 passed 1 failed; restored; 83/83 green", date: 2026-09-18}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    observations: [O-046]
+    revisions:
+      - what: "The version moves to 0.20 (manifest, template base_kit_version, README, walk-007 states 105 and 112d) and the README gains a Contract-012 bullet, by the standing rule."
+        authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-18
+        tests_changed: []
+    cost: {turns: 12, tokens: null, pioneer_minutes: null}    # main-session assistant messages from approval (2026-09-18) to implemented, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
+    work_id: null

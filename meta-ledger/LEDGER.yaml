@@ -792,6 +792,24 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-046
+    date: 2026-09-18
+    source: implementation
+    contract_id: contract-012
+    refs: [G-3, meta-contract-before-execution/SKILL.md Tier 4, C-018]
+    statement: |
+      a drafted acceptance test is only worth drafting when it is drawn from the land after implementation - what
+      will be true of the records, the hooks and the next session - because that is where the agent's reading can
+      be wrong in a way the pioneer can see and turn; a test that greps for the sentence the agent will write is
+      the agent checking its typing, and this contract's own first draft of T-1 was one until the redraw.
+    level_guess: principle
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
 
 batches: []

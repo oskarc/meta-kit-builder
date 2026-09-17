@@ -92,7 +92,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.19" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.19" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.19" || bad "105 version" "-"
+grep -q "^  version: 0.20" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.20" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.20" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -106,7 +106,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|binding precedent|
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.19" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.19 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.20" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.20 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -221,6 +221,11 @@ r=$(printf '{"stop_hook_active":false,"last_assistant_message":"done."}' | CLAUD
 printf '2026-09-18T11:00:00Z|session-start|startup\n' >> "$K/meta-ledger/telemetry.log"
 r=$(printf '{"stop_hook_active":false,"last_assistant_message":"done."}' | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh"); case "$r" in *"Pioneer-owned"*) ok "145c the next session start ends the grace: the batch is back (T-5)";; *) bad "145c after grace" "$r";; esac
 grep -q 'hooks/mark-done.sh' "$SRC/meta-mechanisms/SKILL.md" && grep -q '`done`' "$SRC/meta-mechanisms/SKILL.md" && ok "146 the mechanisms node lists mark-done.sh and the done event" || bad "146 inventory" "-"
+
+echo "=== contract-012: Tier 4 drafted with the tiers ==="
+grep -q 'Tier 4 is drafted and presented with Tiers 1–3, in the same message' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'stop once: ask for the disappointment lines per guarantee, the pre-mortem below, and the approval, in one reply' "$SRC/meta-contract-before-execution/SKILL.md" && ! grep -q 'After presenting Tier 4, stop again' "$SRC/meta-contract-before-execution/SKILL.md" && ok "147 Tier 4 is drafted with the tiers and the gate is one stop (T-1)" || bad "147 the order" "-"
+grep -q 'a `realigned:` line naming the tests' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'asked at the gate against the drafted tier_4' "$SRC/templates/CONTRACT-LOG.template.yaml" && ! grep -q 'BEFORE tier_4 is written' "$SRC/templates/CONTRACT-LOG.template.yaml" && ok "148 the realigned line is named and the template no longer places the lines before Tier 4 (T-2)" || bad "148 the record" "-"
+grep -q 'a drafted test is drawn from the lay of the land after implementation' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'the record of tests written by the builder alone is that they pass while the work is wrong' "$SRC/meta-contract-before-execution/SKILL.md" && ok "149 a drafted test is drawn from the land after implementation, and the builder-written-tests sentence stands (T-3)" || bad "149 what a draft is made from" "-"
 
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

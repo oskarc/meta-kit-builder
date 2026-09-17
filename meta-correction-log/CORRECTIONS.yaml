@@ -491,6 +491,40 @@ corrections:
       are still asked and recorded, and the draft is realigned to them. Applied to contract-011 at once; the
       node change is contract-012.
 
+  - corr_id: C-018
+    date: 2026-09-18
+    contract_id: contract-012
+    moment: M-04
+    grade: tier-redraw
+    intervention: redirected
+    agent_offered: |
+      Contract-012 as drawn: Tier 4 drafted with the tiers "so the pioneer verifies the tests from the first reading
+      instead of authoring them blind at a second stop", the bet being that "a drafted test the pioneer can strike
+      is worth more than a blank the pioneer must fill".
+    pioneer_said: |
+      "a big point of having the agent draw tier 4 is to understand its reading, it goes move foundation to realign
+      on.
+
+      pre mortem is if the tier 4 is of too low quality, it must be draw from a lay of the land or rather the
+      understanding of what the land is post implementation."
+    reason_given: |
+      the drafted Tier 4 exposes the agent's reading, which gives the pioneer more foundation to realign on.
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      A tier-redraw of contract-012's bearing and UC-3: the draft's purpose is to show the agent's reading of the
+      work, not to save the pioneer a stop; each drafted test is therefore drawn from the agent's picture of the
+      land after implementation - what will be true, and how it would be seen - so a wrong reading shows in the
+      test before it shows in the code.
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no
