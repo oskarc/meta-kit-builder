@@ -76,9 +76,10 @@ gate "$id contract(s) are verified and awaiting a learning diff. Run the meta-le
 count_gate "$(count_matches '^[[:space:]]+clerked:[[:space:]]*false' "$CORRECTIONS")" 1
 gate "$id pioneer correction(s) are not yet clerked. Launch the kit-case-clerk subagent (M-15)."
 
-# 10. Pioneer-owned items are due and no batch is open. The count is deliberately not named: knowing how
+# 10. Pioneer-owned items are due and no batch is open — and no install or upgrade ended in this session (in_grace,
+#     contract-011): the first batch after one waits for the next session start. The count is deliberately not named: knowing how
 #    many real items are due would let the re-presented items be counted out.
-if ! has_open_batch; then
+if ! has_open_batch && ! in_grace; then
   due=$(count_matches '^[[:space:]]+review_due:[[:space:]]*true' "$LEDGER")
   pend=$(count_matches '^[[:space:]]+state:[[:space:]]*pending' "$LEDGER")
   cards=$(count_matches '^[[:space:]]+pioneer_ranking:[[:space:]]*pending' "$CASEBOOK")

@@ -32,6 +32,7 @@ The kit's own history is the evidence. In the downstream projects, drift inciden
 | `hooks/write-scope.sh` | PreToolUse (Write\|Edit), in agent frontmatter | file path | Limits where an agent may write |
 | `hooks/close-batch.sh` | run by the agent with Bash | batch file, ledger | Marks a batch decided once every item carries a decision |
 | `hooks/reveal-key.sh` | run by the agent with Bash | batch file, sealed key | Opens the key only after every decision |
+| `hooks/mark-done.sh` | run by the agent with Bash at the end of an install or upgrade | telemetry | Writes the `done` line that holds the review batch until the next session start (contract-011) |
 | `hooks/lib.sh` | — | — | Shared parsing; the marker-key contract below |
 
 Installed by `meta-bootstrap` from `templates/settings.template.json` into the project's `.claude/settings.json`. Each kit hook group carries `"_kit": "base-building-kit"`, which is how an upgrade replaces them instead of appending a second copy.
@@ -53,7 +54,7 @@ At the end of each turn the gate checks, in this order, and hands over the first
 7. Unconsolidated ledger observations → kit-consolidator (M-14)
 8. Verified contracts → meta-learning sweep (M-13)
 9. Unclerked corrections → kit-case-clerk (M-15)
-10. Pioneer-owned items waiting and no batch open → kit-batch-assembler, then the review batch (M-16)
+10. Pioneer-owned items waiting and no batch open → kit-batch-assembler, then the review batch (M-16) — held until the next session start after an install or upgrade (`done` in telemetry, contract-011)
 11. Three or more unstewarded map misses → kit-map-steward (M-21)
 12. A live contract with no bearing → surface it to the pioneer (M-24)
 
@@ -99,6 +100,7 @@ A review batch may carry items the pioneer already decided, shown again as if ne
 | `batch-blind` | batch-blind.sh | attempts to read the ledger while a batch was open |
 | `bypass` | owner-check.sh | a record a node governs was edited in a session that never loaded that node's skill — `bypass\|<node>\|<path>`. Ownership evidence for kit-map-steward, which alone reads it; no hook or skill surfaces the count to the acting session, because a count the agent can see becomes a ceremony (contract-004 G-6) |
 | `batch-decided` / `reveal` | close-batch.sh, reveal-key.sh | batch cadence |
+| `done` | mark-done.sh | an install or upgrade ended; until the next `session-start\|startup` the stop-gate's batch step hands over nothing |
 
 Telemetry is evidence, never context: no agent loads it whole, and it does not extract. **The main session cannot read it at all** — `batch-blind.sh` refuses the file by path, any search over `meta-ledger/`, and any Grep whose pattern names the count, at all times (contract-005 G-1); the steward and the consolidator, which run as agents, read it. A wide search from above `meta-ledger/` with a pattern that names nothing in the file is the stated limit.
 

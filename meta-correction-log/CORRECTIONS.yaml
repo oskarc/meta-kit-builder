@@ -436,6 +436,61 @@ corrections:
       marked redaction in square brackets on the pioneer's "yes redact" (2026-09-17); the fork's six rehearsal logs moved out
       of the tracked tree.
 
+  - corr_id: C-016
+    date: 2026-09-18
+    contract_id: contract-011
+    moment: M-04
+    grade: tier-redraw
+    intervention: redirected
+    agent_offered: |
+      Contract-011 UC-2 as drawn: one sheet, "every question, each with its default and what the default does".
+    pioneer_said: |
+      "the agent should tell the pioneer what the impact and implications of each choice is."
+    reason_given: |
+      none recorded
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      A tier-redraw of UC-2: a sheet line carries the impact and implications of each choice, not only of the
+      default - what changes in the records, what is asked later, what cannot be undone.
+
+  - corr_id: C-017
+    date: 2026-09-18
+    contract_id: contract-011
+    moment: M-04
+    grade: frame-reset
+    intervention: redirected
+    agent_offered: |
+      The contract form as meta-contract-before-execution writes it: bearing and Tiers 1-3 presented, then a stop
+      for the pioneer's disappointment lines, then Tier 4 derived from them and presented at a second stop.
+    pioneer_said: |
+      "id like the tier 4 to be suggested by the agent when drawing a contract so the pioneer can verify and re
+      align if required from the get go."
+    reason_given: |
+      so the pioneer can verify and re-align from the get go.
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      A change to the practice, not to one contract: Tier 4 is drafted with Tiers 1-3, the disappointment lines
+      are still asked and recorded, and the draft is realigned to them. Applied to contract-011 at once; the
+      node change is contract-012.
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no

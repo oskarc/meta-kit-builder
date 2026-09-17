@@ -1796,6 +1796,10 @@ contracts:
         authorised_by: "Pioneer, 2026-09-16: 'id like us to drop that, it has nothing to do with the meta kit'"
         date: 2026-09-16
         tests_changed: [T-3]
+      - what: "T-6 (state 123) now expects 'its own line on the sheet' where it expected 'asked as its own question': contract-011 moved the instance-file question onto the sheet. Dated before any verification report on this entry."
+        authorised_by: "Pioneer, 2026-09-18, approving contract-011: 'contract approved'"
+        date: 2026-09-18
+        tests_changed: [T-6]
     # G-7 (the fork application) is not run from this session: the pioneer chose to run the upgrade from the
     # fork's repository against this kit staged at 0.16, so that the procedure itself answers the seven residue
     # questions, the instance-file question, the drift-legacy question and the map question on 16 roots. T-7 is
@@ -1907,6 +1911,10 @@ contracts:
         authorised_by: "Pioneer, 2026-09-17, approving contract-010 whose UC-1 adds the question: 'oh isee, ill approve the contract then'"
         date: 2026-09-17
         tests_changed: [T-5]
+      - what: "T-3 (state 129) now matches the ratification offer's terms case-blind: contract-011 folded the offer into the sheet and restated its terms in Step 7. Dated before any verification report on this entry."
+        authorised_by: "Pioneer, 2026-09-18, approving contract-011: 'contract approved'"
+        date: 2026-09-18
+        tests_changed: [T-3]
     cost: {turns: 36, tokens: null, pioneer_minutes: null}    # turns = main-session assistant messages from approval (2026-09-16) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
     work_id: null
 
@@ -2040,4 +2048,132 @@ contracts:
         date: 2026-09-17
         tests_changed: []
     cost: {turns: 59, tokens: null, pioneer_minutes: null}    # main-session assistant messages from approval (2026-09-17) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
+    work_id: null
+
+  - contract_id: report-002
+    type: analysis-report
+    feature: two stops and a done - where the install and the upgrade stop for the pioneer, and how both become one sheet of questions, a silent run and an ending that says so
+    date_proposed: 2026-09-18
+    date_approved: 2026-09-18
+    approval: n/a - analysis report, asked for by the pioneer ("Do a thorough analysis and think about how the upgrade and onboarding can be made easier with less stops")
+    bearing: |
+      Not a contract. The stops of both flows counted from the procedure text and the real runs, the aspect that
+      justifies a stop re-read, and a design: every question on one sheet prefilled with the rehearsal's defaults,
+      a run that cannot stop after it, and a done block with the same shape every time.
+    tier_1: |
+      Not a contract. Seven stops in an install and six or more plus one per differing file in an upgrade, by the
+      text; the last real run asked three things over seven exchanges. The rehearsal already computes every
+      answer and discards it. The founding aspect asks for correction of a frame, not permission for writes.
+    tier_2: |
+      Options as differences: A - the sheet after the reading or the rehearsal, the founding statement its own
+      moment, silent run, done block (2 stops install, 1 upgrade); B - the statement on the sheet too (forbidden
+      by Step 3's own rule); C - the done block only; D - every question before anything is read (nothing can be
+      prefilled). The sheet reduces exchanges, not decisions.
+    tier_3: |
+      Recommendation, marked as judgement: A, as contract-011, with one question to the pioneer before drawing:
+      whether the stop-gate should hand over a batch in the same session that an upgrade created the backlog.
+    disappointment: n/a - analysis report
+    premortem: n/a - analysis report
+    red_test: n/a - analysis report
+    status: implemented
+    verification_state: none
+    audited: false
+    observations: []
+    revisions: []
+    cost: {turns: 11, tokens: null, pioneer_minutes: null}
+    work_id: null
+    led_to: [contract-011]
+    file: docs/reports/report-002-two-stops-and-a-done.html
+    artifact: https://claude.ai/artifact/ERkUHy5WtqKqxTqwLGqxHh
+
+  - contract_id: contract-011
+    feature: the install and the upgrade read everything first and ask everything once - one sheet with the impact of each choice, a run that cannot stop after it, a done block that says so, and the review batch held until the next session
+    type: contract
+    follows: report-002
+    date_proposed: 2026-09-18
+    date_approved: 2026-09-18
+    approval: approved-at-gate     # pioneer: "contract approved" (2026-09-18), with Tier 4 drafted alongside the tiers (C-017)
+    bearing: |
+      The install and the upgrade read everything first and ask everything once; after the sheet nothing asks, and
+      the end says done. The bet: the stops were never the decisions, only their placement.
+    # Bears against paragraph five of the founding statement (the practice guides the pioneer): a flow that pulls
+    # the pioneer back seven times and ends on a question guides badly. Drawn from report-002 (led_to there) and the
+    # pioneer's words of 2026-09-18: "it can feel neverending and lacks a clear 'NOW ITS DONE, and you are good to
+    # go.'" and "the upgrade and bootstrap should do a lay of the land to make sure it has all the information before
+    # telling the pioneer what the process and questions is." Spec lock skipped: report-002's option A. Precedents:
+    # applies P-001 (surveyed first), P-004, P-007, P-008. No ledger candidates; no batch open.
+    tier_1: |
+      The agent reads the project, or rehearses the upgrade on a copy, before it says a word about questions.
+      Then one sheet: every question, each with its default and the impact and implications of every choice.
+      "Defaults" is a complete answer.
+      After the sheet, nothing asks. A question the run meets that the sheet did not carry is a defect in the
+      report, not a stop.
+      The end is a done block: what was verified, what is not waiting on me, what is and how to summon it, what was
+      not checked, then start working.
+      The first review batch waits for my next session.
+    tier_2: |
+      UC-1 Lay of the land first. Install Step 2 reads everything the sheet needs before presenting, the library
+           included. Upgrade step 2's rehearsal runs silently and produces the sheet.
+      UC-2 The sheet. One line per question with the default and the impact and implications of each choice - what
+           changes in the records, what will be asked later because of it, what cannot be undone (C-016). Install:
+           proceed, the orientation, the applications, the library kit, the CLAUDE.md block and the settings merge
+           shown as the plan they are, ratify now or later. Upgrade: tree or commit, each differing skill with its
+           reapply conflicts already found, the stale list, the four standing questions, the map, the pass, the
+           acceptance. The founding statement keeps its own moment after the install sheet.
+      UC-3 The silent run. Steps 5 to 7 and 3 to 9 take their answers from the sheet. The rehearsal's pass rule
+           gains: every question the real run met was on the sheet; one that was not is recorded under "what this
+           did not ask".
+      UC-4 The done block. One fixed shape in both flows: verified as counts, nothing waiting or what is waiting
+           and how to summon it, what this did not check (the pre-mortem), next session's backlog line named, start
+           working. It replaces "What would you like to build first?" and "accept the report".
+      UC-5 The grace. The done block's last act writes a done line to telemetry; the stop-gate's review-batch
+           step waits until the next session start. Audits and verification are not held.
+      Not included: fewer decisions - the sheet changes exchanges, not what the project's state requires.
+    tier_3: |
+      G-1 (UC-1) bootstrap Step 1, Step 2 and upgrade step 2 text: read first, present once.
+      G-2 (UC-2) the sheet's form, one section used by both flows, its line form naming question, default and the
+           impact of each choice. applies P-008.
+      G-3 (UC-3) steps 4 to 7 and 3 to 9 text take answers from the sheet; the pass rule.
+      G-4 (UC-4) the done block, one section, referenced from Step 7 and step 9; the old endings removed.
+      G-5 (UC-5) lib.sh in_grace, stop-gate.sh step 10, hooks/mark-done.sh, the done telemetry event, the
+           mechanisms node's inventory and telemetry table. bash, sed, awk only.
+      G-6 (all) walk-007 gains a state per change, the grace among them; every check exits 0; nothing beyond this
+           list. applies P-007.
+    disappointment: |
+      G-1 to G-6, the pioneer, 2026-09-18: "disappointment line same as pre mortem for this one." - that is: "if the
+      upgrade and install misses critical parts causing issues down the road."
+    premortem: |
+      "Pre mortem - if the upgrade and install misses critical parts causing issues down the road." - the pioneer,
+      2026-09-18. Lands on T-3 (every question the run meets was on the sheet) and T-4 (the done block's not-checked
+      list), and on T-6 (every walk still green).
+    tier_4: |
+      T-1 (G-1) Step 1 and Step 2 present the introduction and the sheet together after the reading; upgrade step 2
+           says the rehearsal produces the sheet. Two greps. Failure: either missing.
+      T-2 (G-2) One section "The sheet and the done block" exists, and its line form names what changes in the
+           records, what will be asked later, what cannot be undone. Greps. Failure: a line form without impact.
+      T-3 (G-3) The pass rule reads "every question the run meets was on the sheet", and the upgrade sheet's lines
+           name all eight standing questions. Greps with a count of eight. Failure: a standing question absent.
+      T-4 (G-4) The done block has its five parts - verified, waiting or not, not checked, next session, start
+           working - and Step 7 and step 9 both end on it with mark-done.sh; "What would you like to build first?"
+           and "accepts the report" no longer appear. Greps. Failure: a part missing or an old ending present.
+      T-5 (G-5) On a fixture with pioneer-owned items due and an unaudited contract, a done line after the last
+           session start makes the gate hand over the audit and not the batch; with the contract audited the gate
+           hands over nothing; a new session start after the done line brings the batch back. Failure: any of the
+           three.
+      T-6 (G-6) walk-007 green with the new states, walk.sh 36 of 36, walk-004 green, every check exits 0, the
+           diff naming only listed paths.
+      untested: whether a twenty-line sheet reads as one stop to the pioneer, and the wording of each impact -
+           judgement, seen at the next real install or upgrade.
+    red_test: {broke: G-5, went_red: T-5, how: "the grace removed from stop-gate.sh step 10 (in_grace no longer consulted); walk-007 state 145b failed ('in grace the gate hands over no batch though three candidates are due'), 79 passed 1 failed; restored; 80/80 green", date: 2026-09-18}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    observations: [O-043, O-044, O-045]
+    revisions:
+      - what: "The version moves to 0.19 (manifest, template base_kit_version, README, walk-007 states 105 and 112d) and the README gains a Contract-011 bullet, by the rule the pioneer gave on contract-009 and confirmed on contract-010."
+        authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' to the same on contract-010) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-18
+        tests_changed: []
+    cost: {turns: 32, tokens: null, pioneer_minutes: null}    # main-session assistant messages from approval (2026-09-18) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
     work_id: null

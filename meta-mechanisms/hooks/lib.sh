@@ -227,6 +227,13 @@ batches_table() {
   ' "$LEDGER"
 }
 
+# in_grace — an install or upgrade ended in this session: a `done` line stands after the last session-start|startup,
+# so the review batch waits for the next session (contract-011 G-5). Audits and verification are not held.
+in_grace() {
+  [ -f "$TELEMETRY" ] || return 1
+  awk -F'|' '$2=="session-start" && $3=="startup" {s=NR} $2=="done" {d=NR} END { exit !(d>s) }' "$TELEMETRY"
+}
+
 # has_open_batch — a batch exists that the pioneer has not finished deciding
 has_open_batch() { batches_table | awk '$2=="false"' | grep -q .; }
 

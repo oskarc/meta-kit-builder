@@ -92,7 +92,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.18" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.18" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.18" || bad "105 version" "-"
+grep -q "^  version: 0.19" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.19" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.19" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -106,7 +106,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|binding precedent|
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.18" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.18 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.19" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.19 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -154,7 +154,7 @@ grep -q 'mitigated | resolved | legacy' "$SRC/templates/DRIFTLOG.template.yaml" 
 grep -q '`legacy`' "$SRC/meta-mechanisms/SKILL.md" && grep -q 'never one at `legacy`' "$SRC/agents/kit-batch-assembler.md" && ok "122 the marker-key table and the batch assembler name legacy" || bad "122 legacy named" "-"
 
 echo "=== contract-008 T-6 / G-1 / G-5: the procedure's text ==="
-grep -q 'instance-file question' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'asked as its own question' "$SRC/meta-bootstrap/SKILL.md" && ok "123 step 2 names the instance-file question and step 7 says it is asked" || bad "123 two questions" "-"
+grep -q 'instance-file question' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'its own line on the sheet' "$SRC/meta-bootstrap/SKILL.md" && ok "123 step 2 names the instance-file question and step 7 gives it its own sheet line (since contract-011)" || bad "123 two questions" "-"
 n=$(grep -c 'skills/installed/' "$SRC/meta-bootstrap/SKILL.md"); [ "$n" -ge 4 ] && grep -q '5g — Installed copies' "$SRC/meta-bootstrap/SKILL.md" && ok "124 the installed copies are written at install (5g) and read and refreshed on upgrade ($n mentions)" || bad "124 installed copies" "$n"
 grep -q 'rehearsal-<date>.md' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'did \*\*not\*\* check' "$SRC/meta-bootstrap/SKILL.md" && ok "125 the rehearsal log is kept and the report lists what was not checked" || bad "125 log and not-checked" "-"
 grep -q 'G2-migration.sh' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'checks/roots.sh' "$SRC/meta-bootstrap/SKILL.md" && ok "126 steps 8 and 9 name the two scripts" || bad "126 scripts named" "-"
@@ -164,7 +164,7 @@ grep -q 'not a raw clone' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'short path 
 mkrec; r=$(bash "$G2" "$R" "$R/templates/MANIFEST.template.yaml"); [ $? = 0 ] && ok "128a G2 exits 0 when every base coverage line is present" || bad "128a coverage baseline" "$r"
 sed -i '/node_id: base-ledger,/d' "$R/meta-manifest/MANIFEST.yaml"
 r=$(bash "$G2" "$R" "$R/templates/MANIFEST.template.yaml"); rc=$?; [ $rc != 0 ] && case "$r" in *MANIFEST.yaml*base-ledger*) ok "128b a base coverage line absent from the manifest fails the check, naming file and id (T-2)";; *) bad "128b message" "$r";; esac || bad "128b missing coverage line not caught" "$r"
-grep -q 'nothing to ratify' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'The kit ships 30 map entries' "$SRC/meta-bootstrap/SKILL.md" && ok "129 step 9 skips an empty pass; the install's offer is unchanged (T-3)" || bad "129 empty pass" "-"
+grep -q 'nothing to ratify' "$SRC/meta-bootstrap/SKILL.md" && grep -q -i 'the kit ships 30 map entries' "$SRC/meta-bootstrap/SKILL.md" && ok "129 step 9 skips an empty pass; the offer's terms still stand (T-3; reworded by contract-011)" || bad "129 empty pass" "-"
 n=$(grep -l -i 'this file is a template\|copies this file\|empty seed' "$SRC"/templates/*.template.yaml | wc -l); [ "$n" = 0 ] && ok "130 no template header calls itself a template (T-4)" || bad "130 template headers" "$(grep -l -i 'this file is a template\|copies this file\|empty seed' "$SRC"/templates/*.template.yaml | tr '\n' ' ')"
 grep -q 'which copy is the project' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'eight standing questions' "$SRC/meta-bootstrap/SKILL.md" && grep -q '\*the tree\* for the tree-or-commit question' "$SRC/meta-bootstrap/SKILL.md" && ok "131 step 1 asks which copy is the project's; the stub and the eight standing questions name it (T-5; eight since contract-010)" || bad "131 tree-or-commit" "-"
 r=$(bash "$G2" "$SRC"); [ $? = 0 ] && ok "132 G2-migration exits 0 on the base kit's own tree (T-6)" || bad "132 G2 on base tree" "$r"
@@ -201,6 +201,26 @@ n=$(grep -c 'hooks/lib.sh' "$SRC"/agents/kit-*.md | awk -F: '{s+=$2} END{print s
 n=$(grep -c 'hooks/lib.sh' "$SRC/templates/settings.template.json"); [ "$n" = 7 ] && ok "139c all seven template hook commands use the locator (T-6)" || bad "139c template locators" "$n"
 grep -q 'Which kit a hook acts on' "$SRC/meta-mechanisms/SKILL.md" && ok "140 the mechanisms node states which kit a hook acts on" || bad "140 mechanisms node" "-"
 rm -rf "$FX2"
+
+echo "=== contract-011: one sheet, a silent run, a done block ==="
+grep -q 'present the introduction and the sheet together' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'The rehearsal produces \*\*the sheet\*\*' "$SRC/meta-bootstrap/SKILL.md" && ok "141 the install presents once after the reading; the rehearsal produces the sheet (T-1)" || bad "141 read first" "-"
+n=$(grep -c '^## The sheet and the done block' "$SRC/meta-bootstrap/SKILL.md"); [ "$n" = 1 ] && grep -q 'what changes in the records, what will be asked later because of it, what cannot be undone' "$SRC/meta-bootstrap/SKILL.md" && ok "142 one sheet section, and its line form carries the impact of each choice (T-2)" || bad "142 the sheet's form" "$n"
+grep -q 'every question the run meets was on the sheet' "$SRC/meta-bootstrap/SKILL.md" && ok "143a the pass rule holds the real run to the sheet (T-3)" || bad "143a pass rule" "-"
+n=0; for q in 'tree or commit' 'one line per differing skill' 'the stale list' 'contracts to verify' 'drift entries at `mitigated`' 'the instance-file question' 'the workspace question' 'the map question' 'the ratification pass' 'the acceptance'; do grep -q "^> [0-9]*\. .*$q" "$SRC/meta-bootstrap/SKILL.md" && n=$((n+1)); done; [ "$n" = 10 ] && ok "143b the upgrade sheet names every standing question and the two ends ($n of 10) (T-3)" || bad "143b upgrade sheet lines" "$n of 10"
+n=0; for p in '\*\*Verified:\*\*' 'Waiting on you, when you want it' '\*\*Not checked:\*\*' '\*\*Next session\*\*' 'Start working\.'; do grep -q "$p" "$SRC/meta-bootstrap/SKILL.md" && n=$((n+1)); done; [ "$n" = 5 ] && ok "144a the done block has its five parts (T-4)" || bad "144a done block parts" "$n of 5"
+n=$(grep -c 'mark-done.sh' "$SRC/meta-bootstrap/SKILL.md"); [ "$n" -ge 3 ] && ! grep -q 'What would you like to build first' "$SRC/meta-bootstrap/SKILL.md" && ! grep -q 'accepts the report' "$SRC/meta-bootstrap/SKILL.md" && ok "144b Step 7 and step 9 end on the done block; the old endings are gone (T-4)" || bad "144b endings" "mark-done mentions: $n"
+# T-5: the grace
+mk; printf 'observations:\n  - obs_id: O-1\n    review_due: true\n  - obs_id: O-2\n    review_due: true\n  - obs_id: O-3\n    review_due: true\n' > "$K/meta-ledger/LEDGER.yaml"
+printf 'contracts:\n  - contract_id: c-9\n    status: implemented\n    verification_state: none\n    audited: false\n    bearing: x\n' > "$K/meta-contract-before-execution/CONTRACT-LOG.yaml"
+printf '2026-09-18T10:00:00Z|session-start|startup\n' > "$K/meta-ledger/telemetry.log"
+CLAUDE_PROJECT_DIR="$FX" bash "$H/mark-done.sh" upgrade >/dev/null
+r=$(printf '{"stop_hook_active":false,"last_assistant_message":"done."}' | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh")
+case "$r" in *unaudited*) ok "145a in grace the gate still hands over the audit (T-5)";; *) bad "145a audit in grace" "$r";; esac
+printf 'contracts: []\n' > "$K/meta-contract-before-execution/CONTRACT-LOG.yaml"
+r=$(printf '{"stop_hook_active":false,"last_assistant_message":"done."}' | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh" | grep -c additionalContext); [ "$r" = 0 ] && ok "145b in grace the gate hands over no batch though three candidates are due (T-5)" || bad "145b batch in grace" "fired"
+printf '2026-09-18T11:00:00Z|session-start|startup\n' >> "$K/meta-ledger/telemetry.log"
+r=$(printf '{"stop_hook_active":false,"last_assistant_message":"done."}' | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh"); case "$r" in *"Pioneer-owned"*) ok "145c the next session start ends the grace: the batch is back (T-5)";; *) bad "145c after grace" "$r";; esac
+grep -q 'hooks/mark-done.sh' "$SRC/meta-mechanisms/SKILL.md" && grep -q '`done`' "$SRC/meta-mechanisms/SKILL.md" && ok "146 the mechanisms node lists mark-done.sh and the done event" || bad "146 inventory" "-"
 
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

@@ -738,6 +738,60 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-043
+    date: 2026-09-18
+    source: implementation
+    contract_id: contract-011
+    refs: [G-2, G-3, meta-bootstrap/SKILL.md "The sheet and the done block", report-002]
+    statement: |
+      a rehearsal that runs the whole procedure with stubbed answers already holds every question the real run
+      will meet, each with a default and, for reapply, each conflict; the sheet is that list kept instead of
+      discarded, and the real run's pass rule ("every question the run meets was on the sheet") is what makes it
+      the contract for the run rather than a summary of it.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-044
+    date: 2026-09-18
+    source: implementation
+    contract_id: contract-011
+    refs: [G-5, meta-mechanisms/hooks/lib.sh in_grace, meta-mechanisms/hooks/mark-done.sh]
+    statement: |
+      the first state the stop-gate reads from telemetry rather than from a record: a `done` line after the last
+      `session-start|startup` holds the review batch. Telemetry was evidence, never context; it is now also one
+      bit of state, written by a script the agent runs and read by a hook, and the marker-key contract should say
+      so before a second such bit appears.
+    level_guess: implementation
+    stated_confidence: 0.7
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-045
+    date: 2026-09-18
+    source: implementation
+    contract_id: contract-011
+    refs: [G-1, meta-bootstrap/SKILL.md Step 2, the apply scripts of contracts 010 and 011]
+    statement: |
+      an edit whose new text contains its old text is not idempotent: re-run, it applies again and doubles the
+      addition, which five contract-010 edits did on their second run; the check that holds is "the new text is
+      already present, skip", made before the old text is counted - the same rule the upgrade's step 7 states
+      for records ("add what is missing"), rediscovered for the kit's own text.
+    level_guess: implementation
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
 
 batches: []

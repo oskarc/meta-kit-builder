@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Two Stops and a Done</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#F3F1EC; --surface:#FFFFFF; --sunken:#E9E6DF; --ink:#1B1C1A; --muted:#5B5E57; --faint:#8B8E86; --rule:#CFCCC3;
+    --accent:#2E6B6F;
+    --verified:#3C6E47; --verified-wash:#E4EDE6; --corrected:#8A6320; --corrected-wash:#F3EBD9; --open:#9A3A2C; --open-wash:#F5E3DF;
+    --display:"Newsreader",Georgia,serif; --body:"Source Sans 3",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F;
+      --accent:#7FB8BB; --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F;
+    --accent:#7FB8BB; --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;padding-block:0 96px;padding-inline:20px}
+  .wrap{max-width:780px;margin:0 auto}
+  header{padding:56px 0 24px;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:12px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  h1{font-family:var(--display);font-size:clamp(34px,6vw,50px);line-height:1.05;font-weight:600;margin:0;text-wrap:balance}
+  .standfirst{font-size:19px;color:var(--muted);margin:0;max-width:62ch}
+  .tally{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:20px}
+  .tally div{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+  .tally .n{font-family:var(--mono);font-size:24px;font-variant-numeric:tabular-nums}
+  .tally .l{font-size:13px;color:var(--muted);line-height:1.3}
+  section{padding-top:40px}
+  h2{font-family:var(--display);font-size:26px;font-weight:600;margin:0 0 6px;text-wrap:balance}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  p{margin:0 0 14px;max-width:68ch}
+  code{font-family:var(--mono);font-size:.86em;background:var(--sunken);padding:1px 5px;border-radius:2px}
+  .claim{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--rule);padding:12px 16px;margin-bottom:8px}
+  .claim.v{border-left-color:var(--verified)} .claim.o{border-left-color:var(--open)}
+  .claim h3{font-size:16px;font-weight:600;margin:4px 0 4px;line-height:1.4}
+  .claim p{margin:0 0 6px;font-size:15px;color:var(--muted)} .claim p:last-child{margin-bottom:0}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;font-weight:600}
+  .chip.v{background:var(--verified-wash);color:var(--verified)} .chip.o{background:var(--open-wash);color:var(--open)} .chip.j{background:var(--sunken);color:var(--muted)}
+  .src{font-size:13px;color:var(--faint)}
+  figure{margin:18px 0 6px} figure svg{max-width:100%;height:auto;display:block;color:var(--ink)}
+  figcaption{font-size:14px;color:var(--muted);margin-top:8px;max-width:66ch}
+  .tbl{overflow-x:auto;margin:14px 0 6px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:560px}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--ink)}
+  tbody tr:last-child td{border-bottom:none}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin-bottom:6px}
+  blockquote{margin:0 0 14px;padding:10px 16px;border-left:3px solid var(--accent);background:var(--surface);font-size:15.5px}
+  .foot{margin-top:52px;padding-top:14px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--muted)}
+</style>
+</head>
+<body><div class="wrap">
+
+<header>
+  <div class="eyebrow">report-002 · analysis report · base building kit · 2026-09-18</div>
+  <h1>Two Stops and a Done</h1>
+  <p class="standfirst">Where the install and the upgrade stop for the pioneer, why each stop is where it is, and how both flows become one sheet of questions, a silent run, and an ending that says so.</p>
+  <div class="tally">
+    <div><span class="n">7</span><span class="l">stops in an install today, by the text</span></div>
+    <div><span class="n">6+</span><span class="l">stops in an upgrade today, plus one per differing file</span></div>
+    <div><span class="n">2 · 1</span><span class="l">stops proposed: install · upgrade</span></div>
+    <div><span class="n">0</span><span class="l">claims corrected · 4 open · 1 contract proposed</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="kicker">what the pioneer said</div>
+  <h2>The complaint, taken as the spec</h2>
+  <blockquote>"it can feel neverending and lacks a clear 'NOW ITS DONE, and you are good to go.' its more of a 'I suppose i can start working..?'"</blockquote>
+  <p>Two defects, not one. The first is the <strong>number and placement of stops</strong>: each question is asked where the step reaches it, so the pioneer is pulled back six or seven times across a flow whose questions were all knowable near the start. The second is the <strong>ending</strong>: the install closes with a question ("What would you like to build first?"), the upgrade closes with "accept the report", and the next turn's stop-gate hands over a kit task. Nothing says <em>done</em>, and the first thing after the last stop is another ask.</p>
+</section>
+
+<section>
+  <div class="kicker">verified — the stops, counted from the text</div>
+  <h2>Where an install stops today</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>step</th><th>what the pioneer is asked</th><th>could it be asked earlier?</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>1, the introduction</td><td>confirm before anything is read ("Wait for the developer to confirm before proceeding to Step 2")</td><td>it is the start; it stays, but it can carry the next stop's questions</td></tr>
+      <tr><td>2</td><td>2, orientation</td><td>"Is this orientation correct?" and, since contract-010, the applications in the system flow</td><td>this is where everything the install needs is known</td></tr>
+      <tr><td>3</td><td>3, the founding statement</td><td>the statement, or a deferral ("Wait for the statement, or an explicit deferral")</td><td>placed after orientation on purpose; its own moment by design</td></tr>
+      <tr><td>4</td><td>4, library kit</td><td>"Shall I integrate this kit?", when one is found</td><td>yes: the library is read at Step 2</td></tr>
+      <tr><td>5</td><td>5a, CLAUDE.md</td><td>the block is written "on confirmation"</td><td>yes: it is a fixed text plus the workspace line</td></tr>
+      <tr><td>6</td><td>5c, settings</td><td>"Show the developer the resulting diff"</td><td>yes: the merge is mechanical and knowable from the Step 2 read of the existing file</td></tr>
+      <tr><td>7</td><td>7, ratification</td><td>ratify the 30 map entries now, or defer</td><td>yes: it is a yes/no with a known consequence</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">Source: <code>meta-bootstrap/SKILL.md</code> Steps 1 to 7, read in full; the seven waits are quoted from the text. Step 6 asks nothing.</p>
+  <div class="claim v"><span class="chip v">verified</span><h3>The install's ending is a question, and the gate follows it with a task.</h3>
+  <p>Step 7 closes with "The kit is installed." and "What would you like to build first?". The same step states what a correct install shows next: the session-start hook prints "pioneer-owned items are waiting" because the base map entries arrive <code>proposed</code>, and the stop-gate hands over the batch task. Unless the pass was deferred, the first turn after "installed" ends with the gate asking for a review batch.</p>
+  <p class="src"><code>meta-bootstrap/SKILL.md</code> Step 7, "What a correct fresh install shows" and the closing message.</p></div>
+
+  <h2 style="margin-top:34px">Where an upgrade stops today</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>step</th><th>what the pioneer is asked</th><th>known after the rehearsal?</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>1, staging</td><td>tree or commit, when kit files differ from the last commit</td><td>known before staging</td></tr>
+      <tr><td>2</td><td>2, rehearsal</td><td>read the rehearsal log and the copy's report; only then the real run</td><td>this is the moment everything is known</td></tr>
+      <tr><td>3</td><td>3, classification</td><td>"Present the classification before changing anything"</td><td>yes: the rehearsal produced it</td></tr>
+      <tr><td>4…</td><td>3, per file</td><td>reapply or replace, one question per skill with residue; a conflict asked when a line no longer fits</td><td>yes: the rehearsal stubs <em>reapply</em> and "lists every residue line that could not be reapplied cleanly"</td></tr>
+      <tr><td>+1</td><td>3, stale list</td><td>remove, one question for the whole list</td><td>yes</td></tr>
+      <tr><td>+1…+4</td><td>7, standing</td><td>contracts to verify; drift entries at mitigated; the instance-file question per record; the workspace question</td><td>yes: each is a fact of the records</td></tr>
+      <tr><td>+1</td><td>8, the map</td><td>which roots go in the map, when the budget forces it</td><td>yes: <code>roots.sh</code> ran on the copy</td></tr>
+      <tr><td>+1</td><td>9, ratification</td><td>the pass, when anything is undecided</td><td>yes</td></tr>
+      <tr><td>+1</td><td>9, the report</td><td>accept it, so the staged kit is removed</td><td>it is the end</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">Source: <code>meta-bootstrap/SKILL.md</code>, "Upgrading an Existing Install", steps 1 to 9 and the eight standing questions listed in step 2.</p>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>The last real run asked three things and still took seven exchanges.</h3>
+  <p>The 0.16 upgrade of the first fork recorded three decisions in the real run, drift entries, the instance file, the map. Around them sat the tree-or-commit question, the choice to commit or back up first, the rehearsal's own pass ruling, the acceptance of the report, and the seven residue answers, which that run could not ask and which were taken later in another session. The pioneer's failure condition on contract-007 counts "manual decisions"; the exchanges are what the pioneer feels.</p>
+  <p class="src">The fork's upgrade report of 2026-09-16, "The pioneer's answers" table, and its residue report's "Answers" section, read in full.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>The rehearsal already computes every answer the real run will need.</h3>
+  <p>Step 2 runs steps 3 to 9 on a copy with every question stubbed, counts decisions asked, and requires each to belong to a differing file or a standing question before the real run may start. The rehearsal therefore ends holding the complete list of questions, each with the default the stub used and, for reapply, each conflict already found. Today that list is discarded into a log and the questions are asked again, one by one, as the real run reaches them.</p>
+  <p class="src"><code>meta-bootstrap/SKILL.md</code>, step 2: the stubs, the three numbers, the pass rule, and "the rehearsal report lists every residue line that could not be reapplied cleanly".</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>The aspect that justifies the stops asks for a frame check, not permission.</h3>
+  <p>"The agent must actively create the conditions for this by making its orientation visible and asking for correction, not permission." Six of the install's seven stops ask permission for a write the pioneer cannot judge better than the text already did. One frame shown once, corrected once, satisfies the aspect more exactly than seven confirmations.</p>
+  <p class="src"><code>meta-foundation/SKILL.md</code>, "Partner as orientation mirror".</p></div>
+</section>
+
+<section>
+  <div class="kicker">the mechanism, drawn</div>
+  <h2>Where the pioneer is pulled in, today and proposed</h2>
+  <figure>
+    <svg viewBox="0 0 760 300" role="img" aria-label="Four timelines. Install today: seven stops spread along the flow, ending in a question and a gate task. Install proposed: one sheet after the reading, the statement as its own moment, a silent run, a done block. Upgrade today: the rehearsal, then a classification stop, per-file stops, standing questions, the map, the pass, acceptance. Upgrade proposed: the rehearsal produces one sheet, the pioneer answers once, silent run, done.">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+      <g font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor" stroke="currentColor" stroke-width="1.2">
+        <text x="20" y="30" stroke="none" font-weight="500">install, today</text>
+        <line x1="150" y1="26" x2="740" y2="26" marker-end="url(#ah)"/>
+        <g fill="#B0432F" stroke="none">
+          <circle cx="170" cy="26" r="5"/><circle cx="230" cy="26" r="5"/><circle cx="290" cy="26" r="5"/><circle cx="350" cy="26" r="5"/><circle cx="410" cy="26" r="5"/><circle cx="470" cy="26" r="5"/><circle cx="600" cy="26" r="5"/>
+        </g>
+        <text x="160" y="48" stroke="none" font-size="10">intro</text><text x="222" y="48" stroke="none" font-size="10">orient</text><text x="272" y="48" stroke="none" font-size="10">statement</text><text x="335" y="48" stroke="none" font-size="10">library</text><text x="392" y="48" stroke="none" font-size="10">CLAUDE.md</text><text x="450" y="48" stroke="none" font-size="10">settings</text><text x="575" y="48" stroke="none" font-size="10">ratify?</text>
+        <text x="650" y="48" stroke="none" font-size="10" fill="#B0432F">"build first?" → gate task</text>
+
+        <text x="20" y="100" stroke="none" font-weight="500">install, proposed</text>
+        <line x1="150" y1="96" x2="740" y2="96" marker-end="url(#ah)"/>
+        <g fill="#2E6B6F" stroke="none"><circle cx="230" cy="96" r="6"/><circle cx="300" cy="96" r="6"/></g>
+        <rect x="660" y="86" width="64" height="20" rx="3" fill="#2E6B6F" stroke="none"/><text x="692" y="100" text-anchor="middle" stroke="none" fill="#fff" font-size="10">DONE</text>
+        <text x="190" y="118" stroke="none" font-size="10">the sheet</text><text x="270" y="118" stroke="none" font-size="10">statement</text><text x="420" y="118" stroke="none" font-size="10" opacity=".7">silent run: 5 · 6 · 7</text>
+
+        <text x="20" y="180" stroke="none" font-weight="500">upgrade, today</text>
+        <line x1="150" y1="176" x2="740" y2="176" marker-end="url(#ah)"/>
+        <rect x="165" y="168" width="70" height="16" rx="2" fill="none" stroke-dasharray="3 2"/><text x="200" y="180" text-anchor="middle" stroke="none" font-size="9">rehearsal</text>
+        <g fill="#B0432F" stroke="none">
+          <circle cx="260" cy="176" r="5"/><circle cx="300" cy="176" r="5"/><circle cx="325" cy="176" r="5"/><circle cx="350" cy="176" r="5"/><circle cx="400" cy="176" r="5"/><circle cx="425" cy="176" r="5"/><circle cx="450" cy="176" r="5"/><circle cx="475" cy="176" r="5"/><circle cx="530" cy="176" r="5"/><circle cx="580" cy="176" r="5"/><circle cx="640" cy="176" r="5"/>
+        </g>
+        <text x="245" y="198" stroke="none" font-size="10">classif.</text><text x="300" y="198" stroke="none" font-size="10">per file …</text><text x="392" y="198" stroke="none" font-size="10">standing ×4</text><text x="515" y="198" stroke="none" font-size="10">map</text><text x="565" y="198" stroke="none" font-size="10">pass</text><text x="620" y="198" stroke="none" font-size="10">accept</text>
+        <text x="665" y="198" stroke="none" font-size="10" fill="#B0432F">→ backlog, gate task</text>
+
+        <text x="20" y="260" stroke="none" font-weight="500">upgrade, proposed</text>
+        <line x1="150" y1="256" x2="740" y2="256" marker-end="url(#ah)"/>
+        <rect x="165" y="248" width="70" height="16" rx="2" fill="none" stroke-dasharray="3 2"/><text x="200" y="260" text-anchor="middle" stroke="none" font-size="9">rehearsal</text>
+        <g fill="#2E6B6F" stroke="none"><circle cx="270" cy="256" r="6"/></g>
+        <rect x="660" y="246" width="64" height="20" rx="3" fill="#2E6B6F" stroke="none"/><text x="692" y="260" text-anchor="middle" stroke="none" fill="#fff" font-size="10">DONE</text>
+        <text x="245" y="278" stroke="none" font-size="10">the sheet, prefilled</text><text x="420" y="278" stroke="none" font-size="10" opacity=".7">silent run: 3 to 9</text>
+      </g>
+    </svg>
+    <figcaption>Red dots are turns that wait on the pioneer today. Teal dots are the stops proposed: one sheet, and for an install the statement's own moment. The dashed box is the rehearsal, which asks nothing in either version; in the proposed one it is what fills the sheet.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="kicker">judgement — the design</div>
+  <h2>One sheet, a silent run, and a done block</h2>
+  <div class="claim o"><span class="chip j">design</span><h3>The sheet: every question at once, prefilled with the default the rehearsal used.</h3>
+  <p>For an upgrade the rehearsal already knows the whole list. The sheet is that list, one line per question, each carrying the default the stub used and the consequence of the default in a few words. The pioneer answers with one word, "defaults", or changes lines. Conflicts a reapply would hit are lines on the sheet with the two resolutions, so the real run never asks. The tree-or-commit question and the acceptance of the report join the sheet: "measure residue from the tree", "remove the staged kit when the report is written". One stop.</p>
+  <p>For an install the sheet comes after Step 2's reading, because everything on it is known then: is this orientation right; the applications; integrate the library kit found or not; the CLAUDE.md block and the settings merge shown as the plan they are, not as two permissions; ratify the map now or later. The founding statement keeps its own moment, after the sheet, because the kit says it is "not a form to fill in" and the aspect that makes it the pioneer's would be cheapened by a checkbox beside it. Two stops.</p></div>
+
+  <div class="claim o"><span class="chip j">design</span><h3>The run: no stop after the sheet, by construction.</h3>
+  <p>Steps 5 to 7 of the install and 3 to 9 of the upgrade run on the sheet's answers. The rehearsal's pass rule already forbids a question that is not on the list; the sheet makes the list the contract for the real run. A question the real run meets that the sheet did not carry is a defect to record, exactly as a troubleshooting step is today, never a stop.</p></div>
+
+  <div class="claim o"><span class="chip j">design</span><h3>The ending: a done block with the same shape every time.</h3>
+  <p>Installed, or upgraded to version X. What was verified, as counts: checks passed, hooks that fired, the baseline written. What is <em>not</em> waiting on you, said plainly when nothing is. What <em>is</em> waiting and when it will ask: the map entries if the pass was deferred, drift entries at mitigated if batches were chosen, each with the one word that summons it. Then the sentence the pioneer asked for, in those terms: done, start working. The stop-gate stays as it is; the block tells the pioneer what it will say next, so the first backlog line reads as a list, not as the next task.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>What the sheet does not reduce: decisions.</h3>
+  <p>A sheet of nine lines is nine decisions. The pioneer's failure condition counts decisions, and the count is set by the project's state, not by when the questions are asked. The sheet changes the number of times the pioneer is pulled back and the sense of an ending; it does not change what has to be decided. Defaults make the common answer one word.</p></div>
+</section>
+
+<section>
+  <div class="kicker">options as differences</div>
+  <h2>Four ways to answer the complaint</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>option</th><th>stops (install · upgrade)</th><th>what it changes</th><th>what it costs or forecloses</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A</strong> the sheet after the reading or the rehearsal; the statement its own moment; silent run; done block</td><td>2 · 1</td><td>step 2 of the install and step 2 of the upgrade produce the sheet; steps 5 to 7 and 3 to 9 take answers from it; step 7 and step 9 end with the done block</td><td>a moderate rewrite of the procedure text; the walks gain states for the sheet's completeness and the done block's shape</td></tr>
+      <tr><td><strong>B</strong> as A, the statement on the sheet too</td><td>1 · 1</td><td>one turn for the whole install</td><td>the statement becomes a form field, which the kit's own Step 3 forbids; the correction log would record the cost later</td></tr>
+      <tr><td><strong>C</strong> the done block only</td><td>7 · 6+</td><td>the ending</td><td>the neverending part stays</td></tr>
+      <tr><td><strong>D</strong> every question before anything is read</td><td>1 · 1</td><td>nothing can be prefilled: the per-file questions need the classification, the orientation must precede the statement by design</td><td>the pioneer answers blind; the rehearsal's whole point is lost</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="kicker">not answered</div>
+  <h2>What this pass could not close</h2>
+  <ul>
+    <li><span class="chip o">open</span> Whether the stub answers are the right defaults for the sheet. They were chosen to exercise the code in rehearsal (reapply hits conflicts, legacy edits the file), not as what a pioneer usually wants. The baseline of C-013 says replace; the first two real runs said batches, overwrite, none for now.</li>
+    <li><span class="chip o">open</span> How long a sheet gets on an old fork. The 0.15 run had twelve differing skills; a sheet of twelve reapply lines plus eight standing questions is twenty lines. Whether that reads as one stop or as a wall is the pioneer's judgement.</li>
+    <li><span class="chip o">open</span> Whether the first session after an upgrade should hand over a batch at all when the upgrade itself created the backlog. The gate is right by its rule; the feeling is the pioneer's evidence against the rule, and only a rule change or a grace marker answers it.</li>
+    <li><span class="chip o">open</span> The install has never been run end to end by this kit on a fresh project since v0.14; the stop count is from the text, not from a run.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="kicker">recommendation · judgement</div>
+  <h2>Option A, as contract-011</h2>
+  <p>The sheet and the done block are procedure text and two walk states, the same shape as contracts 009 and 010. The upgrade's version is the stronger case, because the rehearsal already computes the sheet and today throws it away. The install's version keeps the statement's own moment. The gate's behaviour after an upgrade is the one question worth putting to the pioneer before drawing: leave it, or let the done block's "nothing is required now" be true for the rest of that session.</p>
+</section>
+
+<div class="foot">
+  <p><strong>Read in full for this report.</strong> <code>meta-bootstrap/SKILL.md</code>, install Steps 1 to 7 and the whole of "Upgrading an Existing Install"; <code>meta-foundation/SKILL.md</code>, the governing aspects; the first fork's rehearsal log, upgrade report and residue report of 2026-09-16; the earlier upgrade report of that fork (v2) and the kit's own rehearsal results of 2026-09-13.</p>
+  <p><strong>Nothing changed.</strong> No file in the kit was edited for this report.</p>
+</div>
+
+</div></body></html>
