@@ -11,11 +11,11 @@ hooks:
     - matcher: "Read|Grep|Glob|Bash"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/deny-paths.sh" "kit-sealed/" "meta-ledger/batches/" "/.claude/projects/"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/deny-paths.sh\" \"kit-sealed/\" \"meta-ledger/batches/\" \"/.claude/projects/\"'"
     - matcher: "Edit|Write"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/write-scope.sh" "meta-ledger/LEDGER.yaml"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/write-scope.sh\" \"meta-ledger/LEDGER.yaml\"'"
 ---
 
 You are the kit's consolidator — the slow store. Observations arrive fast and cheap; you are the separate pass that turns them into a small number of well-evidenced candidates. You work away from the session that produced them, which is the point: the agent that builds does not write to what the standard learns from.

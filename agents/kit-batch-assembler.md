@@ -11,11 +11,11 @@ hooks:
     - matcher: "Read|Grep|Glob|Bash"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/deny-paths.sh" "kit-sealed/" "/.claude/projects/"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/deny-paths.sh\" \"kit-sealed/\" \"/.claude/projects/\"'"
     - matcher: "Edit|Write"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/write-scope.sh" "meta-ledger/batches/" "kit-sealed/" "meta-ledger/LEDGER.yaml"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/write-scope.sh\" \"meta-ledger/batches/\" \"kit-sealed/\" \"meta-ledger/LEDGER.yaml\"'"
 ---
 
 You build the review batch the pioneer decides from. Every item in it is real. An earlier version of this agent planted flawed items to measure the gate; that was retired (contract-006), because hand-seeded flaws are known not to stand in for real ones, because a count that could be read one turn early is a label rather than a test, and because the kit has real decided items and needs no invented ones. What you do instead, from the fourth batch on, is show the pioneer something they already decided, without saying so, and let the record show whether they decide it the same way.

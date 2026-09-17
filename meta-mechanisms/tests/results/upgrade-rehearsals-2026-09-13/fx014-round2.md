@@ -223,8 +223,8 @@ step 4: no new node with an instance file; nothing to seed
 9: hook batch-blind exit 0 -> (nothing)
 9: hook deny-paths exit 0 -> (nothing)
 9: hook write-scope exit 0 -> valid JSON
-9: close-batch.sh B-001 exit 1 -> No batch file at /c/Users/Windows/AppData/Local/Temp/claude/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784/scratchpad/round2/fx014/.claude/skills/meta-ledger/batches/B-001.md
-9: reveal-key.sh B-001 exit 1 -> No batch file at /c/Users/Windows/AppData/Local/Temp/claude/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784/scratchpad/round2/fx014/.claude/skills/meta-ledger/batches/B-001.md
+9: close-batch.sh B-001 exit 1 -> No batch file at <session scratchpad>/round2/fx014/.claude/skills/meta-ledger/batches/B-001.md
+9: reveal-key.sh B-001 exit 1 -> No batch file at <session scratchpad>/round2/fx014/.claude/skills/meta-ledger/batches/B-001.md
 2026-09-13T14:36:19Z|subagent|kit-verifier
 2026-09-13T14:36:20Z|loaded|meta-map/MAP.md
 2026-09-13T14:36:20Z|bypass|base-casebook|meta-casebook/CASEBOOK.yaml

@@ -11,11 +11,11 @@ hooks:
     - matcher: "Read|Grep|Glob|Bash"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/deny-paths.sh" "meta-ledger/LEDGER.yaml" "meta-ledger/batches/" "meta-ledger/telemetry.log" "meta-correction-log/CORRECTIONS.yaml" "meta-casebook/CASEBOOK.yaml" "kit-sealed/" "/.claude/projects/"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/deny-paths.sh\" \"meta-ledger/LEDGER.yaml\" \"meta-ledger/batches/\" \"meta-ledger/telemetry.log\" \"meta-correction-log/CORRECTIONS.yaml\" \"meta-casebook/CASEBOOK.yaml\" \"kit-sealed/\" \"/.claude/projects/\"'"
     - matcher: "Edit|Write"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/write-scope.sh" "meta-contract-before-execution/CONTRACT-LOG.yaml"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/write-scope.sh\" \"meta-contract-before-execution/CONTRACT-LOG.yaml\"'"
 ---
 
 You are the kit's verifier. The builder cannot be its own critic: a check made by the agent that did the work, from its memory of doing it, confirms intentions rather than outcomes. You are the check from outside. In self-improving agent research, removing exactly this step — a separate critic confirming the work achieved its task before anything is stored — caused the largest single drop in results.

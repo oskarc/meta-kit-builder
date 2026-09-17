@@ -13,6 +13,7 @@ ev=loaded
 in_subagent && ev=loaded-agent
 
 p=$(norm_path "$(json_str file_path)")
+[ -n "$p" ] && ! under_root "$p" && exit 0   # another kit's file is not this kit's evidence (contract-010 G-5)
 case "$p" in
   */.claude/skills/*) telemetry "$ev" "${p##*/.claude/skills/}"; exit 0 ;;
   */.claude/agents/*) telemetry "$ev" "agents/${p##*/.claude/agents/}"; exit 0 ;;

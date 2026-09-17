@@ -4,7 +4,8 @@
 # In a consumer project: .claude/skills/meta-learning/LEARNINGLOG.yaml
 #
 # AGENT INSTRUCTIONS:
-# meta-bootstrap copies this file as the empty seed. Entries are written when meta-learning sweeps
+# Seeded from templates/LEARNINGLOG.template.yaml by meta-bootstrap; this header is refreshed from the template at
+# each upgrade (instruction, never record). Entries are written when meta-learning sweeps
 # CONTRACT-LOG.yaml for entries in status: verified — started by the agent when the stop-gate names M-13,
 # never by the pioneer. Each elevation_proposal is also recorded as a ledger observation
 # (source: learning); its human_decision is back-filled at the review-batch reveal with the stage the

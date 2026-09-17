@@ -4,7 +4,8 @@
 # In a consumer project: .claude/skills/meta-ledger/LEDGER.yaml
 #
 # AGENT INSTRUCTIONS:
-# meta-bootstrap copies this file as the empty seed. Writers per section are fixed (meta-ledger/SKILL.md):
+# Seeded from templates/LEDGER.template.yaml by meta-bootstrap; this header is refreshed from the template at each
+# upgrade (instruction, never record). Writers per section are fixed (meta-ledger/SKILL.md):
 # THE ONE WRITER LIST (contract-007 G-8), derived from the agents' write-scope hooks — every other list points here:
 # observations — the main agent (or kit-recorder while a batch is open), meta-learning, kit-session-auditor,
 # kit-consolidator (drift recurrences), kit-case-clerk (one per clerked correction, source: pioneer);

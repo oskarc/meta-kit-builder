@@ -33,7 +33,7 @@ observations:
     refs: [G-5]
     statement: |
       Define an agent by what it may not read and where it may write. A role name without read and write
-      limits is vocabulary, not a mechanism. (Carried over from the Classes fork's dashboard-exact pipeline,
+      limits is vocabulary, not a mechanism. (Carried over from the first fork's dashboard-exact pipeline,
       whose agents are defined as "reports, never fixes" and "never reads the drawing".)
     level_guess: principle
     stated_confidence: 0.60
@@ -406,7 +406,7 @@ observations:
     contract_id: contract-001
     refs: [C-002]
     statement: |
-      M-04 — "I want you to create all the agents, here. I will evaluate them later inside the classes repo.
+      M-04 — "I want you to create all the agents, here. I will evaluate them later inside [the downstream repo].
       I want us to move into the new form, take a big step forward and then iterate and evaluate."
     level_guess: pattern
     stated_confidence: null
@@ -580,7 +580,7 @@ observations:
     date: 2026-09-16
     source: implementation
     contract_id: contract-008
-    refs: [G-1, meta-mechanisms/tests/results/contract-008-T-1.md, docs/reports/contract-008-residue-2026-09-16.md (Classes)]
+    refs: [G-1, meta-mechanisms/tests/results/contract-008-T-1.md, the fork's residue report (held in that repository)]
     statement: |
       a project's own edits to a kit skill can be measured, not judged: the lines of its copy that the installed
       copy never had are the residue, and on the first real fork the residue (against the base kit's history,
@@ -624,6 +624,114 @@ observations:
       into the report and into the question put to the pioneer.
     level_guess: implementation
     stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-037
+    date: 2026-09-17
+    source: implementation
+    contract_id: contract-009
+    refs: [G-2, meta-mechanisms/checks/G2-migration.sh, T-6]
+    statement: |
+      a check that requires a field the lifecycle writes at a later status fails on every tree that is mid-way
+      through that lifecycle: G2-migration demands cost on every contract entry, the skill writes cost only at
+      implemented, so a project with one approved contract in progress cannot pass step 9 - the exemption the
+      check already grants red_test at status approved is the one cost needs too.
+    level_guess: implementation
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-038
+    date: 2026-09-17
+    source: implementation
+    contract_id: contract-009
+    refs: [G-4, templates/, the fork's rehearsal log of 2026-09-16 (held in that repository, R-7)]
+    statement: |
+      a template and the record seeded from it share one header, so a sentence true only of the template
+      ("this file is a template", "copies it as the empty seed") lands in every live record and is refreshed
+      back in at every upgrade; the fix that needs no strip step and no marker is header text true in both
+      places - provenance and the refresh rule - which is what seven templates now carry.
+    level_guess: pattern
+    stated_confidence: 0.7
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-039
+    date: 2026-09-17
+    source: implementation
+    contract_id: contract-009
+    refs: [G-5, the fork's upgrade report of 2026-09-16 (held in that repository, R-2)]
+    statement: |
+      a fork whose earlier upgrade overwrote its evolutions and was never committed has two copies of its kit,
+      the tree and the commit, and residue measured from the tree is zero while the commit still holds every
+      project line; the upgrade cannot choose between them, so it asks - and the fork's session asked this on
+      its own before the step existed, which is the sign a standing question was missing.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-040
+    date: 2026-09-17
+    source: implementation
+    contract_id: contract-010
+    refs: [G-5, meta-mechanisms/hooks/lib.sh, report-001]
+    statement: |
+      a hook anchored on the launch directory acts on every path that looks like a kit: the two-kit fixture logged
+      a Read in the second kit as the first kit's map evidence. The fix that held was one root per event - walk up
+      from the event's working directory to the nearest installed manifest, act only under it - not one rule per
+      hook, because every hook that touches a path had the same hole.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-041
+    date: 2026-09-17
+    source: implementation
+    contract_id: contract-010
+    refs: [G-3, templates/settings.template.json, meta-bootstrap/SKILL.md 5c]
+    statement: |
+      a settings list of plain strings (permissions.additionalDirectories) cannot carry the ownership key the hook
+      groups carry, so "marked with the kit's key" as drawn could not be built; what can be built is a record that
+      decides which entries are the kit's - the manifest's workspace list is the mark, and an upgrade rewrites the
+      entries that equal it and keeps the rest.
+    level_guess: implementation
+    stated_confidence: 0.7
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-042
+    date: 2026-09-17
+    source: implementation
+    contract_id: contract-010
+    refs: [G-6, templates/settings.template.json, agents/]
+    statement: |
+      a script that must be found before any script can run has to be found by the command line itself: the hook
+      command walks up from the shell's directory to the nearest lib.sh and falls back to the launch directory.
+      The command survives Claude Code's substitution only if Claude Code substitutes exactly the three
+      placeholders its docs name; the fixture runs the command through bash, so that part is untested.
+    level_guess: implementation
+    stated_confidence: 0.65
     loaded_candidates: []
     prompted: false
     consolidated: false

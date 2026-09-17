@@ -25,6 +25,12 @@ corrections:
       "the reason im asking is that there are some parts that lacks instrumentation, for example i found an idea
       about the SER being held for longer before telling the pioneer, and that each SER candidate gets a scoring
       for how confindetly it is an improvement."
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
     supersedes: []
     recorded_by: main-agent
     clerked: true
@@ -38,13 +44,19 @@ corrections:
     intervention: redirected
     agent_offered: |
       "'Several at once' builds wide. Each agent is more prose that can decay … add one, watch it hold across
-      real uses, then add the next." — "The verifier comes first." — "I'd pilot in AssetHub … Once one holds,
+      real uses, then add the next." — "The verifier comes first." — "I'd pilot in [the downstream project] … Once one holds,
       port it up by hand."
     pioneer_said: |
-      "I want you to create all the agents, here. I will evaluate them later inside the classes repo.
+      "I want you to create all the agents, here. I will evaluate them later inside [the downstream repo].
       I want us to move into the new form, take a big step forward and then iterate and evaluate."
     reason_given: |
       "I want us to move into the new form, take a big step forward and then iterate and evaluate."
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
     supersedes: []
     recorded_by: main-agent
     clerked: true
@@ -64,6 +76,12 @@ corrections:
       "Full retarget"
     reason_given: |
       none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
     supersedes: []
     recorded_by: main-agent
     clerked: true
@@ -83,6 +101,12 @@ corrections:
       "I want the workflow to be handled by the agent, so no commands that needs triggers from the human."
     reason_given: |
       none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
     supersedes: []
     recorded_by: main-agent
     clerked: true
@@ -102,6 +126,12 @@ corrections:
       "why not pass it to an agent that is allowed to write there?"
     reason_given: |
       none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
     supersedes: []
     recorded_by: main-agent
     clerked: true
@@ -125,6 +155,12 @@ corrections:
       "shrink the map, we cant start with moving our allowance."
     reason_given: |
       "we cant start with moving our allowance."
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
     supersedes: []
     recorded_by: main-agent
     clerked: true
@@ -143,6 +179,12 @@ corrections:
     pioneer_said: |
       "Acceptance tests should be the tier 4 then, and comes after guardrails."
     reason_given: null           # none given; the placement was stated, not argued
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
     supersedes: []
     recorded_by: main-agent
     clerked: true
@@ -220,7 +262,7 @@ corrections:
     intervention: redirected
     agent_offered: |
       The upgrade's step 3 read "both kits in full" — the kit files on both sides — and left the project's own
-      records to the migration step; the Classes rehearsal read the contract log only where the manifest needed it.
+      records to the migration step; the fork's rehearsal read the contract log only where the manifest needed it.
     pioneer_said: |
       "The additions you made for point 1 is valid and can stay. When upgrading the agent SHOULD read the
       contracts log for verification, its important to get the \"lay of the land before walking it\" to use your
@@ -309,7 +351,7 @@ corrections:
     agent_offered: |
       Contract-008 G-1 as approved: where a meta skill carries residue (project-authored lines), the upgrade asks
       one question per file with three answers — overwrite with the staged copy, keep yours, or port the staged
-      changes into yours — and the Classes application put seven skills to the pioneer on those terms.
+      changes into yours — and the fork application put seven skills to the pioneer on those terms.
     pioneer_said: |
       "When someone upgrades they get the question if they want to reaply their changes ontop of the updated
       skills, and the agent asks how to resolve if there is some form of conflict. So option A is reapply, option
@@ -335,6 +377,64 @@ corrections:
       reapplied cleanly is a conflict the agent asks about rather than resolves. Recorded as revision 1 on the
       contract-008 entry, authorised by this message.
 
+  - corr_id: C-014
+    date: 2026-09-16
+    contract_id: contract-009
+    moment: M-04
+    grade: detail
+    intervention: redirected
+    agent_offered: |
+      Contract-009 drawn to the gate as a bearing of two long sentences, a precedent paragraph, a Tier 1 of ten
+      sentences and six use cases and seven guardrails each written as a paragraph, about 1,100 words.
+    pioneer_said: |
+      "Write the contract more direct and more accessible to human, very concise"
+    reason_given: |
+      none recorded
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      The content of the contract was not corrected; its form was. Same facts, redrawn in plain short lines
+      before the gate. Sits beside P-008 (a record of the practice is written so a newcomer can follow it).
+
+  - corr_id: C-015
+    date: 2026-09-17
+    contract_id: contract-009
+    moment: M-08
+    grade: scope
+    intervention: redirected
+    agent_offered: |
+      Asked whether this repository references the first downstream fork's repository, the agent listed four kinds of reference - records
+      naming it as history, evidence files under tests/results, pointers into its report files and a commit id, and
+      a Windows path example - and concluded "Nothing mechanical depends on the fork."
+    pioneer_said: |
+      "this repo is a public repo intented for everyone who finds a use for it, we cant have local references."
+    reason_given: |
+      the repository is public and intended for everyone who finds a use for it.
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      A standing rule on scope, not on one file: nothing in the tracked tree names the pioneer's local projects,
+      machines or paths. The fork's manifest fixture dropped on 2026-09-16 ("it has nothing to do with the meta kit") was
+      the first instance; this is the rule behind it.
+      Applied 2026-09-17: agent-written text reworded by role; six verbatim pioneer quotes naming a local project carry a
+      marked redaction in square brackets on the pioneer's "yes redact" (2026-09-17); the fork's six rehearsal logs moved out
+      of the tracked tree.
 
 trajectory:
   updated: 2026-09-13

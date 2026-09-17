@@ -41,13 +41,13 @@ precedents:
     tier: project
     facts: |
       contract-001 (the v0.14 retarget) called for a set of new kit agents. The agent proposed adding one,
-      watching it hold across real uses, then the next — the verifier first — piloting in the downstream
-      AssetHub project and porting up by hand, on the ground that each agent is more prose that can decay.
+      watching it hold across real uses, then the next — the verifier first — piloting in a second
+      downstream project and porting up by hand, on the ground that each agent is more prose that can decay.
     question: |
       Whether the agents are built all at once in the base kit, or one at a time in a pilot project and
       ported up.
     holding: |
-      Create all the agents in the base kit, at once; evaluate them later inside the Classes repo. Move into
+      Create all the agents in the base kit, at once; evaluate them later inside the downstream repo. Move into
       the new form, take a big step forward, then iterate and evaluate.
     reasons: |
       "I want us to move into the new form, take a big step forward and then iterate and evaluate."
@@ -206,11 +206,11 @@ scenarios:
       - key: A
         text: |
           "'Several at once' builds wide. Each agent is more prose that can decay … add one, watch it hold
-          across real uses, then add the next." — "The verifier comes first." — "I'd pilot in AssetHub … Once
+          across real uses, then add the next." — "The verifier comes first." — "I'd pilot in [the downstream project] … Once
           one holds, port it up by hand."
       - key: B
         text: |
-          "I want you to create all the agents, here. I will evaluate them later inside the classes repo.
+          "I want you to create all the agents, here. I will evaluate them later inside [the downstream repo].
           I want us to move into the new form, take a big step forward and then iterate and evaluate."
     pioneer_ranking: pending
     rationale: ""

@@ -92,7 +92,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.16" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.16" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.16" || bad "105 version" "-"
+grep -q "^  version: 0.18" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.18" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.18" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -106,7 +106,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|binding precedent|
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.16" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.16 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.18" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.18 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -119,7 +119,7 @@ mkrec(){ # a minimal migrated project: one contract, one drift entry holding two
   cp "$R/meta-drift-eventlog/DRIFTLOG.yaml" "$R/pre/meta-drift-eventlog/"
   printf 'corrections:\n  - corr_id: C-001\n    noticed: |\n      not asked\n    would_have_been_right: |\n      not asked\n    seen_before: |\n      not asked\n' > "$R/meta-correction-log/CORRECTIONS.yaml"
   printf 'observations: []\nbatches:\n  - batch_id: B-1\n    represented: []\n' > "$R/meta-ledger/LEDGER.yaml"
-  { printf 'kit_identity:\n  version: 0.15\nnodes:\n'; awk '/^nodes:/{f=1;next} /^[a-z_]+:/{f=0} f' "$SRC/templates/MANIFEST.template.yaml"; printf 'coverage_map: []\n'; } > "$R/meta-manifest/MANIFEST.yaml"
+  { printf 'kit_identity:\n  version: 0.15\n  workspace: []\nnodes:\n'; awk '/^nodes:/{f=1;next} /^[a-z_]+:/{f=0} f' "$SRC/templates/MANIFEST.template.yaml"; awk '/^coverage_map:/{f=1} /^gap_queue:/{f=0} f' "$SRC/templates/MANIFEST.template.yaml"; printf 'gap_queue: []\n'; } > "$R/meta-manifest/MANIFEST.yaml"
 }
 D0="meta-drift-eventlog/DRIFTLOG.yaml"
 mkrec; r=$(bash "$G2" "$R" "$R/templates/MANIFEST.template.yaml" "$R/pre"); [ $? = 0 ] && ok "113 G2-migration exits 0 on a correctly migrated record set" || bad "113 G2 baseline" "$r"
@@ -158,6 +158,49 @@ grep -q 'instance-file question' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'aske
 n=$(grep -c 'skills/installed/' "$SRC/meta-bootstrap/SKILL.md"); [ "$n" -ge 4 ] && grep -q '5g — Installed copies' "$SRC/meta-bootstrap/SKILL.md" && ok "124 the installed copies are written at install (5g) and read and refreshed on upgrade ($n mentions)" || bad "124 installed copies" "$n"
 grep -q 'rehearsal-<date>.md' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'did \*\*not\*\* check' "$SRC/meta-bootstrap/SKILL.md" && ok "125 the rehearsal log is kept and the report lists what was not checked" || bad "125 log and not-checked" "-"
 grep -q 'G2-migration.sh' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'checks/roots.sh' "$SRC/meta-bootstrap/SKILL.md" && ok "126 steps 8 and 9 name the two scripts" || bad "126 scripts named" "-"
+
+echo "=== contract-009: the first real run's gaps ==="
+grep -q 'not a raw clone' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'short path first' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'short-pathed folder' "$SRC/meta-bootstrap/SKILL.md" && ok "127 step 1 names the travel set and the short-path clone, step 2 the short-path copy (T-1)" || bad "127 long paths" "-"
+mkrec; r=$(bash "$G2" "$R" "$R/templates/MANIFEST.template.yaml"); [ $? = 0 ] && ok "128a G2 exits 0 when every base coverage line is present" || bad "128a coverage baseline" "$r"
+sed -i '/node_id: base-ledger,/d' "$R/meta-manifest/MANIFEST.yaml"
+r=$(bash "$G2" "$R" "$R/templates/MANIFEST.template.yaml"); rc=$?; [ $rc != 0 ] && case "$r" in *MANIFEST.yaml*base-ledger*) ok "128b a base coverage line absent from the manifest fails the check, naming file and id (T-2)";; *) bad "128b message" "$r";; esac || bad "128b missing coverage line not caught" "$r"
+grep -q 'nothing to ratify' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'The kit ships 30 map entries' "$SRC/meta-bootstrap/SKILL.md" && ok "129 step 9 skips an empty pass; the install's offer is unchanged (T-3)" || bad "129 empty pass" "-"
+n=$(grep -l -i 'this file is a template\|copies this file\|empty seed' "$SRC"/templates/*.template.yaml | wc -l); [ "$n" = 0 ] && ok "130 no template header calls itself a template (T-4)" || bad "130 template headers" "$(grep -l -i 'this file is a template\|copies this file\|empty seed' "$SRC"/templates/*.template.yaml | tr '\n' ' ')"
+grep -q 'which copy is the project' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'eight standing questions' "$SRC/meta-bootstrap/SKILL.md" && grep -q '\*the tree\* for the tree-or-commit question' "$SRC/meta-bootstrap/SKILL.md" && ok "131 step 1 asks which copy is the project's; the stub and the eight standing questions name it (T-5; eight since contract-010)" || bad "131 tree-or-commit" "-"
+r=$(bash "$G2" "$SRC"); [ $? = 0 ] && ok "132 G2-migration exits 0 on the base kit's own tree (T-6)" || bad "132 G2 on base tree" "$r"
+
+mkrec; printf 'contracts:\n  - contract_id: contract-001\n    feature: x\n    type: contract\n    status: approved\n    verification_state: none\n    audited: false\n    disappointment: legacy\n    premortem: legacy\n    work_id: null\n' > "$R/meta-contract-before-execution/CONTRACT-LOG.yaml"
+r=$(bash "$G2" "$R" "$R/templates/MANIFEST.template.yaml"); [ $? = 0 ] && ok "133 an entry at status: approved passes without cost or red_test, which the lifecycle writes later (revision 1)" || bad "133 approved without cost" "$r"
+
+echo "=== contract-010: a kit across repositories ==="
+grep -q 'Applications in the system flow' "$SRC/meta-bootstrap/SKILL.md" && grep -q '`workspace: \[\]` is added to `kit_identity`' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'eight standing questions' "$SRC/meta-bootstrap/SKILL.md" && grep -q '\*none named\* for the workspace question' "$SRC/meta-bootstrap/SKILL.md" && ok "134 step 2 asks for the applications; step 7 adds the record; the standing list and the stub name the question (T-1)" || bad "134 the question" "-"
+grep -q '^  workspace: \[\]' "$SRC/templates/MANIFEST.template.yaml" && grep -q '^  workspace: \[\]' "$SRC/meta-manifest/MANIFEST.yaml" && ok "135a the template and the kit's own manifest carry workspace (T-2)" || bad "135a workspace key" "-"
+mkrec; sed -i '/^  workspace: \[\]$/d' "$R/meta-manifest/MANIFEST.yaml"
+r=$(bash "$G2" "$R" "$R/templates/MANIFEST.template.yaml"); rc=$?; [ $rc != 0 ] && case "$r" in *MANIFEST.yaml*workspace*) ok "135b a manifest without workspace fails the check, naming the key (T-2)";; *) bad "135b message" "$r";; esac || bad "135b missing workspace not caught" "$r"
+grep -q 'The workspace grant' "$SRC/meta-bootstrap/SKILL.md" && grep -q '"additionalDirectories": \[\]' "$SRC/templates/settings.template.json" && grep -q 'rewrite the entries that equal a manifest `workspace` path' "$SRC/meta-bootstrap/SKILL.md" && ok "136 step 5c writes the grant, the template carries the key, the upgrade keeps the pioneer's entries (T-3)" || bad "136 the grant" "-"
+grep -q '^> Applications in the system flow, beyond this repository: __WORKSPACE__' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'rendering `__WORKSPACE__` from the manifest' "$SRC/meta-bootstrap/SKILL.md" && ok "137 the kit block carries the placeholder and step 5 renders it (T-4)" || bad "137 the block" "-"
+# T-5: two installed kits, hooks anchored on A
+FX2=$(mktemp -d); A2="$FX2/kitA"; B2="$FX2/kitB"
+for rr in "$A2" "$B2"; do mkdir -p "$rr/.claude/skills/meta-mechanisms/hooks" "$rr/.claude/skills/meta-ledger" "$rr/.claude/skills/meta-manifest" "$rr/.claude/skills/meta-map" "$rr/.claude/skills/meta-contract-before-execution" "$rr/.claude/skills/meta-drift-eventlog" "$rr/sub"; cp "$SRC"/meta-mechanisms/hooks/*.sh "$rr/.claude/skills/meta-mechanisms/hooks/"; printf 'kit_type: project\nnodes:\n  - {id: base-map, kind: map, skill_file: meta-map/SKILL.md, load: always, triggers: [], owns: [meta-map/]}\n' > "$rr/.claude/skills/meta-manifest/MANIFEST.yaml"; printf 'x\n' > "$rr/.claude/skills/meta-map/SKILL.md"; printf 'contracts: []\n' > "$rr/.claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml"; done
+printf 'entries:\n  - drift_id: d-1\n    status: watching\n' > "$A2/.claude/skills/meta-drift-eventlog/DRIFTLOG.yaml"
+printf 'contracts:\n  - contract_id: c-9\n    status: implemented\n    verification_state: none\n    audited: false\n    bearing: x\n' > "$B2/.claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml"
+HA="$A2/.claude/skills/meta-mechanisms/hooks"
+printf '{"source":"startup"}' | CLAUDE_PROJECT_DIR="$A2" bash "$HA/session-start.sh" >/dev/null
+printf '{"tool_name":"Read","tool_input":{"file_path":"%s/.claude/skills/meta-map/SKILL.md"}}' "$B2" | CLAUDE_PROJECT_DIR="$A2" bash "$HA/post-read.sh"
+grep -q '|loaded|' "$A2/.claude/skills/meta-ledger/telemetry.log" && bad "138a a Read in kit B must not be logged as kit A's evidence" "$(grep loaded "$A2/.claude/skills/meta-ledger/telemetry.log")" || ok "138a a Read in kit B writes nothing into kit A's telemetry (T-5)"
+printf '{"tool_name":"Read","tool_input":{"file_path":"%s/.claude/skills/meta-map/SKILL.md"}}' "$A2" | CLAUDE_PROJECT_DIR="$A2" bash "$HA/post-read.sh"
+grep -q '|loaded|meta-map/SKILL.md' "$A2/.claude/skills/meta-ledger/telemetry.log" && ok "138b a Read in kit A is still logged (T-5)" || bad "138b kit A's own read" "$(cat "$A2/.claude/skills/meta-ledger/telemetry.log")"
+r=$(printf '{"source":"startup","cwd":"%s"}' "$B2/sub" | CLAUDE_PROJECT_DIR="$A2" bash "$HA/session-start.sh" | sed 's/.*additionalContext":"//')
+case "$r" in *"not audited"*) ok "138c a hook told cwd is kit B reports kit B's backlog (T-5)";; *) bad "138c cwd resolution" "$r";; esac
+grep -q '|session-start|' "$B2/.claude/skills/meta-ledger/telemetry.log" 2>/dev/null && ok "138d ...and writes its telemetry into kit B" || bad "138d telemetry root" "$(ls "$B2/.claude/skills/meta-ledger/")"
+# T-6: the template's locator, run from a subfolder of kit A with CLAUDE_PROJECT_DIR elsewhere
+cmd=$(sed -n '/"SessionStart"/,/\]/p' "$SRC/templates/settings.template.json" | grep -o '"command": ".*"' | head -1 | sed 's/^"command": "//; s/"$//; s/\\"/"/g')
+r=$(cd "$A2/sub" && printf '{"source":"startup"}' | CLAUDE_PROJECT_DIR=/nonexistent bash -c "$cmd" | sed 's/.*additionalContext":"//')
+case "$r" in *"Drift entries watching"*) ok "139a the template's SessionStart command finds kit A by walking up from its subfolder (T-6)";; *) bad "139a locator" "$r";; esac
+n=$(grep -c 'hooks/lib.sh' "$SRC"/agents/kit-*.md | awk -F: '{s+=$2} END{print s}'); [ "$n" = 16 ] && ok "139b all sixteen agent hook lines use the locator (T-6)" || bad "139b agent locators" "$n"
+n=$(grep -c 'hooks/lib.sh' "$SRC/templates/settings.template.json"); [ "$n" = 7 ] && ok "139c all seven template hook commands use the locator (T-6)" || bad "139c template locators" "$n"
+grep -q 'Which kit a hook acts on' "$SRC/meta-mechanisms/SKILL.md" && ok "140 the mechanisms node states which kit a hook acts on" || bad "140 mechanisms node" "-"
+rm -rf "$FX2"
 
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

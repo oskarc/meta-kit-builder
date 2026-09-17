@@ -4,8 +4,9 @@
 # In a consumer project: .claude/skills/meta-casebook/CASEBOOK.yaml
 #
 # AGENT INSTRUCTIONS:
-# meta-bootstrap copies this file as the empty seed, then appends any type-category precedents inherited from a
-# library kit (tier: type-category, with {bindings} to re-bind). kit-case-clerk writes precedents and scenario
+# Seeded from templates/CASEBOOK.template.yaml by meta-bootstrap, which then appends any type-category precedents
+# inherited from a library kit (tier: type-category, with {bindings} to re-bind); this header is refreshed from the
+# template at each upgrade (instruction, never record). kit-case-clerk writes precedents and scenario
 # cards; the main agent appends distinguished_by entries at contract approval; only the pioneer overrules.
 #
 # Schema:

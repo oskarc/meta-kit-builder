@@ -18,11 +18,13 @@
 #      scalar's continuation (any line deeper than the `key: value` or bare `key:` line it continues); siblings at one indent are all list
 #      items or all keys, never mixed — a sequence written at its key's own indent is that key's, not a mix.
 #   2. Migrated fields. Every contract entry carries exactly one verification_state, audited, disappointment,
-#      premortem and cost (and red_test unless status: approved); every drift entry exactly one status; every
+#      premortem (and red_test and cost unless status: approved, since both are written later); every drift entry exactly one status; every
 #      correction exactly one noticed, would_have_been_right and seen_before; every manifest node exactly one
-#      kind, load and triggers, and owns unless it is an agent; every ledger batch exactly one represented.
+#      kind, load and triggers, and owns unless it is an agent; every ledger batch exactly one represented; the
+#      manifest's kit_identity exactly one workspace (contract-010 G-2).
 #   3. Completeness. Every node id in the staged template's nodes: is registered in the manifest — a node the
-#      project registered under another id counts when its skill_file or agent_file is the same.
+#      project registered under another id counts when its skill_file or agent_file is the same. Every node_id in the
+#      staged template's coverage_map is a node_id in the manifest's coverage_map (contract-009 G-2).
 #   4. Contiguity (with <pre dir>). Every block scalar of a pre-migration record — its key line and every content
 #      line, in order — still stands as consecutive lines in the migrated record. A key inserted inside one
 #      splits it, which no line-preservation diff can see and no YAML parser reliably reports.
@@ -94,11 +96,14 @@ need(){ # need <file> <entrykey> <field> [<status that exempts a missing field>]
     fi
   done
 }
-for k in verification_state audited disappointment premortem cost; do out="$(need "$C" contract_id "$k")" || fail "$out"; done
+for k in verification_state audited disappointment premortem; do out="$(need "$C" contract_id "$k")" || fail "$out"; done
+out="$(need "$C" contract_id cost approved)" || fail "$out"   # cost is written at implemented (contract-009 revision 1)
 out="$(need "$C" contract_id red_test approved)" || fail "$out"
 out="$(need "$D" drift_id status)" || fail "$out"
 for k in noticed would_have_been_right seen_before; do out="$(need "$R" corr_id "$k")" || fail "$out"; done
 grep -q '^ *- batch_id:' "$L" && { out="$(need "$L" batch_id represented)" || fail "$out"; }
+
+n=$(tr -d '\r' < "$M" | grep -c '^  workspace:'); [ "$n" = 1 ] || fail "${M##*/}: kit_identity carries workspace $n times, expected exactly 1 (contract-010 G-2)"
 
 nodes(){ tr -d '\r' < "$1" | awk '/^nodes:/{f=1;next} /^[a-z_]+:/{f=0} f' ; }
 nodes "$M" | awk -v F="${M##*/}" '
@@ -124,6 +129,11 @@ for t in $tids; do
   fi
 done
 [ -z "$missing" ] || fail "${M##*/} lacks $(echo "$missing" | wc -w | tr -d ' ') node(s) the staged template registers:$missing"
+# coverage lines (contract-009 G-2): every node_id the staged template's coverage_map carries is one in the manifest's
+covids(){ tr -d '\r' < "$1" | awk '/^coverage_map:/{f=1;next} /^[a-z_]+:/{f=0} f' | grep -o 'node_id: [A-Za-z0-9_-]*' | sed 's/node_id: //' | sort -u; }
+mcov="$(covids "$M")"; missing=""
+for t in $(covids "$tpl"); do printf '%s\n' "$mcov" | grep -q -x "$t" || missing="$missing $t"; done
+[ -z "$missing" ] || fail "${M##*/} lacks $(echo "$missing" | wc -w | tr -d ' ') base coverage line(s) the staged template carries:$missing"
 
 # --- 4. contiguity of every pre-migration block scalar ---------------------------------------------------------
 # A block is identified by its first content line, not its key line (`concern: >-` recurs). A block whose first

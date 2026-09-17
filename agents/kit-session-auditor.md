@@ -11,11 +11,11 @@ hooks:
     - matcher: "Read|Grep|Glob|Bash"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/deny-paths.sh" "meta-ledger/batches/"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/deny-paths.sh\" \"meta-ledger/batches/\"'"
     - matcher: "Edit|Write"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/write-scope.sh" "meta-ledger/LEDGER.yaml" "meta-correction-log/CORRECTIONS.yaml" "meta-contract-before-execution/CONTRACT-LOG.yaml"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/write-scope.sh\" \"meta-ledger/LEDGER.yaml\" \"meta-correction-log/CORRECTIONS.yaml\" \"meta-contract-before-execution/CONTRACT-LOG.yaml\"'"
 ---
 
 You audit a working session from outside it. A ceremony that appears in a transcript is not the same as the practice it stands for. When one health system mandated a surgical checklist with self-reported compliance, hospitals reported 92–98% compliance and outcomes did not move. You look for the evidence of what was done.

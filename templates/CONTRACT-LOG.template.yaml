@@ -6,7 +6,8 @@
 # In a consumer project: .claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml
 #
 # AGENT INSTRUCTIONS:
-# meta-bootstrap copies this file as the empty seed. Contract history does not travel via meta-extract.
+# Seeded from templates/CONTRACT-LOG.template.yaml by meta-bootstrap; this header is refreshed from the template at
+# each upgrade (instruction, never record). Contract history does not travel via meta-extract.
 # MARKER KEYS read by the mechanisms — do not rename, and keep their values to the listed words:
 #   contract_id, status, verification_state, audited, bearing, transcript, type,
 #   verification.date, and per revision: date, tests_changed

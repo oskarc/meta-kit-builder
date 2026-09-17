@@ -15,6 +15,7 @@ kit_installed || exit 0
 in_subagent && exit 0
 
 p=$(norm_path "$(json_str file_path)")
+under_root "$p" || exit 0   # another kit's record is not governed here (contract-010 G-5)
 case "$p" in
   */.claude/skills/*) rel="${p##*/.claude/skills/}" ;;
   *) exit 0 ;;

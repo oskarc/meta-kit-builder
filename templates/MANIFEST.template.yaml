@@ -6,8 +6,9 @@
 # In a consumer project: .claude/skills/meta-manifest/MANIFEST.yaml
 #
 # AGENT INSTRUCTIONS:
-# This file is a template. meta-bootstrap reads it and replaces every value written in double-underscore
-# form with what project orientation found. No such value may remain in the written file.
+# Written by meta-bootstrap from templates/MANIFEST.template.yaml, every double-underscore value replaced with what
+# project orientation found; none may remain here. This header is refreshed from the template at each upgrade
+# (instruction, never record).
 # Writing this file with kit_type: project is what switches the mechanisms on (meta-mechanisms).
 # base_kit_version and the base nodes below are updated with every base kit release (template drift rule).
 
@@ -17,8 +18,9 @@ kit_identity:
   category: __CATEGORY__
   version: 0.1
   parent_kit: base-building-kit
-  base_kit_version: 0.16
+  base_kit_version: 0.18
   library_kit: __LIBRARY_KIT__
+  workspace: []              # the other repositories this system is made of: [{name, path, role}], path relative to this one; filled at install from the Step 2 orientation (contract-010)
   status: active
 
 nodes:

@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Kit in a Workspace</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#F3F1EC; --surface:#FFFFFF; --sunken:#E9E6DF; --ink:#1B1C1A; --muted:#5B5E57; --faint:#8B8E86; --rule:#CFCCC3;
+    --accent:#2E6B6F;
+    --verified:#3C6E47; --verified-wash:#E4EDE6; --corrected:#8A6320; --corrected-wash:#F3EBD9; --open:#9A3A2C; --open-wash:#F5E3DF;
+    --display:"Newsreader",Georgia,serif; --body:"Source Sans 3",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F;
+      --accent:#7FB8BB;
+      --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F;
+    --accent:#7FB8BB;
+    --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;padding-block:0 96px;padding-inline:20px}
+  .wrap{max-width:780px;margin:0 auto}
+  header{padding:56px 0 24px;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:12px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  h1{font-family:var(--display);font-size:clamp(34px,6vw,50px);line-height:1.05;font-weight:600;margin:0;text-wrap:balance}
+  .standfirst{font-size:19px;color:var(--muted);margin:0;max-width:62ch}
+  .tally{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:20px}
+  .tally div{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+  .tally .n{font-family:var(--mono);font-size:24px;font-variant-numeric:tabular-nums}
+  .tally .l{font-size:13px;color:var(--muted);line-height:1.3}
+  section{padding-top:40px}
+  h2{font-family:var(--display);font-size:26px;font-weight:600;margin:0 0 6px;text-wrap:balance}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  p{margin:0 0 14px;max-width:68ch}
+  code{font-family:var(--mono);font-size:.86em;background:var(--sunken);padding:1px 5px;border-radius:2px}
+  .claim{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--rule);padding:12px 16px;margin-bottom:8px}
+  .claim.v{border-left-color:var(--verified)} .claim.c{border-left-color:var(--corrected)} .claim.o{border-left-color:var(--open)}
+  .claim h3{font-size:16px;font-weight:600;margin:4px 0 4px;line-height:1.4}
+  .claim p{margin:0 0 6px;font-size:15px;color:var(--muted)} .claim p:last-child{margin-bottom:0}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;font-weight:600}
+  .chip.v{background:var(--verified-wash);color:var(--verified)} .chip.c{background:var(--corrected-wash);color:var(--corrected)} .chip.o{background:var(--open-wash);color:var(--open)} .chip.j{background:var(--sunken);color:var(--muted)}
+  .src{font-size:13px;color:var(--faint)}
+  figure{margin:18px 0 6px}
+  figure svg{max-width:100%;height:auto;display:block;color:var(--ink)}
+  figcaption{font-size:14px;color:var(--muted);margin-top:8px;max-width:66ch}
+  .tbl{overflow-x:auto;margin:14px 0 6px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:560px}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--ink)}
+  tbody tr:last-child td{border-bottom:none}
+  ul,ol{margin:0 0 14px;padding-left:22px} li{margin-bottom:6px}
+  .foot{margin-top:52px;padding-top:14px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--muted)}
+  @media (max-width:520px){ header{padding-top:36px} }
+</style>
+</head>
+<body><div class="wrap">
+
+<header>
+  <div class="eyebrow">report-001 · analysis report · base building kit · 2026-09-17</div>
+  <h1>The Kit in a Workspace</h1>
+  <p class="standfirst">What Claude Code loads from each directory of a session that spans several repositories, what that does to the kit's hooks and agents, and the shape of the fix.</p>
+  <div class="tally">
+    <div><span class="n">12</span><span class="l">claims verified against the docs or the code</span></div>
+    <div><span class="n">0</span><span class="l">claims corrected</span></div>
+    <div><span class="n">5</span><span class="l">questions open</span></div>
+    <div><span class="n">0</span><span class="l">contracts drawn (one proposed)</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="kicker">corrected claims</div>
+  <h2>None</h2>
+  <p>The kit had no statement about workspaces to contradict. Its hooks were written for one project, and read that way they are right. Where they go wrong is when a session holds two.</p>
+</section>
+
+<section>
+  <div class="kicker">verified — what Claude Code does</div>
+  <h2>Where each thing loads from</h2>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>Hooks come from one directory: the one the session started in.</h3>
+  <p>Hooks and every other <code>.claude/settings.json</code> key load from the current working directory's <code>.claude/</code> folder, with no parent-directory fallback, plus user and managed settings. A directory added with <code>--add-dir</code> contributes only <code>enabledPlugins</code> and <code>extraKnownMarketplaces</code> from its settings. A directory listed in <code>permissions.additionalDirectories</code> contributes nothing.</p>
+  <p class="src">Permissions reference, "Additional directories grant file access, not configuration"; Settings reference, "Where Claude Code keeps the local file".</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3><code>${CLAUDE_PROJECT_DIR}</code> is the launch directory and never moves.</h3>
+  <p>It points at the project root where the session started. After Claude enters a worktree, or after <code>/cd</code> moves the session to another directory, it still points there. The hook's <code>cwd</code> input field is what follows Claude.</p>
+  <p class="src">Hooks reference, "Reference scripts by path"; Permissions reference, "Move the session to another directory".</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3><code>/cd</code> swaps the project configuration, hooks included.</h3>
+  <p>On a move the new directory's settings, hooks, skills and subagents apply and the previous directory's project MCP servers disconnect. Requires v2.1.246 or later.</p>
+  <p class="src">Permissions reference, "Move the session to another directory".</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>An added directory gives its skills and agents, not its rules.</h3>
+  <p>From a directory passed with <code>--add-dir</code> or <code>/add-dir</code>: skills load with live reload, commands and subagents load without it, CLAUDE.md and <code>.claude/rules/</code> load only when <code>CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1</code> is set. Adding the <code>.claude</code> folder itself, rather than the repository root, adds nothing, because the loaders look for <code>&lt;dir&gt;/.claude/</code>.</p>
+  <p class="src">Permissions reference, the table under "Additional directories grant file access, not configuration"; Skills, "Load skills from a directory outside the project"; Memory, "Load from additional directories". The last sentence is this session's own case: two forks' <code>.claude</code> subfolders were added and none of their agents appeared.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>Subagents are found walking up from the working directory, and from added directories.</h3>
+  <p>Every <code>.claude/agents/</code> between the working directory and the repository root is scanned; the definition closest to the working directory wins a name. Added directories' agents load too. A project subagent's frontmatter hooks run only once the folder holding the agent file is trusted, and an added directory outside the trusted repository needs its own trust.</p>
+  <p class="src">Subagents reference, "Choose the subagent scope" and "Hooks in subagent frontmatter".</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>Settings hooks fire inside subagents, carrying <code>agent_id</code> and <code>agent_type</code>.</h3>
+  <p class="src">Hooks reference, "Hook locations"; Subagents reference, "Define hooks for subagents".</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>Plugin subagents lose their frontmatter hooks.</h3>
+  <p>For security reasons a plugin's agents ignore <code>hooks</code>, <code>mcpServers</code> and <code>permissionMode</code>. The kit's agents carry their blinds and write scopes in exactly those hooks.</p>
+  <p class="src">Subagents reference, the note under "Choose the subagent scope".</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>Nested configuration below the launch directory loads on touch, except settings.</h3>
+  <p>A subdirectory's CLAUDE.md and <code>.claude/skills/</code> load the first time Claude reads a file there. A subdirectory's <code>.claude/settings.json</code> never loads: project settings are not inherited in either direction.</p>
+  <p class="src">Memory, "How CLAUDE.md files load"; Skills, "Load skills in monorepos and subdirectories"; Large codebases, "Choose where to start Claude".</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>Three events tell a hook where Claude is.</h3>
+  <p><code>DirectoryAdded</code> carries the absolute <code>path</code> of a directory added mid-session; <code>CwdChanged</code> carries <code>cwd</code> and <code>previous_cwd</code>; every tool event carries <code>cwd</code> and the tool's own <code>file_path</code>. No event reports the directories added at launch with <code>--add-dir</code>.</p>
+  <p class="src">Hooks reference, event sections for DirectoryAdded, CwdChanged, SessionStart; "Common input fields".</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>The kit's hooks anchor everything on <code>CLAUDE_PROJECT_DIR</code>.</h3>
+  <p><code>lib.sh</code> sets <code>ROOT</code> from <code>CLAUDE_PROJECT_DIR</code>, falling back to the shell's directory, and every record path derives from it. The settings template and all eight agent files reference their scripts as <code>${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/…</code>. The write scopes are bare path fragments such as <code>meta-ledger/LEDGER.yaml</code>.</p>
+  <p class="src">Read in full: <code>meta-mechanisms/hooks/lib.sh</code>, <code>templates/settings.template.json</code>, <code>agents/*.md</code> frontmatter.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>Two hooks act on any path that contains <code>/.claude/skills/</code>, whichever repository it belongs to.</h3>
+  <p><code>post-read.sh</code> and <code>owner-check.sh</code> match the tool's file path by that fragment alone and write into the primary kit's telemetry. On a fixture of two installed kits with the hooks anchored on kit A, a Read of kit B's <code>meta-map/SKILL.md</code> wrote <code>loaded|meta-map/SKILL.md</code> into kit A's telemetry. Kit A then counts that skill as loaded this session.</p>
+  <p class="src">Fixture run 2026-09-17 in this session; the two scripts read in full.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>The kit's own tree runs no mechanisms in a session started there.</h3>
+  <p>Its manifest declares <code>kit_type: base</code>, which every hook treats as "not installed", and it ships no <code>.claude/settings.json</code>. A workspace session started in the base kit therefore governs nothing, whatever it adds.</p>
+  <p class="src"><code>lib.sh</code> <code>kit_installed</code>; this repository's <code>.claude/</code> holds only a local permissions file.</p></div>
+</section>
+
+<section>
+  <div class="kicker">the mechanism, drawn</div>
+  <h2>A session holding two kits</h2>
+  <figure>
+    <svg viewBox="0 0 760 330" role="img" aria-label="A session started in kit A with kit B added. Kit A's settings register the hooks and kit A's CLAUDE.md loads; kit B contributes only its skills and agents. The hooks read and write kit A's records through CLAUDE_PROJECT_DIR. A tool call on a file in kit B is logged into kit A's telemetry. Kit B's own hooks are never registered.">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+        <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#B0432F"/></marker>
+      </defs>
+      <g font-family="JetBrains Mono, monospace" font-size="12" fill="currentColor" stroke="currentColor" stroke-width="1.2">
+        <!-- session -->
+        <rect x="270" y="20" width="220" height="80" rx="4" fill="none"/>
+        <text x="380" y="46" text-anchor="middle" stroke="none" font-weight="500">the session</text>
+        <text x="380" y="66" text-anchor="middle" stroke="none" font-size="11">started in kit A</text>
+        <text x="380" y="84" text-anchor="middle" stroke="none" font-size="11">CLAUDE_PROJECT_DIR = A</text>
+        <!-- kit A -->
+        <rect x="20" y="170" width="300" height="140" rx="4" fill="none"/>
+        <text x="170" y="192" text-anchor="middle" stroke="none" font-weight="500">kit A  (primary directory)</text>
+        <text x="40" y="216" stroke="none" font-size="11">.claude/settings.json  hooks</text>
+        <text x="40" y="234" stroke="none" font-size="11">CLAUDE.md  intent, founding, map</text>
+        <text x="40" y="252" stroke="none" font-size="11">.claude/skills/  records + skills</text>
+        <text x="40" y="270" stroke="none" font-size="11">.claude/agents/</text>
+        <text x="40" y="294" stroke="none" font-size="11">meta-ledger/telemetry.log</text>
+        <!-- kit B -->
+        <rect x="440" y="170" width="300" height="140" rx="4" fill="none" stroke-dasharray="4 3"/>
+        <text x="590" y="192" text-anchor="middle" stroke="none" font-weight="500">kit B  (--add-dir)</text>
+        <text x="460" y="216" stroke="none" font-size="11" opacity=".55">.claude/settings.json  hooks</text>
+        <text x="460" y="234" stroke="none" font-size="11" opacity=".55">CLAUDE.md</text>
+        <text x="460" y="252" stroke="none" font-size="11">.claude/skills/  records + skills</text>
+        <text x="460" y="270" stroke="none" font-size="11">.claude/agents/</text>
+        <text x="460" y="294" stroke="none" font-size="11" opacity=".55">meta-ledger/telemetry.log</text>
+        <!-- edges A -> session -->
+        <line x1="170" y1="170" x2="300" y2="100" marker-end="url(#ah)"/>
+        <text x="205" y="128" stroke="none" font-size="11">hooks, CLAUDE.md, skills, agents</text>
+        <!-- edges B -> session -->
+        <line x1="590" y1="170" x2="470" y2="100" marker-end="url(#ah)"/>
+        <text x="520" y="128" stroke="none" font-size="11">skills, agents only</text>
+        <!-- B hooks absent -->
+        <line x1="620" y1="212" x2="500" y2="112" stroke-dasharray="3 3" opacity=".5"/>
+        <text x="612" y="150" stroke="none" font-size="11" opacity=".7">hooks: never registered</text>
+        <!-- hooks read A records -->
+        <path d="M300 60 C 120 60, 90 120, 100 170" fill="none" marker-end="url(#ah)"/>
+        <text x="60" y="80" stroke="none" font-size="11">hooks read and write</text>
+        <text x="60" y="95" stroke="none" font-size="11">A's records via ROOT</text>
+        <!-- wrong edge -->
+        <path d="M460 250 C 420 250, 380 310, 330 294" fill="none" stroke="#B0432F" marker-end="url(#ahr)"/>
+        <text x="345" y="325" stroke="none" font-size="11" fill="#B0432F">a Read or Edit in B is logged into A's telemetry</text>
+      </g>
+    </svg>
+    <figcaption>What a session started in kit A takes from each directory when kit B is added. The dashed edge is the absence: kit B's hooks are never registered. The red edge is the defect the fixture reproduced: the primary kit's hooks act on the other kit's paths and write the evidence into their own log.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="kicker">judgement — what follows</div>
+  <h2>Three consequences</h2>
+  <div class="claim v"><span class="chip v">verified</span><h3>Only the primary kit's lifecycle runs, and it mis-logs the other.</h3>
+  <p>Edits to kit B's records are ungoverned: no backlog, no stop-gate task, no ownership check for B. And A's telemetry gains loads and bypasses that happened in B, so A's map evidence and ownership evidence are wrong in both directions. Reproduced on the fixture above.</p></div>
+  <div class="claim o"><span class="chip j">derived</span><h3>After <code>/cd</code>, the kit's hooks point at the wrong tree or at nothing.</h3>
+  <p>The moved-to directory's settings register its hooks, but their command paths expand <code>${CLAUDE_PROJECT_DIR}</code> to the launch directory. From a non-kit start the scripts do not exist there, so every event reports a non-blocking failure and the kit is silently off. From another kit's start the scripts run, but with <code>ROOT</code> still the first kit, so they read the first kit's records. Derived from two verified claims; not executed.</p></div>
+  <div class="claim o"><span class="chip j">derived</span><h3>Two copies of every kit agent and skill, and the scopes cannot tell the repositories apart.</h3>
+  <p>Both kits' <code>.claude/agents/</code> and <code>.claude/skills/</code> load, so the eight kit agents and eighteen meta skills appear twice by name. Which copy answers to a name is not documented for the added-directory case. Whichever runs, its write scope is a bare fragment, so an agent asked to record observations for A may write B's ledger without any hook objecting.</p></div>
+</section>
+
+<section>
+  <div class="kicker">options as differences</div>
+  <h2>Four ways to make it hold</h2>
+  <figure>
+    <svg viewBox="0 0 760 210" role="img" aria-label="Two options drawn on the same skeleton. Option A keeps one kit per session and makes the hooks refuse paths outside their root. Option B adds a root resolver in the hook library: tool events resolve the kit root from the file path, session events from the set of known roots, so both kits' records are governed from one session.">
+      <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+      <g font-family="JetBrains Mono, monospace" font-size="12" fill="currentColor" stroke="currentColor" stroke-width="1.2">
+        <text x="20" y="24" stroke="none" font-weight="500">A · one kit per session</text>
+        <rect x="20" y="40" width="130" height="40" rx="4" fill="none"/><text x="85" y="65" text-anchor="middle" stroke="none">hooks (A)</text>
+        <rect x="20" y="140" width="130" height="40" rx="4" fill="none"/><text x="85" y="165" text-anchor="middle" stroke="none">A records</text>
+        <rect x="200" y="140" width="130" height="40" rx="4" fill="none" stroke-dasharray="4 3" opacity=".5"/><text x="265" y="165" text-anchor="middle" stroke="none" opacity=".5">B records</text>
+        <line x1="85" y1="80" x2="85" y2="140" marker-end="url(#ah2)"/>
+        <line x1="150" y1="60" x2="240" y2="140" stroke-dasharray="3 3" opacity=".6"/>
+        <text x="180" y="112" stroke="none" font-size="11">refused: outside ROOT</text>
+
+        <line x1="380" y1="10" x2="380" y2="200" opacity=".3"/>
+
+        <text x="410" y="24" stroke="none" font-weight="500">B · root-aware mechanisms</text>
+        <rect x="410" y="40" width="130" height="40" rx="4" fill="none"/><text x="475" y="65" text-anchor="middle" stroke="none">hooks (A)</text>
+        <rect x="580" y="40" width="160" height="40" rx="4" fill="none" stroke="#2E6B6F" stroke-width="1.8"/><text x="660" y="58" text-anchor="middle" stroke="none" font-size="11" fill="#2E6B6F">root resolver (new)</text><text x="660" y="73" text-anchor="middle" stroke="none" font-size="10" fill="#2E6B6F">path → nearest installed kit</text>
+        <line x1="540" y1="60" x2="580" y2="60" marker-end="url(#ah2)"/>
+        <rect x="410" y="140" width="130" height="40" rx="4" fill="none"/><text x="475" y="165" text-anchor="middle" stroke="none">A records</text>
+        <rect x="590" y="140" width="130" height="40" rx="4" fill="none"/><text x="655" y="165" text-anchor="middle" stroke="none">B records</text>
+        <line x1="630" y1="80" x2="500" y2="140" marker-end="url(#ah2)"/>
+        <line x1="665" y1="80" x2="660" y2="140" marker-end="url(#ah2)"/>
+        <text x="520" y="118" stroke="none" font-size="11">each event to its own root</text>
+      </g>
+    </svg>
+    <figcaption>The same skeleton twice. A adds one rule: a hook refuses to act on a path outside its root, so it can no longer mis-log. B adds one part: a resolver that maps every event to the kit root it belongs to, so both kits are governed from one session. The two rejected options are described below rather than drawn, because neither changes this skeleton; they change where the kit lives.</figcaption>
+  </figure>
+
+  <div class="tbl"><table>
+    <caption class="src">The axes that separate them</caption>
+    <thead><tr><th>option</th><th>build</th><th>what still breaks</th><th>what it forecloses</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A</strong> one kit per session; hooks refuse foreign paths; scripts found by walking up from <code>cwd</code></td><td>small: <code>lib.sh</code>, two hooks, the settings template's command form, one sentence in bootstrap</td><td>the added kit stays ungoverned; two copies of each agent and skill by name</td><td>nothing; B builds on it</td></tr>
+      <tr><td><strong>B</strong> root-aware: tool events by file path, session and turn events over every known root; backlog and gate tasks name their root; agents told their root; scopes root-qualified</td><td>medium: the library, all hooks, the gate messages, eight agent scopes, a two-root walk</td><td>roots added with <code>--add-dir</code> at launch are invisible until Claude touches a file there; duplicate agent names still unresolved by the platform</td><td>nothing; it is A plus the resolver</td></tr>
+      <tr><td><strong>C</strong> a kit installed at the workspace root over repositories that keep their own kits</td><td>none in the kit</td><td>nested kits' CLAUDE.md blocks and skills load on touch and collide with the root's; the sub-repositories' hooks never fire; the records live outside every repository</td><td>per-repository records, which the founding statement asks for</td></tr>
+      <tr><td><strong>D</strong> the kit as a plugin: hooks and skills bundled, enabled per repository</td><td>medium: a plugin manifest and <code>${CLAUDE_PLUGIN_ROOT}</code> paths</td><td>plugin agents ignore frontmatter hooks, so the blinds and write scopes vanish; records still per project, so B is still needed for two-kit sessions</td><td>the agent scopes as they stand</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="kicker">not answered</div>
+  <h2>What this pass could not close</h2>
+  <ul>
+    <li><span class="chip o">open</span> Which copy runs when a project and an added directory define a subagent or a skill with the same name. The docs settle project-versus-nested and project-versus-command, not project-versus-added.</li>
+    <li><span class="chip o">open</span> Whether a VS Code multi-root workspace or the desktop app sets the primary directory the way the CLI does. Not in the pages read.</li>
+    <li><span class="chip o">open</span> How a hook can learn the directories added at launch with <code>--add-dir</code>. No event or field carries them; only <code>/add-dir</code> fires <code>DirectoryAdded</code>.</li>
+    <li><span class="chip o">open</span> Whether trust for an added directory outside the primary repository is granted once or per session, and what that does to the kit agents' frontmatter hooks over many sessions.</li>
+    <li><span class="chip o">open</span> The <code>/cd</code> consequence above is derived, not run. A fixture with a session moved between two installed kits would settle it.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="kicker">recommendation · judgement</div>
+  <h2>Do A now, draw B as the next contract</h2>
+  <p>The plain answer to "how do the hooks work in a workspace" is: they don't, not for the second kit. Claude Code registers hooks from one directory only, the one the session started in, and reads every other directory for files, skills and agents. So a workspace is one governing kit per session, and the other repositories are files. That is workable today if it is said, and if the kit stops mis-logging the other repositories' reads and edits into its own evidence, which is one rule in the library.</p>
+  <p>To govern two kits from one session, the kit has to become root-aware. Claude Code gives enough to do it: every tool event carries the file's path, <code>cwd</code> follows Claude, <code>DirectoryAdded</code> names what was added, and a script can walk up from any path to the nearest installed manifest. That is option B, and A is its first guardrail. Neither C nor D is worth building: C puts the records outside the repositories, D drops the agents' blinds.</p>
+  <p>Until B ships, the rule of thumb for the pioneer: start the session in the repository whose kit should run, add the others by their root path with <code>--add-dir</code>, expect their skills and agents and not their hooks, and do not edit their records from that session.</p>
+</section>
+
+<div class="foot">
+  <p><strong>Read in full for this report.</strong> Claude Code docs: hooks reference (configuration, locations, input fields, DirectoryAdded, CwdChanged, InstructionsLoaded), settings, permissions, subagents, skills, memory, large codebases, CLI reference. Kit files: every hook under <code>meta-mechanisms/hooks/</code>, <code>meta-mechanisms/SKILL.md</code>, <code>templates/settings.template.json</code>, the eight agent files' frontmatter. One fixture run: two installed kits, hooks anchored on the first, a Read and an Edit in the second.</p>
+  <p><strong>Nothing changed.</strong> No file in the kit was edited for this report. The recommendation is a contract to draw, not work done.</p>
+</div>
+
+</div></body></html>

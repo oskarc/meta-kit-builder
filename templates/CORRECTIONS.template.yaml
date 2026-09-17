@@ -4,7 +4,8 @@
 # In a consumer project: .claude/skills/meta-correction-log/CORRECTIONS.yaml
 #
 # AGENT INSTRUCTIONS:
-# meta-bootstrap copies this file as the empty seed. Entries are appended the moment a correction happens
+# Seeded from templates/CORRECTIONS.template.yaml by meta-bootstrap; this header is refreshed from the template at
+# each upgrade (instruction, never record). Entries are appended the moment a correction happens
 # (map M-07), verbatim, and never edited afterwards except for the fields kit-case-clerk owns
 # (clerked, precedent, clerk_note, and the trajectory block). Does not travel via meta-extract.
 # MARKER KEY read by the mechanisms — do not rename: clerked.

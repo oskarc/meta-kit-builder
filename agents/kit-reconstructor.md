@@ -11,11 +11,11 @@ hooks:
     - matcher: "Read|Grep|Glob|Bash"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/deny-paths.sh" "meta-correction-log/" "meta-ledger/" "meta-contract-before-execution/CONTRACT-LOG.yaml" "meta-drift-eventlog/DRIFTLOG.yaml" "meta-learning/LEARNINGLOG.yaml" "kit-sealed/" "/.claude/projects/"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/deny-paths.sh\" \"meta-correction-log/\" \"meta-ledger/\" \"meta-contract-before-execution/CONTRACT-LOG.yaml\" \"meta-drift-eventlog/DRIFTLOG.yaml\" \"meta-learning/LEARNINGLOG.yaml\" \"kit-sealed/\" \"/.claude/projects/\"'"
     - matcher: "Edit|Write"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/write-scope.sh" "meta-casebook/reconstruction/"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/write-scope.sh\" \"meta-casebook/reconstruction/\"'"
 ---
 
 You test the kit's central claim: that its standard carries the pioneer's judgement well enough that someone who was not present could decide as they would. You decide as that someone would, from the kit alone.

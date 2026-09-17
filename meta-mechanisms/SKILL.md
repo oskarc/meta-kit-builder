@@ -36,6 +36,8 @@ The kit's own history is the evidence. In the downstream projects, drift inciden
 
 Installed by `meta-bootstrap` from `templates/settings.template.json` into the project's `.claude/settings.json`. Each kit hook group carries `"_kit": "base-building-kit"`, which is how an upgrade replaces them instead of appending a second copy.
 
+**Which kit a hook acts on.** A hook acts on the kit its event belongs to: `lib.sh` walks up from the event's working directory (`cwd` in the hook input, which follows Claude after `/cd` or a `cd`) to the nearest installed manifest and reads that kit's records; when no ancestor holds one, the launch directory (`CLAUDE_PROJECT_DIR`) stands. The two path hooks, `post-read.sh` and `owner-check.sh`, act only on paths under that root, so a read or an edit in another repository's kit is never this kit's evidence. The settings template and the agents locate the scripts the same way, so a session moved into a kit with `/cd` runs that kit's hooks. Other repositories a system spans are named in the manifest's `workspace` list and granted through `permissions.additionalDirectories`, which loads nothing from them (contract-010).
+
 **Not installed yet?** `kit_installed` is false when `MANIFEST.yaml` is missing *or* declares a base `kit_type`. The kit ships with its own manifest and its own records; until bootstrap's last seeding step replaces them, every mechanism stays silent rather than running the lifecycle against the base kit's data.
 
 ## The stop-gate

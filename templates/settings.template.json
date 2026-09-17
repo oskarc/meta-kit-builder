@@ -4,7 +4,7 @@
       {
         "_kit": "base-building-kit",
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/session-start.sh\"" }
+          { "type": "command", "command": "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/session-start.sh\"'" }
         ]
       }
     ],
@@ -12,7 +12,7 @@
       {
         "_kit": "base-building-kit",
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/prompt-submit.sh\"" }
+          { "type": "command", "command": "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/prompt-submit.sh\"'" }
         ]
       }
     ],
@@ -20,7 +20,7 @@
       {
         "_kit": "base-building-kit",
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/stop-gate.sh\"" }
+          { "type": "command", "command": "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/stop-gate.sh\"'" }
         ]
       }
     ],
@@ -28,7 +28,7 @@
       {
         "_kit": "base-building-kit",
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/subagent-stop.sh\"" }
+          { "type": "command", "command": "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/subagent-stop.sh\"'" }
         ]
       }
     ],
@@ -37,7 +37,7 @@
         "_kit": "base-building-kit",
         "matcher": "Read|Grep|Glob",
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/batch-blind.sh\"" }
+          { "type": "command", "command": "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/batch-blind.sh\"'" }
         ]
       }
     ],
@@ -46,14 +46,14 @@
         "_kit": "base-building-kit",
         "matcher": "Read|Skill",
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/post-read.sh\"" }
+          { "type": "command", "command": "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/post-read.sh\"'" }
         ]
       },
       {
         "_kit": "base-building-kit",
         "matcher": "Write|Edit",
         "hooks": [
-          { "type": "command", "command": "bash \"${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/owner-check.sh\"" }
+          { "type": "command", "command": "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/owner-check.sh\"'" }
         ]
       }
     ]
@@ -61,6 +61,7 @@
   "permissions": {
     "deny": [
       "Read(kit-sealed/**)"
-    ]
+    ],
+    "additionalDirectories": []
   }
 }

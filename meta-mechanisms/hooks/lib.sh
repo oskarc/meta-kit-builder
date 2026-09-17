@@ -9,18 +9,51 @@
 #   * values may carry a trailing `# comment`.
 # Renaming a key, or adding a value outside the enumerations below, silently switches a mechanism off.
 
-ROOT=$(printf '%s' "${CLAUDE_PROJECT_DIR:-$PWD}" | sed -e 's#\\\\#/#g' -e 's#\\#/#g')
-KIT="$ROOT/.claude/skills"
-SEALED="$ROOT/.claude/kit-sealed"
-CONTRACTS="$KIT/meta-contract-before-execution/CONTRACT-LOG.yaml"
-DRIFT="$KIT/meta-drift-eventlog/DRIFTLOG.yaml"
-LEDGER="$KIT/meta-ledger/LEDGER.yaml"
-CORRECTIONS="$KIT/meta-correction-log/CORRECTIONS.yaml"
-CASEBOOK="$KIT/meta-casebook/CASEBOOK.yaml"
-MAPFILE="$KIT/meta-map/MAP.md"
-FOUNDING="$KIT/meta-founding-contract/FOUNDING.md"
-MANIFEST="$KIT/meta-manifest/MANIFEST.yaml"
-TELEMETRY="$KIT/meta-ledger/telemetry.log"
+# norm_path TEXT — JSON-escaped or native Windows separators to forward slashes
+norm_path() { printf '%s' "$1" | sed -e 's#\\\\#/#g' -e 's#\\#/#g'; }
+
+# kit_root PATH — the nearest ancestor of PATH (PATH itself first) holding an installed kit: a manifest whose
+# kit_type is not base. Prints it; empty and false when there is none. A hook acts on the kit its event belongs
+# to, never on the launch directory by default (contract-010 G-5).
+kit_root() {
+  local d; d=$(norm_path "$1"); d="${d%/}"
+  while [ -n "$d" ]; do
+    if [ -f "$d/.claude/skills/meta-manifest/MANIFEST.yaml" ] \
+       && ! grep -qE '^[[:space:]]*kit_type:[[:space:]]*base[[:space:]]*(#.*)?$' "$d/.claude/skills/meta-manifest/MANIFEST.yaml"; then
+      printf '%s' "$d"; return 0
+    fi
+    case "$d" in */*) d="${d%/*}" ;; *) d="" ;; esac
+  done
+  return 1
+}
+
+# set_root DIR — every record path derives from ROOT; called once with the launch directory, and again from
+# read_input with the kit the event's working directory belongs to.
+set_root() {
+  ROOT=$(norm_path "$1")
+  KIT="$ROOT/.claude/skills"
+  SEALED="$ROOT/.claude/kit-sealed"
+  CONTRACTS="$KIT/meta-contract-before-execution/CONTRACT-LOG.yaml"
+  DRIFT="$KIT/meta-drift-eventlog/DRIFTLOG.yaml"
+  LEDGER="$KIT/meta-ledger/LEDGER.yaml"
+  CORRECTIONS="$KIT/meta-correction-log/CORRECTIONS.yaml"
+  CASEBOOK="$KIT/meta-casebook/CASEBOOK.yaml"
+  MAPFILE="$KIT/meta-map/MAP.md"
+  FOUNDING="$KIT/meta-founding-contract/FOUNDING.md"
+  MANIFEST="$KIT/meta-manifest/MANIFEST.yaml"
+  TELEMETRY="$KIT/meta-ledger/telemetry.log"
+}
+# The kit the shell sits in comes first (the locator in settings.template.json found the script the same way), then the
+# launch directory. A hook run with no cwd in its input still acts on the kit it was started under.
+set_root "$(kit_root "$PWD" || printf '%s' "${CLAUDE_PROJECT_DIR:-$PWD}")"
+
+# under_root PATH — true when PATH lies under this root's .claude/skills/ (drive letters compare case-blind)
+under_root() {
+  local p r
+  p=$(norm_path "$1" | tr '[:upper:]' '[:lower:]'); r=$(printf '%s' "$ROOT" | tr '[:upper:]' '[:lower:]')
+  case "$p" in "$r/.claude/skills/"*) return 0 ;; esac
+  return 1
+}
 
 INPUT=""
 SCAN=""
@@ -29,6 +62,9 @@ read_input() {
   # Fields are read from the request only: a tool_response echoing file_path must not override tool_input.
   SCAN=${INPUT%%\"tool_response\"*}
   SCAN=${SCAN%%\"tool_result\"*}
+  # The kit this event belongs to: the one the working directory sits in, when it sits in one (contract-010 G-5).
+  local c r; c=$(json_str cwd)
+  if [ -n "$c" ] && r=$(kit_root "$c"); then set_root "$r"; fi
 }
 
 # kit_installed — true only for a BOOTSTRAPPED project. The kit ships its own MANIFEST.yaml
@@ -64,9 +100,6 @@ contains() {
   case "$h" in *"$n"*) return 0 ;; esac
   return 1
 }
-
-# norm_path TEXT — JSON-escaped or native Windows separators to forward slashes
-norm_path() { printf '%s' "$1" | sed -e 's#\\\\#/#g' -e 's#\\#/#g'; }
 
 # json_escape TEXT — safe to embed inside a JSON string
 json_escape() {

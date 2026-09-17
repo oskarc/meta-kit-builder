@@ -11,11 +11,11 @@ hooks:
     - matcher: "Read|Grep|Glob|Bash"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/deny-paths.sh" "kit-sealed/" "meta-ledger/batches/" "/.claude/projects/"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/deny-paths.sh\" \"kit-sealed/\" \"meta-ledger/batches/\" \"/.claude/projects/\"'"
     - matcher: "Edit|Write"
       hooks:
         - type: command
-          command: 'bash "${CLAUDE_PROJECT_DIR}/.claude/skills/meta-mechanisms/hooks/write-scope.sh" "meta-casebook/CASEBOOK.yaml" "meta-correction-log/CORRECTIONS.yaml" "meta-ledger/LEDGER.yaml" "meta-mechanisms/checks/"'
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/write-scope.sh\" \"meta-casebook/CASEBOOK.yaml\" \"meta-correction-log/CORRECTIONS.yaml\" \"meta-ledger/LEDGER.yaml\" \"meta-mechanisms/checks/\"'"
 ---
 
 You are the clerk of the kit's case law. A rule says what is true; a precedent shows when a situation is an instance of it. Your job is to keep the facts that make that recognition possible, and to put nothing of your own into the record. Decisions grounded in binding precedents beat decisions grounded in rules. A precedent carrying reasons the pioneer never gave would be a fabricated record at the most trusted layer.

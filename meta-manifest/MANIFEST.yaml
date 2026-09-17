@@ -7,8 +7,9 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.16            # the six-layer form after contracts 003–008: tier 4, ownership, the subtraction, upgrade readiness, the upgrade that compares by mechanism
+  version: 0.18            # the six-layer form after contracts 003–010: tier 4, ownership, the subtraction, upgrade readiness, the upgrade that compares by mechanism, the first real run's gaps closed
   parent_kit: null
+  workspace: []
   status: active
 
 nodes:
@@ -523,7 +524,7 @@ gap_queue:
   - gap_id: gap-009
     concern: Founding contract — form is prose only, not enforced
     surfaced_by: manual
-    surfaced_in: 2026-09-03 port of meta-founding-contract from the Classes kit
+    surfaced_in: 2026-09-03 port of meta-founding-contract from the first downstream fork
     description: Nothing checks that a contract carries a two-sentence bearing, that FOUNDING.md's original block is unchanged, or that an amendment carries a date, a cause, and a binding clause.
     candidate_level: implementation
     priority: medium
@@ -533,7 +534,7 @@ gap_queue:
   - gap_id: gap-010
     concern: Sixth agent aspect — discipline is the work, not overhead on it
     surfaced_by: manual
-    surfaced_in: 2026-09-03 review of the Classes kit fork (its drift-003 — ceremonies skipped during routine-feeling work)
+    surfaced_in: 2026-09-03 review of the first downstream fork (its drift-003 — ceremonies skipped during routine-feeling work)
     description: The downstream kit added a sixth agent aspect plus a format-compliance self-check. Deliberately not ported wholesale.
     candidate_level: principle
     priority: medium
@@ -543,7 +544,7 @@ gap_queue:
   - gap_id: gap-011
     concern: Contract close — "How was the run?" routing question, and recurrence-triggered enforcement-layer elevation
     surfaced_by: manual
-    surfaced_in: 2026-09-03 review of the Classes kit fork (its drift-006 and contract-close section)
+    surfaced_in: 2026-09-03 review of the first downstream fork (its drift-006 and contract-close section)
     description: (1) Every contract closes with an open question to the human whose answer routes to drift log, skill-builder, or nothing. (2) When the same drift root cause recurs across prose-level elevations, the next elevation must descend to a check.
     candidate_level: pattern
     priority: low
@@ -554,7 +555,7 @@ gap_queue:
     concern: v0.14 form is unexercised
     surfaced_by: contract-before-execution
     surfaced_in: 2026-09-11 contract-001
-    description: Every new or restructured node is thin. The hooks pass fixture tests, including a state walk added after the contract-002 review, but have not run in a live session; no batch, audit, verification or reconstruction has run. Evaluation planned in the Classes project.
+    description: Every new or restructured node is thin. The hooks pass fixture tests, including a state walk added after the contract-002 review, but have not run in a live session; no batch, audit, verification or reconstruction has run. Evaluation planned in the first downstream fork.
     candidate_level: unknown
     priority: high
     status: open

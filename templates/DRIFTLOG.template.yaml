@@ -8,11 +8,10 @@
 # In a consumer project: .claude/skills/meta-drift-eventlog/DRIFTLOG.yaml
 #
 # AGENT INSTRUCTIONS:
-# This file is a template. meta-bootstrap copies it to
-# .claude/skills/meta-drift-eventlog/DRIFTLOG.yaml as the empty seed.
+# Seeded from templates/DRIFTLOG.template.yaml by meta-bootstrap; this header is refreshed from the template at
+# each upgrade (instruction, never record).
 # Drift history is project-specific — it does not travel via meta-extract.
-# A new project always starts with an empty entries list, regardless of any
-# inherited type-category kit.
+# No entry is inherited from a type-category kit: every project's drift history starts empty.
 #
 # Schema reference (full details in meta-drift-eventlog/SKILL.md):
 #

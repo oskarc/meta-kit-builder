@@ -78,6 +78,10 @@ contracts:
     status: implemented
     verification_state: none
     audited: false
+    disappointment: legacy
+    premortem: legacy
+    red_test: legacy
+    cost: legacy
     transcript: null
     observations: [O-001, O-002, O-003, O-004, O-005, O-006]
     # The pioneer authorised kit-reconstructor on 2026-09-12, after implementation. That authorisation is
@@ -146,6 +150,10 @@ contracts:
     status: implemented
     verification_state: none
     audited: false
+    disappointment: legacy
+    premortem: legacy
+    red_test: legacy
+    cost: legacy
     transcript: null
     observations: [O-007, O-008, O-009, O-010, O-011, O-012]
     revisions: []
@@ -211,6 +219,10 @@ contracts:
     status: implemented
     verification_state: none
     audited: false
+    disappointment: legacy
+    premortem: legacy
+    red_test: legacy
+    cost: legacy
     transcript: null
     observations: []
     revisions: []
@@ -422,7 +434,11 @@ contracts:
       summary: {verified: 17, corrected: 4, open: 0}
       open_needs: []
     audited: false
-    transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    disappointment: legacy
+    premortem: legacy
+    red_test: legacy
+    cost: legacy
+    transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: [O-013, O-014, O-015, O-016, O-017, O-018]
     revisions: []
     work_id: null
@@ -548,7 +564,11 @@ contracts:
       summary: {verified: 11, corrected: 0, open: 0}
       open_needs: []
     audited: false
-    transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    disappointment: legacy
+    premortem: legacy
+    red_test: legacy
+    cost: legacy
+    transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: [O-019, O-020, O-021]
     revisions: []
     work_id: null
@@ -824,7 +844,7 @@ contracts:
         - "UC-7, G-9: the pioneer's ruling on the INTENT.md diff recorded on this entry, and INTENT.md matching it"
         - "G-10: the INTENT.md ruling above, and the T-10 clerk run's P-001, checks/P-001.sh and O-001 preserved (fixture kept, or files quoted in the result)"
     audited: false
-    transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: []            # recorded after verification
     intent_approval: "Pioneer, 2026-09-13, on the full aligned INTENT.md: 'This is pretty good, ill allow it.' (G-9 / T-9)"
     revisions:
@@ -948,7 +968,7 @@ contracts:
       T-12 (G-3, the pre-mortem)  Fixture with one locally evolved meta-* skill: the upgrade shows the difference
                       and asks; fixture with none: it asks nothing.
       untested: G-11 ("no agent decides"), read from the files; whether README reads well to a newcomer — the
-                pioneer's judgement; the real Classes upgrade — the rehearsal is on a copy, and stage 1 is the test.
+                pioneer's judgement; the real upgrade of the fork — the rehearsal is on a copy, and stage 1 is the test.
     red_test: {broke: G-5, went_red: T-5, how: "session-start.sh's `ratification: deferred` guard replaced by `if true`; walk-007 state 91 failed ('deferred ratification must not raise the backlog' — the pioneer-owned line appeared); restored; walk-007 30/30 green again", date: 2026-09-13}
     status: implemented
     verification_state: reported
@@ -976,7 +996,7 @@ contracts:
             templates/MANIFEST.template.yaml:20 base_kit_version: 0.15. I rebuilt both fixtures with
             tests/fixtures/make-upgrade-fixtures.sh: each reads base_kit_version: 0.14 beside a staged copy at 0.15,
             and meta-bootstrap/SKILL.md:351 compares exactly those two fields, with "treat as pre-0.14 and say so"
-            where the project's field is absent — which is the Classes case.
+            where the project's field is absent — which is the fork's case.
         - clause: UC-2
           verdict: verified
           evidence: |
@@ -987,7 +1007,7 @@ contracts:
             brier_pioneer_decisions with no coincidence:, the manifest reads 0.14 and still registers the canary node,
             MAP.md still carries M-31, there is no checks/ folder, and the stale files are on disk. The reports show
             each item of G-2's list applied and every pre-existing line surviving a diff against a copy taken before
-            the migration (fx013-round10.md section 3; classes-round6.md section 3 — 1,124 insertions across three
+            the migration (fx013-round10.md section 3; the fork's round $1 log (held outside this repository) section 3 — 1,124 insertions across three
             records, 0 record lines changed, and the mandated diff caught a refresh that had silently done nothing).
             Exception worth naming against "every field 004-006 added": tier_4 and a revision's tests_changed are on no
             migration list, because a legacy entry has nothing true to write in either.
@@ -999,18 +1019,18 @@ contracts:
             ("Project addition") and one file differing from its baseline, fx014 none. The reports show the stale list
             presented with the kept files that still name each, removed only after the stubbed confirmation, gone
             afterwards; fx013 asked exactly one file question, fx014 none (fx013-round10.md section 1;
-            classes-round6.md section 2, where the stale list was empty and so not asked). settings.json carries one
+            the fork's round $1 log (held outside this repository) section 2, where the stale list was empty and so not asked). settings.json carries one
             _kit group per event in the template and in the fixture (six events, six groups), which is what T-3 checks.
         - clause: UC-4
           verdict: corrected
           evidence: |
             The rehearsal does run first and the real run has not happened, but "the copy is discarded" is again not
             what happened. Eleven rehearsal copies from rounds 7-10 are on disk in this session's scratchpad, checked
-            2026-09-13: round7/{classes-copy,fx013,fx014}, round8/{classes-copy,fx013,fx014}, round9/{fx013,fx014},
-            round10/{classes-copy,fx013,fx014} under
-            C:/Users/Windows/AppData/Local/Temp/claude/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784/scratchpad/,
-            timestamped 18:40-19:58, 74-191 files each. Three of them are copies of the real Classes install. The
-            summary record says the Classes copy was "discarded afterwards"
+            2026-09-13: round7/{fork-copy,fx013,fx014}, round8/{fork-copy,fx013,fx014}, round9/{fx013,fx014},
+            round10/{fork-copy,fx013,fx014} under
+            <session scratchpad>/,
+            timestamped 18:40-19:58, 74-191 files each. Three of them are copies of the real fork install. The
+            summary record says the fork copy was "discarded afterwards"
             (tests/results/T-2-T-3-T-4-T-12-2026-09-13.md, the fixtures table). The first report found the same thing
             for rounds 1-3 and the copies were then removed; the later rounds repeated it.
         - clause: UC-5
@@ -1080,24 +1100,24 @@ contracts:
             T-3 and T-12; meta-bootstrap/SKILL.md:353-358 (untouched / evolved / new / stale, one question per
             differing file, the stale list in one question, stale winning over untouched) and :362 (every group with a
             _kit key dropped and the staged group appended). Limit unchanged from both earlier reports: in every
-            rehearsal settings.json was absent (Classes) or identical to the staged template, so replace-not-append
+            rehearsal settings.json was absent (the fork) or identical to the staged template, so replace-not-append
             has still never been exercised against a kit group that differed.
         - clause: G-4
           verdict: corrected
           evidence: |
             Judged against revision 2's authorised text (four standing questions, troubleshooting zero). T-4 asks for
-            the rehearsal on "a copy of a real install". The only real install rehearsed is the Classes copy, and its
+            the rehearsal on "a copy of a real install". The only real install rehearsed is the fork copy, and its
             last run on the current procedure is round 6: 17 decisions / 13 files genuinely differed / 0
             troubleshooting. Sixteen decisions are admissible; the seventeenth is the template rule's question on
             MANIFEST.yaml, which step 7 requires and which the authorised criterion cannot admit, because "genuinely
             differed" is defined against a staged copy and an instance file has none. The report says so itself
-            (classes-round6.md section 1, "It does not pass as the criterion is literally written"). Classes round 4
+            (the fork's round $1 log (held outside this repository) section 1, "It does not pass as the criterion is literally written"). fork round $1
             (17 / 14 / 0) passed only by counting that same question as a differing file, which the criterion's own
             definition does not allow, and it ran on text that has since changed. Two further facts: the criterion in
             meta-bootstrap/SKILL.md:352 was widened to five standing questions in commit f159b8d, after both earlier
             reports and recorded as no revision, so the test's pass rule has moved again without authorisation; and
             five wording fixes landed in that same commit after the last fixture run (round 10) and the last fork run
-            (Classes round 6), while step 2's own rule is "otherwise fix the procedure here, in this node, and
+            (fork round $1), while step 2's own rule is "otherwise fix the procedure here, in this node, and
             rehearse again" — so no rehearsal has run on the procedure as it now stands. What is true of the step
             itself: it exists (:352), was run thirteen times on the fixtures and six on a copy of the real fork, and
             each log carries the three numbers itemised. What is not: the copies were not discarded (UC-4).
@@ -1168,7 +1188,7 @@ contracts:
       summary: {verified: 17, corrected: 3, open: 2}
       open_needs:
         - "UC-10, G-12: the pioneer's reading of the rewritten Agents section (README.md:74-111), recorded on the entry"
-        - "UC-4: the eleven rehearsal copies under the session scratchpad (rounds 7-10, three of them copies of the real Classes install) deleted, so 'the copy is discarded' is true of the record as well as the procedure"
+        - "UC-4: the eleven rehearsal copies under the session scratchpad (rounds 7-10, three of them copies of the real fork install) deleted, so 'the copy is discarded' is true of the record as well as the procedure"
         - "T-4, G-4: either the criterion's widening to five standing questions recorded as a revision and authorised — after which a fresh rehearsal on a copy of the real install is due, since the procedure's text changed after the last one — or the widening withdrawn and T-4 met on the four-question rule"
         - "G-11: the additions made in f159b8d recorded as revisions with the pioneer's authorisation, and a walk state for session-start's review_due threshold"
     verification_history:
@@ -1195,10 +1215,10 @@ contracts:
           verdict: verified
           evidence: |
             T-2, read from the rehearsal agents' reports (tests/results/upgrade-rehearsals-2026-09-13/fx013-round6.md
-            section 3, fx014-round4.md section 3, classes-round3.md section 3): contract-001 gained disappointment,
+            section 3, fx014-round4.md section 3, the fork's round $1 log (held outside this repository) section 3): contract-001 gained disappointment,
             premortem, red_test and cost as legacy and kept verification_state: none / audited: false; C-001 gained the
             three probes as not asked; the ledger lost the three retired score keys and gained coincidence: [];
-            agent-canary-author became agent-batch-assembler; on the Classes copy every original line of the four
+            agent-canary-author became agent-batch-assembler; on the fork copy every original line of the four
             migrated instance files was shown preserved. I rebuilt both fixtures myself (2026-09-13) and confirmed
             the pre-006 shapes they start from: no 006 fields on contract-001, no probes on C-001, the three retired
             score keys present, base_kit_version 0.14, the canary node, M-31 in the map, no checks/ folder. The
@@ -1214,9 +1234,9 @@ contracts:
         - clause: UC-4
           verdict: verified
           evidence: |
-            The rehearsal ran on a copy of the Classes install three times and on both fixtures before any real run;
+            The rehearsal ran on a copy of the fork's install three times and on both fixtures before any real run;
             each report's section 3 shows the diffs. The copies are discarded: the three scratchpad paths the first
-            report named (classes-copy, round2/classes-copy, round3/classes-copy) are absent, checked 2026-09-13.
+            report named (fork-copy, round2/fork-copy, round3/fork-copy) are absent, checked 2026-09-13.
             The real run has not happened (stage 1, listed untested), which is consistent with "only then the real
             one". Whether the rehearsal on the real copy passed is G-4's question, not this clause's.
         - clause: UC-5
@@ -1302,7 +1322,7 @@ contracts:
             T-3 and T-12; meta-bootstrap/SKILL.md:354-357 (untouched / evolved / new / stale, one question per differing
             file, the stale list confirmed in one question) and :361 (every group with a _kit key dropped and the staged
             group appended). Limit unchanged from the first report: in every rehearsal settings.json was absent
-            (Classes) or byte-identical to the staged template after CR stripping (fx013, fx014), so replace-not-append
+            (the fork) or byte-identical to the staged template after CR stripping (fx013, fx014), so replace-not-append
             has not been exercised against a kit group that differed.
         - clause: G-4
           verdict: corrected
@@ -1311,12 +1331,12 @@ contracts:
             asked belongs to a file that genuinely differed or is one of the four standing questions, and troubleshooting
             is zero. Under that rule the two fixture rehearsals pass — fx013 round 6: 4 decisions = 1 differing file + 3
             standing questions, troubleshooting 0; fx014 round 4: 2 = 0 + 2 standing, 0. But T-4 is written for "a copy
-            of a real install", and the only real install rehearsed is the Classes copy: round 3 gives 17 / 14 / 2 —
-            the first condition holds (14 + 3 standing), the third number is 2 (classes-round3.md section 1: a Windows
+            of a real install", and the only real install rehearsed is the fork copy: round 3 gives 17 / 14 / 2 —
+            the first condition holds (14 + 3 standing), the third number is 2 (the fork's round $1 log (held outside this repository) section 1: a Windows
             path form and a console encoding in the agent's own migration scripts, counted by the report itself), and
             no fourth round exists. The bootstrap's own rule (:352) is "otherwise fix the procedure ... and rehearse
-            again", so the real Classes run cannot proceed under the procedure as written. T-4 therefore still fails;
-            revision 2 says the same ("the Classes copy fails on two tooling steps"). What is true of G-4 itself: the
+            again", so the real run on the fork cannot proceed under the procedure as written. T-4 therefore still fails;
+            revision 2 says the same ("the fork copy fails on two tooling steps"). What is true of G-4 itself: the
             step exists (:352), was run on the copy and on both fixtures, each log carries the three numbers itemised,
             the copies are gone. One further fact: meta-bootstrap/SKILL.md:353 gained a records-first sentence (C-010)
             after round 6 and after the first report, so no rehearsal has run on the procedure's current text. If the
@@ -1433,11 +1453,11 @@ contracts:
         - clause: UC-4
           verdict: corrected
           evidence: |
-            The upgrade was run on a copy of the Classes install three times (classes-round1..3.md) and on the two
+            The upgrade was run on a copy of the fork's install three times (the fork's round 1 to 3 logs, held outside this repository) and on the two
             fixtures; each report's section 3 shows the diffs; the real run has not happened (stage 1). But "the copy is
-            discarded" is not true at the time of this report: the Classes copies still exist in this session's
-            scratchpad — scratchpad/classes-copy, scratchpad/round2/classes-copy and scratchpad/round3/classes-copy
-            (C:/Users/Windows/AppData/Local/Temp/claude/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784/),
+            discarded" is not true at the time of this report: the fork copies still exist in this session's
+            scratchpad — scratchpad/fork-copy, scratchpad/round2/fork-copy and scratchpad/round3/fork-copy
+            (the session's temporary folder),
             while tests/results/T-2-T-3-T-4-T-12-2026-09-13.md says "discarded afterwards". T-4 fails on this point.
         - clause: UC-5
           verdict: verified
@@ -1508,15 +1528,15 @@ contracts:
             T-3 and T-12; meta-bootstrap/SKILL.md:354-357 (untouched / evolved / new / stale, one question per differing
             file, the stale list confirmed in one question) and :361 (every group with a _kit key dropped and the staged
             group appended, so groups are replaced, never appended twice). Limit worth knowing: in every rehearsal the
-            existing settings.json was absent (Classes) or byte-identical to the staged template after CR stripping
+            existing settings.json was absent (the fork) or byte-identical to the staged template after CR stripping
             (fx013, fx014), so the replace-not-append path has not yet been exercised against a kit group that differed.
         - clause: G-4
           verdict: corrected
           evidence: |
             T-4 fails. What is true: the rehearsal step exists (meta-bootstrap/SKILL.md:352), it was run on a copy of the
-            Classes install three times and on both fixtures, and each log carries the three numbers with the decisions
+            fork install three times and on both fixtures, and each log carries the three numbers with the decisions
             and differing files itemised. What the contract asked and did not get: by T-4's rule — decisions asked equal
-            to files that genuinely differed, troubleshooting zero — no round passed anywhere (Classes round 3: 17 / 14
+            to files that genuinely differed, troubleshooting zero — no round passed anywhere (fork round $1: 17 / 14
             / 2; fx013 round 6: 4 / 1 / 0; fx014 round 4: 2 / 0 / 0). The bootstrap's pass rule was rewritten during the
             work to "every decision belongs to a differing file or is one of the four standing questions" (:352); that
             changes T-4's criterion and is not recorded as a revision with tests_changed: [T-4]. README.md:186 states
@@ -1599,14 +1619,14 @@ contracts:
       open_needs:
         []   # UC-10 and G-12 closed: "the readme is approved" — pioneer, 2026-09-13
     audited: false
-    transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: [O-031, O-032, O-033]
     revisions:
       - what: "Found while building the rehearsal fixture: the map routes an upgrade to the INSTALLED meta-bootstrap, whose upgrade text predates the 004-006 migrations it must apply. Added, beyond G-2..G-4's list: session-start.sh prints a staged-kit line pointing at the STAGED copy when .claude/kit-incoming/ exists, and the bootstrap's upgrade section opens by deferring to the staged copy (gap-032). One hook line and one paragraph; no new decision by any mechanism."
         authorised_by: "Pioneer, 2026-09-13: 'The additions you made for point 1 is valid and can stay.' (after the implementation report; C-010 records the same message)"
         date: 2026-09-13
         tests_changed: []      # walk-007 gains no state for it; T-4's rehearsal is where it shows
-      - what: "T-4's pass rule as approved — decisions asked equals files that differed, troubleshooting zero — cannot be met by any upgrade, because the procedure itself asks up to four questions that belong to no file (the stale list, contracts to verify, the map question when the budget forces it, the ratification pass). The bootstrap's rule was widened to allow those four; under it fx014 (round 4) and fx013 (round 6) pass and the Classes copy fails on two tooling steps. Under the rule as approved no rehearsal passes. The verifier judged T-4 by the approved text and marked it fail (2026-09-13); this entry records the widening as the revision it is, for the pioneer to authorise or refuse."
+      - what: "T-4's pass rule as approved — decisions asked equals files that differed, troubleshooting zero — cannot be met by any upgrade, because the procedure itself asks up to four questions that belong to no file (the stale list, contracts to verify, the map question when the budget forces it, the ratification pass). The bootstrap's rule was widened to allow those four; under it fx014 (round 4) and fx013 (round 6) pass and the fork copy fails on two tooling steps. Under the rule as approved no rehearsal passes. The verifier judged T-4 by the approved text and marked it fail (2026-09-13); this entry records the widening as the revision it is, for the pioneer to authorise or refuse."
         authorised_by: "Pioneer, 2026-09-13: 'T-4 is authorized.'"
         date: 2026-09-13
         tests_changed: [T-4]   # same day as the report, so not a late revision by the mechanism's rule; the pioneer decides whether it stands
@@ -1622,9 +1642,10 @@ contracts:
     work_id: null
 
   - contract_id: contract-008
-    feature: the upgrade compares by mechanism — an installed copy of every meta skill as the yardstick, history only for forks that predate it, a migration check for completeness and validity, roots by id, a legacy status for drift, the rehearsal log kept, and the Classes run made whole
+    feature: the upgrade compares by mechanism — an installed copy of every meta skill as the yardstick, history only for forks that predate it, a migration check for completeness and validity, roots by id, a legacy status for drift, the rehearsal log kept, and the fork's run made whole
     type: contract
     follows: contract-007
+    led_to: contract-009
     date_proposed: 2026-09-15
     date_approved: 2026-09-16
     approval: approved-at-gate     # pioneer: "Then we can approve the contract" (2026-09-16), after UC-1 was revised in the same exchange
@@ -1632,7 +1653,7 @@ contracts:
       The upgrade stops asking an agent to compare structured records by reading, and stops asking the pioneer questions a mechanism can answer: the kit keeps the installed copy of every meta skill as the yardstick it already keeps for agents and templates, the base kit's own history stands in only for a fork that predates that copy, the migration is verified for completeness and validity as well as preservation, and a pioneer's deferral gets a value the record can hold. The bet: the first upgrade on a real fork overwrote three of the pioneer's own evolutions without a question and registered six fewer nodes than the template carries, and no sentence added to step 7 would have caught either — only a comparison the agent cannot get wrong.
     # Bears against paragraphs one and three of the founding statement: kits that travel, and "the skills that
     # make up the kit are the organisation's standards" — a fork's evolved skill overwritten silently is the
-    # standard overwritten silently. Drawn from the analysis of report-010 (the Classes upgrade) on 2026-09-15:
+    # standard overwritten silently. Drawn from the analysis of report-010 (the fork's upgrade) on 2026-09-15:
     # twelve pre-upgrade meta skills hashed against every committed base-kit version — four untouched, six
     # carrying project-authored lines (three of them overwritten without a question), two wrap noise.
     tier_1: |
@@ -1673,7 +1694,7 @@ contracts:
             caught are on record after the copy is gone.
       UC-6  The template rule's instance-file question is asked as its own question, visibly distinct from the
             skills question — report-010's third recommendation, kept as written.
-      UC-7  First application: the Classes install. UC-1 is run on the twelve pre-upgrade skills from aef4651
+      UC-7  First application: the fork's install. UC-1 is run on the twelve pre-upgrade skills from the fork's last commit
             and the six with project-authored lines are put to the pioneer as the question that was skipped;
             the eight agent nodes and their coverage lines are registered; the roots figure is corrected to the
             computed count and the map question re-asked; the seventeen drift entries take the UC-4 question;
@@ -1709,7 +1730,7 @@ contracts:
       G-6  (UC-6)     Step 7's MANIFEST.yaml line says the base-node-lines question is asked, and step 2's list
                       of standing questions names it as the instance-file question in words that cannot be read
                       as the skills question.
-      G-7  (UC-7)     The Classes fixes are done under this contract's rules, on the Classes tree, each change
+      G-7  (UC-7)     The fork's fixes are done under this contract's rules, on the fork's tree, each change
                       recorded in report-010's successor, nothing committed in either repository without the
                       pioneer's say; the three overwritten evolutions are not restored by the agent — they are
                       shown and asked. From the pre-mortem: the successor report lists what it did not check,
@@ -1731,12 +1752,12 @@ contracts:
                       while the staged copy moved on — expected one question quoting the two lines, none for the
                       other. Same fixture with the installed copies deleted and the base-kit history reachable:
                       same result. History unreachable: the one-per-skill statement, in words.
-      T-2  (G-2)      The migration check fails on the three defects the Classes rehearsal found by hand.
+      T-2  (G-2)      The migration check fails on the three defects the fork's rehearsal found by hand.
                       G2-migration.sh exits 0 on a correctly migrated fixture and exits 1 naming file and figure
                       on each of: a severed block scalar, one entry missing its inserted field, one template node
                       absent from the manifest.
-      T-3  (G-3)      The roots script gives the number report-010 got wrong. On the pre-upgrade Classes manifest
-                      (aef4651) it prints 16 ids; on a fixture where a node is named by two others, that node is
+      T-3  (G-3)      The roots script gives the number report-010 got wrong. On the fork's pre-upgrade manifest
+                      (its last commit) it prints 16 ids; on a fixture where a node is named by two others, that node is
                       absent from the output.
       T-4  (G-4)      A drift entry marked legacy is left alone. walk-007 gains a state: an entry at status: legacy
                       raises no session-start line and enters no batch; greps show legacy in the template
@@ -1745,12 +1766,12 @@ contracts:
                       the three numbers and every defect listed; the copy is gone.
       T-6  (G-6)      The two questions cannot be read as one. Step 2's standing-question list names the
                       instance-file question in those words; step 7's manifest line says it is asked.
-      T-7  (G-7, the disappointment)  The Classes run leaves none of the six issues open. Checked afterwards, all
+      T-7  (G-7, the disappointment)  The fork's run leaves none of the six issues open. Checked afterwards, all
                       of: the six skills' residue lines were shown and the pioneer's six answers are on record;
                       the manifest holds eight agent- nodes and their coverage lines; proposed-entries.md states
                       the count roots.sh prints; the seventeen drift entries carry the pioneer's answer and
                       session-start's backlog line reflects it; report-010's quotation matches
-                      meta-bootstrap/SKILL.md:349 verbatim; nothing else in the Classes tree changed. Any one open
+                      meta-bootstrap/SKILL.md:349 verbatim; nothing else in the fork's tree changed. Any one open
                       fails the contract.
       T-8  (G-8)      Nothing else moved. walk-007 extended and green; every check under checks/ exits 0; git diff
                       --stat in both repositories names only the paths this contract lists.
@@ -1758,28 +1779,265 @@ contracts:
                 after the second one; whether G-1's fallback sentence reads well to a newcomer (P-008).
     red_test: {broke: G-4, went_red: T-4, how: "the drift template's enumeration edited back to `open | watching | mitigated | resolved` (legacy removed); walk-007 state 121 failed ('121 enumeration'), 48 passed 1 failed; restored; walk-007 49/49 green again", date: 2026-09-16}
     status: implemented
-    verification_state: awaiting-evidence
+    verification_state: none
     audited: false
-    transcript: C:/Users/Windows/.claude/projects/d--projects-meta-base-building-kit/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: [O-034, O-035, O-036]
     revisions:
       - what: "UC-1/G-1 redrawn at the gate: the residue question has two answers, reapply on top of the upgraded skill or replace, never keep the old file; a residue line that cannot be reapplied cleanly is a conflict the agent asks about; the rehearsal stubs reapply. The pioneer set the baseline that meta skills are not meant to be changed by a project. Recorded as C-013."
         authorised_by: "Pioneer, 2026-09-16: 'So option A is reapply, option B is replace with upgraded skills. Baseline is that no meta skills should be changed, if they do they are kind of on their own' (C-013 carries the message verbatim)"
         date: 2026-09-16
         tests_changed: []   # T-1 checks the trigger and the quoting, not the answer set
-      - what: "The version moves to 0.16 (manifest, template base_kit_version, README, walk-007 states 105 and 112d). Not in the approved list; without it no installed kit can tell it is behind and the Classes upgrade the pioneer asked to run from the Classes repo could not start."
-        authorised_by: "Pioneer, 2026-09-16: 'i will try to update the classes repo from there instead' - the instruction requires it; recorded as the deviation it is, for the pioneer to confirm or refuse"
+      - what: "The version moves to 0.16 (manifest, template base_kit_version, README, walk-007 states 105 and 112d). Not in the approved list; without it no installed kit can tell it is behind and the fork's upgrade the pioneer asked to run from the fork's repository could not start."
+        authorised_by: "Pioneer, 2026-09-16: 'i will try to update [the downstream repo] from there instead' - the instruction requires it; recorded as the deviation it is, for the pioneer to confirm or refuse"
         date: 2026-09-16
         tests_changed: []
-      - what: "T-3 no longer reads the pre-upgrade Classes manifest: that snapshot was removed from this repository on the pioneer's instruction (it is the project's record, not the kit's). State 117 now reproduces the same defect on a synthetic manifest - prefixed folders, bare ids - and the 16-root result on the real file is recorded in the Classes repo (docs/reports/contract-008-residue-2026-09-16.md and proposed-entries.md once re-run there)."
+      - what: "T-3 no longer reads the fork's pre-upgrade manifest: that snapshot was removed from this repository on the pioneer's instruction (it is the project's record, not the kit's). State 117 now reproduces the same defect on a synthetic manifest - prefixed folders, bare ids - and the 16-root result on the real file is recorded in the fork's repository (the fork's residue report and proposed-entries.md once re-run there)."
         authorised_by: "Pioneer, 2026-09-16: 'id like us to drop that, it has nothing to do with the meta kit'"
         date: 2026-09-16
         tests_changed: [T-3]
-    # G-7 (the Classes application) is not run from this session: the pioneer chose to run the upgrade from the
-    # Classes repository against this kit staged at 0.16, so that the procedure itself answers the seven residue
+    # G-7 (the fork application) is not run from this session: the pioneer chose to run the upgrade from the
+    # fork's repository against this kit staged at 0.16, so that the procedure itself answers the seven residue
     # questions, the instance-file question, the drift-legacy question and the map question on 16 roots. T-7 is
-    # judged on that run. The residue measurement this session made is recorded in the Classes repo at
-    # docs/reports/contract-008-residue-2026-09-16.md. G2-migration.sh exits 1 on this tree because contracts
+    # judged on that run. The residue measurement this session made is recorded in the fork's repository at
+    # the fork's residue report. G2-migration.sh exits 1 on this tree because contracts
     # 001-005 lack the contract-006 fields; the backfill is a record change the pioneer has not yet ruled on.
+    # Later on 2026-09-16: the fork's run (its upgrade report of 2026-09-16) could not ask the seven residue
+    # questions - the 0.15 upgrade was never committed, so the tree held the 0.15 copies and the residue exists only in HEAD
+    # (its last commit). The answers were taken in this session instead: replace, all seven, on the baseline and the pioneer's
+    # "go ahead" (recorded in the fork's residue report, "Answers"). walk.sh: 36/36 on the fork's tree. The
+    # report-010 quotation has matched the kit verbatim since its v2 (2026-09-14). T-7 evidence is complete on that reading;
+    # T-8 still waits on the 001-005 backfill, which contract-009 puts to the pioneer. The run logged R-1, R-3, R-6, R-7 as
+    # procedure gaps -> contract-009.
+    # 2026-09-17: the pioneer confirmed the seven replace answers ("3 yes"); verification_state set to none so the verifier runs.
     cost: {turns: 110, tokens: null, pioneer_minutes: null}    # turns = main-session assistant messages from approval (2026-09-15T22:48Z) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
+    work_id: null
+
+  - contract_id: contract-009
+    feature: the first real upgrade run's four gaps closed where the log found them — the staged folder, absent coverage lines, the empty pass, record headers — plus the tree-or-commit question and the kit's own log backfilled
+    type: contract
+    follows: contract-008
+    date_proposed: 2026-09-16
+    date_approved: 2026-09-16
+    approval: approved-at-gate     # pioneer: "approved, same as it says" (2026-09-16), on the concise redraw after C-014
+    bearing: |
+      The first real upgrade run found four gaps in the steps. This contract closes each one where it was found.
+      The bet: after this, a rehearsal that needs troubleshooting or an interpretation is a wrong run, not a wrong
+      procedure.
+    # Bears against paragraph one of the founding statement (kits that travel — here to a project under Program
+    # Files on Windows) and paragraph two (the record is the standard; a header that calls it a template misstates
+    # what it is). Drawn 2026-09-16 from the fork run's rehearsal log and upgrade report (R-1, R-2, R-3, R-6, R-7).
+    # Spec lock skipped: mechanical. Precedents: applies P-004, P-007, P-008; distinguished from P-001 — these are
+    # not retargeting issues, a real run located each to a sentence. No ledger candidates; no batch open.
+    tier_1: |
+      I can upgrade a project under a long Windows path and the rehearsal can pass.
+      The manifest's coverage is complete afterwards, and a check says so.
+      An empty ratification pass asks me nothing.
+      My records' headers read as my records, not as templates.
+      If my tree and my last commit disagree about my kit, I am asked which is mine.
+    tier_2: |
+      UC-1 (R-1) Long paths. Step 1: the staged folder is the travel set, and a clone that fails on path length is
+           made at a short path first. Step 2: the rehearsal copy may go to a short path the log names. Neither
+           counts as troubleshooting.
+      UC-2 (R-3) Missing coverage lines. Step 7 adds any base coverage line the manifest lacks, from the staged
+           template. The migration check verifies it. Project coverage lines are never touched.
+      UC-3 (R-6) Empty pass. Step 9: when every map entry is decided and nothing is drafted, say "nothing to
+           ratify" and ask nothing.
+      UC-4 (R-7) Headers. The seven record templates' header text is reworded to be true in a live record. No line
+           says "this file is a template".
+      UC-5 (R-2) A seventh standing question: if the tree and the last commit differ on kit files, ask which copy
+           is the project's before staging. Put to the pioneer as their call.
+      UC-6 Contracts 001–005 here lack the contract-006 fields, so the migration check fails on the kit itself.
+           Backfill them with `legacy` as step 7 would, or exempt them. Recommended: backfill. Put to the pioneer.
+      Not included: R-5 (already handled by step 7); a staging script.
+    # UC-5 and UC-6 ruled by the pioneer after approval, 2026-09-16: "UC-5 ask the question." and "we can backfill
+    # contracts in the meta-base-building-kit repo" — both kept.
+    tier_3: |
+      G-1 (UC-1) meta-bootstrap text only. No script. applies P-004.
+      G-2 (UC-2) step 7 text, plus one extension to checks/G2-migration.sh: every coverage node id in the staged
+           template is in the manifest. bash, sed, awk only.
+      G-3 (UC-3) step 9 text. The install's offer is unchanged.
+      G-4 (UC-4) the seven template headers. The base kit's own records are untouched. applies P-008.
+      G-5 (UC-5, if kept) step 1 text, the stub list, the standing-question list.
+      G-6 (UC-6, if kept) the five entries gain the fields; nothing else in them changes; verified by diff.
+      G-7 (all) walk-007 gains a state per change; every check exits 0 on this tree; nothing beyond this list.
+           applies P-007.
+    disappointment: |
+      G-1 to G-7, the pioneer, 2026-09-16: "approved, same as it says"
+    premortem: |
+      "Pre mortem is if we still cant migrate properly" — the pioneer, 2026-09-16. Lands on T-2 and T-6 (the check,
+      and the kit's own log passing it) and on T-7.
+    tier_4: |
+      T-1 (G-1) Step 1 names the travel set and the short-path clone, step 2 the short-path copy. Three greps on
+           the bootstrap skill, each found once. Failure: any phrase missing.
+      T-2 (G-2) A manifest missing one base coverage line makes the migration check exit 1 naming the file and
+           the id. The same manifest with the line back exits 0. The fork's tree exits 0. Failure: the missing
+           line passes.
+      T-3 (G-3) Step 9 carries the "nothing to ratify" sentence, and the install's offer text is unchanged. Two
+           greps. Failure: either differs.
+      T-4 (G-4) No template header contains "This file is a template" or "copies this file". A grep across the
+           seven templates returns nothing. Failure: one line found.
+      T-5 (G-5) Step 1 asks the question, the stub list answers "the tree", the standing-question count says
+           seven. Three greps.
+      T-6 (G-6) The migration check exits 0 on this tree, and the diff of the contract log shows only added field
+           lines on entries 001 to 005. Failure: any line changed or removed.
+      T-7 (G-7) walk-007 green with the new states, every check under checks/ exits 0, and the diff names only
+           the paths this contract lists. Failure: any other path.
+      untested: whether the reworded headers read well to a newcomer — the pioneer's judgement (P-008).
+    red_test: {broke: G-4, went_red: T-4, how: "the DRIFTLOG template header edited back to `This file is a template. meta-bootstrap copies it;`; walk-007 state 130 failed (`130 template headers`), 54 passed 2 failed (132 was already red: the approved entry carries no cost, O-037); restored; state 130 green", date: 2026-09-17}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    observations: [O-037, O-038, O-039]
+    revisions:
+      - what: "G-2: G2-migration.sh no longer requires cost on an entry at status: approved - cost is written at implemented, as red_test is; walk-007 state 133 added. Found when the check ran on this tree with contract-009 itself at approved (O-037)."
+        authorised_by: "Pioneer, 2026-09-17: 'if cost is set at implemented it shouldnt be required at approved.'"
+        date: 2026-09-17
+        tests_changed: []
+      - what: "UC-6/G-6 extended from contracts 001-005 to corrections C-001 to C-007, which lacked the three probe fields and kept the check red on this tree; each gained noticed, would_have_been_right and seen_before as not asked, 42 lines added, none removed."
+        authorised_by: "Pioneer, 2026-09-17: 'you can fill them'"
+        date: 2026-09-17
+        tests_changed: []
+      - what: "The version moves to 0.17 (manifest, template base_kit_version, README, walk-007 states 105 and 112d); a README bullet for this contract. Not in the approved list: without it an installed 0.16 cannot tell it is behind."
+        authorised_by: "Pioneer, 2026-09-17: 'bump it.'"
+        date: 2026-09-17
+        tests_changed: []
+      - what: "T-5 (state 131) now expects 'eight standing questions': contract-010 added the workspace question to step 2's list. Dated before any verification report on this entry."
+        authorised_by: "Pioneer, 2026-09-17, approving contract-010 whose UC-1 adds the question: 'oh isee, ill approve the contract then'"
+        date: 2026-09-17
+        tests_changed: [T-5]
+    cost: {turns: 36, tokens: null, pioneer_minutes: null}    # turns = main-session assistant messages from approval (2026-09-16) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
+    work_id: null
+
+  - contract_id: report-001
+    type: analysis-report
+    feature: the kit in a workspace - what Claude Code loads from each directory of a multi-repository session, and what that does to the kit's hooks and agents
+    date_proposed: 2026-09-17
+    date_approved: 2026-09-17
+    approval: n/a - analysis report, asked for by the pioneer ("figure out how this should work in a multi repo workspace. How do we make the hooks work and agents work?")
+    bearing: |
+      Not a contract. A report on how Claude Code loads hooks, agents, skills and instructions across the directories
+      of one session, read from the docs in full and tested on a fixture of two installed kits, so the pioneer can
+      decide what the kit must become for a workspace.
+    tier_1: |
+      Not a contract. Twelve claims verified against the docs or the kit's code; none corrected; five open questions;
+      one contract proposed. The finding: hooks register from the launch directory only, CLAUDE_PROJECT_DIR never
+      moves, an added directory contributes skills and agents but no hooks, and the kit's own hooks act on any path
+      containing /.claude/skills/ and so log a second kit's reads into the first kit's telemetry (fixture, 2026-09-17).
+    tier_2: |
+      Options drawn as differences: A - one kit per session, hooks refuse foreign paths, scripts found by walking up
+      from cwd; B - root-aware mechanisms (tool events by file path, session and turn events over every known root,
+      gate tasks and agent scopes carry the root); C - a kit at the workspace root over kits (rejected: nested kits
+      collide, records leave the repositories); D - the kit as a plugin (rejected: plugin agents lose frontmatter
+      hooks, so the blinds vanish).
+    tier_3: |
+      Recommendation, marked as judgement: A now, B as the next contract with A as its first guardrail. Until then:
+      start the session in the repository whose kit should run, add the others by their root path, expect their
+      skills and agents and not their hooks, and do not edit their records from that session.
+    disappointment: n/a - analysis report
+    premortem: n/a - analysis report
+    red_test: n/a - analysis report
+    status: implemented
+    verification_state: none
+    audited: false
+    observations: []
+    revisions: []
+    cost: {turns: 56, tokens: null, pioneer_minutes: null}    # main-session assistant messages from the request to the published report, counted from the transcript
+    work_id: null
+    led_to: [contract-010]
+    file: docs/reports/report-001-the-kit-in-a-workspace.html
+    artifact: https://claude.ai/artifact/BQwzMRGFsxR4pzC8TC5pzC
+
+  - contract_id: contract-010
+    feature: a kit governs a system that spans repositories from the one it is installed in - the applications named once at install, the agent writes the grant, the record and the instruction, and the hooks act on the kit their event belongs to
+    type: contract
+    follows: contract-009
+    date_proposed: 2026-09-17
+    date_approved: 2026-09-17
+    approval: approved-at-gate     # pioneer: "oh isee, ill approve the contract then" (2026-09-17), after the two cd's were told apart
+    bearing: |
+      A kit can govern a system that lives in several repositories from the one repository it is installed in.
+      The bet: the pioneer names the applications once, at install, and the agent does the settings work, so the
+      other repositories are places the agent goes, never a second kit.
+    # Bears against paragraph one of the founding statement (a kit that travels reproduces the standard wherever
+    # it is used - here, across the repositories one system is made of). Drawn from report-001 (led_to below) and
+    # the pioneer's requirement of 2026-09-17: "When i install the kit and tell the agent about the applications
+    # included in the system flow the agent should do that settings work." Spec lock skipped: the design is
+    # report-001's option A plus that sentence. Precedents: applies P-001 (surveyed first), P-004, P-007, P-008.
+    # No ledger candidates; no batch open.
+    tier_1: |
+      At install, the orientation asks which applications make up the system and where each lives. I answer once.
+      The agent writes the access grant, the record and the instruction lines. I edit no settings file.
+      The kit's hooks, backlog, gate and agents run from the pilot, and the agent reads and edits the other
+      repositories without prompts.
+      Reads and edits in a repository that carries its own kit are never logged as the pilot's evidence.
+      Opening the projects folder and moving into the pilot with /cd runs the pilot's kit, not nothing.
+    tier_2: |
+      UC-1 The question. Step 2's orientation gains one line: the applications in the system flow, with a path for
+           each, confirmed with the rest. On an upgrade the same question is asked only where the manifest has no
+           answer yet.
+      UC-2 The record. The manifest's identity block gains workspace: one entry per application, name, relative
+           path, one-line role. The template ships it empty. Step 7 adds it if absent.
+      UC-3 The grant. Step 5c writes every workspace path into permissions.additionalDirectories in the project's
+           settings, marked with the kit's key like the hook groups, so an upgrade replaces the kit's entries and
+           keeps yours.
+      UC-4 The instruction. The CLAUDE.md kit block carries the workspace list, rendered from the manifest, so it
+           is refreshed on upgrade with the block and never hand-kept.
+      UC-5 Honest hooks. The hook library resolves its root by walking up from the event's working directory to
+           the nearest installed manifest, falling back to the launch directory. The two path hooks act only on
+           paths under that root.
+      UC-6 The moved session. The settings template locates the hook scripts through that same walk, not through
+           the launch directory, so /cd into the pilot runs its hooks.
+      Not included: governing two kits from one session (report-001's option B).
+    tier_3: |
+      G-1 (UC-1) bootstrap Step 2 and the upgrade's step 7 text. applies P-008.
+      G-2 (UC-2) manifest template, step 7's additive list, and the migration check counts workspace once.
+      G-3 (UC-3) step 5c and the upgrade's settings merge. Entries carry the kit's key. bash, sed, awk only.
+      G-4 (UC-4) the kit block template and step 5a. The list comes from the manifest, nowhere else.
+      G-5 (UC-5) lib.sh, post-read.sh, owner-check.sh. Nothing outside the root is read or logged.
+      G-6 (UC-6) settings.template.json command form; every agent's frontmatter hooks the same way.
+      G-7 (all) walk-007 gains a state per change, a two-root fixture among them; every check exits 0; nothing
+           beyond this list. applies P-007.
+    disappointment: |
+      G-1 to G-7, the pioneer, 2026-09-17: "disappointment: same as it says."
+    premortem: |
+      "Pre mortem is if this causes holes in the workflow it will make the whole approach harder" - the pioneer,
+      2026-09-17. Lands on T-5 and T-6 (the hooks still fire, and on the right kit, in every arrangement the
+      fixtures cover) and on T-7 (every walk still green: nothing the install or the upgrade did before stops).
+    tier_4: |
+      T-1 (G-1) Step 2 asks for the applications, step 7 adds the record, the standing-question list and the stub
+           name the workspace question. Four greps on the bootstrap skill. Failure: any missing.
+      T-2 (G-2) The template and the kit's own manifest carry workspace; the migration check exits 1 on a manifest
+           without it, naming the key, and 0 with it. Failure: a manifest without the key passes.
+      T-3 (G-3) Step 5c writes the grant and the upgrade's merge keeps the pioneer's entries; the settings
+           template carries the key. Three greps. Failure: any missing.
+      T-4 (G-4) The 5a block carries the placeholder and the upgrade's step 5 says how it is rendered. Two greps.
+      T-5 (G-5) Two installed kits, hooks anchored on the first: a Read in the second writes nothing into the
+           first's telemetry; a Read in the first still does; a hook told cwd is the second reports the second's
+           backlog. Failure: any of the three.
+      T-6 (G-6) The template's SessionStart command, run from a subfolder of a fixture kit with
+           CLAUDE_PROJECT_DIR pointing elsewhere, prints that kit's backlog; every agent's two hook lines use the
+           same locator. Failure: the wrong kit, or no output.
+      T-7 (G-7) walk-007 green with the new states, walk.sh 36 of 36, every check exits 0, and the diff names only
+           the paths this contract lists. Failure: any other path.
+      untested: the rendered kit-block line and the written grant at a real install - agent work at install, seen
+           at the next real install or upgrade; whether Claude Code substitutes only its own three placeholders in
+           the locator command (the docs name three; the fixture runs the command through bash, not Claude Code).
+    red_test: {broke: G-5, went_red: T-5, how: "post-read.sh's under_root guard deleted; walk-007 state 138a failed ('a Read in kit B must not be logged as kit A's evidence'), 69 passed 1 failed; restored; 70/70 green", date: 2026-09-17}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    observations: [O-040, O-041, O-042]
+    revisions:
+      - what: "G-3 as drawn said the grant's entries carry the kit's key like the hook groups; permissions.additionalDirectories is a list of plain strings and can carry no key. Built instead: the manifest's workspace list is the mark - an upgrade rewrites the entries that equal a manifest path and keeps every other entry (5c, step 5). O-041."
+        authorised_by: "Pioneer, 2026-09-17: 'yes' to both deviations as put to them (the manifest as the mark; version 0.18)"
+        date: 2026-09-17
+        tests_changed: []
+      - what: "The version moves to 0.18 (manifest, template base_kit_version, README, walk-007 states 105 and 112d) and the README gains a Contract-010 bullet. Not in the approved list; the same rule the pioneer gave for contract-009 ('bump it.') - without it an installed 0.17 cannot tell it is behind."
+        authorised_by: "Pioneer, 2026-09-17: 'yes' to both deviations as put to them"
+        date: 2026-09-17
+        tests_changed: []
+    cost: {turns: 59, tokens: null, pioneer_minutes: null}    # main-session assistant messages from approval (2026-09-17) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
     work_id: null
