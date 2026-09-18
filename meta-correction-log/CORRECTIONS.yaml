@@ -545,11 +545,14 @@ corrections:
     reason_given: |
       an id means nothing to the pioneer; the pioneer should not have to translate to understand.
     noticed: |
-      not asked
+      "I noticed that what the agent asked for was very unclear, like it assumed we had both an exact memory of
+      something only the agent had read." (asked and answered 2026-09-18, when contract-014 was drawn)
     would_have_been_right: |
-      not asked
+      "What would have been right is that the agent translates to the pioneer so it can realign, hold distance and
+      direct."
     seen_before: |
-      not asked
+      "I have seen this behaviour before we introduced the agents workflow into this practice, now we need to make
+      sure the meta foundation principles are held."
     supersedes: []
     recorded_by: main-agent
     clerked: false
@@ -586,6 +589,37 @@ corrections:
     clerk_note: |
       The doctrine is settled by the pioneer: a precedent whose facts match decides its question unless the contract
       says how the facts differ. The intent file and the README's word census are aligned to it by contract-013.
+
+  - corr_id: C-021
+    date: 2026-09-18
+    contract_id: contract-014
+    moment: M-04
+    grade: tier-redraw
+    intervention: redirected
+    agent_offered: |
+      The draw of contract-014 (the presentation rule). Its Tier 4 tested the places where something reaches the
+      pioneer - the batch item's two new lines, the closing block after a build, how a contract cites a past ruling,
+      the pass-on rule, the intent file's size - and listed as untested whether any of it reads plainly.
+    pioneer_said: |
+      "Add an acceptance criteria for "The agent regards how it presents its output to the pioneer and adapts it to
+      make it accessible, clear and actionable.""
+    reason_given: |
+      none given
+    noticed: |
+      not asked - the three questions on C-019, the correction this one extends, were put to the pioneer in the
+      same exchange and cover it
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      Read by the agent as: the drafted tests checked formats, and the pioneer's test is of conduct - the agent
+      looks at its own output before it goes and changes it for the reader. A format can pass while the conduct is
+      absent. The draft had put this under "untested"; the pioneer moved it into the tests. Same family as C-019.
 
 trajectory:
   updated: 2026-09-13

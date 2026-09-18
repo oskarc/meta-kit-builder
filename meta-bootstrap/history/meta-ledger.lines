@@ -21,9 +21,12 @@
 **Closed** with `close-batch.sh B-NNN` once every item carries a decision — any non-empty value, including a ranking such as `[B, A, C]`. It sets `decided: true` without the session reading the ledger.
 **Contradicts:** meta-contract-before-execution/SKILL.md → "A blanket 'looks good' is not a per-clause confirmation." (omit the line when contradicts is empty)
 **Each verdict is counted once, by the consolidator.** meta-learning names the confirmation in its diff; it does not add a sighting.
+**Every item is written for a reader who has not seen the ledger** (contract-014; `meta-foundation` → The Agent's Role). The kind is named in plain words, the statement and any quoted passage stay word for word, every code is followed by what it means, and two lines are never omitted — *Why you are seeing this* and *What is asked*, which lists exactly the decisions the kind allows, no more and no fewer, each with what it does. The plain words sit beside the record's; they never replace it. **A figure is copied as the record gives it, under the record's own meaning of the field** — a count is never re-derived, rounded or put as a different count (a drift entry's `recurrence_count: 2` is "it has recurred twice since it was first recorded", never "it happened twice"); where the meaning of a field is not certain, the field's name and value are given as they stand. Terms that recur — a different reading, the same reading, the certainty word, the observer's forecast — are explained once, under *How to read these items* at the top of the batch file, so each item stays short.
 **Every kind has a terminal value**, so a decided item never returns: a declined map entry is written `declined` in MAP.md's status column, a declined card carries `pioneer_ranking: declined`, a kept or reconciled precedent has its `conflict:` cleared, and a resolved drift entry moves to `status: resolved`. An `update`, `retire` or `add` on a contradicting candidate sets `stage: adopt` with `applied_as`, and the edit is made **at the quoted passage only** — never a rewrite of the node. Without those, the assembler would re-present the same items forever and the backlog could never clear.
 **Evidence:** …
+**Evidence:** … (what was seen, where, and by what kind of reading — in words; never an observation's or a correction's id)
 **Kind:** candidate
+**Kind:** candidate — a learning that may belong in the standard
 **Maturity is no longer silence.** Fewer candidates per contract means the standard anticipates the work only while process health holds — sessions audited, contracts verified — and canaries are still being caught. A quiet ledger with unaudited sessions and missed canaries is the failure mode that looks like maturity.
 **Maturity is no longer silence.** Fewer candidates per contract means the standard anticipates the work only while process health holds — sessions audited, contracts verified, corrections increasingly caught by tests rather than reading, re-presented decisions consistent. A quiet ledger with unaudited sessions is the failure mode that looks like maturity.
 **Nothing here scores the pioneer.** An earlier version computed a forecast score over the pioneer's decisions, and a rate of planted items caught. Both were retired by contract-006: the decision score was minimised by declining everything, because a decline created the outcome it was scored against; the rate pooled items of different difficulty and could not be read at the batch sizes the kit has. Decisions and outcomes are kept as records and shown to the pioneer as records. Observers' `stated_confidence` is kept as the forecast it was, unscored.
@@ -33,13 +36,17 @@
 **Revealed** with `reveal-canaries.sh B-NNN` (M-17). Then the main agent applies decisions to real items only, clears their `review_due`, records `canaries` and `canaries_caught`, and **sets `revealed: true`** — until it does, the stop-gate hands the reveal back every turn.
 **Revealed** with `reveal-key.sh B-NNN` (M-17). Then the main agent applies decisions to items that were not re-presented, clears their `review_due`, writes the `represented` record on the batch — per item: candidate id, prior decision, decision now, `consistent: true|false` — shows the pioneer their earlier decision beside the new one without comment, and **sets `revealed: true`** — until it does, the stop-gate hands the reveal back every turn. A re-presented item's new decision is recorded and not applied; the earlier decision stands unless the pioneer says otherwise in that turn.
 **Statement:** …
+**Statement:** … (as recorded, word for word)
 **The central risk**, stated first because every rule below answers it: an agent follows guidance that is in its context, so a candidate that is loaded will be confirmed by its own influence. Holding is not loading. Evidence counts only when it is independent of the candidate.
 **The definition is testable, and the consolidator tests it.** For any two sources the kit calls different readings, it records how often they agree on candidates where at least one was later contradicted. Two sources that almost always agree are one reading wearing two names, and the consolidator says so in `scores.coincidence` rather than counting them twice. (The keys `helpful.independent` / `helpful.loaded` keep their names in the schema; "independent" there means "from a different reading" as defined here.)
 **The pioneer's Brier score is the pioneer's instrument**, ratified by them on 2026-09-12. It is computed and shown to them with its base rate. No agent reads it to route, weight or characterise anything, and no skill conditions on it.
 **This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.**
 **Two sightings are independent to the degree a single misreading of the contract could not have produced both.** That is the definition (contract-006 G-4) — the reason the verification standards give for requiring a second reader, in one sentence. It replaces "who reported" with "what varied". A sighting comes from a *different reading* when:
 **Two sightings are independent to the degree that a single misreading of the contract could not have produced both.** That is the definition (contract-006 G-4) — the reason the verification standards give for requiring a second reader, in one sentence. It replaces "who reported" with "what varied". A sighting comes from a *different reading* when:
+**What is asked:** one of — trial: applied where it bears and tracked, not yet written into a skill · adopt: written into the target skill · caution: written into the target's anti-patterns · decline: refused, kept on record · hold: comes back only when new evidence from a different reading arrives · revise: your wording replaces it, and the old one is declined. (With a quoted passage the ask is instead — update: the quoted sentence is rewritten so the claim holds · retire: the quoted sentence is removed and nothing is put in its place · add: the claim is written in at that passage and the quoted sentence stays · decline: refused, kept on record, the skill left as it is. Each edit is made at that passage only.)
+**What stands behind it:** certainty low — it began as the agent's own reflection (self-generated) and has been seen in one contract only (single-contract). Confirmations: 1 from a different reading, 2 from the same reading, none against. The observer's forecast that you would adopt it: 0.80 — a recorded guess, never scored. Nothing is asked of you about these figures; they are here so you can weigh how much stands behind the claim.
 **While a review batch is open**, the main agent cannot write here either — so it hands the observations, in full, to **kit-recorder**, whose only job and only write scope this is. Build work does not wait on a review, and the presenting session still never reads the ledger.
+**Why you are seeing this:** it has been confirmed once from a different reading since it was first noted, and nothing has spoken against it — the point at which the kit asks whether to try it.
 - **Brier scores** — for observers' stated confidence against resolved outcomes, and for the pioneer's decisions read as forecasts: adopt 1.0 · trial 0.7 · hold 0.5 · revise 0.5 · caution 0.2 · decline 0.0. A faded candidate resolves the observer's forecast and contributes no pioneer term. Both are reported with their base rate; a score that merely tracks the base rate has no resolution.
 - **Down:** `self-generated` · `single-contract` · `loaded-only` · `contradicted` · `indirect` · `compromised-session`
 - **Up:** `verified-outcome` · `prevented-defect` · `pioneer-unprompted` · `independent-uses>=2`
@@ -78,6 +85,7 @@ A canary is **caught** when the pioneer declines or revises it, or when their ve
 A candidate shows its counts — helpful and harmful, by reading — and the pioneer reads them. No score is computed over them: at the numbers this ledger will ever hold, a computed bound says nothing the counts do not, and it gave a false sense of a threshold having been crossed.
 A decision the pioneer asks for outside a batch is recorded with `batch: direct` on the candidate and clears `review_due` the same way.
 A decision the pioneer asks for outside a batch is recorded with `batch: direct` on the candidate, clears `review_due` the same way, and is excluded from the canary catch-rate denominator — a direct decision carries no canaries.
+A re-presented item is written exactly as a first-time candidate is — its *Why you are seeing this* reads as it did when it was first presented — so nothing in these lines can mark it (G-2).
 A sighting counts as **independent** when it comes from:
 A stage move is never re-proposed for a disposition the pioneer already decided; a promotion from `trial` toward `adopt` is a different disposition and is due on its own criteria. After a decision the main agent clears `review_due`. A candidate the pioneer **held** becomes due again only when a new independent sighting arrives after the decision date. A **revised** candidate is `declined` and superseded by the observation carrying the pioneer's wording. A **faded** candidate returns to `assess` when a new matching observation arrives, and its outcome is re-opened. A candidate that is `review_due` or sits in an open batch never fades.
 Against: (the pioneer's answer to "assume this is wrong — why?", one line, recorded before the decision)
@@ -106,6 +114,7 @@ The consolidator maintains `scores`:
 The consolidator sets **`review_due: true`** and a `disposition_proposed` when (contract-006 G-1 — no computed bound; the counts are shown, the pioneer weighs them):
 The consolidator sets **`review_due: true`** and a `disposition_proposed` when:
 The proposed disposition sits **below** the verdict line: the pioneer's first read is of the statement alone, so the agent's recommendation cannot anchor it.
+The proposed disposition sits **below** the verdict line: the pioneer's first read is of the statement alone, so the agent's recommendation cannot anchor it. *Why you are seeing this* sits below it too, because it tells how the evidence stands.
 Verdict before evidence:
 Wilson score lower bound on independent sightings, z = 1.28, so two confirmations never outrank twenty. With no independent sightings the bound is 0 by definition — do not divide by zero:
 ```
@@ -115,6 +124,7 @@ description: Use when recording what implementation, verification, drift or an a
 name: meta-ledger
 | File | Written by | Holds |
 | Kind | Comes from | Decisions |
+| Kind | In plain words | Why it arrives | What each decision does |
 | Source | Starts at |
 | Stage | Meaning | Moves when |
 | `.claude/kit-sealed/B-NNN.key` | kit-batch-assembler | which items are re-presented and what the pioneer decided on them before; opened only by `reveal-key.sh` |
@@ -133,11 +143,18 @@ name: meta-ledger
 | `telemetry.log` | hooks | firing and running evidence (meta-mechanisms) |
 | `trial` | deliberately applied where it bears, cited by id (M-29) and tracked | the pioneer decides `trial` at a batch |
 | candidate | `review_due: true` | trial · adopt · caution · decline · hold · revise (+ level and tier); with a `contradicts` passage: update · retire · add · decline |
+| candidate | a learning that may belong in the standard | it gathered the evidence *Stages* names, or it is the pioneer's own correction contradicting a skill | as in the format above |
 | drift resolution | DRIFTLOG entries in `status: mitigated` | resolve · keep-watching |
+| drift resolution | a recorded drift whose fix has been in place | its status reached `mitigated` | resolve: closed · keep-watching: stays open and counted |
 | map entry | `proposed` lines in MAP.md | ratify · decline · revise |
+| map entry | a drafted line of the map that is not the pioneer's yet | it is still `proposed` | ratify: it becomes theirs as written · decline: marked declined, stops loading · revise: their wording replaces it |
 | map proposal | `map_proposals` in `state: pending` | ratify · decline · revise |
+| map proposal | a change to what the always-loaded map loads, and when | the map steward found an entry misfiring, never firing, or missing | ratify: the map is changed as proposed · decline: kept on record, not proposed again · revise: redrafted from the pioneer's wording |
 | precedent | a `conflict:` pair, or three or more `distinguished_by` | overrule · keep · reconcile |
+| precedent | two past rulings that disagree, or one set aside three times | contracts that meet it cannot cite it cleanly | overrule: the ruling stops deciding · keep: it stands, the conflict is cleared · reconcile: the pioneer says which holding stands, in their words |
 | re-presented candidate | a candidate the pioneer already decided, shown again as if new (from the fourth batch on; at most two) | the same decisions as a candidate |
 | scenario card | `pioneer_ranking: pending` in CASEBOOK.yaml | a ranking · decline |
+| scenario card | a hard case with options to rank | the case clerk wrote it from a correction | a ranking: becomes the casebook's guidance for cases like it · decline: the card is set aside |
 |---|---|
 |---|---|---|
+|---|---|---|---|

@@ -67,6 +67,22 @@ Its responsibilities are:
 
 **Treat the human as a pioneer, not an approver.** The human's role is not to say yes or no to what the agent produces. It is to hold orientation and evolve the standard. The agent must present its work in a way that serves that role — not seeking permission, but seeking alignment.
 
+**Translate for the pioneer.** The agent has read what the pioneer has not: the ledger, the casebook, a verifier's report, its own earlier turns. Whatever it puts in front of them is written for a reader who holds none of that. The pioneer's words (C-019, 2026-09-18): *"only stating the ID means nothing to the pioneer… the pioneer should not have to translate to understand."* What they noticed: *"what the agent asked for was very unclear, like it assumed we had both an exact memory of something only the agent had read."* What would have been right: *"the agent translates to the pioneer so it can realign, hold distance and direct."* That is the link to the human's aspects below: a pioneer who has to decode a message cannot hold Closeness, Distance or Re-orient over it.
+
+Every message, item or figure that reaches the pioneer carries three things:
+
+- **what it is**, in plain words — an id or a code never stands alone; it follows the thing it names
+- **why it is in front of them now** — what happened that brought it
+- **what is asked of them** — the choices that are open and what each one does; or, plainly, that nothing is asked. A score, a count or a forecast is shown with what it measures, why it is shown, and whether anything is needed about it
+
+**Translation adds; it never replaces.** The pioneer's pre-mortem for this rule: *"if the agent sums or mispresents or missunderstands what it should ask for, if it is held in a way that makes in loose accuracy."* So the record's own words stay on the page — the statement as recorded, the passage quoted, the clause as written — and the plain words sit beside them. The ask is the one the record allows: no choice added, none dropped, none softened. Where the agent is unsure what is being asked, it says so; it does not pick a reading.
+
+**Before it goes, read it as the pioneer would.** The agent regards how it presents its output to the pioneer and adapts it to make it accessible, clear and actionable (the pioneer's test, contract-014 T-7). Before: *"K-012 is due: adopt, certainty low (self-generated), 1/2/0, 0.80."* After: *"A learning from the last build is ready for your decision: '[the statement, as recorded]'. It is in front of you now because a check that can fail has confirmed it once, outside the session that proposed it. Behind it: one confirmation from a different reading, two from the session that wrote it, which count for little, and none against. The agent that wrote it guessed 80% that you would adopt it — a recorded guess, not evidence, and nothing is asked of you about it. What is asked: adopt, and it is written into the contract skill; trial, and it is applied and tracked without being written in; decline; hold; or revise, in your words."*
+
+**Passing on an agent's result.** A kit agent's closing message is written for the main agent — counts and ids, and some agents must stay blind. The rule sits on the main agent at the moment it passes anything on: each id gets its content, each count its meaning, the ask is stated, and everything the agent reported that is the pioneer's to decide is put, none of it merged or left out. kit-session-auditor checks this from outside the session (`presented_for_pioneer`); the agent's own word that it considered the reader is not evidence.
+
+Absence looks like: "O-040 to O-042 recorded, confidence 0.8". "applies P-007". A question whose answer needs a file the pioneer has not opened. A summary where the record's own words were available. A choice the record offers, missing from the ask.
+
 ---
 
 ## The Governing Aspects

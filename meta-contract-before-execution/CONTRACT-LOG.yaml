@@ -3027,3 +3027,121 @@ contracts:
         tests_changed: ["walk-007 states 105 and 112d (the version greps)"]
     cost: {turns: 22, tokens: null, pioneer_minutes: 10}    # main-session assistant text messages from approval (2026-09-18) to implemented, counted from the transcript; tokens not measured; minutes: the pioneer's, given 2026-09-18 ("probably 10 minutes.")
     work_id: null
+
+  - contract_id: contract-014
+    feature: Whatever reaches the pioneer says what it is, why now, and what is asked - one always-loaded rule, applied at every place where the kit puts something in front of them, translated beside the record's own words and never in their place, and checked from outside the session
+    type: contract
+    follows: report-003            # its second recommendation; from C-019 and C-021
+    led_to: []
+    date_proposed: 2026-09-18
+    date_approved: 2026-09-18
+    approval: approved-at-gate     # pioneer: "the contract is approved" (2026-09-18), after adding T-7 (C-021)
+    bearing: |
+      The kit's agents talk to the pioneer in the kit's bookkeeping: item ids, certainty codes, a confidence
+      number. The pioneer corrected this four times in three days, in four different places. The bet: one short
+      rule that is always loaded and applied at every place where something reaches them will hold better than
+      fixing the review batch alone.
+    # Bears against paragraph five of the founding statement (the practice guides the pioneer, the pioneer guides
+    # and directs the kit): a pioneer who has to decode a message cannot direct anything. Spec lock skipped: the
+    # surfaces were surveyed in report-003. Precedents: applies P-008 (what is written about the practice can be
+    # followed by someone new), P-006 (when work outgrows a limit the work shrinks and the limit stays - the
+    # intent file had 168 bytes of room), P-001 (survey before fixing - the survey was report-003's table of
+    # surfaces). No candidates; no batch open.
+    tier_1: |
+      A review item tells you in a sentence why it is in front of you now, and what each possible answer would do.
+      Certainty, sighting counts and the agent's own forecast come with what they mean, why they are shown, and
+      whether anything is asked of you about them.
+      After a build you hear what was noted, one plain sentence each, that nothing is asked now, and when it
+      will come back.
+      A contract names a past ruling by what it held. The id stays in the log.
+      When an agent's result is passed on to you - a verification report, a consolidation, a map proposal - it
+      arrives in plain words with the ask stated.
+    tier_2: |
+      UC-1 The rule. One line in the always-loaded intent file, fitted in by trimming elsewhere. One short section
+           in the foundation skill with the three parts and a before/after example.
+      UC-2 The review batch. The item format gains two lines - why you are seeing this, and what is asked and what
+           each answer does. Codes are written out in words. The numbers carry their meaning and their ask.
+      UC-3 After a build. The closing block is reworded: each note a sentence, not an id with a number, and
+           "nothing is asked now" stated.
+      UC-4 The contract draw. Past rulings and held learnings are cited by what they say.
+      UC-5 Passing on. The agents' closing messages stay as they are - they are written for the main agent and
+           some must stay blind. The rule sits on the main agent at the moment it passes something on. A
+           verification report gives each corrected or open clause in words, with the three ways to close it and
+           what each means. A drift-score line that lists an unapproved assumption says what the pioneer can do
+           about it.
+      UC-6 (added with T-7, C-021) The conduct. The foundation skill's section says: before a message goes to the
+           pioneer, the agent reads it as they would and rewrites it until it is accessible, clear and actionable.
+           The session auditor gains one check, presented for the pioneer: it reads the agent's messages in the
+           session and quotes any that carry a bare id, a bare number, or no stated ask where something was needed.
+      Not included: the travelling walk, the transcript path, the done script and the bootstrap skill's length
+           (contract-015).
+    tier_3: |
+      G-1 (UC-1) the intent file stays under its size limit, and the limit is not moved. applies P-006.
+      G-2 (UC-2) the batch still carries no ledger ids, and nothing in the new lines can tell a re-shown item from
+           a new one - its "why now" reads as it did the first time.
+      G-3 (UC-3, UC-4, UC-5) only the named sections change. The log and the ledger keep their ids and numbers;
+           only what reaches the pioneer changes. applies P-008.
+      G-4 (all) each old wording goes on the retired list, every walk and check passes, the contract is committed
+           alone.
+      G-5 (UC-6) the conduct is checked by someone other than the agent that wrote the message. The agent's own
+           word that it "considered the reader" does not count.
+    disappointment: |
+      Not given at the gate. The pioneer's approving reply of 2026-09-18 held the answers to the three incident
+      questions, the pre-mortem and the approval, and no line for G-1 to G-5. Recorded as absent; asked again when
+      the build was reported.
+    premortem: |
+      "Pre mortem is if the agent sums or mispresents or missunderstands what it should ask for, if it is held in a
+      way that makes in loose accuracy." - the pioneer, 2026-09-18. Lands on every surface this contract rewrites:
+      a translation can lose what the record said. So the design turns on it - the plain words sit beside the
+      record's own words and never replace them, the ask is exactly the one the record allows, and the auditor's
+      check compares one passed-on item with its source.
+    tier_4: |
+      T-1 (G-2) A batch built by the assembler from a fixture ledger shows, on every item, a plain "why you are
+           seeing this" and an ask with the effect of each answer, beside the statement as recorded, word for word;
+           no code appears without its words; the ask lists exactly the decisions the item's kind allows; a
+           re-shown item's lines are identical in form to a new one's; no ledger id is in the file.
+      T-2 (G-3) The closing block after a build carries no bare id and no bare number, and says nothing is asked.
+           Seen by: the contract skill's text, the retired wording, and this contract's own closing message.
+      T-3 (G-3) A contract draw names each past ruling by what it held. Seen by: the skill's text, and this
+           contract's own draw.
+      T-4 (G-3) The pass-on rule is stated once, and the verification hand-over states the three closures in words
+           and that every corrected or open clause is put, none merged or dropped.
+      T-5 (G-1) The intent file carries the rule and the size check passes with the limit unchanged.
+      T-6 (G-4) The retired list holds the old wordings; all walks and checks pass; the commit holds only this
+           contract's paths.
+      T-7 (G-5) "The agent regards how it presents its output to the pioneer and adapts it to make it accessible,
+           clear and actionable." - the pioneer's test, in their words (C-021). Seen by: the auditor's check exists;
+           run on a fixture transcript it quotes the message carrying a bare id and a bare number, quotes the
+           passed-on item whose ask differs from its source record, and passes the message that says what the thing
+           is, why now and what is asked; and this contract's own closing message to the pioneer.
+      untested: whether a message truly landed for the pioneer. The auditor can catch a bare id or an ask that
+           drifted from its record; it cannot catch a sentence that is grammatical and still opaque to this
+           reader. The evidence is the pioneer's corrections of this kind stopping.
+      realigned: T-7 added by the pioneer (C-021), with G-5 and UC-6 drawn to carry it. T-1, T-4 and T-7 moved by
+           the pre-mortem - accuracy: the record's words beside the plain ones, the ask exactly the record's, and
+           the auditor comparing a passed-on item with its source.
+    red_test: {broke: G-2, went_red: T-1, how: "the batch assembler's sentence that keeps the record's words beside the plain ones ('never replace or shorten them') replaced by its opposite ('the plain words may stand in for the record where they are clearer'); walk-007 state 160 failed; 104 passed, 1 failed; restored from a saved copy; all green again", date: 2026-09-18}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    observations: [O-050, O-051, O-052, O-053]
+    revisions:
+      - what: "T-7's first independent run failed in part: the auditor's new check told it to compare a passed-on batch item with its batch file, and the auditor is forbidden to read batches (its own Never list and its read hook). It refused, correctly. The check now takes a record the auditor may read - a verifier's clause, a precedent, a correction - and says a batch's presenting is checked for form only. Second run: the softened finding and the missing third closure were both quoted. Recorded in tests/results/contract-014-T-1-T-7.md."
+        authorised_by: "inside UC-6 and T-7 as approved; T-7's wording ('quotes the passed-on item whose ask differs from its source record') stands, the source is a verifier's clause. Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-18
+        tests_changed: []
+      - what: "T-1's independent runs (three) moved the batch assembler and the ledger skill beyond the draw: evidence is given in words and never by an observation's or a correction's id (run 1 left five ids in the file); recurring terms are explained once at the top of the batch (run 1's items ran to about 350 words); a figure is copied as the record gives it, under the record's own meaning of its field (run 2 turned 'recurred twice' into 'happened 2 times in all'); and the effect of update, retire, add and decline on a quoted passage is written down for the first time, because run 2 invented one. That last is a definition the kit never had: 'add: the claim is written in at that passage and the quoted sentence stays'. It is the agent's wording of a choice that is the pioneer's."
+        authorised_by: "inside UC-2 and the pre-mortem ('if the agent sums or mispresents or missunderstands what it should ask for'). The definition of update, retire and add is put to the pioneer for confirmation in the closing message."
+        date: 2026-09-18
+        tests_changed: []
+      - what: "templates/LEDGER.template.yaml: the audit's form line gains presented_for_pioneer, and also precedent_check, a check the auditor has run since contract-006 that the template's line never listed - found while adding the new key."
+        authorised_by: "inside UC-6; the second key is a correction of the template to what the auditor already writes. Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-18
+        tests_changed: []
+      - what: "The version moves to 0.22 (manifest, template base_kit_version, README, walk-007 states 105 and 112d), the README gains a Contract-014 bullet and one sentence in its review-batch step, and meta-bootstrap/history is regenerated, by the standing rule. Walk-007 gains states 159 to 164."
+        authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-18
+        tests_changed: ["walk-007 states 105 and 112d (the version greps)"]
+    cost: {turns: 14, tokens: null, pioneer_minutes: null}    # main-session messages to the pioneer from approval (2026-09-18) to implemented, counted by hand in the session - the transcript file, which lags, held 9 at the flip; five independent agent runs beside them (about 294,000 tokens between them, as the harness reported); the main session's tokens not measured; minutes not yet asked
+    work_id: null

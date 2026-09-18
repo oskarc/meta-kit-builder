@@ -92,7 +92,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.21" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.21" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.21" || bad "105 version" "-"
+grep -q "^  version: 0.22" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.22" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.22" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -106,7 +106,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant fo
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.21" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.21 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.22" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.22 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -271,6 +271,15 @@ printf 'This file is a template.\n' >> "$T13/k/meta-x/SKILL.md"; r=$(bash "$G3" 
 printf 'See `meta-y` → Nowhere for it.\n' > "$T13/k/meta-x/SKILL.md"; r=$(bash "$G4" "$T13/k"); rc=$?; [ $rc != 0 ] && case "$r" in *Nowhere*) ok "157c a planted pointer to a missing heading fails G4, naming it (T-6)";; *) bad "157c message" "$r";; esac || bad "157c planted pointer not caught" "$r"
 grep -q 'Commit each contract alone' "$SRC/meta-contract-before-execution/SKILL.md" && ok "158 the contract skill carries the one-commit rule (T-6)" || bad "158 commit rule" "-"
 rm -rf "$T13"
+
+echo "=== contract-014: what reaches the pioneer says what it is, why now, and what is asked ==="
+F14="$SRC/meta-foundation/SKILL.md"; C14="$SRC/meta-contract-before-execution/SKILL.md"; L14="$SRC/meta-ledger/SKILL.md"
+grep -q -F -- '- **Translate for the pioneer.**' "$SRC/meta-foundation/INTENT.md" && bash "$SRC/meta-mechanisms/checks/G1-size.sh" >/dev/null && grep -q -F '5120' "$SRC/meta-mechanisms/checks/G1-size.sh" && ok "159 the always-loaded intent carries the rule and still fits its 5,120 bytes, the limit unmoved (T-5)" || bad "159 intent" "$(wc -c < "$SRC/meta-foundation/INTENT.md") B; $(bash "$SRC/meta-mechanisms/checks/G1-size.sh" | head -1)"
+grep -q -F '**Why you are seeing this:**' "$L14" && grep -q -F '**What is asked:**' "$L14" && grep -q -F 'no more and no fewer' "$L14" && grep -q -F 'nothing in these lines can mark it' "$L14" && grep -q -F '**Why you are seeing this:**' "$SRC/agents/kit-batch-assembler.md" && grep -q -F 'never replace or shorten them' "$SRC/agents/kit-batch-assembler.md" && grep -q -F 'A figure is copied as the record gives it' "$SRC/agents/kit-batch-assembler.md" && grep -q -F 'never by its `O-` or `C-` id' "$SRC/agents/kit-batch-assembler.md" && grep -q -F 'the choices offered are exactly the file' "$SRC/meta-skill-builder/SKILL.md" && ok "160 the batch item, its builder and its presenter carry the two lines, the record's words kept, the ask exactly the kind's, a re-shown item unmarked (T-1)" || bad "160 batch item" "-"
+grep -q -F 'not its id, and not its confidence figure' "$C14" && grep -q -F 'nothing is asked of them now' "$C14" && ok "161 after a build: each note a plain sentence, no bare id, no bare number, nothing asked (T-2)" || bad "161 closing block" "-"
+grep -q -F 'a precedent or a candidate is named by what it says' "$C14" && ok "162 a contract draw names a past ruling by what it held (T-3)" || bad "162 draw" "-"
+n=$(cat "$SRC"/meta-*/SKILL.md | grep -c -F "**Passing on an agent's result.**"); [ "$n" = 1 ] && grep -q -F 'none merged and none left out' "$C14" && grep -q -F 'each with what it writes and what follows from it' "$C14" && grep -q -F 'they can confirm it or withdraw it' "$SRC/meta-antidrift/SKILL.md" && ok "163 the pass-on rule is stated once; the verification hand-over puts every clause and the three closures in words (T-4)" || bad "163 pass-on" "stated $n time(s)"
+grep -q -F 'The agent regards how it presents its output to the pioneer and adapts it to make it accessible, clear and actionable' "$F14" && grep -q -F 'Translation adds; it never replaces' "$F14" && grep -q -F '`presented_for_pioneer`' "$SRC/agents/kit-session-auditor.md" && grep -q -F 'whose record you may read' "$SRC/agents/kit-session-auditor.md" && grep -q -F 'presented_for_pioneer: ' "$SRC/templates/LEDGER.template.yaml" && [ -f "$SRC/meta-mechanisms/tests/results/contract-014-T-1-T-7.md" ] && ok "164 the pioneer's test stands in their words, the auditor checks it from outside, and both agent runs are on record (T-7)" || bad "164 conduct" "-"
 
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

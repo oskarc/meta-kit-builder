@@ -58,6 +58,8 @@ Any action taken on implied rather than explicit permission must be named. Examp
 
 An empty implicit approvals line is a strong signal. A long list is a drift signal. Both are information.
 
+Each listed approval is written so the pioneer can act on it: what was assumed, in plain words, and that they can confirm it or withdraw it — a withdrawn assumption is a stop (contract-014).
+
 **Skill deviations — each requires a named human confirmation:**
 
 If any active skill's constraints were not followed, name the skill and the specific human statement that authorised the deviation. If there is no such statement, the deviation is unauthorised and must be flagged — not justified.

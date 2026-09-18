@@ -81,6 +81,8 @@ Before drawing the tiers — and before locking a spec — retrieve casebook pre
 - Two active precedents with matching facts and different holdings are a conflict the pioneer resolves (`meta-casebook`). Until they do, distinguish whichever one you depart from; never pick between them silently.
 - A trial or adopted candidate that bears on a guardrail is cited by id: `trial K-012`, `adopted K-004`. Those citations are what later let the ledger tell loaded evidence from independent evidence, and what makes an adopted candidate's uses countable.
 
+**In the draw the pioneer reads, a precedent or a candidate is named by what it says** — "you ruled that acceptance tests come after the guardrails (P-007)" — the holding first, in words, the id after. The short forms above are the log's. An id alone sends the pioneer to a file only the agent has read (C-019; `meta-foundation` → The Agent's Role).
+
 With no casebook entries yet, say so in one line and move on. While a review batch is open the ledger and casebook are closed to this session; say that instead, and draw the contract without them.
 
 ---
@@ -200,6 +202,8 @@ A blanket "looks good" is not a per-clause confirmation. Record which clauses it
 | draw the follow-up work as its own contract | `verification_state: closed-by-follow-up` and `led_to: contract-NNN` on this entry; the new contract carries `follows: contract-NNN` back — the same direction as the artifact cross-links below: `follows` sits on the later entry, `led_to` on the earlier |
 | wait for better evidence | `verification_state: none` once that evidence exists, which relaunches the verifier |
 
+**Putting the report to the pioneer** (`meta-foundation` → The Agent's Role): each corrected or open clause is given as what the contract promised, what the verifier found instead — its own words quoted where they carry the finding — and what is asked: one of the three ways out above, each with what it writes and what follows from it. Every such clause is put, none merged and none left out; a line of counts is not a hand-over.
+
 Nothing else clears it — a contract left in this state blocks its own learning diff, which is the point.
 
 **`verification_history`.** A re-verification never overwrites what the last one found: the previous `verification` block moves to `verification_history` first. `meta-learning` reads the current block and cites its date; the history is what lets a diff show that a clause was corrected before it was verified.
@@ -300,7 +304,7 @@ One observation per learning. Do not bundle.
 
 **Commit each contract alone.** One commit holds one contract's changes and nothing else, so a test of the form *the diff names only the paths this contract lists* can always be run; two contracts sharing a commit left that test unrunnable twice (contract-013).
 
-Then flip the contract's entry from `approved` to `implemented`, record the session's `transcript` path, add the observation ids to `observations`, and tell the pioneer in one short block: the observations recorded, one line each with its stated confidence, and that they will return in a review batch once evidence accumulates. Do not ask for decisions on them now.
+Then flip the contract's entry from `approved` to `implemented`, record the session's `transcript` path, add the observation ids to `observations`, and tell the pioneer in one short block what the work taught: each observation as one plain sentence — what was noticed and where, not its id, and not its confidence figure, which is a forecast kept for the ledger and asks nothing of them — then, in words, that nothing is asked of them now, and that any of these which gathers evidence from outside this session comes back to them in a review batch (`meta-foundation` → The Agent's Role). Do not ask for decisions on them now.
 
 The stop-gate takes it from there: the session auditor, then the verifier, then the consolidator (M-11, M-12, M-14).
 

@@ -43,11 +43,13 @@
 - **The contract is tested on the pioneer's terms.** Before code: bearing and four tiers, the tests drafted from the land after the work so your reading shows; then the pioneer's words on what would disappoint them, a pre-mortem, and the tests realigned to those words (M-04). Frozen at approval; one test is seen to fail after the build.
 - **The contract is the pioneer's test, not yours.** Before code: bearing, tiers, the pioneer's words on what would disappoint them, a pre-mortem, one test seen to fail (M-04). Frozen at approval.
 - **The contract is the pioneer's test, not yours.** Before code: the bearing, the tiers, then the pioneer's own words on what would disappoint them, a pre-mortem, and one test seen to fail (M-04). The contract is frozen at approval.
+- **Translate for the pioneer.** What reaches them says what it is, why now and what is asked, beside the record's own words, never instead of them; no id or number stands alone (`meta-foundation`).
 -->
 <!--
 <!-- ALWAYS LOADED via CLAUDE.md beside FOUNDING.md and MAP.md; all else is reached through the map or fired.
 ALWAYS LOADED. Imported by CLAUDE.md at launch, beside meta-founding-contract/FOUNDING.md and meta-map/MAP.md.
 Aligned to the founding statement (base kit contract-006, 2026-09-13). Keep under 5,120 bytes: checks/G1-size.sh fails otherwise. -->
+Aligned to the founding statement (contract-006). Over 5,120 bytes, checks/G1-size.sh fails. -->
 Aligned to the founding statement and ratified by the pioneer 2026-09-13 (contract-006). Keep under ~5 KB. -->
 Distilled from meta-foundation/SKILL.md: the sentences marked as the foundation's are its own wording,
 Drafted by the agent in contract-001 from meta-foundation/SKILL.md; aligned to the founding statement and

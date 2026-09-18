@@ -54,3 +54,8 @@ to weigh at the real run
 a reworded entry is asked about
 the ratification pass step 9 offers
 and any later `G*.sh`
+
+# contract-014: wordings that put the kit's bookkeeping in front of the pioneer
+one line each with its stated confidence
+as it stands in the file: the proposed disposition
+**Certainty:** low (self-generated, single-contract)

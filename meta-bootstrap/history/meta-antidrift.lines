@@ -33,6 +33,7 @@ ABSENT on the same aspect across multiple consecutive outputs is a pattern. The 
 After every output, the agent produces a compact drift score block. The block does not assess or reflect — it cites. Each governing aspect requires a concrete referent in the current output or session state. Each active skill requires a named human confirmation for any deviation. Each implicit approval acted on must be listed explicitly.
 An empty implicit approvals line is a strong signal. A long list is a drift signal. Both are information.
 Any action taken on implied rather than explicit permission must be named. Examples:
+Each listed approval is written so the pioneer can act on it: what was assumed, in plain words, and that they can confirm it or withdraw it — a withdrawn assumption is a stop (contract-014).
 Format: compact, scannable, maximum 10 lines. If it cannot be stated concisely it has not been understood.
 Format: compact, scannable. If it cannot be stated concisely it has not been understood.
 If any active skill's constraints were not followed, name the skill and the specific human statement that authorised the deviation. If there is no such statement, the deviation is unauthorised and must be flagged — not justified.

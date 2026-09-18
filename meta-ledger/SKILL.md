@@ -132,20 +132,35 @@ Batch item format:
 
 ```
 ## I-3
-**Kind:** candidate
-**Statement:** …
+**Kind:** candidate — a learning that may belong in the standard
+**Statement:** … (as recorded, word for word)
 Verdict before evidence:
 **Proposed:** adopt — pattern · type-category · target: meta-contract-before-execution
-**Evidence:** …
-**Certainty:** low (self-generated, single-contract) · **Counters:** helpful 1 from a different reading / 2 same reading, harmful 0 · **Stated confidence:** 0.80 (the observer's forecast, recorded, not scored)
+**Evidence:** … (what was seen, where, and by what kind of reading — in words; never an observation's or a correction's id)
+**Why you are seeing this:** it has been confirmed once from a different reading since it was first noted, and nothing has spoken against it — the point at which the kit asks whether to try it.
+**What stands behind it:** certainty low — it began as the agent's own reflection (self-generated) and has been seen in one contract only (single-contract). Confirmations: 1 from a different reading, 2 from the same reading, none against. The observer's forecast that you would adopt it: 0.80 — a recorded guess, never scored. Nothing is asked of you about these figures; they are here so you can weigh how much stands behind the claim.
 Against: (the pioneer's answer to "assume this is wrong — why?", one line, recorded before the decision)
 **Contradicts:** meta-contract-before-execution/SKILL.md → "A blanket 'looks good' is not a per-clause confirmation." (omit the line when contradicts is empty)
+**What is asked:** one of — trial: applied where it bears and tracked, not yet written into a skill · adopt: written into the target skill · caution: written into the target's anti-patterns · decline: refused, kept on record · hold: comes back only when new evidence from a different reading arrives · revise: your wording replaces it, and the old one is declined. (With a quoted passage the ask is instead — update: the quoted sentence is rewritten so the claim holds · retire: the quoted sentence is removed and nothing is put in its place · add: the claim is written in at that passage and the quoted sentence stays · decline: refused, kept on record, the skill left as it is. Each edit is made at that passage only.)
 Decision:
 Level and tier (for trial, adopt or caution):
 Reason:
 ```
 
-The proposed disposition sits **below** the verdict line: the pioneer's first read is of the statement alone, so the agent's recommendation cannot anchor it.
+The proposed disposition sits **below** the verdict line: the pioneer's first read is of the statement alone, so the agent's recommendation cannot anchor it. *Why you are seeing this* sits below it too, because it tells how the evidence stands.
+
+**Every item is written for a reader who has not seen the ledger** (contract-014; `meta-foundation` → The Agent's Role). The kind is named in plain words, the statement and any quoted passage stay word for word, every code is followed by what it means, and two lines are never omitted — *Why you are seeing this* and *What is asked*, which lists exactly the decisions the kind allows, no more and no fewer, each with what it does. The plain words sit beside the record's; they never replace it. **A figure is copied as the record gives it, under the record's own meaning of the field** — a count is never re-derived, rounded or put as a different count (a drift entry's `recurrence_count: 2` is "it has recurred twice since it was first recorded", never "it happened twice"); where the meaning of a field is not certain, the field's name and value are given as they stand. Terms that recur — a different reading, the same reading, the certainty word, the observer's forecast — are explained once, under *How to read these items* at the top of the batch file, so each item stays short.
+
+| Kind | In plain words | Why it arrives | What each decision does |
+|---|---|---|---|
+| candidate | a learning that may belong in the standard | it gathered the evidence *Stages* names, or it is the pioneer's own correction contradicting a skill | as in the format above |
+| map proposal | a change to what the always-loaded map loads, and when | the map steward found an entry misfiring, never firing, or missing | ratify: the map is changed as proposed · decline: kept on record, not proposed again · revise: redrafted from the pioneer's wording |
+| map entry | a drafted line of the map that is not the pioneer's yet | it is still `proposed` | ratify: it becomes theirs as written · decline: marked declined, stops loading · revise: their wording replaces it |
+| scenario card | a hard case with options to rank | the case clerk wrote it from a correction | a ranking: becomes the casebook's guidance for cases like it · decline: the card is set aside |
+| precedent | two past rulings that disagree, or one set aside three times | contracts that meet it cannot cite it cleanly | overrule: the ruling stops deciding · keep: it stands, the conflict is cleared · reconcile: the pioneer says which holding stands, in their words |
+| drift resolution | a recorded drift whose fix has been in place | its status reached `mitigated` | resolve: closed · keep-watching: stays open and counted |
+
+A re-presented item is written exactly as a first-time candidate is — its *Why you are seeing this* reads as it did when it was first presented — so nothing in these lines can mark it (G-2).
 
 A decision the pioneer asks for outside a batch is recorded with `batch: direct` on the candidate and clears `review_due` the same way.
 

@@ -25,7 +25,7 @@ For each item, in order:
 
 1. **Statement first.** Show the item's kind and its statement — not the proposed disposition, not the evidence. Ask for the pioneer's read in one line, and record it under `Verdict before evidence:`. Deciding before seeing a recommendation reduces over-reliance on its framing; the agreement between that first read and the final decision is information.
    Then ask one thing more, and only this: **"Assume this is wrong. Why?"** Record the answer under `Against:`. The question is one-sided on purpose: asking for reasons against improves calibration, asking for reasons for does nothing, and asking for both does nothing either — so never phrase it as "arguments for and against" (contract-006 G-6).
-2. **Then the rest of the item**, as it stands in the file: the proposed disposition, the evidence, certainty with its codes, counters and stated confidence. For candidates, run Step 0 and Step 1 of the abstraction loop below — briefly, with evidence.
+2. **Then the rest of the item.** The file carries it in plain words — why it is in front of them, the proposed disposition, the evidence, what stands behind it, and what is asked with what each answer does. Give those lines as written, and the statement, the evidence and any quoted passage word for word: translation adds, it never replaces, and the choices offered are exactly the file's (`meta-foundation` → The Agent's Role). For candidates, run Step 0 and Step 1 of the abstraction loop below — briefly, with evidence.
 3. **The decision**, by kind:
 
 | Kind | Decisions | Also record |

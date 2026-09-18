@@ -867,6 +867,79 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-050
+    date: 2026-09-18
+    source: ser
+    contract_id: contract-014
+    refs: [G-1, meta-foundation/INTENT.md, P-006]
+    statement: |
+      the always-loaded intent file stands at 5,114 of its 5,120 bytes after this contract's one line, and the line
+      only fitted because the file's header comment was shortened. The next rule that wants to be always loaded has
+      to name the rule it retires or the sentence it shortens before it is written, or it does not fit.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-051
+    date: 2026-09-18
+    source: ser
+    contract_id: contract-014
+    refs: [G-2, the pre-mortem, tests/results/contract-014-T-1-T-7.md]
+    statement: |
+      the agent drew "plain words" as words in place of the record's; the pioneer's pre-mortem - a translation that
+      sums up, misrepresents or loses accuracy - turned it into words beside the record's. The second fixture run
+      showed the risk was real on the first try: a drift entry's recurrence count was re-expressed as "happened 2
+      times in all", a different number, in a sentence that read perfectly well. Plain language is where a figure
+      gets quietly changed; the rule that holds it is to copy the figure under the record's own meaning of its field.
+    level_guess: principle
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-052
+    date: 2026-09-18
+    source: ser
+    contract_id: contract-014
+    refs: [G-5, T-1, T-7, agents/kit-session-auditor.md, agents/kit-batch-assembler.md]
+    statement: |
+      both tests that were run by an agent other than the builder failed on their first run, each on something no
+      search of the text could have shown: the auditor had been told to compare a passed-on batch item with a file
+      it is forbidden to read, and refused; the assembler copied observation ids into the evidence line and
+      explained every term on every item. Three runs of one and two of the other cost about twelve minutes and
+      found four defects. The text-presence states written for the same contract passed throughout.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-053
+    date: 2026-09-18
+    source: ser
+    contract_id: contract-014
+    refs: [UC-2, meta-ledger/SKILL.md batch item format, C-016]
+    statement: |
+      the kit has offered the pioneer update, retire and add on a contradicting learning since contract-004 and had
+      never written down what each one does; the assembler, asked to say what each answer does, made up an effect for
+      add. Writing the ask in full is what exposed that the choice had no definition. The definition now in the
+      ledger skill is the agent's and waits for the pioneer's confirmation.
+    level_guess: pattern
+    stated_confidence: 0.7
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
 
 batches: []
