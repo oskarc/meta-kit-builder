@@ -2971,8 +2971,11 @@ contracts:
       G-5 (UC-5) two checks that fail on a planted case and pass on the tree; the commit rule in the contract skill.
       G-6 (all) every walk green, every check passing, this contract committed alone.
     disappointment: |
-      Not given per guarantee. The pioneer's reply of 2026-09-18 held the ruling on UC-3, the pre-mortem and the
-      approval, and no line for G-1 to G-6; recorded as absent, not inferred from the pre-mortem.
+      Not given at the gate: the pioneer's approving reply of 2026-09-18 held the ruling on UC-3, the pre-mortem
+      and the approval, and no line for G-1 to G-6, and the agent built without asking. Asked after the build, the
+      pioneer, 2026-09-18: "same as post mortem" - G-1 to G-6 take the pre-mortem's words (the pioneer wrote
+      "post"; the pre-mortem is the only such statement on this contract): "if the cleanup wasnt complete, if the
+      sharpening dont get the expected behaviour."
     premortem: |
       "This is mostly a clean up and a sharpening. So the pre mortem is if the cleanup wasnt complete, if the
       sharpening dont get the expected behaviour." - the pioneer, 2026-09-18. The cleanup lands on T-2, T-3, T-4
@@ -3007,11 +3010,11 @@ contracts:
     observations: [O-047, O-048, O-049]
     revisions:
       - what: "T-2's read of both flows, done in full during the build, found ten more sentences than the draw named that could be taken as an ask after the sheet or that described a retired flow: the install's Step 7 heading and the skill's two summaries ('offers' the ratification pass), Step 5's opening ('Everything here is shown to the developer before it is written'), the 6h list of checks that stay, the template rule's 'asked about once per file' (now: on the sheet), step 2's 'to weigh at the real run' and 'when offered', step 7's 'a reworded entry is asked about', step 8's 'the ratification pass step 9 offers'. All reworded; each old wording added to the retired list. Recorded in tests/results/contract-013-T-2.md."
-        authorised_by: "inside UC-1 and T-2 as approved ('Nothing can ask you anything after the sheet'); the pre-mortem - 'if the cleanup wasnt complete' - is the reason it was not left for a later contract. Recorded for the pioneer to confirm or refuse."
+        authorised_by: "inside UC-1 and T-2 as approved ('Nothing can ask you anything after the sheet'); the pre-mortem - 'if the cleanup wasnt complete' - is the reason it was not left for a later contract. Confirmed by the pioneer, 2026-09-18: 'we should correct what is not accurate.'"
         date: 2026-09-18
         tests_changed: []
       - what: "Paths the draw did not name, touched because the retired list and the pointer check found the old wording there: meta-mechanisms/SKILL.md (inventory rows for the three new scripts and lib.sh's one-spelling rule), templates/MANIFEST.template.yaml (the base-contract node's 'three tiers'), meta-map/MAP.md and templates/MAP.template.md (M-25 'a three-tier build plan'), meta-manifest/MANIFEST.yaml (a gap's '29 base map entries', a stale figure), meta-foundation/SKILL.md, meta-drift-eventlog/SKILL.md and agents/kit-consolidator.md (pointers to a ledger heading renamed by contract-006), meta-bootstrap/history/*.lines (regenerated)."
-        authorised_by: "inside UC-2, UC-4 and UC-5 as approved; named here so the list of paths is complete - the gap the verifier found on contract-010. Recorded for the pioneer to confirm or refuse."
+        authorised_by: "inside UC-2, UC-4 and UC-5 as approved; named here so the list of paths is complete - the gap the verifier found on contract-010. Confirmed by the pioneer, 2026-09-18: 'we should correct what is not accurate.'"
         date: 2026-09-18
         tests_changed: []
       - what: "A test of contract-007 changed: walk-007 state 112a, the README census, banned the word 'binding'. The ruling on UC-3 makes 'binding precedents' the README's correct wording, so the ban is removed from the census (two places). Walk-007 also gains states 150 to 158 for T-1 to T-6."
@@ -3022,5 +3025,5 @@ contracts:
         authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
         date: 2026-09-18
         tests_changed: ["walk-007 states 105 and 112d (the version greps)"]
-    cost: {turns: 22, tokens: null, pioneer_minutes: null}    # main-session assistant text messages from approval (2026-09-18) to implemented, counted from the transcript; tokens not measured; minutes not yet asked
+    cost: {turns: 22, tokens: null, pioneer_minutes: 10}    # main-session assistant text messages from approval (2026-09-18) to implemented, counted from the transcript; tokens not measured; minutes: the pioneer's, given 2026-09-18 ("probably 10 minutes.")
     work_id: null
