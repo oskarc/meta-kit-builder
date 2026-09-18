@@ -525,6 +525,68 @@ corrections:
       land after implementation - what will be true, and how it would be seen - so a wrong reading shows in the
       test before it shows in the code.
 
+  - corr_id: C-019
+    date: 2026-09-18
+    contract_id: null
+    moment: M-25
+    grade: frame-reset
+    intervention: redirected
+    agent_offered: |
+      Nothing in this session: the correction is about how the kit's agents present candidates and scores to the
+      pioneer in use - by id and by number, without introduction.
+    pioneer_said: |
+      "When the agent presents a candidate to the pioneer it should introduce the candidate, only stating the ID
+      means nothing to the pioneer. The agent should be concise but clear, the pioneer should not have to translate
+      to understand.
+      When scoring is introduced or shown to the pioneer, the agent should present WHY it was presented and what
+      action it needs from the pioneer."
+
+      "Do you see what im getting at?"
+    reason_given: |
+      an id means nothing to the pioneer; the pioneer should not have to translate to understand.
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      Read by the agent as one rule across every pioneer-facing surface, not a fix to the batch format alone:
+      what is put in front of the pioneer carries what it is in plain words, why it is shown now, and what is asked
+      of them. Same family as C-014 (contracts direct and concise), C-016 (the impact of each choice) and P-008.
+
+  - corr_id: C-020
+    date: 2026-09-18
+    contract_id: contract-013
+    moment: M-04
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      Contract-013 UC-3, on whether a matching precedent decides or instructs: "I recommend the second, since it is
+      the one you ratified last" - that is, "instructs, it does not bind", with the casebook, the contract skill and
+      the clerk softened to match.
+    pioneer_said: |
+      "UC-3 allow binding its the more focuse direction."
+    reason_given: |
+      binding is the more focused direction.
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      The doctrine is settled by the pioneer: a precedent whose facts match decides its question unless the contract
+      says how the facts differ. The intent file and the README's word census are aligned to it by contract-013.
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no

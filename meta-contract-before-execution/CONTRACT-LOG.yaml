@@ -1645,7 +1645,7 @@ contracts:
     feature: the upgrade compares by mechanism — an installed copy of every meta skill as the yardstick, history only for forks that predate it, a migration check for completeness and validity, roots by id, a legacy status for drift, the rehearsal log kept, and the fork's run made whole
     type: contract
     follows: contract-007
-    led_to: contract-009
+    led_to: [contract-009, contract-013]
     date_proposed: 2026-09-15
     date_approved: 2026-09-16
     approval: approved-at-gate     # pioneer: "Then we can approve the contract" (2026-09-16), after UC-1 was revised in the same exchange
@@ -1779,7 +1779,162 @@ contracts:
                 after the second one; whether G-1's fallback sentence reads well to a newcomer (P-008).
     red_test: {broke: G-4, went_red: T-4, how: "the drift template's enumeration edited back to `open | watching | mitigated | resolved` (legacy removed); walk-007 state 121 failed ('121 enumeration'), 48 passed 1 failed; restored; walk-007 49/49 green again", date: 2026-09-16}
     status: implemented
-    verification_state: none
+    verification_state: closed-by-follow-up    # the pioneer, 2026-09-18, on the verification reports of all five: "yes" to the follow-up contract
+    verification:
+      date: 2026-09-18
+      by: kit-verifier
+      method: mixed
+      tests: {T-1: pass, T-2: pass, T-3: pass, T-4: pass, T-5: pass, T-6: pass, T-7: pass, T-8: pass}
+      corrections_from_tests: 0
+      corrections_from_reading: 1
+      clauses:
+        - clause: UC-1
+          verdict: corrected
+          evidence: |
+            This repository runs no verifier hooks, so the blindness to ledger, corrections, casebook,
+            research and transcripts was kept by instruction in this run, not by mechanism. It held for the
+            fork's repository too — its ledger, corrections and casebook were not opened.
+            The body of the clause holds and T-1 shows it (see G-1). The Edge does not: "re-wrapping and
+            whitespace are not residue" is delivered by half. Whitespace and carriage returns are removed
+            before the comparison, in the procedure and in the shipped line history alike
+            (meta-bootstrap/SKILL.md:401, meta-bootstrap/history/regenerate.sh:12-14). Re-wrapping has no
+            mechanism at all: the comparison is line-for-line, so a line the project re-wrapped matches no
+            line in the installed copy or in the history, and is reported as residue. The procedure names
+            the conclusion — "(re-wrapping is not an edit)" at :401 — only inside the no-residue branch, and
+            never says how a re-wrapped line is recognised. The contract's own first application proves it
+            matters: the fork's residue report had to state a wrap rule of its own ("a line whose words
+            occur in one version in the same order across a line break is re-wrapping, not residue, and is
+            dropped") and drop 7 lines by hand across three skills — 8 residue lines to 6, 23 to 19, and 1
+            to 0. Without that hand check one skill with no project content at all would have been put to
+            the pioneer as a question. What is actually true: the mechanism catches whitespace, and a human
+            still catches re-wrapping.
+        - clause: UC-2
+          verdict: verified
+          evidence: |
+            T-2 (walk-007 states 113-116b, run 2026-09-18, 83/83 green). The check parses, counts insertions
+            against a pre-migration copy, and matches template nodes through skill_file; it exits 0 on a
+            correctly migrated record set and exits 1 naming file and figure on a severed block scalar, an
+            entry missing its inserted field, a template node absent from the manifest, and a bare key at
+            list level. The rehearsal pass rule carries "and checks/G2-migration.sh exits 0 on the migrated
+            copy" (meta-bootstrap/SKILL.md:398).
+        - clause: UC-3
+          verdict: verified
+          evidence: |
+            T-3 as revised (states 117-118) plus the real run: checks/roots.sh on the fork's manifest prints
+            16 roots today, and the 16 ids it prints are identical, id for id, to the list the fork's
+            proposed-entries.md carries — which states that count and nothing else. The synthetic fixture
+            reproduces report-010's defect: three nodes whose folders carry a layer prefix while
+            dependencies name bare ids give one root, where folder matching gives all three.
+        - clause: UC-4
+          verdict: verified
+          evidence: |
+            T-4 (states 119-122). An entry at status: legacy raises no session-start line and no stop-gate
+            task; legacy stands in the drift template's enumeration, in the marker-key table
+            (meta-mechanisms/SKILL.md:123) and in the batch assembler ("never one at `legacy`",
+            agents/kit-batch-assembler.md:34). Step 7 carries the standing question
+            (meta-bootstrap/SKILL.md:414) and the sheet its line (:45).
+        - clause: UC-5
+          verdict: verified
+          evidence: |
+            T-5. The fork's report folder holds rehearsal-<date>.md from the real run, with the three
+            numbers (4 decisions, 0 files genuinely differed, 2 troubleshooting steps), seven defects R-1 to
+            R-7, and a "what this rehearsal did not check" list; the step-9 report links it in its opening
+            paragraph. The rehearsal copy the log names is gone from disk. The test was written for a
+            fixture rehearsal and was met by a real one, which is the stronger evidence for the same
+            guarantee.
+        - clause: UC-6
+          verdict: verified
+          evidence: |
+            T-6 as revised on 2026-09-18 (state 123), checked against the revision, not the original: step 2
+            names the instance-file question and says it is never answered by inference from the skills
+            question (meta-bootstrap/SKILL.md:398), and step 7's MANIFEST.yaml line gives it "its own line
+            on the sheet" (:415). The revision is dated before any verification report on this entry, so it
+            applies.
+        - clause: UC-7
+          verdict: verified
+          evidence: |
+            T-7, checked item by item in the fork's repository rather than from its report. The residue
+            questions: seven skills, not the six the clause names, were measured and put to the pioneer, and
+            the answers are on record as replace for all seven, confirmed by the pioneer on 2026-09-17. The
+            tree bears it out — all 18 installed copies in the fork are byte-identical to what 0.16 shipped
+            at 53eb4f6, and the fork's live meta skills are byte-identical to those installed copies, so
+            nothing was reapplied. Eight agent- nodes and their eight coverage lines are registered.
+            proposed-entries.md states the count roots.sh prints (16, reproduced). The seventeen drift
+            entries carry "review in batches" and the session-start backlog, run against the fork's drift
+            log in a fixture, reports 38 watching-or-mitigated, which is the 17 plus 21. The report-010
+            quotation matches meta-bootstrap/SKILL.md:395 verbatim, with no altered variant left in the
+            file. The fork's working tree is clean. Two of the five items — the agent nodes and the
+            quotation — were already true before this contract ran; they are satisfied, not delivered here.
+        - clause: G-1
+          verdict: verified
+          evidence: |
+            T-1, re-run independently in this session rather than read from tests/results/contract-008-T-1.md.
+            Fixture: installed copies of two meta skills, the project copy of one carrying two added lines,
+            both staged copies moved on at line 3. Branch A, installed copies present: the edited skill
+            differs from staged by 4 lines but shows residue of exactly the 2 project lines, quoted in full
+            — one question; the untouched skill differs from staged by 2 lines and shows residue 0 — no
+            question. Branch B, installed copies gone and the shipped meta-bootstrap/history/*.lines
+            standing in: the same 2 and 0. Branch C is stated in words at meta-bootstrap/SKILL.md:401.
+            5g writes the copies at install (:288) and step 5 refreshes them on upgrade whatever the pioneer
+            answered (:408); walk-007 state 124 holds the text. The C-013 revision is in the text: two
+            answers, reapply or replace, never keeping the old file (:401), and the rehearsal stub is
+            reapply (:398).
+        - clause: G-2
+          verdict: verified
+          evidence: |
+            T-2 (states 113-116b) and state 132: G2-migration.sh exits 0 on this repository's own tree,
+            which it did not when the contract was implemented. The script uses bash, sed and awk only — no
+            interpreter, no parser, contract-001 G-3.
+        - clause: G-3
+          verdict: verified
+          evidence: |
+            T-3 (states 117-118) and the run above. Step 8 takes the script's output and nothing else for
+            the list and the count (meta-bootstrap/SKILL.md:419). P-006.sh exits 0 on this tree: the map
+            allowance did not move.
+        - clause: G-4
+          verdict: verified
+          evidence: |
+            T-4 (states 119-122), with the step-7 question at meta-bootstrap/SKILL.md:414 phrased as the
+            contract log's, and legacy enumerated in the drift template, the marker-key table and the batch
+            assembler.
+        - clause: G-5
+          verdict: verified
+          evidence: |
+            T-5 and state 125: step 2 names rehearsal-<date>.md in the project's report folder, step 9 links
+            it, and the fork's log is where the guarantee says it would be, with the copy discarded.
+        - clause: G-6
+          verdict: verified
+          evidence: |
+            T-6, state 123, against the revised wording.
+        - clause: G-7
+          verdict: verified
+          evidence: |
+            T-7. The fork's fixes were made on the fork's tree and recorded in report-010's successor — an
+            upgrade report and a residue report, both in the fork's report folder. The three overwritten
+            evolutions were not restored by the agent: the residue report shows every line, quotes the
+            question, records the answer, and states that replace changed no file; the byte comparison above
+            confirms nothing was reapplied. The successor report carries its "what this upgrade did not
+            check" list of nine items, so silence is not read as a clean result. "Nothing committed without
+            the pioneer's say" rests on the report's own record of the acceptance of 2026-09-17 and on the
+            acceptance commit; the exchange behind the earlier upgrade commit sits in a transcript this run
+            was blind to.
+        - clause: G-8
+          verdict: verified
+          evidence: |
+            T-8. walk-007 ran green on 2026-09-18: 83 passed, 0 failed, with states 113-126 added for this
+            contract; walk.expected was restored by the run and git diff --stat on it is empty. Every check
+            under checks/ exits 0 — roots.sh exits 0 when given a manifest; its bare exit 1 is its usage
+            guard, since it is a printer and not a pass/fail check. The paths this contract moved, across
+            its two commits, are the README, the batch assembler, meta-bootstrap/SKILL.md, the 19 files of
+            meta-bootstrap/history/, the contract log, corrections and ledger, the manifest,
+            meta-mechanisms/SKILL.md, the two new checks, tests/results/contract-008-T-1.md, walk-007.sh and
+            the two templates — the version bump among them, recorded as revision 2. One path beyond the
+            list: a snapshot of the fork's manifest was added as a test fixture in the first commit and
+            removed in the second under revision 3, so the working tree nets out, but the file is in this
+            public repository's history. The fork's tree is clean and its upgrade commit touched only
+            .claude/, CLAUDE.md, .gitignore, .gitattributes and the report folder.
+      summary: {verified: 14, corrected: 1, open: 0}
+      open_needs: []
     audited: false
     transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: [O-034, O-035, O-036]
@@ -1821,6 +1976,7 @@ contracts:
     feature: the first real upgrade run's four gaps closed where the log found them — the staged folder, absent coverage lines, the empty pass, record headers — plus the tree-or-commit question and the kit's own log backfilled
     type: contract
     follows: contract-008
+    led_to: [contract-013]
     date_proposed: 2026-09-16
     date_approved: 2026-09-16
     approval: approved-at-gate     # pioneer: "approved, same as it says" (2026-09-16), on the concise redraw after C-014
@@ -1890,7 +2046,134 @@ contracts:
       untested: whether the reworded headers read well to a newcomer — the pioneer's judgement (P-008).
     red_test: {broke: G-4, went_red: T-4, how: "the DRIFTLOG template header edited back to `This file is a template. meta-bootstrap copies it;`; walk-007 state 130 failed (`130 template headers`), 54 passed 2 failed (132 was already red: the approved entry carries no cost, O-037); restored; state 130 green", date: 2026-09-17}
     status: implemented
-    verification_state: none
+    verification_state: closed-by-follow-up    # the pioneer, 2026-09-18, on the verification reports of all five: "yes" to the follow-up contract
+    verification:
+      date: 2026-09-18
+      by: kit-verifier
+      method: mixed
+      tests: {T-1: pass, T-2: fail, T-3: pass, T-4: pass, T-5: pass, T-6: pass, T-7: pass}
+      corrections_from_tests: 0
+      corrections_from_reading: 1
+      clauses:
+        - clause: UC-1
+          verdict: verified
+          evidence: |
+            Blindness in this run rested on instruction, not mechanism: this repository runs no hooks, so the
+            ledger, the corrections file's content, the casebook, research/ and every session transcript were
+            left unread by rule alone. Stated once, here.
+            T-1, walk-007 state 127 (whole walk: 83 passed, 0 failed, run 2026-09-18). meta-bootstrap/SKILL.md
+            step 1: "the travel set of *What the kit is*, not a raw clone" and "clone the kit to a short path
+            first and stage from there; that is this step, not troubleshooting"; step 2: "to a short-pathed
+            folder the rehearsal log names; that choice is this step's, not troubleshooting"; and in *What "the
+            kit" is*: "a raw clone of the kit repository is not a staged kit". Each phrase occurs exactly once.
+            No script was added (G-1's "text only"): the commit adds no file under hooks/ or checks/ for this.
+        - clause: UC-2
+          verdict: verified
+          evidence: |
+            T-2's first two assertions, walk-007 states 128a and 128b: the check exits 0 with every base
+            coverage line present, and exits 1 naming MANIFEST.yaml and the id when base-ledger's line is
+            removed. checks/G2-migration.sh compares only the node_ids the staged template's coverage_map
+            carries, so a project coverage line is never read — "never touched" holds by construction, and
+            meta-bootstrap/SKILL.md step 7 says the same ("whatever prefix it carries").
+            Measured today on the fork's tree: no base coverage line missing, against the fork's own 0.16
+            template and against this kit's current template.
+        - clause: UC-3
+          verdict: verified
+          evidence: |
+            T-3, walk-007 state 129. meta-bootstrap/SKILL.md step 9: "then there is nothing to ratify; say so in
+            one line, ask nothing, write no marker, and the rehearsal's stub for the pass reads *not reached*".
+            The step 2 stub list agrees ("*defer* for the ratification pass ... otherwise it is *not reached*").
+            The install's offer terms stand unchanged in Step 7 ("the kit ships 30 map entries, drafted, not the
+            pioneer's yet ..."). Checked against revision 5 (T-3 matched case-blind after contract-011 restated
+            the offer's terms in Step 7), not the original wording.
+        - clause: UC-4
+          verdict: corrected
+          evidence: |
+            The seven record templates the clause names were reworded and now read true in a live record
+            (T-4, walk-007 state 130; the seven header rewrites are in commit a6755ca). The base kit's own
+            records were untouched by it: no header comment line of CASEBOOK, LEDGER, DRIFTLOG, MANIFEST,
+            CONTRACT-LOG or CORRECTIONS changed in that commit.
+            What is actually true: Step 6 seeds nine records, and the two left outside the seven still read as
+            templates. templates/MAP.template.md's header says "meta-bootstrap copies this file and fills in the
+            project name"; templates/FOUNDING.template.md's header opens "This file is a template. meta-bootstrap
+            ... copies this file to .claude/skills/meta-founding-contract/FOUNDING.md". The map header is not
+            only copied at install: step 7's template rule refreshes every instance file's header comment block
+            from the staged template at every upgrade, so that sentence is rewritten into the pioneer's MAP.md
+            each time. Observed live in the fork's installed MAP.md, header line 4, on a 0.16 install. The fork's
+            installed FOUNDING.md does not carry its template's comment block, but Step 6e does not say to remove
+            it and walk-007's own fixture at state 94b assumes a live founding file that keeps it.
+            Tier 1's "My records' headers read as my records, not as templates" therefore holds for seven of the
+            nine records a project is seeded with. Whether the seven read well to a newcomer is Tier 4's untested
+            item and remains the pioneer's judgement (P-008).
+        - clause: UC-5
+          verdict: verified
+          evidence: |
+            T-5, walk-007 state 131. meta-bootstrap/SKILL.md step 1: "if kit files under `.claude/` are modified
+            or untracked against the project's last commit ... put the tree-or-commit question on the sheet —
+            which copy is the project's". Step 2's stub list answers "*the tree* for the tree-or-commit question
+            (step 1)"; the pass rule names it first of "the eight standing questions", and the sheet's line 1 is
+            "tree or commit — which copy is the project's, when kit files differ from the last commit". Checked
+            against revision 4 (seven → eight after contract-010 added the workspace question), not the
+            original count. The pioneer's ruling to keep it is recorded on this entry ("UC-5 ask the question.").
+        - clause: UC-6
+          verdict: verified
+          evidence: |
+            T-6, walk-007 state 132: G2-migration.sh exits 0 on this tree. The backfill itself, read from commit
+            a6755ca: entries 001 to 005 each gained disappointment/premortem/red_test/cost as `legacy` — 20 added
+            lines, nothing removed. Two lines inside those entries were rewritten in the same commit, both
+            `transcript:` values where a machine path became a placeholder; that is the public-repo scrub named
+            in the same commit (C-015), not the backfill. The pioneer's ruling to backfill is recorded on this
+            entry ("we can backfill contracts in the ... repo").
+            Revision 2's extension to the corrections file, counted from the same commit without reading the
+            entries: the three probe fields were added as `not asked` across nine entries (the seven backfilled
+            plus the two the commit itself adds); the four removed lines in that file are the same C-015 scrub.
+        - clause: G-1
+          verdict: verified
+          evidence: "T-1 (walk-007 state 127). Bootstrap text only; no script added."
+        - clause: G-2
+          verdict: verified
+          evidence: |
+            Walk-007 states 128a and 128b — T-2's first two assertions — plus the completeness block of
+            checks/G2-migration.sh, which is bash/sed/awk only, as the guarantee requires.
+            T-2 is recorded `fail` because its third assertion, "the fork's tree exits 0", is red today: the
+            check stops there on `workspace`, the key contract-010 later added to the same check, which the
+            fork's manifest does not carry because the fork is still at base_kit_version 0.16. The failure is
+            outside this guarantee. This contract's own assertion on that tree was measured directly and holds:
+            zero base coverage lines missing, against both templates.
+        - clause: G-3
+          verdict: verified
+          evidence: "T-3 (walk-007 state 129): step 9's text, and the install's offer unchanged in substance."
+        - clause: G-4
+          verdict: verified
+          evidence: |
+            T-4 (walk-007 state 130): no header among the seven contains "this file is a template", "copies this
+            file" or "empty seed". The base kit's own records are untouched — no header comment line of any of
+            them changed in a6755ca. The guarantee is met as written; what the seven leave out is under UC-4.
+        - clause: G-5
+          verdict: verified
+          evidence: "T-5 (walk-007 state 131): step 1's text, the stub list and the standing-question count."
+        - clause: G-6
+          verdict: verified
+          evidence: |
+            T-6 (walk-007 state 132) and the diff of commit a6755ca: the five entries gained the four fields and
+            nothing else in them changed, the two rewritten `transcript:` lines being C-015's scrub.
+        - clause: G-7
+          verdict: verified
+          evidence: |
+            walk-007 gained a state per change and is green: 83 passed, 0 failed (2026-09-18), states 127, 128a,
+            128b, 129, 130, 131, 132 and 133 (the last for revision 1). Every check under meta-mechanisms/checks/
+            exits 0 on this tree — G1-size, G2-migration, P-004, P-005, P-006, P-007, and roots.sh when given the
+            manifest it takes as its argument.
+            "Nothing beyond this list" could not be checked as an isolated diff: this contract shares commit
+            a6755ca with contract-010, an analysis report and the C-015 scrub, and contracts 010, 011 and 012
+            later changed the same files. It was checked instead by attribution: every line that commit adds
+            naming contract-009 lands in a path this contract lists — the bootstrap skill, G2-migration.sh,
+            walk-007, the contract log, the corrections file (revision 2) — plus the kit's own lifecycle records
+            (the ledger's observations, the skill's line history, the recorded test result). No contract-009
+            line lands anywhere else. Attribution by marker cannot see an unmarked change, so this leg is
+            verified by substitute, and the substitute is named here.
+      summary: {verified: 12, corrected: 1, open: 0}
+      open_needs: []
     audited: false
     transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: [O-037, O-038, O-039]
@@ -1961,6 +2244,7 @@ contracts:
     feature: a kit governs a system that spans repositories from the one it is installed in - the applications named once at install, the agent writes the grant, the record and the instruction, and the hooks act on the kit their event belongs to
     type: contract
     follows: contract-009
+    led_to: [contract-013]
     date_proposed: 2026-09-17
     date_approved: 2026-09-17
     approval: approved-at-gate     # pioneer: "oh isee, ill approve the contract then" (2026-09-17), after the two cd's were told apart
@@ -2034,7 +2318,112 @@ contracts:
            the locator command (the docs name three; the fixture runs the command through bash, not Claude Code).
     red_test: {broke: G-5, went_red: T-5, how: "post-read.sh's under_root guard deleted; walk-007 state 138a failed ('a Read in kit B must not be logged as kit A's evidence'), 69 passed 1 failed; restored; 70/70 green", date: 2026-09-17}
     status: implemented
-    verification_state: none
+    verification_state: closed-by-follow-up    # the pioneer, 2026-09-18, on the verification reports of all five: "yes" to the follow-up contract
+    verification:
+      date: 2026-09-18
+      by: kit-verifier
+      method: mixed
+      tests: {T-1: pass, T-2: pass, T-3: pass, T-4: pass, T-5: pass, T-6: pass, T-7: fail}
+      corrections_from_tests: 1
+      corrections_from_reading: 2
+      clauses:
+        - clause: UC-1
+          verdict: verified
+          evidence: |
+            T-1, walk-007 state 134, green in a run of my own (83 states, 0 failures). Blindness in this run
+            rested on instruction, not mechanism: this repository runs no hooks, and I opened no ledger,
+            correction log, casebook, research file, session transcript or sealed key. Read besides the test:
+            meta-bootstrap/SKILL.md:157 (the orientation's applications line), :167 (sheet line 3, default
+            *none named*), :47 (the upgrade's seventh standing question, "when the manifest has none") and
+            :415 (step 7 adds `workspace: []` if absent and takes the sheet's answer) - the question is asked
+            once at install and, on an upgrade, only where the manifest has no answer.
+        - clause: UC-2
+          verdict: verified
+          evidence: |
+            T-2, walk-007 states 135a and 135b. templates/MANIFEST.template.yaml:23 ships `workspace: []` with
+            the {name, path, role} form in its comment; meta-manifest/MANIFEST.yaml:12 carries it; step 7
+            (meta-bootstrap/SKILL.md:415) adds it when absent; checks/G2-migration.sh:106 fails a manifest
+            that does not carry it exactly once. Read: that line counts `^  workspace:` at two-space indent
+            anywhere in the file rather than inside `kit_identity` alone - it counts once, as the clause asks.
+        - clause: UC-3
+          verdict: verified
+          evidence: |
+            Checked against revision 1 (the manifest's workspace list is the mark), not the clause as drawn.
+            T-3, walk-007 state 136. meta-bootstrap/SKILL.md:278 writes each manifest path into
+            `permissions.additionalDirectories` keeping every entry already there; :408 has the upgrade rewrite
+            the entries that equal a manifest workspace path and keep every other entry;
+            templates/settings.template.json:65 ships the empty key. The grant as written at a real install is
+            the contract's own untested item and no install has happened since; the procedure and the template
+            are what stand verified here.
+        - clause: UC-4
+          verdict: verified
+          evidence: |
+            T-4, walk-007 state 137. meta-bootstrap/SKILL.md:262 carries the line
+            "Applications in the system flow, beyond this repository: __WORKSPACE__" inside the kit block's
+            markers; :270 renders it from the manifest's list and removes the line when the list is empty;
+            :408 replaces the whole block at every upgrade, rendering it from the manifest again. Nothing in
+            the procedure keeps the list by hand.
+        - clause: UC-5
+          verdict: corrected
+          evidence: |
+            Half of it holds; half is wrong on the platform the kit runs on. T-5 (walk-007 138a-138d) is green,
+            but its fixture spells every file path the way the shell does. In a two-kit fixture of my own I fed
+            the two path hooks a path in native Windows drive-letter form - the form norm_path exists to accept -
+            while the root resolved from the working directory (the Git Bash `/c/...` spelling, which is what
+            the locator produces for any session sitting inside its own kit). under_root then compares
+            `c:/...` against `/c/...`, is false, and the hook drops the event: the kit's own Read wrote no
+            `loaded` line, and an unowned Edit in the kit's own records raised no `bypass` line. The same
+            fixture with shell-form paths logged both. So "nothing outside the root is read or logged" holds,
+            but inside the root nothing is logged either whenever the two spellings differ. What would settle
+            how often that bites: one hook payload as Claude Code writes it on Windows.
+        - clause: UC-6
+          verdict: verified
+          evidence: |
+            T-6, walk-007 states 139a-139c. Beyond the test, I ran all seven of the template's hook commands
+            from a two-level subfolder of a fixture kit with CLAUDE_PROJECT_DIR pointing at a path that does
+            not exist: every one found that kit's scripts by walking up. A hook with no cwd in its input and no
+            kit above the working directory falls back to the launch directory, and a tree whose manifest says
+            `kit_type: base` is walked past rather than taken for an installed kit.
+        - clause: G-1
+          verdict: verified
+          evidence: "T-1 (walk-007 state 134): the four greps on meta-bootstrap/SKILL.md - step 2's question, step 7's `workspace: []` line, the eight standing questions, the stub's *none named*."
+        - clause: G-2
+          verdict: verified
+          evidence: "T-2 (walk-007 states 135a, 135b): template and the kit's own manifest carry the key; the migration check exits non-zero naming MANIFEST.yaml and `workspace` when it is missing, and 0 with it."
+        - clause: G-3
+          verdict: verified
+          evidence: "T-3 (walk-007 state 136), read against revision 1's text. Step 5c and the upgrade's step 5 are bash-and-file-tools prose; no jq, no new script."
+        - clause: G-4
+          verdict: verified
+          evidence: "T-4 (walk-007 state 137): the 5a block carries __WORKSPACE__ and step 5 renders it from the manifest; the list appears in no other source."
+        - clause: G-5
+          verdict: corrected
+          evidence: |
+            The files named are the files changed - lib.sh (kit_root, set_root, under_root, the cwd branch in
+            read_input), post-read.sh:16, owner-check.sh:18 - and the outward half is right: a Read or an Edit
+            in another kit is neither logged nor counted here. What is actually true of the inward half:
+            under_root compares a root in the shell's spelling against a path normalised from whatever the
+            event carried, so a drive-letter path under this very root fails the guard and the event is
+            dropped. Under that arrangement the kit records none of its own reads and no ownership bypass -
+            the two things these hooks exist to record. The guard needs the two spellings brought to one form
+            before they are compared.
+        - clause: G-6
+          verdict: verified
+          evidence: "T-6 (states 139b, 139c) and my own run: eight agent files carry two locator lines each, all sixteen the same text as the template's seven, and all seven template commands resolved to the right kit from a deep subfolder."
+        - clause: G-7
+          verdict: corrected
+          evidence: |
+            Three of the four parts are green in runs of my own: walk-007 83 of 83 (states 134-140 are this
+            contract's, the two-root fixture among them), walk.sh 36 of 36, and every check in
+            meta-mechanisms/checks/ exits 0 (roots.sh given a manifest). walk.expected was clean before and
+            after. The fourth part - "the diff names only the paths this contract lists" - cannot be run as
+            written: this contract shares its commit with contract-009, an analysis report and a public-tree
+            scrub, so no diff of this contract alone exists. From what is separable, one path lies outside the
+            list: meta-mechanisms/SKILL.md gained this contract's "Which kit a hook acts on" paragraph, tested
+            by walk-007 state 140, and no revision records it. A second bookkeeping gap: revision 2 changed
+            walk-007 states 105 and 112d for the version bump while its `tests_changed` reads [].
+      summary: {verified: 10, corrected: 3, open: 0}
+      open_needs: []
     audited: false
     transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: [O-040, O-041, O-042]
@@ -2090,6 +2479,7 @@ contracts:
     feature: the install and the upgrade read everything first and ask everything once - one sheet with the impact of each choice, a run that cannot stop after it, a done block that says so, and the review batch held until the next session
     type: contract
     follows: report-002
+    led_to: [contract-013]
     date_proposed: 2026-09-18
     date_approved: 2026-09-18
     approval: approved-at-gate     # pioneer: "contract approved" (2026-09-18), with Tier 4 drafted alongside the tiers (C-017)
@@ -2166,7 +2556,128 @@ contracts:
            judgement, seen at the next real install or upgrade.
     red_test: {broke: G-5, went_red: T-5, how: "the grace removed from stop-gate.sh step 10 (in_grace no longer consulted); walk-007 state 145b failed ('in grace the gate hands over no batch though three candidates are due'), 79 passed 1 failed; restored; 80/80 green", date: 2026-09-18}
     status: implemented
-    verification_state: none
+    verification_state: closed-by-follow-up    # the pioneer, 2026-09-18, on the verification reports of all five: "yes" to the follow-up contract
+    verification:
+      date: 2026-09-18
+      by: kit-verifier
+      method: mixed
+      tests: {T-1: pass, T-2: pass, T-3: pass, T-4: pass, T-5: pass, T-6: pass}
+      corrections_from_tests: 0
+      corrections_from_reading: 1
+      clauses:
+        - clause: UC-1
+          verdict: verified
+          evidence: |
+            Blindness in this run rested on instruction, not mechanism: this repository runs no hooks, so the
+            ledger, the correction log, the casebook, research/, sealed keys and every session transcript were
+            left unread by rule alone. Stated once, here.
+            T-1 (walk-007 state 141, re-run today: 83 passed, 0 failed). Read as an agent would follow it:
+            meta-bootstrap/SKILL.md Step 1 ends "Do not wait here. Read the project (Step 2) and present the
+            introduction and the sheet together"; Step 2's read list ends with the library META.yaml "so the
+            sheet can name the kit found there", then "present the introduction (Step 1), the orientation and
+            the install sheet together, in one turn". Nothing on the install sheet needs a file Step 2 does not
+            read; where sheet line 3's answer changes what lines 5 and 6 will write, line 3's own impact text
+            says so. Upgrade step 2: "In a rehearsal there is no one to present to: the classification and every
+            offer go into the rehearsal log instead", and "The rehearsal produces **the sheet**".
+        - clause: UC-2
+          verdict: verified
+          evidence: |
+            T-2 (walk-007 state 142). The one section "The sheet and the done block" carries the line form, and
+            its impact clause is per choice, not per default: "*[answer A]:* [what changes in the records, what
+            will be asked later because of it, what cannot be undone]. *[answer B]:* [the same for the other
+            answer]" (C-016). Both flows use it. The install sheet's seven numbered lines stand in the order the
+            clause names - proceed, orientation, applications, library kit, CLAUDE.md block, settings, ratify -
+            and each spells out both answers. The upgrade sheet's ten lines stand in the order the clause names,
+            with the four standing questions as lines 4 to 7 and the acceptance last. The founding statement is
+            off the sheet and keeps Step 3 as its own moment.
+        - clause: UC-3
+          verdict: corrected
+          evidence: |
+            Both halves of the clause as written are in place, and T-3 (walk-007 states 143a, 143b) is green:
+            the pass rule reads "at the real run every question the run meets was on the sheet - one that was
+            not is a defect recorded in the report under *what this did not ask*, never asked mid-run", the
+            upgrade sheet names all eight standing questions (lines 1 and 3 to 9) plus the two ends, and the
+            steps take their answers from the sheet by name (Step 4 "Decided on the sheet, line 4"; 5a "shown on
+            the sheet (line 5)"; 5c "The diff was on the sheet (line 6)"; Step 7 "decided on the sheet (line 7)";
+            upgrade step 7 "the sheet's workspace line answers", step 9 "as the sheet's acceptance line
+            answered").
+            What is actually true: the run is not silent on every path. Two stops survive in the procedure text
+            after the sheet, neither carried by a sheet line, and neither routed to the defect rule that the same
+            contract wrote:
+            1. Install 5b - "If the project already has an agent with a colliding name, stop and surface it (Step
+               2 should have found it)." A stop inside Step 5, with no sheet line and no default to fall back on.
+               Step 2's orientation names colliding agent names as a potential conflict, but the sheet asks
+               nothing about what to do when one is found.
+            2. Upgrade step 3, in the same bullet the contract edited - "A residue line that cannot be reapplied
+               cleanly ... is a conflict, and the agent asks how to resolve it rather than resolving it." The
+               bullet's end was changed to "the sheet carries one line per differing skill ... with every
+               conflict the rehearsal found beneath it", but this earlier sentence was left as it was, so a
+               conflict the rehearsal did not find is still asked mid-run by the text.
+            Checked against the entry's one revision (version 0.19, tests_changed: []), which does not touch this
+            clause. The greps of T-3 cannot see either sentence, which is why this is a correction from reading.
+        - clause: UC-4
+          verdict: verified
+          evidence: |
+            T-4 (walk-007 states 144a, 144b). One block, one shape, in the shared section: **Verified:** as
+            counts, "Nothing is waiting on you now" or "Waiting on you, when you want it" with how to summon
+            each, **Not checked:**, **Next session** naming the backlog line and the held batch, "Start
+            working." - five parts. Install Step 7 and upgrade step 9 both point at that one section and both
+            run mark-done.sh. Neither old ending survives in the skill: "What would you like to build first?"
+            and "accepts the report" are absent from meta-bootstrap/SKILL.md (0 matches). The one surviving
+            occurrence of the first is in meta-bootstrap/history/meta-bootstrap.lines, the line-history file
+            whose purpose is to hold every line any committed version ever had - correct there, not an ending.
+        - clause: UC-5
+          verdict: verified
+          evidence: |
+            T-5 (walk-007 states 145a-145c), and re-run independently today on my own fixture rather than read
+            from the recorded result: a fixture with three review_due observations and one implemented contract,
+            telemetry holding one session-start|startup. Before the done line the gate hands over the audit.
+            After mark-done.sh writes "done|upgrade": the gate still hands over the audit (so audits are not
+            held); with the same contract set to audited: true the gate returns zero bytes (nothing at all,
+            though three candidates are due); appending a second session-start|startup brings back "Pioneer-owned
+            items are waiting". All three legs of T-5 hold with the contract audited, not merely removed.
+            Verification is not held either: in_grace is consulted only in stop-gate.sh step 10, not in steps 5
+            or 6.
+        - clause: G-1
+          verdict: verified
+          evidence: |
+            T-1, walk-007 state 141. meta-bootstrap/SKILL.md Step 1 closing line, Step 2's read list and its
+            "present ... together, in one turn", and upgrade step 2's "The rehearsal produces **the sheet**".
+        - clause: G-2
+          verdict: verified
+          evidence: |
+            T-2, walk-007 state 142. Exactly one "## The sheet and the done block" heading, and the line form
+            names question, default and the impact of each choice.
+        - clause: G-3
+          verdict: verified
+          evidence: |
+            T-3, walk-007 states 143a and 143b - the pass rule is present and the sheet names all eight standing
+            questions; steps 4 to 7 and 3 to 9 cite the sheet by line. The guarantee is verified by its test.
+            The two residual stops the test cannot see are recorded under UC-3.
+        - clause: G-4
+          verdict: verified
+          evidence: |
+            T-4, walk-007 states 144a and 144b - five parts, one section referenced from Step 7 and step 9, three
+            or more mark-done.sh mentions, both old endings gone.
+        - clause: G-5
+          verdict: verified
+          evidence: |
+            T-5 (walk-007 145a-145c and my own fixture run, above) and walk-007 state 146. Every named surface is
+            present: lib.sh in_grace (one awk over telemetry, no jq or python), stop-gate.sh step 10's
+            "! has_open_batch && ! in_grace", hooks/mark-done.sh, and the mechanisms node carrying both the
+            inventory row for mark-done.sh and the telemetry table row for the done event.
+        - clause: G-6
+          verdict: verified
+          evidence: |
+            T-6, all parts run today in this repository: walk-007 83 passed 0 failed (exit 0), states 141-146 the
+            new ones; walk.sh "all 36 states match walk.expected" (exit 0); walk-004 51 passed 0 failed (exit 0);
+            all seven scripts under meta-mechanisms/checks/ exit 0. walk.expected was restored by the walk and
+            git diff over it is empty. The contract's commit touches only listed paths - the bootstrap and
+            mechanisms nodes, the three hook files, walk-007, the recorded T-5 result, the regenerated history
+            line files, the lifecycle's own records, and the version files the entry's revision covers (README,
+            manifest, manifest template).
+      summary: {verified: 10, corrected: 1, open: 0}
+      open_needs: []
     audited: false
     transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: [O-043, O-044, O-045]
@@ -2182,6 +2693,7 @@ contracts:
     feature: Tier 4 drafted with the tiers - the acceptance tests arrive with the bearing and Tiers 1-3, drawn from the agent's reading of the land after implementation, so the pioneer realigns on that reading before any code; the disappointment line still decides
     type: contract
     follows: contract-011
+    led_to: [contract-013]
     date_proposed: 2026-09-18
     date_approved: 2026-09-18
     approval: approved-at-gate     # pioneer: "its approved" (2026-09-18), after the redraw of C-018
@@ -2244,7 +2756,103 @@ contracts:
            post-implementation rule.
     red_test: {broke: G-3, went_red: T-3, how: "the rule 'a drafted test is drawn from the lay of the land after implementation' replaced by its opposite in the contract skill; walk-007 state 149 failed ('what a draft is made from'), 82 passed 1 failed; restored; 83/83 green", date: 2026-09-18}
     status: implemented
-    verification_state: none
+    verification_state: closed-by-follow-up    # the pioneer, 2026-09-18, on the verification reports of all five: "yes" to the follow-up contract
+    verification:
+      date: 2026-09-18
+      by: kit-verifier
+      method: mixed
+      tests: {T-1: fail, T-2: pass, T-3: pass, T-4: pass}
+      corrections_from_tests: 0
+      corrections_from_reading: 2
+      clauses:
+        - clause: UC-1
+          verdict: verified
+          evidence: |
+            Blindness in this run rested on instruction, not mechanism: this repository runs no hooks, so the
+            ledger, corrections, casebook, research folder and session transcripts were left unread by choice.
+            The order: meta-contract-before-execution/SKILL.md:135 opens Tier 4 with "The agent drafts the tests
+            with the tiers; the pioneer's disappointment decides them" and "Tier 4 is drafted and presented with
+            Tiers 1-3, in the same message"; :149 (The Approval Gate) reads "After presenting the bearing and
+            Tiers 1-4 - Tier 4 drafted, as the tier says - stop once: ask for the disappointment lines per
+            guarantee, the pre-mortem below, and the approval, in one reply; realign the drafted tests to the
+            lines before recording the entry". The old "After presenting Tier 4, stop again" occurs nowhere in
+            the tree outside meta-bootstrap/history (the line-history record, which keeps superseded lines by
+            design). Checked for a loaded text telling the opposite order: meta-foundation/INTENT.md:31 lists
+            bearing, tiers, disappointment, pre-mortem, red test - compatible; README.md:59 and :256 state the
+            new order; no other node states the gate's sequence. Two notes, neither inside this clause's claim:
+            the same section's :157 still reads "Final approval comes after the red test", so a second exchange
+            with the pioneer survives after the one stop, unchanged by this contract; and
+            meta-contract-artifact/SKILL.md:9, :66 and :253 still describe a contract as "the three tiers",
+            stale since contract-004 and named out of scope here ("Not included: Template B").
+        - clause: UC-2
+          verdict: corrected
+          evidence: |
+            First half holds: SKILL.md:140 closes the tier with "a `realigned:` line naming the tests the
+            pioneer's disappointment lines moved from the draft, or `none`", and this entry's tier_4 carries
+            "realigned: T-1 and T-3, by C-018".
+            Second half is only half true. What is actually true: the template's comment no longer carries the
+            phrase "BEFORE tier_4 is written" (templates/CONTRACT-LOG.template.yaml:33 now reads "asked at the
+            gate against the drafted tier_4"), but five lines below, :38 - the one comment that says what tier_4
+            is - still reads "full acceptance tests text, as approved - derived from the disappointment lines".
+            "Derived from" states the same origin the contract replaced: an agent filling the template is still
+            told the tests come out of the lines rather than out of its reading of the land, realigned by them.
+            The old order left the template in the phrase the test greps for and stayed in the sentence beside it.
+        - clause: UC-3
+          verdict: verified
+          evidence: |
+            SKILL.md:135 carries all three parts in one paragraph: the rule ("a drafted test is drawn from the
+            lay of the land after implementation - what will be true of the records, the hooks and the pioneer's
+            next session once the work is done, and how that would be seen - not from the text the agent intends
+            to write"), the builder-written-tests sentence kept beside it ("the record of tests written by the
+            builder alone is that they pass while the work is wrong (contract-006 G-5)"), and the anchoring
+            named as the sign to watch for ("a pioneer who only ever answers 'same as it says' is the sign to
+            watch for in the correction log"). Seen mechanically by T-3 (walk-007 state 149).
+        - clause: G-1
+          verdict: open
+          evidence: |
+            The file half is checked and holds: SKILL.md:135 and :149 as quoted under UC-1, and P-007.sh exits 0
+            (acceptance tests still sit in tier_4, after tier_3, in the template and in every entry).
+            What could not be checked is the half T-1 names as its second source: "contract-013's first draw".
+            No contract-013 exists in this log - contract-012 is the last contract entry, and it was itself
+            drawn under the old order - so no contract has yet reached the pioneer under the rule this clause
+            installs. The order is verified as text and unobserved as practice, which is also what the tier's
+            own untested line says the evidence has to be.
+        - clause: G-2
+          verdict: corrected
+          evidence: |
+            The guardrail names two objects. The section's closing rule is right (SKILL.md:140). The
+            contract-log template's comment is half-corrected, as set out under UC-2:
+            templates/CONTRACT-LOG.template.yaml:38 still says the tests are "derived from the disappointment
+            lines". T-2 passes, and does not reach this: walk-007 state 148 greps for the presence of "asked at
+            the gate against the drafted tier_4" and the absence of "BEFORE tier_4 is written" - both true of a
+            file that still states the old origin in other words.
+            A second, smaller fact about the record this guardrail creates: this entry's realigned line names
+            T-1 and T-3 as moved "by C-018", a gate correction, while the disappointment line recorded here is
+            "same as pre mortem on this one" - which by SKILL.md:135 keeps the draft. So the field's first use
+            records tests moved by a correction, not by a disappointment line, which is not what :140 defines it
+            to hold.
+        - clause: G-3
+          verdict: verified
+          evidence: |
+            One paragraph in the named section, SKILL.md:135, quoted under UC-3; T-3 green (walk-007 state 149),
+            and the red test recorded on this entry broke exactly this rule and took state 149 red.
+        - clause: G-4
+          verdict: verified
+          evidence: |
+            T-4, run in this session. Walks: tests/walk.sh "all 36 states match walk.expected" (exit 0);
+            tests/walk-004.sh 51 passed, 0 failed; tests/walk-007.sh 83 passed, 0 failed, including the three
+            new states 147, 148, 149. Checks: G1-size.sh, G2-migration.sh, P-004.sh, P-005.sh, P-006.sh,
+            P-007.sh all exit 0; roots.sh exits 0 when given the manifest it requires as its argument.
+            walk.expected was unmodified after the walk (git diff --stat empty).
+            The diff: the implementing commit touched ten paths - the contract skill, the contract-log template
+            and walk-007.sh (the listed ones); the manifest, the manifest template and the README (the version
+            revision recorded on this entry); the contract log, the correction log and the ledger (the records a
+            contract writes); and meta-bootstrap/history/meta-contract-before-execution.lines, the generated
+            line-history record, which the list does not name but which is a record of the skill's own lines
+            rather than a rule of the kit. Nothing outside those.
+      summary: {verified: 4, corrected: 2, open: 1}
+      open_needs:
+        - "G-1: the next contract drawn in this kit after 012 - its draw seen to reach the pioneer with Tier 4 in the same message as Tiers 1-3, and one stop at the gate. T-1 names it as contract-013's first draw; no contract-013 exists yet."
     audited: false
     transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
     observations: [O-046]
@@ -2255,3 +2863,45 @@ contracts:
         tests_changed: []
     cost: {turns: 12, tokens: null, pioneer_minutes: 10}    # main-session assistant messages from approval (2026-09-18) to implemented, counted from the transcript; tokens not measured; minutes: the pioneer's, given 2026-09-18 ("012 10min")
     work_id: null
+
+  - contract_id: report-003
+    type: analysis-report
+    feature: review at 0.20 - the whole kit read in full after five contracts in three days; where its texts disagree with each other and with practice, and where the practice is weak
+    date_proposed: 2026-09-18
+    date_approved: 2026-09-18
+    approval: n/a - analysis report, asked for by the pioneer ("Review the workspace, try and find inconsistencies or weakpoints.")
+    bearing: |
+      Not a contract. Every skill, agent, hook and the README read in full, mechanical cross-checks over the manifest,
+      template, map, hooks and ledger, one fixture run with Windows-form paths, and the pioneer's own finding of the
+      same day (C-019) checked against every surface that reaches them.
+    tier_1: |
+      Not a contract. Eight inconsistencies: the always-loaded intent and the contract skill still state the
+      contract order contract-012 replaced; two doctrines on precedents (binding in the casebook, instructs in the
+      intent); the artifact skill describes three-tier contracts and its publish rule is not followed for contracts
+      here; the README's procedure sections are stale; sixteen observations carry an undefined source; contract-009's
+      distinction was never appended to P-001; the three incident questions were not asked in eight corrections;
+      stale pointers and figures.
+    tier_2: |
+      Nine weak points: the kit does not run on itself and contracts 008-012 were graded by their builder; the
+      procedure's tests are greps for the agent's own sentences and no install or upgrade has run since 0.16; four
+      versions in three days; cd into another installed kit silently changes the governed kit; the travelling walk
+      does not cover contracts 010-011; the bootstrap skill is 64 KB with 4,000-character steps; the auditor is
+      handed a placeholder transcript path; the grace depends on the agent running a script; stale session memory.
+      C-019 read as one rule across surfaces: what it is, why now, what is asked.
+    tier_3: |
+      Recommendation, marked as judgement: first the verifier and the auditor on contracts 008-012; then one
+      contract for the presentation rule across surfaces; then one contract reconciling the texts and correcting
+      the three record errors as revisions, with a 0.20 rehearsal on the shipped fixtures before the fork's upgrade.
+    disappointment: n/a - analysis report
+    premortem: n/a - analysis report
+    red_test: n/a - analysis report
+    status: implemented
+    verification_state: none
+    audited: false
+    observations: []
+    revisions: []
+    cost: {turns: 38, tokens: null, pioneer_minutes: null}
+    work_id: null
+    led_to: []
+    file: docs/reports/report-003-review-at-0-20.html
+    artifact: https://claude.ai/artifact/Hby5GFzSFRbfrwnUgDW41r

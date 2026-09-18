@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Review at 0.20</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#F3F1EC; --surface:#FFFFFF; --sunken:#E9E6DF; --ink:#1B1C1A; --muted:#5B5E57; --faint:#8B8E86; --rule:#CFCCC3; --accent:#2E6B6F;
+    --verified:#3C6E47; --verified-wash:#E4EDE6; --corrected:#8A6320; --corrected-wash:#F3EBD9; --open:#9A3A2C; --open-wash:#F5E3DF;
+    --display:"Newsreader",Georgia,serif; --body:"Source Sans 3",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F; --accent:#7FB8BB;
+    --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18; } }
+  :root[data-theme="dark"]{
+    --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F; --accent:#7FB8BB;
+    --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;padding-block:0 96px;padding-inline:20px}
+  .wrap{max-width:780px;margin:0 auto}
+  header{padding:56px 0 24px;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:12px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  h1{font-family:var(--display);font-size:clamp(34px,6vw,50px);line-height:1.05;font-weight:600;margin:0;text-wrap:balance}
+  .standfirst{font-size:19px;color:var(--muted);margin:0;max-width:62ch}
+  .tally{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:20px}
+  .tally div{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+  .tally .n{font-family:var(--mono);font-size:24px;font-variant-numeric:tabular-nums}
+  .tally .l{font-size:13px;color:var(--muted);line-height:1.3}
+  section{padding-top:40px}
+  h2{font-family:var(--display);font-size:26px;font-weight:600;margin:0 0 6px;text-wrap:balance}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  p{margin:0 0 14px;max-width:68ch}
+  code{font-family:var(--mono);font-size:.86em;background:var(--sunken);padding:1px 5px;border-radius:2px}
+  .claim{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--rule);padding:12px 16px;margin-bottom:8px}
+  .claim.v{border-left-color:var(--verified)} .claim.c{border-left-color:var(--corrected)} .claim.o{border-left-color:var(--open)}
+  .claim h3{font-size:16px;font-weight:600;margin:4px 0 4px;line-height:1.4}
+  .claim p{margin:0 0 6px;font-size:15px;color:var(--muted)} .claim p:last-child{margin-bottom:0}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;font-weight:600}
+  .chip.v{background:var(--verified-wash);color:var(--verified)} .chip.c{background:var(--corrected-wash);color:var(--corrected)} .chip.o{background:var(--open-wash);color:var(--open)} .chip.j{background:var(--sunken);color:var(--muted)}
+  .src{font-size:13px;color:var(--faint)}
+  .tbl{overflow-x:auto;margin:14px 0 6px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:560px}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--ink)}
+  tbody tr:last-child td{border-bottom:none}
+  ul{margin:0 0 14px;padding-left:22px} li{margin-bottom:6px}
+  blockquote{margin:0 0 14px;padding:10px 16px;border-left:3px solid var(--accent);background:var(--surface);font-size:15.5px}
+  .foot{margin-top:52px;padding-top:14px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--muted)}
+</style>
+</head>
+<body><div class="wrap">
+
+<header>
+  <div class="eyebrow">report-003 · analysis report · base building kit · 2026-09-18</div>
+  <h1>Review at 0.20</h1>
+  <p class="standfirst">The whole kit read in full after five contracts in three days: where its texts disagree with each other, where they disagree with what is practised, and where the practice itself is weak.</p>
+  <div class="tally">
+    <div><span class="n">8</span><span class="l">inconsistencies found in the texts and records</span></div>
+    <div><span class="n">9</span><span class="l">weak points in design or practice</span></div>
+    <div><span class="n">3</span><span class="l">of the record errors are the reviewing agent's own</span></div>
+    <div><span class="n">4</span><span class="l">checks that came back sound</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="kicker">the pioneer's finding, taken first</div>
+  <h2>What reaches the pioneer speaks the kit's language, not theirs</h2>
+  <blockquote>"When the agent presents a candidate to the pioneer it should introduce the candidate, only stating the ID means nothing to the pioneer… the pioneer should not have to translate to understand. When scoring is introduced or shown to the pioneer, the agent should present WHY it was presented and what action it needs from the pioneer."</blockquote>
+  <p>Read as one rule: whatever is put in front of the pioneer carries <strong>what it is in plain words, why it is shown now, and what is asked of them</strong>. Checked against every surface that reaches the pioneer:</p>
+  <div class="tbl"><table>
+    <thead><tr><th>surface</th><th>what it shows today</th><th>holds the rule?</th></tr></thead>
+    <tbody>
+      <tr><td>review batch item (<code>meta-ledger</code> → batch item format; <code>meta-skill-builder</code> → Review Batch step 2)</td><td>"Certainty: low (self-generated, single-contract) · Counters: helpful 1 from a different reading / 2 same reading, harmful 0 · Stated confidence: 0.80", shown "as it stands in the file"</td><td class="chip o">no: codes and a number, no why, no ask</td></tr>
+      <tr><td>after implementation (<code>meta-contract-before-execution</code> → Record, Don't Present)</td><td>"the observations recorded, one line each with its stated confidence"</td><td class="chip o">no: a confidence with no reason to look at it and nothing to do</td></tr>
+      <tr><td>contract draw, precedent check</td><td><code>applies P-007</code>, <code>distinguished from P-001</code>, <code>trial K-012</code></td><td class="chip o">no: bare ids; the holding is one click away for the agent and nowhere for the pioneer</td></tr>
+      <tr><td>consolidator's final message, relayed</td><td>"Name the candidates now due by id"</td><td class="chip o">no</td></tr>
+      <tr><td>the reveal</td><td>earlier decision beside the new one, "with no score, no rate and no word about consistency"</td><td class="chip v">yes, by design: two records, plainly</td></tr>
+      <tr><td>the sheet and the done block (contract-011)</td><td>question, default, impact of each choice; what waits and the word that summons it</td><td class="chip v">yes</td></tr>
+      <tr><td>the drift score block, every output</td><td>five evidence lines</td><td class="chip j">partly: the skill says why, the block does not say what is asked</td></tr>
+      <tr><td>this session's own reports to the pioneer</td><td>"O-040 to O-042 recorded", "C-016 and C-017", "state 145b red"</td><td class="chip o">no, throughout</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">Recorded as C-019. It is the same family as C-014 (contracts direct and concise), C-016 (the impact of each choice) and P-008 (a record of the practice is written so a newcomer can follow it): four corrections in three days pointing at one missing principle.</p>
+</section>
+
+<section>
+  <div class="kicker">verified — inconsistencies in the texts and records</div>
+  <h2>Where the kit disagrees with itself</h2>
+
+  <div class="claim c"><span class="chip c">inconsistent</span><h3>The always-loaded intent still states the contract order that contract-012 replaced.</h3>
+  <p><code>INTENT.md</code>: "The contract is the pioneer's test, not yours. Before code: bearing, tiers, the pioneer's words on what would disappoint them, a pre-mortem, one test seen to fail (M-04)." The contract skill still says "Final approval comes after the red test". Since contract-012 the agent drafts the tests and the gate is one stop, and in all five contracts since 008 the red test ran after implementation, because the tests did not exist before it. The README repeats the old order ("One test is seen to fail before the work starts"). The file loaded in every session is the one contract-012 did not touch.</p></div>
+
+  <div class="claim c"><span class="chip c">inconsistent</span><h3>Two doctrines on precedents.</h3>
+  <p><code>INTENT.md</code>: a precedent "instructs, it does not bind — the pioneer's decision at the gate does", and walk-007 forbids the word "binding" in the README. The casebook skill has a section titled "Binding" ("A precedent whose facts match <strong>decides</strong> its question"), the contract skill says the same, the case clerk writes <code>binding: true</code> on every precedent, and its own brief says "Decisions grounded in binding precedents beat decisions grounded in rules."</p></div>
+
+  <div class="claim c"><span class="chip c">inconsistent</span><h3>The artifact skill describes three-tier contracts, and its own rule is not followed here.</h3>
+  <p><code>meta-contract-artifact</code> says "three tiers" four times and its contract template has no Tier 4, disappointment, pre-mortem or red test. Its rule is "Every contract is drawn in full in the chat, published as an artifact, stored as HTML in the repo, and registered". In this repository the three reports are published and stored; none of contracts 001 to 012 is.</p></div>
+
+  <div class="claim c"><span class="chip c">inconsistent</span><h3>The README gained a bullet per contract and lost track of the procedure.</h3>
+  <p>"Upgrading" still says one question per file, "overwrite, keep, or port", and "four standing questions at most"; it is reapply or replace, eight standing questions, one sheet. "Getting started" describes the old seven-stop install. The mechanisms table lacks <code>mark-done.sh</code>, <code>G2-migration.sh</code> and <code>roots.sh</code>; the project layout lacks <code>skills/installed/</code> and <code>meta-bootstrap/history/</code>. Walk-007's README checks (a word census, paths exist) cannot see any of this.</p></div>
+
+  <div class="claim c"><span class="chip c">record error · the reviewing agent's</span><h3>Sixteen observations carry a source the ledger does not define.</h3>
+  <p><code>source: implementation</code> on sixteen observations since contract-008. The enumeration is <code>ser | learning | verification | drift | auditor | map-miss | pioneer</code>; the consolidator sets starting certainty by source and has no row for this value.</p></div>
+
+  <div class="claim c"><span class="chip c">record error · the reviewing agent's</span><h3>Contract-009 distinguished a precedent and the casebook does not know.</h3>
+  <p>The casebook skill: "A distinction is appended to the precedent's <code>distinguished_by</code> when the contract is approved." P-001's list is still empty, so strain can never be counted on it.</p></div>
+
+  <div class="claim c"><span class="chip c">practice gap · the reviewing agent's</span><h3>The three incident questions have not been asked once in eight corrections.</h3>
+  <p>C-012 to C-019 all read <code>not asked</code> for what was noticed, what would have been right, and where it was seen before. The correction-log skill allows that "when the moment did not allow it"; eight in a row is not the moment. These questions are the kit's one route for drawing a felt standard out, and the case clerk's raw material for checks.</p></div>
+
+  <div class="claim c"><span class="chip c">stale</span><h3>Pointers and figures that no longer resolve.</h3>
+  <p><code>meta-ledger → Scores and maturity</code> is cited three times (foundation twice, drift log once); the ledger has no such heading, it is "Map proposals, audits and scores". The foundation still speaks of a gate "that stopped catching what was planted in it", after contract-006 withdrew planted items. A manifest gap counts "29 base map entries"; there are 30. The corrections file's fading curve reads "C-001 to C-008" with nineteen recorded. <code>led_to</code> is a scalar on contract-008 and a list on the reports. Bootstrap Step 1 still opens "Before touching anything in the project, present the following" though the reading now comes first.</p></div>
+</section>
+
+<section>
+  <div class="kicker">judgement — weak points</div>
+  <h2>Where the practice is thin</h2>
+
+  <div class="claim o"><span class="chip o">weak</span><h3>The kit does not run on itself, and everything since contract-008 was graded by its builder.</h3>
+  <p>Eight contracts implemented and unverified. Not one contract audited, including the two marked verified. Forty-six observations unconsolidated, ten corrections unclerked, no review batch ever assembled, no stated confidence ever looked at again. Contracts 008 to 012 were drawn, built, tested and red-tested by one session. The kit's own report on the first fork's upgrade named this exact shape: "It graded itself, and the errors are all in the parts it marked settled." The instruments the foundation says tell maturity from silence are all dark in the kit's own home. The manifest has tracked it as a known gap since v0.14.</p></div>
+
+  <div class="claim o"><span class="chip o">weak</span><h3>The procedure's tests are greps for the agent's own sentences.</h3>
+  <p>Of the twenty-six walk states added by contracts 009 to 012, about twenty check that a phrase exists in a skill. Contract-012 now names that kind of test "the agent checking its typing". No install and no upgrade has been executed against 0.17, 0.18, 0.19 or 0.20. The fixture builders for a rehearsal still ship under <code>tests/fixtures/</code> and were last used at 0.15.</p></div>
+
+  <div class="claim o"><span class="chip o">weak</span><h3>Four versions in three days, and the first real run will meet all of them at once.</h3>
+  <p>The only installed kit is at 0.16. Its next upgrade exercises, for the first time and together: the coverage check, the workspace question, the root-aware hooks, the script locator under Claude Code, the sheet, the done block and the grace.</p></div>
+
+  <div class="claim o"><span class="chip o">weak</span><h3>Changing directory into another installed kit silently changes which kit the hooks govern.</h3>
+  <p>Contract-010 excluded "governing two kits from one session". Its mechanism resolves the kit from the event's working directory, so a <code>cd</code> into a travelled repository that carries its own kit makes the pilot's registered hooks run that repository's scripts against that repository's records. Unlikely, and silent when it happens.</p></div>
+
+  <div class="claim o"><span class="chip o">weak</span><h3>The travelling walk does not know the last three contracts exist.</h3>
+  <p><code>walk.sh</code>, the one walk a project receives, drives the stop-gate through 36 states and none of them touches root resolution, the locator or the grace. Those are tested only by walk-007, which does not travel. Every fixture uses Git Bash paths; Windows-form paths were tested by hand for this report (see below) and are in no walk.</p></div>
+
+  <div class="claim o"><span class="chip o">weak</span><h3>The bootstrap skill is 64 KB, and its hardest steps are its longest paragraphs.</h3>
+  <p>Upgrade step 3 is one paragraph of 4,000 characters, step 2 one of 3,200, step 7's manifest line 2,500. Each contract since 007 appended clauses to the same sentences. It is the text an agent must follow exactly, at the moment the project's records are at risk, and the kit's own precedent asks that it be followable by someone new.</p></div>
+
+  <div class="claim o"><span class="chip o">weak</span><h3>The auditor is handed a transcript path it cannot open.</h3>
+  <p>After the scrub of local references, contracts 008 to 012 record <code>~/.claude/projects/&lt;this repository's project folder&gt;/…jsonl</code>. The stop-gate passes that string to the session auditor verbatim. A session id alone, resolved under the projects folder by the auditor, would be both public-safe and usable.</p></div>
+
+  <div class="claim o"><span class="chip o">weak</span><h3>The grace depends on the agent remembering to run a script.</h3>
+  <p>The done block says the first batch waits for the next session. That is true only if <code>mark-done.sh</code> was run, and nothing checks that it was. It is prose holding up a promise made to the pioneer.</p></div>
+
+  <div class="claim o"><span class="chip o">weak</span><h3>Record hygiene outside the repository.</h3>
+  <p>The session memory still describes the kit as "v0.15; 007 implemented and rehearsed". Corrected with this report.</p></div>
+</section>
+
+<section>
+  <div class="kicker">verified — what came back sound</div>
+  <h2>Checks that held</h2>
+  <ul>
+    <li><span class="chip v">sound</span> Every manifest node's file exists; the template's node ids and coverage ids equal the kit's own; every map id used in a skill header, an agent or a hook exists in the map; every agent the stop-gate names exists.</li>
+    <li><span class="chip v">sound</span> The hook inventory, the hooks folder and the settings template agree: thirteen scripts, seven registered commands, the rest run by agents or from agent frontmatter.</li>
+    <li><span class="chip v">sound</span> The root-aware hooks with Windows-form paths, in the shape a real session sends (working directory and file path both <code>C:\…</code>): a read is logged, an ungoverned edit is caught, and a drive letter's case does not matter. One shape fails silently: a Windows-form file path with no working directory in the input and a Git Bash shell. The docs say the working directory is always sent, so this is a fragility, not a defect.</li>
+    <li><span class="chip v">sound</span> No tracked file names the pioneer's own projects, machine paths or another repository's commits, after C-015.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="kicker">not answered</div>
+  <h2>What this pass could not close</h2>
+  <ul>
+    <li><span class="chip o">open</span> Whether the kit's claims hold in use. This is a reading of texts and records and one fixture test; nothing here ran an install, an upgrade or a review batch.</li>
+    <li><span class="chip o">open</span> Which doctrine on precedents the pioneer holds. The texts disagree; only the pioneer can say whether a matching precedent decides or instructs.</li>
+    <li><span class="chip o">open</span> Whether the base kit should run its own mechanisms. The gap has stood since v0.14 and every contract since has widened what goes unverified.</li>
+    <li><span class="chip o">open</span> The test fixtures under <code>tests/results/</code> carry full copies of older skills; they were searched for names, not read.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="kicker">recommendation · judgement</div>
+  <h2>Three pieces of work, in this order</h2>
+  <p><strong>First, put outside eyes on contracts 008 to 012.</strong> Run the verifier and the session auditor on each, oldest first, before anything else is built on them. It is the cheapest evidence available and the kit's own rule.</p>
+  <p><strong>Second, one contract for the presentation rule.</strong> A principle in the intent, short: nothing reaches the pioneer as a bare id or a bare number; every presentation says what it is, why now, and what is asked. Applied to the batch item format, the after-implementation block, precedent citations in a contract draw, and the agents' relayed messages. It is a retargeting issue across surfaces, not a patch to the batch file.</p>
+  <p><strong>Third, one contract that reconciles the texts:</strong> the intent and the contract skill with contract-012's order and the practised red test; the precedent doctrine, once the pioneer rules; the artifact skill's template with four tiers; the README's procedure sections; the stale pointers; the three record errors corrected as revisions, not rewrites. And before the fork's next upgrade, a rehearsal at 0.20 on the shipped fixtures, so the first real run is not the first run.</p>
+</section>
+
+<div class="foot">
+  <p><strong>Read in full for this report.</strong> All eighteen meta skills and <code>INTENT.md</code>, the map, all eight agent files, all thirteen hook scripts, the settings template, the README, the record templates' headers, the contract log's entries 008 to 012, the corrections, the casebook. Mechanical cross-checks over the manifest, the template, the map, the hooks and the ledger's enumerations. One fixture run with Windows-form paths.</p>
+  <p><strong>Nothing changed</strong> in the kit for this report, except C-019 recorded in the correction log.</p>
+</div>
+
+</div></body></html>
