@@ -3293,8 +3293,10 @@ contracts:
     disappointment: |
       G-1 to G-4, the pioneer, 2026-09-19: "Disappointment is if we break the bootstrap in any way."
     premortem: |
-      Not given. The pioneer's approving reply held the disappointment line above and the approval. The line is
-      read as the failure to look for: a bootstrap that reads differently to an agent after the split than before.
+      Not given at the gate: the pioneer's approving reply held the disappointment line above and the approval.
+      Asked when the build was reported, the pioneer, 2026-09-19: "disappointment is the same as pre mortem here."
+      So the pre-mortem is the line's words: "if we break the bootstrap in any way." It was read during the build
+      as the failure to look for: a bootstrap that reads differently to an agent after the split than before.
     tier_4: |
       T-1 (G-2) No paragraph of the bootstrap skill exceeds 1,200 bytes. The new check passes on the tree, and
            fails on a planted long paragraph, naming the line and the length.
@@ -3332,5 +3334,5 @@ contracts:
         authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
         date: 2026-09-19
         tests_changed: ["walk-007 states 105 and 112d (the version greps)"]
-    cost: {turns: 7, tokens: null, pioneer_minutes: null}    # main-session messages to the pioneer from approval (2026-09-19) to implemented, counted by hand in the session; two independent reader runs beside them (about 105,000 tokens between them, as the harness reported); the main session's tokens not measured; minutes not yet asked
+    cost: {turns: 7, tokens: null, pioneer_minutes: 5}    # main-session messages to the pioneer from approval (2026-09-19) to implemented, counted by hand in the session; two independent reader runs beside them (about 105,000 tokens between them, as the harness reported); the main session's tokens not measured; minutes: the pioneer's, given 2026-09-19 ("5minutes")
     work_id: null
