@@ -3087,8 +3087,11 @@ contracts:
            word that it "considered the reader" does not count.
     disappointment: |
       Not given at the gate. The pioneer's approving reply of 2026-09-18 held the answers to the three incident
-      questions, the pre-mortem and the approval, and no line for G-1 to G-5. Recorded as absent; asked again when
-      the build was reported.
+      questions, the pre-mortem and the approval, and no line for G-1 to G-5. Asked again when the build was
+      reported, with the offer that the pre-mortem stand as the line whenever none is given. The pioneer,
+      2026-09-19: "that is fine, the pioneer still has the opportunity to realign at that point." So G-1 to G-5 take
+      the pre-mortem's words, here and as the standing default from now on; the contract skill's gate does not say
+      so yet - that sentence is left for the next contract to carry.
     premortem: |
       "Pre mortem is if the agent sums or mispresents or missunderstands what it should ask for, if it is held in a
       way that makes in loose accuracy." - the pioneer, 2026-09-18. Lands on every surface this contract rewrites:
@@ -3132,7 +3135,7 @@ contracts:
         date: 2026-09-18
         tests_changed: []
       - what: "T-1's independent runs (three) moved the batch assembler and the ledger skill beyond the draw: evidence is given in words and never by an observation's or a correction's id (run 1 left five ids in the file); recurring terms are explained once at the top of the batch (run 1's items ran to about 350 words); a figure is copied as the record gives it, under the record's own meaning of its field (run 2 turned 'recurred twice' into 'happened 2 times in all'); and the effect of update, retire, add and decline on a quoted passage is written down for the first time, because run 2 invented one. That last is a definition the kit never had: 'add: the claim is written in at that passage and the quoted sentence stays'. It is the agent's wording of a choice that is the pioneer's."
-        authorised_by: "inside UC-2 and the pre-mortem ('if the agent sums or mispresents or missunderstands what it should ask for'). The definition of update, retire and add is put to the pioneer for confirmation in the closing message."
+        authorised_by: "inside UC-2 and the pre-mortem ('if the agent sums or mispresents or missunderstands what it should ask for'). The definition of update, retire and add was put to the pioneer in the closing message. Confirmed, 2026-09-19: 'Good, that makes ssense.'"
         date: 2026-09-18
         tests_changed: []
       - what: "templates/LEDGER.template.yaml: the audit's form line gains presented_for_pioneer, and also precedent_check, a check the auditor has run since contract-006 that the template's line never listed - found while adding the new key."
@@ -3143,5 +3146,5 @@ contracts:
         authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
         date: 2026-09-18
         tests_changed: ["walk-007 states 105 and 112d (the version greps)"]
-    cost: {turns: 14, tokens: null, pioneer_minutes: null}    # main-session messages to the pioneer from approval (2026-09-18) to implemented, counted by hand in the session - the transcript file, which lags, held 9 at the flip; five independent agent runs beside them (about 294,000 tokens between them, as the harness reported); the main session's tokens not measured; minutes not yet asked
+    cost: {turns: 14, tokens: null, pioneer_minutes: 10}    # main-session messages to the pioneer from approval (2026-09-18) to implemented, counted by hand in the session - the transcript file, which lags, held 9 at the flip; five independent agent runs beside them (about 294,000 tokens between them, as the harness reported); the main session's tokens not measured; minutes: the pioneer's, given 2026-09-19 ("10minutes")
     work_id: null
