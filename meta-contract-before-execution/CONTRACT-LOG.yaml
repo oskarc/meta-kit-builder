@@ -3241,12 +3241,12 @@ contracts:
     observations: [O-054, O-055, O-056]
     revisions:
       - what: "The hold counts a sitting as starting on `startup` or `resume`, where contract-011's telemetry rule counted `startup` only - a pioneer who always resumes would otherwise never release the hold. The mark the session-start hook leaves is an empty file, meta-ledger/.session-started, added to the install's .gitignore step (bootstrap 5d); only its age is read."
-        authorised_by: "inside UC-1 and the pre-mortem ('coherent'): two rules for 'the next session' would have been the incoherence. Recorded for the pioneer to confirm or refuse."
+        authorised_by: "inside UC-1 and the pre-mortem ('coherent'): two rules for 'the next session' would have been the incoherence. Confirmed by the pioneer, 2026-09-19, on condition: 'if it works its prefered.' - whether it works is the untested line's second half, and the first real resumed session shows it."
         date: 2026-09-19
         tests_changed: []
       - what: "walk.expected grows from 36 to 47 lines by design (UC-3); its first 36 lines are unchanged, compared before the file was replaced. walk.sh's opening comment now says 47. The version moves to 0.23 (manifest, template base_kit_version, README, walk-007 states 105 and 112d), the README gains a Contract-015 bullet and its mark-done row is reworded, and meta-bootstrap/history is regenerated, by the standing rule. Walk-007 gains states 165 to 167."
         authorised_by: "UC-3 as approved; the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
         date: 2026-09-19
         tests_changed: ["walk-007 states 105 and 112d (the version greps)", "walk.expected (eleven lines added, none changed)"]
-    cost: {turns: 8, tokens: null, pioneer_minutes: null}    # main-session messages to the pioneer from approval (2026-09-19) to implemented, counted by hand in the session; tokens not measured; minutes not yet asked
+    cost: {turns: 8, tokens: null, pioneer_minutes: 5}    # main-session messages to the pioneer from approval (2026-09-19) to implemented, counted by hand in the session; tokens not measured; minutes: the pioneer's, given 2026-09-19 ("5min")
     work_id: null
