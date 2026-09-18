@@ -92,7 +92,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.20" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.20" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.20" || bad "105 version" "-"
+grep -q "^  version: 0.21" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.21" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.21" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -102,11 +102,11 @@ grep -c 'THE ONE WRITER LIST' "$SRC/templates/LEDGER.template.yaml" | grep -q '^
 diff <(sed '1d' "$SRC/meta-map/MAP.md" | sed '/^ALWAYS LOADED/,/^-->/d') <(sed '1d' "$SRC/templates/MAP.template.md" | sed '/^ALWAYS LOADED/,/^-->/d') >/dev/null && ok "111 template map and live map agree entry for entry" || bad "111 maps differ" "$(diff <(sed '1d' "$SRC/meta-map/MAP.md") <(sed '1d' "$SRC/templates/MAP.template.md") | head -3)"
 
 echo "=== T-11: the README ==="
-n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|binding precedent|binding|v0\.14|dominant force' "$SRC/README.md"); [ "$n" = 0 ] && ok "112a census over README clean" || bad "112a README census" "$(grep -n -i -E 'canary|brier|wilson|catch rate|lower.bound|binding|v0\.14|dominant force' "$SRC/README.md" | head -3)"
+n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant force' "$SRC/README.md"); [ "$n" = 0 ] && ok "112a census over README clean" || bad "112a README census" "$(grep -n -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant force' "$SRC/README.md" | head -3)"
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.20" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.20 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.21" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.21 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -226,6 +226,51 @@ echo "=== contract-012: Tier 4 drafted with the tiers ==="
 grep -q 'Tier 4 is drafted and presented with Tiers 1–3, in the same message' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'stop once: ask for the disappointment lines per guarantee, the pre-mortem below, and the approval, in one reply' "$SRC/meta-contract-before-execution/SKILL.md" && ! grep -q 'After presenting Tier 4, stop again' "$SRC/meta-contract-before-execution/SKILL.md" && ok "147 Tier 4 is drafted with the tiers and the gate is one stop (T-1)" || bad "147 the order" "-"
 grep -q 'a `realigned:` line naming the tests' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'asked at the gate against the drafted tier_4' "$SRC/templates/CONTRACT-LOG.template.yaml" && ! grep -q 'BEFORE tier_4 is written' "$SRC/templates/CONTRACT-LOG.template.yaml" && ok "148 the realigned line is named and the template no longer places the lines before Tier 4 (T-2)" || bad "148 the record" "-"
 grep -q 'a drafted test is drawn from the lay of the land after implementation' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'the record of tests written by the builder alone is that they pass while the work is wrong' "$SRC/meta-contract-before-execution/SKILL.md" && ok "149 a drafted test is drawn from the land after implementation, and the builder-written-tests sentence stands (T-3)" || bad "149 what a draft is made from" "-"
+
+echo "=== contract-013: one thing everywhere, and tests that see an old sentence ==="
+G3="$SRC/meta-mechanisms/checks/G3-retired.sh"; G4="$SRC/meta-mechanisms/checks/G4-pointers.sh"; RS="$SRC/meta-mechanisms/checks/residue.sh"
+T13=$(mktemp -d)
+printf '# Title\n\nThe kit compares each skill line by line, with carriage returns removed, and the lines left over\nare the residue the pioneer is asked about once per file.\n\n- a bullet the kit wrote\n' > "$T13/yard.md"
+printf '# Title\n\nThe kit compares each skill line by line, with carriage returns\nremoved, and the lines left over are the residue the pioneer\nis asked about once per file.\n\n- a bullet the kit wrote\n' > "$T13/wrapped.md"
+r=$(bash "$RS" "$T13/wrapped.md" "$T13/yard.md" 2>/dev/null); [ -z "$r" ] && ok "150a a skill whose only change is a re-wrapped paragraph yields no lines of the project's (T-1)" || bad "150a re-wrap" "$r"
+{ cat "$T13/wrapped.md"; printf 'A project rule kept here: every map entry names the file it loads.\n'; } > "$T13/proj.md"
+r=$(bash "$RS" "$T13/proj.md" "$T13/yard.md" 2>/dev/null); [ "$r" = "A project rule kept here: every map entry names the file it loads." ] && ok "150b with one added sentence it yields exactly that sentence (T-1)" || bad "150b residue" "$r"
+sort -u "$T13/yard.md" | grep -v '^$' > "$T13/yard.lines"; r=$(bash "$RS" "$T13/proj.md" "$T13/yard.lines" 2>/dev/null); [ "$r" = "A project rule kept here: every map entry names the file it loads." ] && ok "150c the same answer against a line-history file, which has lost the document's order (T-1)" || bad "150c residue vs history" "$r"
+n=$(ls "$SRC"/templates/*.template.yaml "$SRC"/templates/*.template.md 2>/dev/null | wc -l | tr -d ' '); s=$(grep -c -E '^\*\*6[a-i] — ' "$SRC/meta-bootstrap/SKILL.md"); m=$(grep -l -i 'this file is a template\|copies this file\|empty seed' "$SRC"/templates/*.template.yaml "$SRC"/templates/*.template.md | wc -l | tr -d ' ')
+[ "$n" = 9 ] && [ "$s" = 9 ] && [ "$m" = 0 ] && ok "151 the install seeds nine record templates, nine are checked, none calls itself a template (T-1)" || bad "151 templates" "templates=$n seed-steps=$s offenders=$m"
+if command -v cygpath >/dev/null 2>&1; then
+  # the shell's drive-letter spelling (/c/...), which is how a real project's path reads; mktemp's /tmp is a mount no sed can translate
+  M13=$(cygpath -m "$T13"); D13="/$(printf '%s' "${M13%%:*}" | tr '[:upper:]' '[:lower:]')${M13#*:}"; A13="$D13/kitA"; mkdir -p "$A13/.claude/skills/meta-mechanisms/hooks" "$A13/.claude/skills/meta-ledger" "$A13/.claude/skills/meta-manifest" "$A13/.claude/skills/meta-map"
+  cp "$SRC"/meta-mechanisms/hooks/*.sh "$A13/.claude/skills/meta-mechanisms/hooks/"
+  printf 'kit_type: project\nnodes:\n  - {id: base-ledger, kind: record, skill_file: meta-ledger/SKILL.md, load: trigger, triggers: [], owns: [meta-ledger/]}\n' > "$A13/.claude/skills/meta-manifest/MANIFEST.yaml"
+  printf 'x\n' > "$A13/.claude/skills/meta-map/SKILL.md"
+  W13=$(cygpath -w "$A13"); J13=${W13//\\/\\\\}; H13="$A13/.claude/skills/meta-mechanisms/hooks"; L13="$A13/.claude/skills/meta-ledger/telemetry.log"
+  ( cd "$A13" && printf '{"tool_name":"Read","tool_input":{"file_path":"%s\\\\.claude\\\\skills\\\\meta-map\\\\SKILL.md"}}' "$J13" | CLAUDE_PROJECT_DIR="$A13" bash "$H13/post-read.sh" )
+  grep -q '|loaded|meta-map/SKILL.md' "$L13" 2>/dev/null && ok "152a root in the shell's spelling, file in the drive-letter spelling: the kit's own read is logged (T-1)" || bad "152a spellings, read" "$(cat "$L13" 2>/dev/null)"
+  ( cd "$A13" && printf '{"tool_name":"Edit","tool_input":{"file_path":"%s\\\\.claude\\\\skills\\\\meta-ledger\\\\LEDGER.yaml"}}' "$J13" | CLAUDE_PROJECT_DIR="$A13" bash "$H13/owner-check.sh" )
+  grep -q '|bypass|base-ledger|' "$L13" 2>/dev/null && ok "152b ...and an ungoverned edit reported in the other spelling is caught (T-1)" || bad "152b spellings, edit" "$(cat "$L13" 2>/dev/null)"
+  rm -f "$L13"; printf '{"cwd":"%s","tool_name":"Read","tool_input":{"file_path":"%s/.claude/skills/meta-map/SKILL.md"}}' "$J13" "$A13" | CLAUDE_PROJECT_DIR="$A13" bash "$H13/post-read.sh"
+  grep -q '|loaded|meta-map/SKILL.md' "$L13" 2>/dev/null && ok "152c the other way round: root from a drive-letter cwd, file in the shell's spelling (T-1)" || bad "152c spellings, reversed" "$(cat "$L13" 2>/dev/null)"
+  B13="$D13/kitB"; mkdir -p "$B13/.claude/skills/meta-map"; printf 'x\n' > "$B13/.claude/skills/meta-map/SKILL.md"; WB13=$(cygpath -w "$B13"); JB13=${WB13//\\/\\\\}
+  rm -f "$L13"; ( cd "$A13" && printf '{"tool_name":"Read","tool_input":{"file_path":"%s\\\\.claude\\\\skills\\\\meta-map\\\\SKILL.md"}}' "$JB13" | CLAUDE_PROJECT_DIR="$A13" bash "$H13/post-read.sh" )
+  [ ! -s "$L13" ] && ok "152d ...and another kit's file, in either spelling, is still ignored (T-1)" || bad "152d another kit's file logged" "$(cat "$L13" 2>/dev/null)"
+else
+  ok "152 path spellings: not applicable on this platform (no cygpath; one spelling only)"
+fi
+bash "$G3" >/dev/null && grep -q 'nothing stops here' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'never asked mid-run — the line is left out' "$SRC/meta-bootstrap/SKILL.md" && ok "153 no retired wording survives, and the two mid-run asks now take the sheet's answer or the default (T-2)" || bad "153 silent run" "$(bash "$G3" | head -2)"
+o=$(grep -l -F -e 'seen to fail before the work starts' -e 'one test seen to fail (M-04)' -e 'derived from the disappointment lines' -e 'Final approval comes after the red test' -e 'The three tiers as identified clauses' "$SRC/meta-foundation/INTENT.md" "$SRC/meta-contract-before-execution/SKILL.md" "$SRC/README.md" "$SRC/templates/CONTRACT-LOG.template.yaml" "$SRC/meta-contract-artifact/SKILL.md" | tr '\n' ' ')
+[ -z "$o" ] && grep -q 'one test is seen to fail after the build' "$SRC/meta-foundation/INTENT.md" && grep -q 'The red test comes after the build' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'one is seen to fail after the build' "$SRC/README.md" && grep -q 'drafted with the tiers, realigned to the disappointment lines' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'The four tiers as identified clauses' "$SRC/meta-contract-artifact/SKILL.md" && ok "154 five files state one contract order, and none still states the old one (T-3)" || bad "154 one order" "old order in: ${o:-none}"
+grep -q '^- \*\*Precedents bind\.\*\*' "$SRC/meta-foundation/INTENT.md" && grep -q '^\*\*Binding\.\*\*' "$SRC/meta-casebook/SKILL.md" && ok "155 the intent and the casebook state the doctrine the pioneer chose: a matching precedent decides (T-4)" || bad "155 doctrine" "-"
+n=0; for p in 'one sheet' 'done block' 'reapply them on top' 'eight standing questions' 'mark-done.sh' 'G2-migration.sh' 'roots.sh' 'residue.sh'; do grep -q "$p" "$SRC/README.md" && n=$((n+1)); done
+e=$(grep -h '^    source:' "$SRC/meta-ledger/LEDGER.yaml" | sed 's/ *#.*//' | grep -c -v -E 'source: (ser|learning|verification|drift|auditor|map-miss|pioneer)$')
+awk '/prec_id: P-001/{f=1} /prec_id: P-002/{f=0} f' "$SRC/meta-casebook/CASEBOOK.yaml" | grep -q 'contract_id: contract-009' && p=1 || p=0
+[ "$n" = 8 ] && [ "$e" = 0 ] && [ "$p" = 1 ] && bash "$G4" >/dev/null && ok "156 the README names the current flows; no ledger source outside its list; P-001 lists contract-009; every pointer resolves (T-5)" || bad "156 README and records" "readme=$n/8 bad-sources=$e p001=$p g4=$(bash "$G4" | head -1)"
+mkdir -p "$T13/k/meta-x" "$T13/k/meta-y"; printf '## Somewhere\n' > "$T13/k/meta-y/SKILL.md"; printf 'See `meta-y` → Somewhere for it.\n' > "$T13/k/meta-x/SKILL.md"
+bash "$G3" "$T13/k" >/dev/null && bash "$G4" "$T13/k" >/dev/null && ok "157a both new checks pass on a clean fixture kit (T-6)" || bad "157a clean fixture" "$(bash "$G3" "$T13/k"; bash "$G4" "$T13/k")"
+printf 'This file is a template.\n' >> "$T13/k/meta-x/SKILL.md"; r=$(bash "$G3" "$T13/k"); rc=$?; [ $rc != 0 ] && case "$r" in *meta-x/SKILL.md*"This file is a template"*) ok "157b a planted retired wording fails G3, naming file and phrase (T-6)";; *) bad "157b message" "$r";; esac || bad "157b planted phrase not caught" "$r"
+printf 'See `meta-y` → Nowhere for it.\n' > "$T13/k/meta-x/SKILL.md"; r=$(bash "$G4" "$T13/k"); rc=$?; [ $rc != 0 ] && case "$r" in *Nowhere*) ok "157c a planted pointer to a missing heading fails G4, naming it (T-6)";; *) bad "157c message" "$r";; esac || bad "157c planted pointer not caught" "$r"
+grep -q 'Commit each contract alone' "$SRC/meta-contract-before-execution/SKILL.md" && ok "158 the contract skill carries the one-commit rule (T-6)" || bad "158 commit rule" "-"
+rm -rf "$T13"
 
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

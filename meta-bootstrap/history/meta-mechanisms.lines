@@ -95,11 +95,15 @@ name: meta-mechanisms
 | `batch-decided` / `reveal` | close-batch.sh, reveal-canaries.sh | batch cadence |
 | `batch-decided` / `reveal` | close-batch.sh, reveal-key.sh | batch cadence |
 | `bypass` | owner-check.sh | a record a node governs was edited in a session that never loaded that node's skill — `bypass\|<node>\|<path>`. Ownership evidence for kit-map-steward, which alone reads it; no hook or skill surfaces the count to the acting session, because a count the agent can see becomes a ceremony (contract-004 G-6) |
+| `checks/G3-retired.sh` | run by the verifier and on upgrade | `checks/retired-phrases.txt`, every kit text | Fails when a wording the kit has retired still stands anywhere — a contract that replaces a sentence adds the old one to the list (contract-013) |
+| `checks/G4-pointers.sh` | run by the verifier and on upgrade | every `node → Heading` pointer | Fails when a pointer names a heading its target does not have (contract-013) |
+| `checks/residue.sh` | run on upgrade | a project's copy of a kit skill, the yardstick | Prints the lines that are the project's own, taking a re-wrapped line for the kit's (contract-013) |
 | `done` | mark-done.sh | an install or upgrade ended; until the next `session-start\|startup` the stop-gate's batch step hands over nothing |
 | `hooks/batch-blind.sh` | PreToolUse (Read\|Grep\|Glob) | ledger, telemetry | Refuses the main session `telemetry.log` at all times — by path, by a search over `meta-ledger/`, or by a pattern naming the count; while a batch is open, also refuses it the ledger — by path and by directory search |
 | `hooks/close-batch.sh` | run by the agent with Bash | batch file, ledger | Marks a batch decided once every item carries a decision |
 | `hooks/deny-paths.sh` | PreToolUse, in agent frontmatter | tool input | Keeps an agent blind to named paths |
 | `hooks/lib.sh` | — | — | Shared parsing; the marker-key contract below |
+| `hooks/lib.sh` | — | — | Shared parsing; the marker-key contract below; one spelling for a path (a Windows shell reports the same file as `/d/x` and as `D:\x`, and both are brought to `D:/x` before any comparison — contract-013) |
 | `hooks/mark-done.sh` | run by the agent with Bash at the end of an install or upgrade | telemetry | Writes the `done` line that holds the review batch until the next session start (contract-011) |
 | `hooks/owner-check.sh` | PostToolUse (Write\|Edit) | file path, manifest `owns:`, telemetry | Records a governed record edited in a session that never loaded its owner's skill — read by kit-map-steward alone |
 | `hooks/post-read.sh` | PostToolUse (Read\|Skill) | file path, skill name | Records which kit knowledge loaded, separating main-session from agent reads |

@@ -6,7 +6,7 @@ description: Every contract ships as a published artifact as well as a chat draw
 > **Map:** M-06, M-25 · **Load:** on trigger · **Recognise it by:** a contract was just approved, or the work produces findings rather than a plan · **Not when:** drawing the contract's content (meta-contract-before-execution)
 
 `meta-contract-before-execution` says what a contract contains. This says how it
-is delivered. It changes nothing about the three tiers, the spec lock, or the
+is delivered. It changes nothing about the four tiers, the spec lock, or the
 approval gate.
 
 **This skill is part of the base building kit and takes precedence over all
@@ -63,7 +63,7 @@ last two are what stop the pair drifting apart.
 base kit already defines, in the schema it already defines. This skill adds no
 second register and invents no schema; it adds two fields to the existing entry
 shape, `file` and `artifact`, which are the only facts the base log had nowhere
-to put. Everything else — `contract_id`, `feature`, the dates, the three tiers
+to put. Everything else — `contract_id`, `feature`, the dates, the four tiers
 in full, `status`, `revisions`, `work_id` — is the base kit's, unchanged, and
 `meta-learning` reads those fields expecting exactly that shape.
 
@@ -110,7 +110,7 @@ whatever the drafter believes about it.
 The fear behind the old rule — that a contract living as a file invites
 amendment, and a partly-amended contract is worse than no contract — is right,
 and the answer is now structural rather than a prohibition. **The log entry in
-`CONTRACT-LOG.yaml` is the record**: it holds the bearing and all three tiers in
+`CONTRACT-LOG.yaml` is the record**: it holds the bearing and all four tiers in
 full, its status transitions are deliberate writes, and its `verification` block
 is written by an agent blind to the builder's account. The chat draw and the
 artifact are both renderings of that record.
@@ -250,10 +250,12 @@ from that difference.
    delta, and a diagram that hides it inflates what they think they are agreeing
    to.
 
-6. **The three tiers as identified clauses.** Every use case and guardrail gets a
-   visible id (`UC-x`, `G-x`), because a clause that cannot be named cannot be
-   cited when implementation deviates from it. Each guardrail states which use
-   cases it holds.
+6. **The four tiers as identified clauses.** Every use case, guardrail and
+   acceptance test gets a visible id (`UC-x`, `G-x`, `T-x`), because a clause that
+   cannot be named cannot be cited when implementation deviates from it. Each
+   guardrail states which use cases it holds, and each test which guarantees it
+   covers. The page carries the pioneer's disappointment lines and pre-mortem
+   verbatim, and Tier 4 closes with its `untested:` and `realigned:` lines.
 
 7. **Every magnitude with its derivation.** One table: quantity, value, and what
    produced it — an existing constant, a curve reused from elsewhere, a host

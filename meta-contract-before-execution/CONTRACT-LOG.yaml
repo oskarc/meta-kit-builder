@@ -2436,6 +2436,10 @@ contracts:
         authorised_by: "Pioneer, 2026-09-17: 'yes' to both deviations as put to them"
         date: 2026-09-17
         tests_changed: []
+      - what: "Bookkeeping, found by the verifier: this contract added a paragraph to meta-mechanisms/SKILL.md ('Which kit a hook acts on', walk-007 state 140) that its list of paths did not name and no revision recorded; and revision 2 changed walk-007 states 105 and 112d (the version greps) while reading tests_changed: []. Recorded by contract-013; no test is changed by this note."
+        authorised_by: "Pioneer, 2026-09-18, approving contract-013, whose UC-1 lists it: 'the contract is approved.'"
+        date: 2026-09-18
+        tests_changed: []
     cost: {turns: 59, tokens: null, pioneer_minutes: null}    # main-session assistant messages from approval (2026-09-17) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
     work_id: null
 
@@ -2905,3 +2909,118 @@ contracts:
     led_to: []
     file: docs/reports/report-003-review-at-0-20.html
     artifact: https://claude.ai/artifact/Hby5GFzSFRbfrwnUgDW41r
+
+  - contract_id: contract-013
+    feature: The kit says one thing everywhere, and its tests can see an old sentence - the eight findings of the five verifications and the text findings of report-003 fixed, precedents settled as binding, and two checks that fail on the class of miss (a retired wording that survives, a pointer to a heading that does not exist)
+    type: contract
+    follows: report-003            # and closes contracts 008 to 012 by follow-up; each of them names this one under led_to
+    led_to: []
+    date_proposed: 2026-09-18
+    date_approved: 2026-09-18
+    approval: approved-at-gate     # pioneer: "the contract is approved." (2026-09-18), with the ruling on UC-3 in the same reply (C-020)
+    bearing: |
+      The misses of the last five contracts were one kind: a sentence changed beside a sentence left saying the
+      opposite, and tests that searched only for the new words. This contract fixes the eight the verifier found
+      and the ones the review found, and adds two checks that fail on the class. The bet: a check for what must no
+      longer be said catches what a check for what must be said cannot.
+    # Bears against paragraph five of the founding statement (the practice guides the pioneer): a kit whose texts
+    # disagree guides nobody. Spec lock skipped: the findings were already located, sentence by sentence, by the
+    # five verification reports and report-003. Precedents: applies P-001 (step back and survey before fixing -
+    # the survey was report-003 and the five verifications), P-004 (no step depends on a command the pioneer runs),
+    # P-007 (tests sit in Tier 4, after the guardrails), P-008 (what is written about the practice is followable
+    # by someone new). First contract drawn under contract-012's order: Tier 4 reached the pioneer in the same
+    # message as Tiers 1 to 3, with one stop at the gate - the half of contract-012 G-1 its verifier left open.
+    tier_1: |
+      Your project's re-wrapped lines are never put to you as your own edits.
+      None of your live files tells you it is a template.
+      On Windows the hooks see their own kit whichever way a path is spelled.
+      Nothing can ask you anything after the sheet, in an install or an upgrade.
+      The contract form reads the same in every file that states it.
+      The README describes the install and upgrade you would actually get.
+    tier_2: |
+      UC-1 The eight verifier findings. A script measures which lines are yours, and it recognises a re-wrapped
+           line. The map and founding-statement templates are reworded like the other seven. Path spellings are
+           brought to one form before the hooks compare them. An agent-name collision becomes a line on the install
+           sheet. A conflict the rehearsal missed takes the default: leave the line out and list it in the done
+           block. The contract-log template states the new test order. Contract-010's two record gaps are noted as
+           a revision.
+      UC-2 One contract order everywhere. The always-loaded intent file, the contract skill, the README, the log
+           template and the publishing skill all say: tests drafted with the tiers, the disappointment lines at the
+           gate, the fail-on-purpose test after the build and before "implemented". The publishing skill's contract
+           template gains the fourth tier.
+      UC-3 Past rulings, the pioneer's call. Two texts said a matching ruling decides; the intent file said it
+           instructs and the gate decides. The agent recommended "instructs". The pioneer ruled: "UC-3 allow binding
+           its the more focuse direction." (C-020). So the intent file and the README's word ban change, and the
+           casebook and the contract skill stand.
+      UC-4 The README and the records. The README's getting-started, upgrading, mechanisms and layout sections are
+           rewritten to the current flows. The three record errors of the agent's are corrected with a note on
+           each, not rewritten: the sixteen mislabelled observations, the distinction never noted on P-001, the
+           pointers that lead nowhere.
+      UC-5 Two checks for the class, and one habit. One check holds a list of retired wordings and fails if any
+           survives anywhere in the kit; each future contract adds what it retires. A second check fails when a
+           "see this heading" pointer names a heading that does not exist. Each contract is committed alone, so
+           "only these paths changed" can always be tested.
+      Not included: the presentation rule (contract-014); the travelling walk, the transcript path, the unchecked
+           done script and the bootstrap skill's length (contract-015); the rehearsal on the shipped fixtures,
+           which comes after both.
+    tier_3: |
+      G-1 (UC-1) the named scripts, templates, hooks and bootstrap sentences; bash, sed, awk only.
+      G-2 (UC-2) five files, one order; no file left stating the old one.
+      G-3 (UC-3) the texts follow the pioneer's ruling and nothing else.
+      G-4 (UC-4) four README sections; records corrected by note or revision, never by rewriting what was recorded.
+      G-5 (UC-5) two checks that fail on a planted case and pass on the tree; the commit rule in the contract skill.
+      G-6 (all) every walk green, every check passing, this contract committed alone.
+    disappointment: |
+      Not given per guarantee. The pioneer's reply of 2026-09-18 held the ruling on UC-3, the pre-mortem and the
+      approval, and no line for G-1 to G-6; recorded as absent, not inferred from the pre-mortem.
+    premortem: |
+      "This is mostly a clean up and a sharpening. So the pre mortem is if the cleanup wasnt complete, if the
+      sharpening dont get the expected behaviour." - the pioneer, 2026-09-18. The cleanup lands on T-2, T-3, T-4
+      and T-5 (the retired list and the pointer check are what would show a sentence left behind); the sharpening
+      lands on T-1 (the three fixtures: the re-wrap, the nine templates, the two path spellings).
+    tier_4: |
+      T-1 (G-1) A skill whose only change is one re-wrapped paragraph yields no lines of the project's; with one
+           added sentence it yields exactly that sentence. A freshly seeded map and founding file contain no
+           sentence calling themselves templates, and the count of templates checked equals the count the install
+           seeds, nine. A hook holding its root in one spelling logs a read and catches an edit reported in the
+           other spelling, both ways round, and still ignores another kit's file.
+      T-2 (G-1) Read from first step to last, neither flow contains a sentence after the sheet that tells the agent
+           to stop, ask, surface or wait on the pioneer. Seen by the retired-wordings check carrying both old
+           sentences, and by a read of the two flows recorded in the results.
+      T-3 (G-2) The five files state one order. Seen by the retired list carrying each old wording, and by a search
+           for the new wording in each.
+      T-4 (G-3) No text states the doctrine the pioneer did not choose.
+      T-5 (G-4) The README names the sheet, the done block, reapply or replace, eight standing questions, and the
+           scripts it lacked. The ledger holds no source outside its list. P-001 lists contract-009. The pointer
+           check passes.
+      T-6 (G-5, G-6) Each new check goes red on a planted case. All walks and checks pass. The commit holds only
+           this contract's paths.
+      untested: whether the README reads well to someone new, and whether the doctrine's wording matches the
+           pioneer's sense of it. Both are the pioneer's judgement.
+      realigned: none by a disappointment line - none was given. T-4 took its direction from the ruling on UC-3:
+           the doctrine not chosen is "instructs".
+    red_test: {broke: G-2, went_red: T-3, how: "the README's step 2 given back the old order's sentence ('One test is seen to fail before the work starts'); walk-007 state 154 failed ('old order in: README.md') and state 153 with it, the retired-wordings check naming README.md:59 and the phrase; 97 passed 2 failed; restored from a saved copy; 99/99 green", date: 2026-09-18}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: ~/.claude/projects/<this repository's project folder>/f1a80ff7-fa97-4c9a-af1b-c9d531906784.jsonl
+    observations: [O-047, O-048, O-049]
+    revisions:
+      - what: "T-2's read of both flows, done in full during the build, found ten more sentences than the draw named that could be taken as an ask after the sheet or that described a retired flow: the install's Step 7 heading and the skill's two summaries ('offers' the ratification pass), Step 5's opening ('Everything here is shown to the developer before it is written'), the 6h list of checks that stay, the template rule's 'asked about once per file' (now: on the sheet), step 2's 'to weigh at the real run' and 'when offered', step 7's 'a reworded entry is asked about', step 8's 'the ratification pass step 9 offers'. All reworded; each old wording added to the retired list. Recorded in tests/results/contract-013-T-2.md."
+        authorised_by: "inside UC-1 and T-2 as approved ('Nothing can ask you anything after the sheet'); the pre-mortem - 'if the cleanup wasnt complete' - is the reason it was not left for a later contract. Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-18
+        tests_changed: []
+      - what: "Paths the draw did not name, touched because the retired list and the pointer check found the old wording there: meta-mechanisms/SKILL.md (inventory rows for the three new scripts and lib.sh's one-spelling rule), templates/MANIFEST.template.yaml (the base-contract node's 'three tiers'), meta-map/MAP.md and templates/MAP.template.md (M-25 'a three-tier build plan'), meta-manifest/MANIFEST.yaml (a gap's '29 base map entries', a stale figure), meta-foundation/SKILL.md, meta-drift-eventlog/SKILL.md and agents/kit-consolidator.md (pointers to a ledger heading renamed by contract-006), meta-bootstrap/history/*.lines (regenerated)."
+        authorised_by: "inside UC-2, UC-4 and UC-5 as approved; named here so the list of paths is complete - the gap the verifier found on contract-010. Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-18
+        tests_changed: []
+      - what: "A test of contract-007 changed: walk-007 state 112a, the README census, banned the word 'binding'. The ruling on UC-3 makes 'binding precedents' the README's correct wording, so the ban is removed from the census (two places). Walk-007 also gains states 150 to 158 for T-1 to T-6."
+        authorised_by: "Pioneer, 2026-09-18: 'UC-3 allow binding its the more focuse direction.' - the draw said of that answer: 'the intent file and the README's word ban change instead.'"
+        date: 2026-09-18
+        tests_changed: ["contract-007 walk-007 state 112a"]
+      - what: "The version moves to 0.21 (manifest, template base_kit_version, README, walk-007 states 105 and 112d) and the README gains a Contract-013 bullet, by the standing rule."
+        authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-18
+        tests_changed: ["walk-007 states 105 and 112d (the version greps)"]
+    cost: {turns: 22, tokens: null, pioneer_minutes: null}    # main-session assistant text messages from approval (2026-09-18) to implemented, counted from the transcript; tokens not measured; minutes not yet asked
+    work_id: null

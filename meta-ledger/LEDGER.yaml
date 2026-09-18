@@ -525,7 +525,7 @@ observations:
 
   - obs_id: O-031
     date: 2026-09-13
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-007
     refs: [G-4, T-4, meta-bootstrap/SKILL.md]
     statement: |
@@ -543,7 +543,7 @@ observations:
 
   - obs_id: O-032
     date: 2026-09-13
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-007
     refs: [T-4, tests/results/T-2-T-3-T-4-T-12-2026-09-13.md]
     statement: |
@@ -561,7 +561,7 @@ observations:
 
   - obs_id: O-033
     date: 2026-09-13
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-007
     refs: [T-4, meta-mechanisms/SKILL.md]
     statement: |
@@ -578,7 +578,7 @@ observations:
 
   - obs_id: O-034
     date: 2026-09-16
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-008
     refs: [G-1, meta-mechanisms/tests/results/contract-008-T-1.md, the fork's residue report (held in that repository)]
     statement: |
@@ -596,7 +596,7 @@ observations:
 
   - obs_id: O-035
     date: 2026-09-16
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-008
     refs: [G-2, meta-mechanisms/checks/G2-migration.sh]
     statement: |
@@ -614,7 +614,7 @@ observations:
 
   - obs_id: O-036
     date: 2026-09-16
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-008
     refs: [G-3, meta-mechanisms/checks/roots.sh]
     statement: |
@@ -632,7 +632,7 @@ observations:
 
   - obs_id: O-037
     date: 2026-09-17
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-009
     refs: [G-2, meta-mechanisms/checks/G2-migration.sh, T-6]
     statement: |
@@ -650,7 +650,7 @@ observations:
 
   - obs_id: O-038
     date: 2026-09-17
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-009
     refs: [G-4, templates/, the fork's rehearsal log of 2026-09-16 (held in that repository, R-7)]
     statement: |
@@ -668,7 +668,7 @@ observations:
 
   - obs_id: O-039
     date: 2026-09-17
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-009
     refs: [G-5, the fork's upgrade report of 2026-09-16 (held in that repository, R-2)]
     statement: |
@@ -686,7 +686,7 @@ observations:
 
   - obs_id: O-040
     date: 2026-09-17
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-010
     refs: [G-5, meta-mechanisms/hooks/lib.sh, report-001]
     statement: |
@@ -704,7 +704,7 @@ observations:
 
   - obs_id: O-041
     date: 2026-09-17
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-010
     refs: [G-3, templates/settings.template.json, meta-bootstrap/SKILL.md 5c]
     statement: |
@@ -722,7 +722,7 @@ observations:
 
   - obs_id: O-042
     date: 2026-09-17
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-010
     refs: [G-6, templates/settings.template.json, agents/]
     statement: |
@@ -740,7 +740,7 @@ observations:
 
   - obs_id: O-043
     date: 2026-09-18
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-011
     refs: [G-2, G-3, meta-bootstrap/SKILL.md "The sheet and the done block", report-002]
     statement: |
@@ -758,7 +758,7 @@ observations:
 
   - obs_id: O-044
     date: 2026-09-18
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-011
     refs: [G-5, meta-mechanisms/hooks/lib.sh in_grace, meta-mechanisms/hooks/mark-done.sh]
     statement: |
@@ -776,7 +776,7 @@ observations:
 
   - obs_id: O-045
     date: 2026-09-18
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-011
     refs: [G-1, meta-bootstrap/SKILL.md Step 2, the apply scripts of contracts 010 and 011]
     statement: |
@@ -794,7 +794,7 @@ observations:
 
   - obs_id: O-046
     date: 2026-09-18
-    source: implementation
+    source: ser                # corrected by contract-013: written as "implementation", a value the ledger does not define
     contract_id: contract-012
     refs: [G-3, meta-contract-before-execution/SKILL.md Tier 4, C-018]
     statement: |
@@ -804,6 +804,63 @@ observations:
       the agent checking its typing, and this contract's own first draft of T-1 was one until the redraw.
     level_guess: principle
     stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-047
+    date: 2026-09-18
+    source: ser
+    contract_id: contract-013
+    refs: [G-2, G-5, meta-mechanisms/checks/G3-retired.sh, tests/results/contract-013-T-2.md]
+    statement: |
+      a list of wordings that must no longer be said finds what a search for the new wording cannot, but only the
+      sentences someone already knew to put on it: the check was written with two after-the-sheet asks on its list,
+      and one read of the whole bootstrap skill from first step to last found ten more. The list keeps a fixed
+      sentence fixed; finding the sentence still takes a full read, and the five contracts that missed them had
+      each been tested by greps alone.
+    level_guess: principle
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-048
+    date: 2026-09-18
+    source: ser
+    contract_id: contract-013
+    refs: [G-1, meta-mechanisms/hooks/lib.sh norm_path, walk-007 state 152]
+    statement: |
+      the first fixture for the two path spellings failed for a reason that was the fixture's and the platform's,
+      not the hook's: mktemp gave a path under /tmp, a mount of the shell whose native spelling no sed rule can
+      derive, while a real project's path begins with its drive (/c/...). A fixture for a path rule has to be given
+      the spelling a real project has; and the rule has a stated limit - a project under one of the shell's own
+      mount points is not covered - now written beside norm_path.
+    level_guess: implementation
+    stated_confidence: 0.7
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-049
+    date: 2026-09-18
+    source: ser
+    contract_id: contract-013
+    refs: [G-6, C-020]
+    statement: |
+      the pioneer's reply at the gate carried a ruling, a pre-mortem and the approval, and no disappointment line
+      per guarantee; the agent built without asking for them. Recorded on the entry as absent rather than inferred
+      from the pre-mortem. On contracts 011 and 012 the pioneer said in words that the line was the same as the
+      pre-mortem; here they did not, and the one-stop gate of contract-012 makes it easy for a part of the reply
+      to go missing unnoticed.
+    level_guess: pattern
+    stated_confidence: 0.6
     loaded_candidates: []
     prompted: false
     consolidated: false

@@ -9,8 +9,21 @@
 #   * values may carry a trailing `# comment`.
 # Renaming a key, or adding a value outside the enumerations below, silently switches a mechanism off.
 
-# norm_path TEXT — JSON-escaped or native Windows separators to forward slashes
-norm_path() { printf '%s' "$1" | sed -e 's#\\\\#/#g' -e 's#\\#/#g'; }
+# norm_path TEXT — JSON-escaped or native Windows separators to forward slashes, and ONE spelling per path.
+# On a Windows shell a path has two spellings: /c/dir (Git Bash) and C:\dir or C:/dir (native, which is what a tool
+# call carries). Both are brought to the drive-letter form, so a root taken from $PWD and a file path taken from a
+# tool call compare as the same place (contract-013 G-1 — before it, under_root dropped this kit's own events when
+# the two spellings met). Elsewhere a leading /c/ is an ordinary directory and is left alone.
+# Not covered: a project under one of the shell's own mount points (/tmp, /usr), whose native spelling no sed can
+# derive — a project lives on a drive, and a test fixture must be given its drive spelling (walk-007 state 152).
+case "${OSTYPE:-}" in msys*|cygwin*|win32*) KIT_WINSHELL=1 ;; *) KIT_WINSHELL=0 ;; esac
+norm_path() {
+  if [ "$KIT_WINSHELL" = 1 ]; then
+    printf '%s' "$1" | sed -e 's#\\\\#/#g' -e 's#\\#/#g' -e 's#^/\([A-Za-z]\)/#\1:/#' -e 's#^/\([A-Za-z]\)$#\1:/#'
+  else
+    printf '%s' "$1" | sed -e 's#\\\\#/#g' -e 's#\\#/#g'
+  fi
+}
 
 # kit_root PATH — the nearest ancestor of PATH (PATH itself first) holding an installed kit: a manifest whose
 # kit_type is not base. Prints it; empty and false when there is none. A hook acts on the kit its event belongs

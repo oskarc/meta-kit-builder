@@ -24,7 +24,7 @@ M-04 | feature-request | situation | must | asked to build, change or fix anythi
 M-05 | design-ambiguity | situation | must | what the feature is stays open: content, direction, several realisations, tunable numbers | mechanical work; a spec locked earlier | meta-contract-before-execution → Spec Lock; CASEBOOK.yaml → M-05 precedents | proposed
 M-24 | founding-question | situation + hook: Stop | must | a bearing may sit outside the founding statement, or it is missing or amended | a bearing that plainly serves it (M-04) | meta-founding-contract | proposed
 M-29 | candidate-check | situation | ambient | drawing Tier 3 guardrails where a trial or adopted candidate applies | a batch is open — the ledger is closed until the reveal | LEDGER.yaml → candidates; meta-ledger → Candidates | proposed
-M-25 | analysis-work | situation | ambient | the work yields findings, a verdict or options, not a plan | a three-tier build plan (M-04) | meta-contract-artifact → Template A | proposed
+M-25 | analysis-work | situation | ambient | the work yields findings, a verdict or options, not a plan | a tiered build plan (M-04) | meta-contract-artifact → Template A | proposed
 M-06 | contract-approved | lifecycle | must | the pioneer approves a contract | silence — ask again | meta-contract-before-execution → Contract Log; meta-contract-artifact | proposed
 
 ## While building

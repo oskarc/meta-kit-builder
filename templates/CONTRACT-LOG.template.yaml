@@ -35,7 +35,7 @@
 #     premortem: |                           # the pioneer's answer, verbatim, to "this shipped and failed — why?"
 #       "…"
 #     tier_4: |
-#       [full acceptance tests text, as approved — derived from the disappointment lines; each with an id and
+#       [full acceptance tests text, as approved — drafted with the tiers, realigned to the disappointment lines; each with an id and
 #        the guarantees it covers: T-1 (G-1, G-2) …; a command or check and its expected result, legible to the
 #        pioneer; closing with an untested: line naming every guarantee no test reaches, and a realigned: line
 #        naming the tests the disappointment lines moved from the agent's draft, or none. Frozen with the

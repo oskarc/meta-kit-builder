@@ -6,18 +6,16 @@ In a consumer project: `.claude/skills/meta-founding-contract/FOUNDING.md`.
 
 <!--
 AGENT INSTRUCTIONS:
-This file is a template. meta-bootstrap asks for the statement in Step 3 and
-copies this file to .claude/skills/meta-founding-contract/FOUNDING.md in Step 6e,
-filling in the project name and the date, and pasting the pioneer's statement
-verbatim under "The statement". If the pioneer deferred, Step 6e replaces the
-whole statement block — the "Given by the Pioneer" line included — with
-"*Deferred by the Pioneer on [date].*" so the record never claims a statement
-that does not exist. The agent does not draft, edit, tidy, or summarise the
+Seeded from templates/FOUNDING.template.md by meta-bootstrap (Step 6e), with the
+project name and the date filled in and the pioneer's statement, asked for in
+Step 3, pasted verbatim under "The statement". Where the pioneer deferred, the
+whole statement block — the "Given by the Pioneer" line included — reads
+instead "*Deferred by the Pioneer on [date].*", so the record never claims a
+statement that does not exist. The agent does not draft, edit, tidy, or summarise the
 statement — see meta-founding-contract/SKILL.md, "Amending is a pioneer act".
 
 The founding contract is project-specific. It does not travel via meta-extract.
-A new project always starts from this template, never from another project's
-FOUNDING.md.
+No project's FOUNDING.md is ever seeded from another project's.
 -->
 
 **The statement below is never rewritten.** Progress is recorded as dated

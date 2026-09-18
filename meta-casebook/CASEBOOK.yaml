@@ -30,7 +30,10 @@ precedents:
       scoring for how confindetly it is an improvement."
     check: not checkable — the holding is how to approach a set of findings, which no script decides
     binding: true
-    distinguished_by: []
+    distinguished_by:
+      - date: 2026-09-16
+        contract_id: contract-009
+        how_facts_differ: "the shortcomings were found by the procedure's own rehearsal log on a real run, each already located to a step and a sentence; the wide survey was contract-008's. Appended late, by contract-013: the distinction was approved with contract-009 and never written here."
     status: active
     overruled_by: null
 

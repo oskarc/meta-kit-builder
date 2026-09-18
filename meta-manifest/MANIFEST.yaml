@@ -7,7 +7,7 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.20            # the six-layer form after contracts 003–012: tier 4, ownership, the subtraction, upgrade readiness, the upgrade that compares by mechanism, the first real run's gaps closed
+  version: 0.21            # the six-layer form after contracts 003–013: tier 4, ownership, the subtraction, upgrade readiness, the upgrade that compares by mechanism, the first real run's gaps closed
   parent_kit: null
   workspace: []
   status: active
@@ -625,7 +625,7 @@ gap_queue:
     concern: Agent-authored always-loaded layer
     surfaced_by: contract-before-execution
     surfaced_in: 2026-09-11 contract-001
-    description: INTENT.md and the 29 base map entries were drafted by the agent. Research found agent-written context files slightly reduce task success. Both await the pioneer's ratification; v0.14 gives unratified entries a route into a review batch, which is the mechanism, not the ratification.
+    description: INTENT.md and the base map entries were drafted by the agent. Research found agent-written context files slightly reduce task success. Both await the pioneer's ratification; v0.14 gives unratified entries a route into a review batch, which is the mechanism, not the ratification.
     candidate_level: principle
     priority: high
     status: open

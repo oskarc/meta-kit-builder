@@ -35,10 +35,12 @@
 - **Precedents are learned from.** A casebook precedent that matches the situation is read before the tiers are drawn and cited or distinguished (M-04); it instructs, it does not bind — the pioneer's decision at the gate does.
 - **Precedents are learned from.** A matching precedent is read before the tiers and cited or distinguished (M-04); it instructs, it does not bind — the pioneer's decision at the gate does.
 - **Precedents bind.** A casebook precedent that matches the situation decides it, unless the contract states how the facts differ (M-04).
+- **Precedents bind.** A precedent whose facts match decides its question: read it before the tiers, then cite it or say how the facts differ (M-04). Only the pioneer overrules one.
 - **Record the cost.** Every contract carries what it cost — turns, tokens where known, the pioneer's minutes where given; nothing is estimated.
 - **Record the cost.** Every contract carries what it cost; nothing is estimated.
 - **Stop on named triggers.** The agent stops and re-orients when a checkable shape appears, regardless of how the work feels in the moment:
 - **Stop on named triggers.** The agent stops and re-orients when a checkable shape appears, regardless of how the work feels — the five shapes are listed in `meta-antidrift/SKILL.md` → Scoring Rules.
+- **The contract is tested on the pioneer's terms.** Before code: bearing and four tiers, the tests drafted from the land after the work so your reading shows; then the pioneer's words on what would disappoint them, a pre-mortem, and the tests realigned to those words (M-04). Frozen at approval; one test is seen to fail after the build.
 - **The contract is the pioneer's test, not yours.** Before code: bearing, tiers, the pioneer's words on what would disappoint them, a pre-mortem, one test seen to fail (M-04). Frozen at approval.
 - **The contract is the pioneer's test, not yours.** Before code: the bearing, the tiers, then the pioneer's own words on what would disappoint them, a pre-mortem, and one test seen to fail (M-04). The contract is frozen at approval.
 -->

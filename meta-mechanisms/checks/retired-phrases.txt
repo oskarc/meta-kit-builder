@@ -1,0 +1,56 @@
+# retired-phrases.txt — wordings the kit no longer says. Read by G3-retired.sh (contract-013 G-5).
+# One fixed string per line; a line starting with # names the contract that retired what follows it. A contract
+# that replaces a rule adds the old wording here in the same act: a test that searches for the new sentence cannot
+# see the old one still standing beside it, and that was the one kind of miss contracts 008 to 012 all made.
+# Keep each string exact and specific enough that no current sentence can contain it by accident.
+
+# contract-012 and contract-013: the tests are drafted with the tiers; the red test comes after the build
+one test seen to fail (M-04)
+Final approval comes after the red test
+Before final approval, break one guarantee
+One test is seen to fail before the work starts
+derived from the disappointment lines
+BEFORE tier_4 is written
+After presenting Tier 4, stop again
+
+# contract-013 (C-020): a precedent whose facts match decides its question
+it instructs, it does not bind
+
+# contract-011 and contract-013: nothing asks after the sheet; both flows end on the done block
+stop and surface it (Step 2 should have found it)
+the agent asks how to resolve it rather than resolving it
+What would you like to build first
+accepts the report
+asked as its own question
+ask once, as a standing question
+
+# contracts 009 to 011: the standing questions are eight, and they sit on the sheet
+four standing questions at most
+six standing questions
+seven standing questions
+
+# contract-009 and contract-013: no seeded file calls itself a template
+This file is a template
+copies this file
+as the empty seed
+
+# contract-004 onward, reconciled by contract-013: a contract has four tiers
+nothing about the three tiers
+the three tiers
+The three tiers as identified clauses
+three-tier
+
+# contract-013: pointers that led nowhere, and wording contract-006 withdrew
+Scores and maturity
+what was planted in it
+three tiers, approval gate
+
+# contract-013: found by reading both flows end to end - sentences after the sheet that read as an ask
+Then Offer the Ratification Pass
+offers the one-off map ratification pass
+offers a single pass to ratify
+Everything here is shown to the developer before it is written
+to weigh at the real run
+a reworded entry is asked about
+the ratification pass step 9 offers
+and any later `G*.sh`

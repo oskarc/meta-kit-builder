@@ -84,7 +84,7 @@ Optional `aspect: meta` is for drifts about the meta layer itself — for exampl
 
 **Resolution criterion** — there is no fixed N-sessions rule. The human transitions `mitigated → resolved` when, in their judgement, the elevation has been tested by enough subsequent work without recurrence.
 
-Absence of recurrence is necessary and not sufficient: a quiet entry proves the elevation held only while the discipline that would notice it is still running — sessions audited, contracts verified, corrections moving from reading toward tests (`meta-ledger` → Scores and maturity).
+Absence of recurrence is necessary and not sufficient: a quiet entry proves the elevation held only while the discipline that would notice it is still running — sessions audited, contracts verified, corrections moving from reading toward tests (`meta-ledger` → Map proposals, audits and scores).
 
 **How that decision reaches the pioneer.** Every entry in `status: mitigated` is a pioneer-owned item: the stop-gate counts them (M-16), `kit-batch-assembler` puts them in the batch as a **drift resolution** item with its recurrence count and the instruments beside it, and the pioneer decides `resolve` or `keep-watching`. `resolve` writes `status: resolved`; `keep-watching` stamps the entry with the date it was reviewed, so it is not re-presented until something changes. The agent proposes; it never resolves.
 
