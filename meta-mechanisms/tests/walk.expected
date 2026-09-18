@@ -34,3 +34,14 @@
 34 trailing comments on state values -> Kit mechanism (stop-gate): Contract c-1 is implemented and its session is unaudited. Launch the kit-session-auditor subagent with the contract id c-1 and transcript path: (none recorded on the entry — say in the audit which session you read). Give it no account of how the work went (M-11). One kit
 35 close-batch outranks audit and consolidate -> Kit mechanism (stop-gate): Every item in review batch B-1 carries a decision. Run bash \".claude/skills/meta-mechanisms/hooks/close-batch.sh\" B-1 with Bash to mark it decided — the ledger stays closed to you until you do (M-17, meta-skill-builder). One kit task per turn. The pioneer does not need
 36 audit outranks verify and consolidate -> Kit mechanism (stop-gate): Contract c-1 is implemented and its session is unaudited. Launch the kit-session-auditor subagent with the contract id c-1 and transcript path: (none recorded on the entry — say in the audit which session you read). Give it no account of how the work went (M-11). One kit
+37 run from a subfolder, launched elsewhere: the kit is found -> found
+38 a read of another kit's file is not this kit's evidence -> ignored
+39 the kit's own file, in the platform's other spelling, is logged -> logged
+40 install just ended, done script never run: batch held -> (silent)
+41 during the hold an audit is still handed over, by session id -> audit, by session id
+42 session start names the session's id -> named
+43 after the next session start the batch is handed over -> handed over
+44 an upgrade ends mid-session (baseline rewritten): held again -> (silent)
+45 launched in kit A, working in kit A -> (says nothing of it)
+46 launched in a plain folder, working in kit A -> (says nothing of it)
+47 launched in kit A, working in kit B -> tells the pioneer, naming both

@@ -92,7 +92,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.22" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.22" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.22" || bad "105 version" "-"
+grep -q "^  version: 0.23" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.23" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.23" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -106,7 +106,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant fo
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.22" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.22 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.23" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.23 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -280,6 +280,14 @@ grep -q -F 'not its id, and not its confidence figure' "$C14" && grep -q -F 'not
 grep -q -F 'a precedent or a candidate is named by what it says' "$C14" && ok "162 a contract draw names a past ruling by what it held (T-3)" || bad "162 draw" "-"
 n=$(cat "$SRC"/meta-*/SKILL.md | grep -c -F "**Passing on an agent's result.**"); [ "$n" = 1 ] && grep -q -F 'none merged and none left out' "$C14" && grep -q -F 'each with what it writes and what follows from it' "$C14" && grep -q -F 'they can confirm it or withdraw it' "$SRC/meta-antidrift/SKILL.md" && ok "163 the pass-on rule is stated once; the verification hand-over puts every clause and the three closures in words (T-4)" || bad "163 pass-on" "stated $n time(s)"
 grep -q -F 'The agent regards how it presents its output to the pioneer and adapts it to make it accessible, clear and actionable' "$F14" && grep -q -F 'Translation adds; it never replaces' "$F14" && grep -q -F '`presented_for_pioneer`' "$SRC/agents/kit-session-auditor.md" && grep -q -F 'whose record you may read' "$SRC/agents/kit-session-auditor.md" && grep -q -F 'presented_for_pioneer: ' "$SRC/templates/LEDGER.template.yaml" && [ -f "$SRC/meta-mechanisms/tests/results/contract-014-T-1-T-7.md" ] && ok "164 the pioneer's test stands in their words, the auditor checks it from outside, and both agent runs are on record (T-7)" || bad "164 conduct" "-"
+
+echo "=== contract-015: promises that hold without the agent remembering ==="
+X15="$SRC/meta-mechanisms/tests/walk.expected"
+n=$(grep -c . "$X15"); p=$(sed -n '37,$p' "$X15" | grep -c -E '/|\\'); [ "$n" = 47 ] && [ "$p" = 0 ] && ok "165 the travelling walk has 47 states, and the eleven new lines carry no path, drive letter or slash (T-3)" || bad "165 travelling walk" "lines=$n platform-marks=$p"
+e=$(awk '/^  - contract_id: contract-015$/{f=1} f&&/^    transcript:/{print $2; exit}' "$SRC/meta-contract-before-execution/CONTRACT-LOG.yaml")
+case "$e" in */*|"") t=0 ;; *) t=1 ;; esac
+[ "$t" = 1 ] && grep -q -F 'find it with Glob on `~/.claude/projects/*/<id>.jsonl`' "$SRC/agents/kit-session-auditor.md" && grep -q -F 'the id alone, which the session-start hook names, never a path' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q -F 'session-start hook names, never a path' "$SRC/templates/CONTRACT-LOG.template.yaml" && ok "166 the session id's road is written end to end: hook, entry, gate, auditor - and this contract's own entry records an id, no path (T-2)" || bad "166 session id" "entry transcript=$e"
+grep -q -F "the pre-mortem's words stand as that guarantee's line" "$SRC/meta-contract-before-execution/SKILL.md" && grep -q -F 'does not rest on that script' "$SRC/meta-bootstrap/SKILL.md" && grep -q -F '.session-started' "$SRC/meta-bootstrap/SKILL.md" && ok "167 the gate states the pioneer's default, and the bootstrap no longer rests the hold on a script (T-5, T-1)" || bad "167 gate sentence" "-"
 
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

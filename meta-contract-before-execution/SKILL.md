@@ -150,6 +150,8 @@ The verifier runs Tier 4 first and judges from prose only what Tier 4 leaves unt
 
 After presenting the bearing and Tiers 1–4 — Tier 4 drafted, as the tier says — stop once: ask for the disappointment lines per guarantee, the pre-mortem below, and the approval, in one reply; realign the drafted tests to the lines before recording the entry (contract-012). Do not proceed on silence.
 
+**Where the reply gives the pre-mortem and the approval and no line for a guarantee, the pre-mortem's words stand as that guarantee's line.** Record it so on the entry — that none was given and that the pre-mortem stands — and do not ask again. The pioneer's default, 2026-09-19: *"that is fine, the pioneer still has the opportunity to realign at that point."* A line the pioneer does give always wins (contract-015).
+
 Ask the pre-mortem first, and record the answer verbatim under `premortem:`:
 > "It is some weeks on. This contract shipped, and it turned out to be a mistake. What went wrong?"
 
@@ -188,7 +190,7 @@ Every approved contract is persisted to `meta-contract-before-execution/CONTRACT
 | Status | Set when | Set by |
 |---|---|---|
 | `approved` | The entry is created at the approval gate. `bearing`, `tier_1`, `tier_2`, `tier_3`, `disappointment`, `premortem`, `tier_4` are recorded in full — the full text is the evidence, not a summary of it. `red_test` is written when the red test is run. `verification_state: none`, `audited: false`. | main agent |
-| `implemented` | Implementation is complete, its observations are recorded in the ledger, the session's `transcript` path is recorded on the entry so the audit reads the right session, and `cost` is written: turns, tokens where known, the pioneer's minutes where reported — `null` where not measured, never estimated. | main agent |
+| `implemented` | Implementation is complete, its observations are recorded in the ledger, the session's id is recorded on the entry as `transcript` — the id alone, which the session-start hook names, never a path — so the audit reads the right session, and `cost` is written: turns, tokens where known, the pioneer's minutes where reported — `null` where not measured, never estimated. | main agent |
 | `verified` | kit-verifier reported every clause verified; or the pioneer's confirmation is recorded in the `verification` block, per clause, naming which clauses it covers. | kit-verifier, or the main agent writing the pioneer's confirmation into the block |
 | `learned` | `meta-learning` has produced the matching diff in `LEARNINGLOG.yaml` and back-filled `work_id`. | meta-learning |
 
@@ -268,7 +270,7 @@ contracts:
       summary: {verified: 6, corrected: 0, open: 0}
       open_needs: []
     audited: true
-    transcript: ~/.claude/projects/example/8f2c.jsonl
+    transcript: 8f2c1e9a-3b7d-4c55-9a10-6e2f0d4b7c31    # the session's id, as the session-start hook named it
     observations: [O-EX1]
     revisions:
       - what: "G-2 changed from cookie to header with refresh rotation"
@@ -304,7 +306,7 @@ One observation per learning. Do not bundle.
 
 **Commit each contract alone.** One commit holds one contract's changes and nothing else, so a test of the form *the diff names only the paths this contract lists* can always be run; two contracts sharing a commit left that test unrunnable twice (contract-013).
 
-Then flip the contract's entry from `approved` to `implemented`, record the session's `transcript` path, add the observation ids to `observations`, and tell the pioneer in one short block what the work taught: each observation as one plain sentence — what was noticed and where, not its id, and not its confidence figure, which is a forecast kept for the ledger and asks nothing of them — then, in words, that nothing is asked of them now, and that any of these which gathers evidence from outside this session comes back to them in a review batch (`meta-foundation` → The Agent's Role). Do not ask for decisions on them now.
+Then flip the contract's entry from `approved` to `implemented`, record the session's id as `transcript` (the session-start hook named it; the id alone, never a path — contract-015), add the observation ids to `observations`, and tell the pioneer in one short block what the work taught: each observation as one plain sentence — what was noticed and where, not its id, and not its confidence figure, which is a forecast kept for the ledger and asks nothing of them — then, in words, that nothing is asked of them now, and that any of these which gathers evidence from outside this session comes back to them in a review batch (`meta-foundation` → The Agent's Role). Do not ask for decisions on them now.
 
 The stop-gate takes it from there: the session auditor, then the verifier, then the consolidator (M-11, M-12, M-14).
 

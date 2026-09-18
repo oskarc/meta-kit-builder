@@ -51,7 +51,7 @@ The pioneer answers with one word, *defaults*, or with line numbers and answers 
 
 Lines whose condition does not hold are left off; a line the rehearsal did not reach says so. The eight standing questions of step 2's pass rule are lines 1 and 3 to 9.
 
-**The done block.** Written at the end of Step 7 (install) and step 9 (upgrade), then `bash .claude/skills/meta-mechanisms/hooks/mark-done.sh install` (or `upgrade`) is run, which holds the review batch until the next session start. No question follows the block.
+**The done block.** Written at the end of Step 7 (install) and step 9 (upgrade), then `bash .claude/skills/meta-mechanisms/hooks/mark-done.sh install` (or `upgrade`) is run. The hold on the first review batch does not rest on that script: both flows end by writing the baseline (6j), and the stop-gate holds the batch for as long as that baseline is newer than the last session start (contract-015). No question follows the block.
 
 > **Done — installed.** *(or: **Done — upgraded to [version].**)*
 > **Verified:** [checks passed, of how many] · [hooks that fired, of how many] · baseline written, [n] files.
@@ -281,7 +281,7 @@ Render `__WORKSPACE__` from the manifest's `workspace` list (6i, from the Step 2
 
 Each kit hook group in the template already carries `"_kit": "base-building-kit"`; keep that key, because it is how an upgrade replaces the kit's groups instead of appending a second copy. The diff was on the sheet (line 6); write it as answered. The hooks are bash scripts; on Windows they run under Git Bash, which Claude Code already requires.
 
-**5d — Ignore the seal, keep the endings.** Add `.claude/kit-sealed/` to `.gitignore`, and `*.sh text eol=lf` to `.gitattributes` (create it if missing). CRLF line endings break the hooks under bash.
+**5d — Ignore the seal, keep the endings.** Add `.claude/kit-sealed/` and `.claude/skills/meta-ledger/.session-started` (an empty mark the session-start hook leaves; only its age is read) to `.gitignore`, and `*.sh text eol=lf` to `.gitattributes` (create it if missing). CRLF line endings break the hooks under bash.
 
 **5e — Folders.** Create `.claude/skills/meta-ledger/batches/` and `.claude/skills/meta-casebook/reconstruction/` — the batch files and the reconstruction inputs are the only writable paths two of the agents have.
 

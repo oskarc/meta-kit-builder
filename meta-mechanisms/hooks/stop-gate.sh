@@ -53,7 +53,11 @@ id=$(first_id "$ct" '$2=="implemented" && $4=="false"')
 if [ -n "$id" ]; then
   t=$(contract_field "$id" transcript)
   [ -n "$t" ] || t="(none recorded on the entry — say in the audit which session you read)"
-  gate "Contract $id is implemented and its session is unaudited. Launch the kit-session-auditor subagent with the contract id $id and transcript path: $t. Give it no account of how the work went (M-11)."
+  # A value with no slash in it is a session id (contract-015 G-2): say what it is and how the file is found.
+  case "$t" in
+    */*|"("*) gate "Contract $id is implemented and its session is unaudited. Launch the kit-session-auditor subagent with the contract id $id and transcript path: $t. Give it no account of how the work went (M-11)." ;;
+    *) gate "Contract $id is implemented and its session is unaudited. Launch the kit-session-auditor subagent with the contract id $id and the session id $t - the transcript is the file named $t.jsonl under the Claude projects folder in the user's home, which the auditor finds by that name. Give it no account of how the work went (M-11)." ;;
+  esac
 fi
 
 # 5. A verification that reported corrected or open clauses, with the contract still implemented.

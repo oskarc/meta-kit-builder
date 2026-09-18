@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run from anywhere: bash meta-mechanisms/tests/walk.sh — drives stop-gate.sh through 36 lifecycle states in a temp fixture.
+# Run from anywhere: bash meta-mechanisms/tests/walk.sh — drives the hooks through 47 states in a temp fixture: the stop-gate's lifecycle (01-36), then which kit a hook acts on, the hold on the first batch and the session id (37-47).
 # Lifecycle walk: drive stop-gate.sh through every state of the kit's state machine.
 SRC="$(cd "$(dirname "$0")/../.." && pwd)"
 
@@ -371,6 +371,63 @@ contracts:
     bearing: b
 EOF
 show "36 audit outranks verify and consolidate"
+
+echo "=== which kit a hook acts on, the hold on the first batch, the session id (contracts 010, 011, 015) ==="
+# These states print a derived word, never a path, so walk.expected reads the same on every platform.
+say() { printf '%-62s -> %s\n' "$1" "$2"; }
+UNCONS='observations:
+  - obs_id: O-1
+    consolidated: false
+'
+mk; printf '%s' "$UNCONS" | w_ledger; mkdir -p "$FX/src/deep"; PLAIN="$(mktemp -d)"
+r=$(cd "$FX/src/deep" && printf '{"stop_hook_active":false,"last_assistant_message":"%s"}' "$DEFMSG" | CLAUDE_PROJECT_DIR="$PLAIN" bash "$H/stop-gate.sh" 2>&1)
+case "$r" in *kit-consolidator*) say "37 run from a subfolder, launched elsewhere: the kit is found" "found" ;; *) say "37 run from a subfolder, launched elsewhere: the kit is found" "NOT FOUND" ;; esac
+# a second installed kit beside the first
+B2="$PLAIN/kitB"; mkdir -p "$B2/.claude/skills/meta-manifest" "$B2/.claude/skills/meta-map" "$B2/.claude/skills/meta-ledger"
+printf 'kit_type: project\nnodes: []\n' > "$B2/.claude/skills/meta-manifest/MANIFEST.yaml"; printf 'x\n' > "$B2/.claude/skills/meta-map/SKILL.md"; printf 'x\n' > "$K/meta-map/SKILL.md"
+rm -f "$K/meta-ledger/telemetry.log"
+( cd "$FX" && printf '{"tool_name":"Read","tool_input":{"file_path":"%s/.claude/skills/meta-map/SKILL.md"}}' "$B2" | CLAUDE_PROJECT_DIR="$FX" bash "$H/post-read.sh" )
+grep -q '|loaded|' "$K/meta-ledger/telemetry.log" 2>/dev/null && say "38 a read of another kit's file is not this kit's evidence" "LOGGED" || say "38 a read of another kit's file is not this kit's evidence" "ignored"
+# the kit's own file, reported in the platform's other spelling where there is one (Windows: C:\x for /c/x)
+OWN="$FX/.claude/skills/meta-map/SKILL.md"
+if command -v cygpath >/dev/null 2>&1; then
+  M=$(cygpath -m "$FX"); DFX="/$(printf '%s' "${M%%:*}" | tr '[:upper:]' '[:lower:]')${M#*:}"; W=$(cygpath -w "$DFX/.claude/skills/meta-map/SKILL.md"); OWN=${W//\\/\\\\}
+else DFX="$FX"; fi
+rm -f "$K/meta-ledger/telemetry.log"
+( cd "$DFX" && printf '{"tool_name":"Read","tool_input":{"file_path":"%s"}}' "$OWN" | CLAUDE_PROJECT_DIR="$DFX" bash "$DFX/.claude/skills/meta-mechanisms/hooks/post-read.sh" )
+grep -q '|loaded|meta-map/SKILL.md' "$K/meta-ledger/telemetry.log" 2>/dev/null && say "39 the kit's own file, in the platform's other spelling, is logged" "logged" || say "39 the kit's own file, in the platform's other spelling, is logged" "NOT LOGGED"
+
+# the hold: an install has just ended (the baseline exists), mark-done.sh was never run, no session has started since
+PEND='M-01 | x | must | INTENT.md | proposed
+'
+mk; printf '%s' "$PEND" | w_map; printf 'x  y\n' > "$K/meta-manifest/INSTALLED.sha1"
+show "40 install just ended, done script never run: batch held"
+w_contracts <<'EOF'
+contracts:
+  - contract_id: c-1
+    status: implemented
+    verification_state: none
+    audited: false
+    bearing: b
+    transcript: 8f2c1e9a-3b7d-4c55-9a10-6e2f0d4b7c31
+EOF
+r=$(printf '{"stop_hook_active":false,"last_assistant_message":"%s"}' "$DEFMSG" | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh" 2>&1)
+case "$r" in *"session id 8f2c1e9a-3b7d-4c55-9a10-6e2f0d4b7c31"*) say "41 during the hold an audit is still handed over, by session id" "audit, by session id" ;; *kit-session-auditor*) say "41 during the hold an audit is still handed over, by session id" "audit, NO ID" ;; *) say "41 during the hold an audit is still handed over, by session id" "NOT HANDED OVER" ;; esac
+printf 'contracts: []\n' | w_contracts
+r=$(printf '{"source":"startup","session_id":"8f2c1e9a-3b7d-4c55-9a10-6e2f0d4b7c31"}' | CLAUDE_PROJECT_DIR="$FX" bash "$H/session-start.sh" 2>&1)
+case "$r" in *"8f2c1e9a-3b7d-4c55-9a10-6e2f0d4b7c31"*) say "42 session start names the session's id" "named" ;; *) say "42 session start names the session's id" "NOT NAMED" ;; esac
+r=$(printf '{"stop_hook_active":false,"last_assistant_message":"%s"}' "$DEFMSG" | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh" 2>&1)
+case "$r" in *kit-batch-assembler*) say "43 after the next session start the batch is handed over" "handed over" ;; *) say "43 after the next session start the batch is handed over" "STILL HELD" ;; esac
+sleep 1; printf 'x  z\n' > "$K/meta-manifest/INSTALLED.sha1"
+show "44 an upgrade ends mid-session (baseline rewritten): held again"
+
+# the governing kit changes under a session: said aloud only when both folders hold an installed kit and they differ
+ps() { ( cd "$2" && printf '{"prompt":"add a feature"}' | CLAUDE_PROJECT_DIR="$1" bash "$2/.claude/skills/meta-mechanisms/hooks/prompt-submit.sh" 2>&1 ); }
+mk; mkdir -p "$B2/.claude/skills/meta-mechanisms/hooks"; cp "$SRC"/meta-mechanisms/hooks/*.sh "$B2/.claude/skills/meta-mechanisms/hooks/"
+r=$(ps "$FX" "$FX");    case "$r" in *"has a different one"*) say "45 launched in kit A, working in kit A" "SAYS SO" ;; *) say "45 launched in kit A, working in kit A" "(says nothing of it)" ;; esac
+r=$(ps "$PLAIN" "$FX"); case "$r" in *"has a different one"*) say "46 launched in a plain folder, working in kit A" "SAYS SO" ;; *) say "46 launched in a plain folder, working in kit A" "(says nothing of it)" ;; esac
+r=$(ps "$FX" "$B2");    case "$r" in *"has a different one"*"kitB"*) say "47 launched in kit A, working in kit B" "tells the pioneer, naming both" ;; *) say "47 launched in kit A, working in kit B" "SILENT" ;; esac
+rm -rf "$PLAIN"
 
 echo "=== telemetry ==="
 ls -1 "$K/meta-ledger/" 2>/dev/null

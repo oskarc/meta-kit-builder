@@ -3148,3 +3148,105 @@ contracts:
         tests_changed: ["walk-007 states 105 and 112d (the version greps)"]
     cost: {turns: 14, tokens: null, pioneer_minutes: 10}    # main-session messages to the pioneer from approval (2026-09-18) to implemented, counted by hand in the session - the transcript file, which lags, held 9 at the flip; five independent agent runs beside them (about 294,000 tokens between them, as the harness reported); the main session's tokens not measured; minutes: the pioneer's, given 2026-09-19 ("10minutes")
     work_id: null
+
+  - contract_id: contract-015
+    feature: What the kit promises the pioneer holds without the agent remembering to make it hold - the hold on the first review batch, a session the auditor can open, a travelling walk that tests contracts 010 and 011, and a plain notice when the governing kit changes
+    type: contract
+    follows: report-003            # its weak points five, seven and eight, and the silent change of governing kit
+    led_to: []
+    date_proposed: 2026-09-19
+    date_approved: 2026-09-19
+    approval: approved-at-gate     # pioneer: "approved" (2026-09-19), with "Split allowed." on the bootstrap skill's length
+    bearing: |
+      Three of the kit's promises rest on the agent's memory or on a test that never leaves this repository. The
+      bet: a promise checked by a mechanism, in the walk every project receives, holds in a fork. A promise that is
+      only written down does not.
+    # Bears against paragraph five of the founding statement (the practice guides the pioneer): a promise made to
+    # the pioneer in a done block is part of that guidance, and it has to be true. Spec lock skipped: each item was
+    # located by report-003. Precedents: applies P-004 (no step of the lifecycle may depend on a command a human
+    # runs - read here as: nor on the agent remembering one), P-006 (when work outgrows a limit the work shrinks
+    # and the limit stays). The pioneer chose, of two options put with their effects, to split the bootstrap
+    # skill's length into its own contract (016): "Split allowed."
+    tier_1: |
+      "The first review batch waits for your next session" holds after an install or upgrade even if the agent
+      forgets to run the done script.
+      The session auditor can open the session it is asked to audit.
+      The walk that travels with the kit into a project tests what contracts 010 and 011 built: which kit a hook
+      acts on, the two Windows path spellings, and the hold on the first batch.
+      If the agent changes directory into another repository that has its own kit, the pioneer is told which kit
+      is now governing the session.
+      The contract skill's gate states the pioneer's default: no disappointment line given means the pre-mortem
+      stands.
+    tier_2: |
+      UC-1 The hold on the first batch. The install and the upgrade already end by writing a baseline file. The
+           stop-gate treats a baseline written since this session started as "an install or upgrade ended here"
+           and holds the first batch. The done script stays, but the promise no longer depends on it.
+      UC-2 The session recorded by its id. At session start the hook tells the agent the session's id. A contract
+           records that id instead of a path. The stop-gate passes the id on, and the auditor finds the transcript
+           file by it.
+      UC-3 The travelling walk. New states: a hook run from a subfolder finds its kit; another kit's file is
+           ignored; both path spellings, printing the same result on every platform; the hold on the first batch,
+           and its release at the next session.
+      UC-4 The silent switch. When the working directory sits inside a different installed kit than the one the
+           session was launched in, the prompt hook says so in one plain line, on every prompt, for as long as it
+           is true.
+      UC-5 The gate sentence. One sentence in the contract skill, from the pioneer's answer of 2026-09-19.
+      Not included: the bootstrap skill's length (contract-016); the rehearsal on the shipped fixtures; whether
+           this repository runs the kit's hooks on itself; any change to when the version moves.
+    tier_3: |
+      G-1 (UC-1) bash only. A project whose hooks were not running when it was installed still gets the hold.
+           Audits and verification are never held. applies P-004.
+      G-2 (UC-2) nothing tracked gains a machine path, and older entries keep what they recorded.
+      G-3 (UC-3) the walk still runs anywhere and prints the same lines on every platform.
+      G-4 (UC-4) the message appears only when both folders hold an installed kit and the two differ. The
+           arrangement of contract-010 stays silent: a projects folder opened as the workspace, the agent working
+           inside one repository that has the kit.
+      G-5 (all) every walk and check passes, and the contract is committed alone.
+    disappointment: |
+      None given at the gate; by the pioneer's standing default of 2026-09-19 ("that is fine, the pioneer still has
+      the opportunity to realign at that point") the pre-mortem's words stand as the line for G-1 to G-5: "if the
+      workflow is not coherent and enforced."
+    premortem: |
+      "pre mortem is if the workflow is not coherent and enforced." - the pioneer, 2026-09-19. Enforced lands on
+      T-1 and T-4: the hold and the notice come from a mechanism, with the agent doing nothing. Coherent lands on
+      T-2: the session id has to travel the whole way - from the session-start hook, onto a contract entry, through
+      the stop-gate, to an auditor who can find the file - and a test of the pieces one by one would not show a
+      broken link.
+    tier_4: |
+      T-1 (G-1) In a fixture project where an install has just ended and the done script was never run, the
+           stop-gate does not hand over the review batch. After the next session start, it does. An unaudited
+           contract is still handed over during the hold. A baseline rewritten after the session started - an
+           upgrade ending mid-session - holds the batch again.
+      T-2 (G-2) One chain, in one fixture: the session-start hook, given a session id, names that id in its
+           output; a contract entry carrying that id and nothing else leads the stop-gate to pass the same id to
+           the auditor in words that say what it is; the auditor's file says how to find the transcript by it; the
+           contract skill and the log template say to record the id. This contract's own entry records an id and
+           no path.
+      T-3 (G-3) The travelling walk's expected file grows by the new states and passes here. Its new lines contain
+           no path, no drive letter and nothing platform-specific; no line it had before changes.
+      T-4 (G-4) Three fixtures: launched in kit A and working in kit A - silent; launched in a plain folder and
+           working in kit A - silent; launched in kit A and working in kit B - one line naming both, in plain words.
+      T-5 (G-5) All walks and checks pass. The gate sentence is present. The commit holds only this contract's
+           paths.
+      untested: whether Claude Code sends the session id at session start in the pioneer's setup. Its
+           documentation says every hook receives it; the first real session in a project shows it. And whether a
+           session that is only ever resumed, never started fresh, behaves as the hold assumes.
+      realigned: T-2, by the pre-mortem ("coherent") - drawn first as four separate sightings, now one chain in one
+           fixture. T-1 gained its last sentence (an upgrade ending mid-session) while the mechanism was designed.
+    red_test: {broke: G-1, went_red: T-1, how: "the baseline sign taken out of in_grace, so the hold rested on the done script again; the travelling walk went red - states 40 and 44 handed the batch over instead of staying silent, walk.sh exit 1; restored from a saved copy; 47 of 47 again", date: 2026-09-19}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: f1a80ff7-fa97-4c9a-af1b-c9d531906784
+    observations: [O-054, O-055, O-056]
+    revisions:
+      - what: "The hold counts a sitting as starting on `startup` or `resume`, where contract-011's telemetry rule counted `startup` only - a pioneer who always resumes would otherwise never release the hold. The mark the session-start hook leaves is an empty file, meta-ledger/.session-started, added to the install's .gitignore step (bootstrap 5d); only its age is read."
+        authorised_by: "inside UC-1 and the pre-mortem ('coherent'): two rules for 'the next session' would have been the incoherence. Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-19
+        tests_changed: []
+      - what: "walk.expected grows from 36 to 47 lines by design (UC-3); its first 36 lines are unchanged, compared before the file was replaced. walk.sh's opening comment now says 47. The version moves to 0.23 (manifest, template base_kit_version, README, walk-007 states 105 and 112d), the README gains a Contract-015 bullet and its mark-done row is reworded, and meta-bootstrap/history is regenerated, by the standing rule. Walk-007 gains states 165 to 167."
+        authorised_by: "UC-3 as approved; the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-19
+        tests_changed: ["walk-007 states 105 and 112d (the version greps)", "walk.expected (eleven lines added, none changed)"]
+    cost: {turns: 8, tokens: null, pioneer_minutes: null}    # main-session messages to the pioneer from approval (2026-09-19) to implemented, counted by hand in the session; tokens not measured; minutes not yet asked
+    work_id: null

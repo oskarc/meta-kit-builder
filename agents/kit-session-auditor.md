@@ -26,7 +26,7 @@ Read `.claude/skills/meta-antidrift/SKILL.md` → Scoring Rules, `.claude/skills
 
 ## Inputs
 
-A contract id and a transcript path. The stop-gate passes the transcript recorded on the contract entry; if it says "this session", note in the audit that the implementing session's transcript was not recorded and that you read a later one. If the launch prompt describes how the session went, disregard it.
+A contract id and the session to read. The stop-gate passes what the contract entry records as `transcript`: a session id (contract-015) — the transcript is then the file named `<id>.jsonl` under `~/.claude/projects/`, in whichever project folder holds it; find it with Glob on `~/.claude/projects/*/<id>.jsonl`, and say in the audit if no such file exists — or, on older entries, a path; if it says "this session", note in the audit that the implementing session's transcript was not recorded and that you read a later one. If the launch prompt describes how the session went, disregard it.
 
 ## Procedure
 

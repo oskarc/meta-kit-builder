@@ -940,6 +940,60 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-054
+    date: 2026-09-19
+    source: ser
+    contract_id: contract-015
+    refs: [G-1, meta-mechanisms/hooks/lib.sh in_grace, P-004]
+    statement: |
+      a promise made to the pioneer in a closing message ("the first batch waits for your next session") was held up
+      by the agent remembering to run a script. The thing the run already had to do to be finished - write the
+      baseline - turned out to be the sign a mechanism could read instead. Where a promise rests on a remembered
+      step, look first for an artefact the work cannot finish without, and read that.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-055
+    date: 2026-09-19
+    source: ser
+    contract_id: contract-015
+    refs: [G-3, meta-mechanisms/tests/walk.sh states 37-47]
+    statement: |
+      a walk that compares printed lines against an expected file cannot carry a path, because a temp folder's name
+      differs on every run and every platform. The new states print a derived word - found, ignored, logged, named -
+      and keep the raw message out of the line. The older states print the gate's message itself and only work
+      because those messages never contained a path.
+    level_guess: implementation
+    stated_confidence: 0.7
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-056
+    date: 2026-09-19
+    source: ser
+    contract_id: contract-015
+    refs: [G-1, the untested line]
+    statement: |
+      "the next session" had two meanings in the kit: the telemetry rule counted only a fresh start, while a pioneer
+      who always resumes a session never produces one. The hold now counts a fresh start or a resume as a new
+      sitting, and a clear or a compaction as the same one. Nothing has yet shown how Claude Code reports a session
+      that is resumed from an editor extension.
+    level_guess: implementation
+    stated_confidence: 0.5
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
 
 batches: []

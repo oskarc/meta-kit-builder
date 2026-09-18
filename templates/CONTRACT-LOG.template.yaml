@@ -60,7 +60,8 @@
 #       open_needs: []                      # what evidence would close each open clause
 #     verification_history: []              # earlier verification blocks, kept rather than overwritten
 #     audited: false                        # true once kit-session-auditor has run; legacy before v0.14
-#     transcript: null                      # the implementing session's transcript, recorded at implemented
+#     transcript: null                      # the implementing session's id, recorded at implemented - the id the
+#                                           # session-start hook names, never a path (contract-015)
 #     observations: []                      # O-NNN recorded after implementation
 #     revisions: []                         # authorized mid-run changes only: {what, authorised_by, date, tests_changed}
 #                                           # tests_changed: the T-x ids the change alters, or []. A revision with

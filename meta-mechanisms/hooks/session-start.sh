@@ -7,7 +7,10 @@
 . "$(dirname "$0")/lib.sh"
 read_input
 kit_installed || exit 0
-telemetry session-start "$(json_str source)"
+src=$(json_str source)
+telemetry session-start "$src"
+# A sitting starts here: leave the mark the stop-gate's hold on the first batch is measured against (contract-015 G-1).
+case "$src" in startup|resume) mark_session ;; esac
 
 ct=$(contracts_table)
 bt=$(batches_table)
@@ -85,6 +88,14 @@ if [ -z "$lines" ]; then
 else
   body="Kit backlog (session-start hook):
 ${lines}Act on each line through its map entry, one kit task at a time. The pioneer does not need to invoke any of this."
+fi
+
+# The session's id, so a contract implemented here can record which session to audit without recording a machine
+# path (contract-015 G-2). Claude Code sends it with every hook event; when it is absent, nothing is said.
+sid=$(json_str session_id | tr -cd 'A-Za-z0-9._-')
+if [ -n "$sid" ]; then
+  body="${body}
+This session's id is ${sid}. When a contract is implemented in this session, record that id as its transcript: value - the id alone, never a path."
 fi
 
 printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$(json_escape "$body")"

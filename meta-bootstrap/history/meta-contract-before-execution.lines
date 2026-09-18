@@ -56,6 +56,7 @@
     tier_2: |
     tier_3: |
     tier_4: |
+    transcript: 8f2c1e9a-3b7d-4c55-9a10-6e2f0d4b7c31    # the session's id, as the session-start hook named it
     transcript: ~/.claude/projects/example/8f2c.jsonl
     verification:
     verification_state: reported
@@ -122,6 +123,7 @@
 **What gets written, and when:**
 **What was encountered**
 **When verification reports corrected or open clauses** the status stays `implemented`, and the stop-gate hands the contract back (M-12) with three ways out, all of them the pioneer's to choose, and each one a write that ends the task:
+**Where the reply gives the pre-mortem and the approval and no line for a guarantee, the pre-mortem's words stand as that guarantee's line.** Record it so on the entry — that none was given and that the pre-mortem stands — and do not ask again. The pioneer's default, 2026-09-19: *"that is fine, the pioneer still has the opportunity to realign at that point."* A line the pioneer does give always wins (contract-015).
 **While a review batch is open** the ledger is closed to this session, so you cannot write these yourself. Hand them, in full, to the **kit-recorder** subagent: it writes nothing but observations, assigns their ids, and reports the ids back. Build work does not wait for the pioneer to finish reviewing, and the presenting session still never reads the ledger.
 **`verification_history`.** A re-verification never overwrites what the last one found: the previous `verification` block moves to `verification_history` first. `meta-learning` reads the current block and cites its date; the history is what lets a diff show that a clause was corrected before it was verified.
 - **"Three options" disguised as the tiers.** Presenting three competing designs to choose between is a spec-lock activity, not the tiers. The tiers have one design (the locked spec) and four layers (User Scenario / Use Cases / Guardrails / Acceptance Tests).
@@ -263,6 +265,7 @@ The verifier runs Tier 4 first and judges from prose only what Tier 4 leaves unt
 The verifier runs Tier 4 first and judges from prose only what Tier 4 leaves untested (kit-verifier, M-12). A contract with no Tier 4 is verified entirely by reading, which is the weaker kind of evidence and is recorded as such.
 Then flip the contract's entry from `approved` to `implemented`, record the session's `transcript` path, add the observation ids to `observations`, and tell the pioneer in one short block what the work taught: each observation as one plain sentence — what was noticed and where, not its id, and not its confidence figure, which is a forecast kept for the ledger and asks nothing of them — then, in words, that nothing is asked of them now, and that any of these which gathers evidence from outside this session comes back to them in a review batch (`meta-foundation` → The Agent's Role). Do not ask for decisions on them now.
 Then flip the contract's entry from `approved` to `implemented`, record the session's `transcript` path, add the observation ids to `observations`, and tell the pioneer in one short block: the observations recorded, one line each with its stated confidence, and that they will return in a review batch once evidence accumulates. Do not ask for decisions on them now.
+Then flip the contract's entry from `approved` to `implemented`, record the session's id as `transcript` (the session-start hook named it; the id alone, never a path — contract-015), add the observation ids to `observations`, and tell the pioneer in one short block what the work taught: each observation as one plain sentence — what was noticed and where, not its id, and not its confidence figure, which is a forecast kept for the ledger and asks nothing of them — then, in words, that nothing is asked of them now, and that any of these which gathers evidence from outside this session comes back to them in a review batch (`meta-foundation` → The Agent's Role). Do not ask for decisions on them now.
 Then state clearly:
 This is the primary mechanism for keeping the standard honest.
 This report captures what looked right immediately after building. It is not the last word — once this contract is verified, `meta-learning` re-examines it against reality and can surface a second, deeper round of candidates. The two are complementary, not redundant: this report is elevation from a position of understanding at build time; `meta-learning`'s pass is elevation confirmed — or corrected — by what verification actually showed.
@@ -293,6 +296,7 @@ name: meta-contract-before-execution
 | `approved` | The entry is created, at the approval gate. `tier_1`, `tier_2`, `tier_3` are recorded in full — the full text is the evidence, not a summary of it. |
 | `implemented` | Implementation is complete, its observations are recorded in the ledger, and the session's `transcript` path is recorded on the entry so the audit reads the right session. | main agent |
 | `implemented` | Implementation is complete, its observations are recorded in the ledger, the session's `transcript` path is recorded on the entry so the audit reads the right session, and `cost` is written: turns, tokens where known, the pioneer's minutes where reported — `null` where not measured, never estimated. | main agent |
+| `implemented` | Implementation is complete, its observations are recorded in the ledger, the session's id is recorded on the entry as `transcript` — the id alone, which the session-start hook names, never a path — so the audit reads the right session, and `cost` is written: turns, tokens where known, the pioneer's minutes where reported — `null` where not measured, never estimated. | main agent |
 | `implemented` | The Standard Evolution Report is produced for this contract. |
 | `learned` | `meta-learning` has produced the matching diff in `LEARNINGLOG.yaml` and back-filled `work_id` on this entry. |
 | `learned` | `meta-learning` has produced the matching diff in `LEARNINGLOG.yaml` and back-filled `work_id`. | meta-learning |

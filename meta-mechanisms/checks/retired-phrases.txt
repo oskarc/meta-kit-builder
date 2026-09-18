@@ -59,3 +59,7 @@ and any later `G*.sh`
 one line each with its stated confidence
 as it stands in the file: the proposed disposition
 **Certainty:** low (self-generated, single-contract)
+
+# contract-015: a path where a session id belongs, and a promise that rested on a script
+the session's `transcript` path
+which holds the review batch until the next session start

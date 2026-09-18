@@ -240,12 +240,25 @@ batches_table() {
   ' "$LEDGER"
 }
 
-# in_grace — an install or upgrade ended in this session: a `done` line stands after the last session-start|startup,
-# so the review batch waits for the next session (contract-011 G-5). Audits and verification are not held.
+# in_grace — an install or upgrade ended in this session, so the review batch waits for the next one (contract-011
+# G-5). Audits and verification are not held. Two signs, either is enough (contract-015 G-1):
+#   * the baseline both flows end by writing (INSTALLED.sha1, 6j) is newer than the mark session-start.sh leaves at the
+#     start of each sitting — or no mark exists yet, because the hooks were not running when the install began. This
+#     sign needs nothing from the agent: a promise made in the done block must not rest on a script being remembered.
+#   * a `done` line (mark-done.sh) stands after the last session start in telemetry.
+# A sitting starts on `startup` or `resume`; `clear` and `compact` happen inside one.
+SESSION_MARK_NAME=".session-started"
 in_grace() {
+  local base="$KIT/meta-manifest/INSTALLED.sha1" mark="$KIT/meta-ledger/$SESSION_MARK_NAME"
+  if [ -f "$base" ]; then
+    [ -f "$mark" ] || return 0
+    [ "$base" -nt "$mark" ] && return 0
+  fi
   [ -f "$TELEMETRY" ] || return 1
-  awk -F'|' '$2=="session-start" && $3=="startup" {s=NR} $2=="done" {d=NR} END { exit !(d>s) }' "$TELEMETRY"
+  awk -F'|' '$2=="session-start" && ($3=="startup" || $3=="resume") {s=NR} $2=="done" {d=NR} END { exit !(d>s) }' "$TELEMETRY"
 }
+# mark_session — called by session-start.sh when a sitting starts; an empty file whose age is all that is read
+mark_session() { [ -d "$KIT/meta-ledger" ] && : > "$KIT/meta-ledger/$SESSION_MARK_NAME" 2>/dev/null || true; }
 
 # has_open_batch — a batch exists that the pioneer has not finished deciding
 has_open_batch() { batches_table | awk '$2=="false"' | grep -q .; }
