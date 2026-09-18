@@ -36,6 +36,7 @@ The kit's own history is the evidence. In the downstream projects, drift inciden
 | `hooks/lib.sh` | — | — | Shared parsing; the marker-key contract below; one spelling for a path (a Windows shell reports the same file as `/d/x` and as `D:\x`, and both are brought to `D:/x` before any comparison — contract-013) |
 | `checks/G3-retired.sh` | run by the verifier and on upgrade | `checks/retired-phrases.txt`, every kit text | Fails when a wording the kit has retired still stands anywhere — a contract that replaces a sentence adds the old one to the list (contract-013) |
 | `checks/G4-pointers.sh` | run by the verifier and on upgrade | every `node → Heading` pointer | Fails when a pointer names a heading its target does not have (contract-013) |
+| `checks/G5-steps.sh` | run by the verifier and on upgrade | `meta-bootstrap/SKILL.md` | Fails when a paragraph of the bootstrap skill is over 1,200 bytes, naming the line — the text an agent follows while records are at risk stays in steps, and the allowance does not move (contract-016) |
 | `checks/residue.sh` | run on upgrade | a project's copy of a kit skill, the yardstick | Prints the lines that are the project's own, taking a re-wrapped line for the kit's (contract-013) |
 
 Installed by `meta-bootstrap` from `templates/settings.template.json` into the project's `.claude/settings.json`. Each kit hook group carries `"_kit": "base-building-kit"`, which is how an upgrade replaces them instead of appending a second copy.

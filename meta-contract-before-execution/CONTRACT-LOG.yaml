@@ -3250,3 +3250,87 @@ contracts:
         tests_changed: ["walk-007 states 105 and 112d (the version greps)", "walk.expected (eleven lines added, none changed)"]
     cost: {turns: 8, tokens: null, pioneer_minutes: 5}    # main-session messages to the pioneer from approval (2026-09-19) to implemented, counted by hand in the session; tokens not measured; minutes: the pioneer's, given 2026-09-19 ("5min")
     work_id: null
+
+  - contract_id: contract-016
+    feature: The upgrade procedure in steps an agent can follow, with nothing lost - the bootstrap skill's ten longest paragraphs split at line breaks only, not a word changed, and a check that keeps any paragraph from growing back
+    type: contract
+    follows: contract-015          # split from it at the pioneer's word ("Split allowed."); report-003's sixth weak point
+    led_to: []
+    date_proposed: 2026-09-19
+    date_approved: 2026-09-19
+    approval: approved-at-gate     # pioneer: "contract is approved." (2026-09-19)
+    bearing: |
+      The bootstrap skill is the text an agent follows while the pioneer's records are at risk, and its hardest
+      steps are its longest paragraphs; every contract since 007 appended clauses to the same sentences. The bet:
+      the same sentences, split into one instruction per line, are followed more reliably, and a size limit
+      enforced by a check stops the paragraphs growing back.
+    # Bears against paragraph five of the founding statement (the practice guides the pioneer): the upgrade is the
+    # practice arriving in a project, and it arrives through this text. Spec lock skipped: the ten paragraphs were
+    # measured, not chosen. Precedents: applies P-008 (what is written about the practice can be followed by
+    # someone new), P-006 (when work outgrows a limit the work shrinks and the limit stays - this contract creates
+    # such a limit).
+    tier_1: |
+      Each of the ten paragraphs over 1,200 characters becomes a short lead followed by paragraphs or bullets, one
+      instruction each. The existing sentences are kept word for word. No rule is added, removed or reworded.
+    tier_2: |
+      UC-1 The split. The ten paragraphs of the upgrade section are broken up. Step numbers, headings and the order
+           of instructions stay as they are, so every reference to "step 3" or "step 7" elsewhere in the kit still
+           points at the same thing.
+      UC-2 The limit. A new check fails when any paragraph of the bootstrap skill is longer than 1,200 characters,
+           naming the line and its length. It runs with the other checks and travels with the kit.
+      UC-3 Proof that nothing was lost. A script compares the text before and after. Every piece of the old text
+           must be found in the new. The result goes on record.
+      Not included: splitting the skill into two files, install and upgrade (the hook installed in the first
+           downstream project points at this file and this section name; proposed for after its upgrade);
+           shortening the text.
+    tier_3: |
+      G-1 (UC-1) no instruction added, removed, reordered or reworded; step numbers and headings unchanged.
+           applies P-008.
+      G-2 (UC-2) bash only; the limit is a number in one place. applies P-006.
+      G-3 (UC-3) the comparison is made by a script and by a reader other than the builder, not by the builder's
+           own reading.
+      G-4 (all) every walk and check passes, and the contract is committed alone.
+    disappointment: |
+      G-1 to G-4, the pioneer, 2026-09-19: "Disappointment is if we break the bootstrap in any way."
+    premortem: |
+      Not given. The pioneer's approving reply held the disappointment line above and the approval. The line is
+      read as the failure to look for: a bootstrap that reads differently to an agent after the split than before.
+    tier_4: |
+      T-1 (G-2) No paragraph of the bootstrap skill exceeds 1,200 bytes. The new check passes on the tree, and
+           fails on a planted long paragraph, naming the line and the length.
+      T-2 (G-1, G-3) With every line break and list marker taken out, the text after is the text before, character
+           for character - not piece by piece: the whole file. The install half, above the upgrade section, is
+           byte for byte unchanged.
+      T-3 (G-1) Every walk state that searches the bootstrap skill's wording still passes, and none of those states
+           is edited.
+      T-4 (G-3) Two independent readers are used. One is given the upgrade section as it was, the other as it is.
+           Each lists, in order, what the agent must do and what it must never do in the rehearsal step and the
+           "evolved here" rule. The two lists match in content and order; any difference is fixed or recorded.
+      T-5 (G-4) All walks and checks pass. The commit holds only this contract's paths.
+      untested: whether an agent follows the new text better in a real upgrade. The rehearsal on the shipped
+           fixtures comes next and is where that shows.
+      realigned: T-2, by the disappointment line ("break the bootstrap in any way") - drawn as "every piece of the
+           old text is found in the new, and every added joining word is listed"; made stricter: no joining words
+           at all, the only edit allowed is a line break, and the proof is equality of the whole text. T-2 also
+           gained the install half's byte-for-byte check.
+    red_test: {broke: G-1, went_red: T-2, how: "one word of the rehearsal step changed in the skill itself ('never resolved' to 'rarely resolved'); the same-words proof against the text before the contract failed at character 41,626, showing both versions of the sentence. Then G-2: a 1,300-byte paragraph added; G5-steps failed naming line 609 and its length (T-1). Restored from a saved copy; the proof reads identical again and the check passes", date: 2026-09-19}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: f1a80ff7-fa97-4c9a-af1b-c9d531906784
+    observations: [O-057, O-058]
+    revisions:
+      - what: "The allowance is counted in bytes, not characters (the draw said characters): a byte count reads the same under every locale a project's shell may have, and the skill's dashes and arrows make the two differ by a little. 1,200 bytes is the stricter of the two. A small tool was added to this repository's tests, tests/same-words.sh, which makes T-2's proof; it does not travel. meta-mechanisms/SKILL.md and the README gain the new check's row."
+        authorised_by: "inside UC-2 and UC-3 as approved. Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-19
+        tests_changed: []
+      - what: "T-4's two readers agreed on the order and on everything the agent must do or avoid. Three lines stand in the old text's reader's list only - two sentences of reasoning it listed as prohibitions ('not meant to be changed by a project', 'never a silent loss') and a statement of how the kit is released. Recorded in tests/results/contract-016-T-2-T-4.md and left as they are: the words are identical in both texts, and no word could be changed under this contract."
+        authorised_by: "T-4 as approved: 'any difference is fixed or recorded.'"
+        date: 2026-09-19
+        tests_changed: []
+      - what: "The version moves to 0.24 (manifest, template base_kit_version, README, walk-007 states 105 and 112d), the README gains a Contract-016 bullet, and meta-bootstrap/history is regenerated, by the standing rule. Walk-007 gains states 168 to 170."
+        authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-19
+        tests_changed: ["walk-007 states 105 and 112d (the version greps)"]
+    cost: {turns: 7, tokens: null, pioneer_minutes: null}    # main-session messages to the pioneer from approval (2026-09-19) to implemented, counted by hand in the session; two independent reader runs beside them (about 105,000 tokens between them, as the harness reported); the main session's tokens not measured; minutes not yet asked
+    work_id: null

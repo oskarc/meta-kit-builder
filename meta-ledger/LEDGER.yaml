@@ -994,6 +994,45 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-057
+    date: 2026-09-19
+    source: ser
+    contract_id: contract-016
+    refs: [G-1, T-2, tests/same-words.sh, tests/results/contract-016-T-2-T-4.md]
+    statement: |
+      a text the agent must not reword was restructured without the agent typing a word of it: a script was given
+      places in the text's own words and could only turn the space in front of each into a line break, stopping if
+      a place did not occur exactly once. That made "nothing was reworded" a property of the tool rather than a
+      claim about the agent's care, and the proof - the two texts identical once line breaks are set aside - a
+      one-line comparison instead of a reading. Where the promise is "unchanged", make the edit with something
+      that cannot change it.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-058
+    date: 2026-09-19
+    source: ser
+    contract_id: contract-016
+    refs: [G-3, T-4]
+    statement: |
+      two readers given the same words in two layouts agreed on every instruction and its order, and differed in
+      what they counted as one: bullets were read as separate duties, and a sentence of reasoning standing alone as
+      its own paragraph was not read as a prohibition where the same sentence inside a long paragraph had been.
+      Layout changes what a reader takes to be an instruction even when no word changes; a reasoning sentence that
+      is meant to bind should say so in its own words rather than rely on where it sits.
+    level_guess: principle
+    stated_confidence: 0.6
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
 
 batches: []

@@ -92,7 +92,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.23" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.23" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.23" || bad "105 version" "-"
+grep -q "^  version: 0.24" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.24" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.24" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -106,7 +106,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant fo
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.23" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.23 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.24" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.24 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -288,6 +288,16 @@ e=$(awk '/^  - contract_id: contract-015$/{f=1} f&&/^    transcript:/{print $2; 
 case "$e" in */*|"") t=0 ;; *) t=1 ;; esac
 [ "$t" = 1 ] && grep -q -F 'find it with Glob on `~/.claude/projects/*/<id>.jsonl`' "$SRC/agents/kit-session-auditor.md" && grep -q -F 'the id alone, which the session-start hook names, never a path' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q -F 'session-start hook names, never a path' "$SRC/templates/CONTRACT-LOG.template.yaml" && ok "166 the session id's road is written end to end: hook, entry, gate, auditor - and this contract's own entry records an id, no path (T-2)" || bad "166 session id" "entry transcript=$e"
 grep -q -F "the pre-mortem's words stand as that guarantee's line" "$SRC/meta-contract-before-execution/SKILL.md" && grep -q -F 'does not rest on that script' "$SRC/meta-bootstrap/SKILL.md" && grep -q -F '.session-started' "$SRC/meta-bootstrap/SKILL.md" && ok "167 the gate states the pioneer's default, and the bootstrap no longer rests the hold on a script (T-5, T-1)" || bad "167 gate sentence" "-"
+
+echo "=== contract-016: the upgrade procedure in steps, not a word changed ==="
+G5="$SRC/meta-mechanisms/checks/G5-steps.sh"; SW="$SRC/meta-mechanisms/tests/same-words.sh"; T16=$(mktemp -d)
+bash "$G5" >/dev/null && ok "168a no paragraph of the bootstrap skill is over its 1,200 bytes (T-1)" || bad "168a G5-steps on the tree" "$(bash "$G5" | head -2)"
+mkdir -p "$T16/meta-bootstrap"; { printf 'short line\n'; head -c 1300 /dev/zero | tr '\0' 'x'; printf '\nshort again\n'; } > "$T16/meta-bootstrap/SKILL.md"
+r=$(bash "$G5" "$T16"); rc=$?; [ $rc != 0 ] && case "$r" in *"line 2 is 1300 bytes"*) ok "168b a planted long paragraph fails the check, naming the line and its length (T-1)";; *) bad "168b message" "$r";; esac || bad "168b planted paragraph not caught" "$r"
+printf 'One. Two, and three; four.\n- five\n' > "$T16/a.md"; printf 'One.\n\n   Two, and three;\n   - four.\n- five\n' > "$T16/b.md"; printf 'One.\n\n   Two, or three;\n   - four.\n- five\n' > "$T16/c.md"
+bash "$SW" "$T16/a.md" "$T16/b.md" >/dev/null && ! bash "$SW" "$T16/a.md" "$T16/c.md" >/dev/null && ok "169 the same-words proof passes a text split at line breaks and fails one with a single word changed (T-2)" || bad "169 same-words" "$(bash "$SW" "$T16/a.md" "$T16/b.md"; bash "$SW" "$T16/a.md" "$T16/c.md")"
+[ -f "$SRC/meta-mechanisms/tests/results/contract-016-T-2-T-4.md" ] && grep -q -F 'every `G*.sh`' "$SRC/meta-bootstrap/SKILL.md" && ok "170 the one-off proofs are on record, and the new check travels with the kit's other checks (T-2, T-4)" || bad "170 record" "-"
+rm -rf "$T16"
 
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]
