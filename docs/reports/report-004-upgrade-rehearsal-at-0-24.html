@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Upgrade Rehearsal at 0.24</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#F3F1EC; --surface:#FFFFFF; --sunken:#E9E6DF; --ink:#1B1C1A; --muted:#5B5E57; --faint:#8B8E86; --rule:#CFCCC3; --accent:#2E6B6F;
+    --verified:#3C6E47; --verified-wash:#E4EDE6; --corrected:#8A6320; --corrected-wash:#F3EBD9; --open:#9A3A2C; --open-wash:#F5E3DF;
+    --display:"Newsreader",Georgia,serif; --body:"Source Sans 3",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F; --accent:#7FB8BB;
+    --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18; } }
+  :root[data-theme="dark"]{
+    --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F; --accent:#7FB8BB;
+    --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;padding-block:0 96px;padding-inline:20px}
+  .wrap{max-width:780px;margin:0 auto}
+  header{padding:56px 0 24px;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:12px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  h1{font-family:var(--display);font-size:clamp(34px,6vw,50px);line-height:1.05;font-weight:600;margin:0;text-wrap:balance}
+  .standfirst{font-size:19px;color:var(--muted);margin:0;max-width:62ch}
+  .tally{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:20px}
+  .tally div{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+  .tally .n{font-family:var(--mono);font-size:24px;font-variant-numeric:tabular-nums}
+  .tally .l{font-size:13px;color:var(--muted);line-height:1.3}
+  section{padding-top:40px}
+  h2{font-family:var(--display);font-size:26px;font-weight:600;margin:0 0 6px;text-wrap:balance}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  p{margin:0 0 14px;max-width:68ch}
+  code{font-family:var(--mono);font-size:.86em;background:var(--sunken);padding:1px 5px;border-radius:2px}
+  .claim{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--rule);padding:12px 16px;margin-bottom:8px}
+  .claim.v{border-left-color:var(--verified)} .claim.c{border-left-color:var(--corrected)} .claim.o{border-left-color:var(--open)}
+  .claim h3{font-size:16px;font-weight:600;margin:4px 0 4px;line-height:1.4}
+  .claim p{margin:0 0 6px;font-size:15px;color:var(--muted)} .claim p:last-child{margin-bottom:0}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;font-weight:600}
+  .chip.v{background:var(--verified-wash);color:var(--verified)} .chip.c{background:var(--corrected-wash);color:var(--corrected)} .chip.o{background:var(--open-wash);color:var(--open)} .chip.j{background:var(--sunken);color:var(--muted)}
+  .src{font-size:13px;color:var(--faint)}
+  .tbl{overflow-x:auto;margin:14px 0 6px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:560px}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--ink)}
+  tbody tr:last-child td{border-bottom:none}
+  ul{margin:0 0 14px;padding-left:22px} li{margin-bottom:6px}
+  blockquote{margin:0 0 14px;padding:10px 16px;border-left:3px solid var(--accent);background:var(--surface);font-size:15.5px}
+  .foot{margin-top:52px;padding-top:14px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--muted)}
+</style>
+</head>
+<body><div class="wrap">
+
+<header>
+  <div class="eyebrow">report-004 · analysis report · base building kit · 2026-09-19</div>
+  <h1>The upgrade, followed for the first time since 0.16</h1>
+  <p class="standfirst">Two test projects were upgraded from an old install to 0.24 by agents who had nothing but the kit's own procedure to go on. Both upgrades worked. Following the text also showed three places where the kit breaks a promise, and sixteen where it leaves the agent to guess.</p>
+  <div class="tally">
+    <div><span class="n">2 of 2</span><span class="l">upgrades finished, records intact, every check passing</span></div>
+    <div><span class="n">0</span><span class="l">questions asked after the sheet, in either real run</span></div>
+    <div><span class="n">0</span><span class="l">troubleshooting steps, in either rehearsal or real run</span></div>
+    <div><span class="n">3</span><span class="l">defects that break something the kit promises</span></div>
+    <div><span class="n">16</span><span class="l">places the text left the agent to guess</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="kicker">what was done</div>
+  <h2>A rehearsal of the procedure itself</h2>
+  <p>The kit ships a script that builds two test projects from its own history: an install from before contract-006, with one contract, one correction, a baseline and the files the kit has since stopped shipping. One of the two (called fx013) also has a kit skill the project edited — two lines added to the casebook skill. The other (fx014) has no edits.</p>
+  <p>Each project was handed to an independent agent with one line, the line the session-start hook prints when a newer kit is staged, and told to follow the staged kit's bootstrap skill exactly. Each agent kept notes of every place the text was unclear, contradicted itself, or made it do something the steps do not say. The run stopped where the procedure waits for the pioneer; the sheet was answered <em>defaults</em>; the same agent then carried out the real run to the done block. Afterwards the upgraded projects were checked independently, not on the agents' word.</p>
+  <p>Nothing in the kit was changed for this report.</p>
+</section>
+
+<section>
+  <div class="kicker">verified — what held</div>
+  <h2>The procedure does what contracts 008 to 016 said it would</h2>
+  <div class="claim v"><span class="chip v">held</span><h3>One sheet, then silence, then a done block.</h3><p>Both rehearsals produced one sheet: three questions for the unedited project, four for the edited one, plus the closing line about removing the staged folder. Every line gave a default and what each answer would do. Both real runs asked nothing and ended on the done block. Neither agent needed a single step the procedure does not describe.</p></div>
+  <div class="claim v"><span class="chip v">held</span><h3>The project's own lines were found exactly, without an installed copy to compare against.</h3><p>The edited project predates the installed copies, so its skill was measured against the line history the kit ships. Of 48 kit files, 47 were recognised as untouched — most of them differed from the baseline only by Windows line endings, which the procedure allows for — and one as the project's, with exactly its two added lines. The sheet quoted them in full and said what <em>replace</em> would cost: "nothing else in the project records that precedents about response shapes are reviewed with the API owner." After <em>reapply</em>, the upgraded skill is the kit's text plus those two lines, and the check that measures this reports the same two lines against the new installed copy. Checked independently: identical to this repository's skill once the two lines are set aside.</p></div>
+  <div class="claim v"><span class="chip v">held</span><h3>Records were migrated and nothing the pioneer wrote was touched.</h3><p>The contract, the correction and the founding statement read as before; the contract gained its four <code>legacy</code> fields, the correction its three <code>not asked</code> fields. The migration check passes on both projects when run from outside them. The nine files the kit no longer ships are gone, the renamed agent is in place, the installed copies exist for next time, the map has 30 entries and is marked deferred, as answered.</p></div>
+  <div class="claim v"><span class="chip v">held</span><h3>The split text of contract-016 was followed without trouble.</h3><p>Neither agent's notes name a place where the new layout of the upgrade steps misled it. Every difficulty below is in what the sentences say, not in how they are laid out.</p></div>
+</section>
+
+<section>
+  <div class="kicker">verified — what broke</div>
+  <h2>Three defects that break something the kit promises</h2>
+  <div class="claim o"><span class="chip o">defect</span><h3>The hold on the first review batch still depends on the agent remembering a script. This is a defect in contract-015.</h3><p>Contract-015 made the hold rest on the baseline file being newer than the mark the session-start hook leaves, so that a forgotten script would cost nothing. But the procedure ends by running each hook once as a test, and the test runs the session-start hook as if a session had begun — which leaves the mark <em>after</em> the baseline. Measured in both projects: the mark is 28 and 35 seconds newer than the baseline. With the done script's line taken away, the hold is off. It held in both runs only because both agents remembered the script.</p><p class="src">Found independently by the second agent and by measurement. The contract's own tests did not see it: they tested the mechanism, never the procedure that runs around it.</p></div>
+  <div class="claim o"><span class="chip o">defect</span><h3>The walk that travels with the kit gives a false failure inside an installed project, and writes into that project's records.</h3><p>The kit calls it "the lifecycle walk that runs in any project". Run from inside the upgraded test project, most of its 47 states mismatched (37 when the agent ran it) and, when re-run for this report, 40 lines were written into the project's own telemetry, which is the evidence the map steward reads. Run from anywhere outside, all 47 match. The cause is contract-010: a hook now acts on the kit its working directory sits in, and the walk never moves into its own fixture. It has been true since 0.18 and no walk here could see it, because this repository is not an installed project.</p><p class="src">No step tells an agent to run the walk, so an upgrade does not trip over it. An agent that runs it out of care does.</p></div>
+  <div class="claim o"><span class="chip o">defect</span><h3>A wrong number reached the pioneer on the sheet, and nothing in the procedure would have caught it.</h3><p>One agent wrote "Ratify the map's 29 entries now, or later?" The map has 30. It had counted by eye; it found the error itself during the real run, because two later steps happen to recount the map. It changed no answer here. But the sheet's figures are all the pioneer sees of what they are deciding, the procedure never asks for them to be counted mechanically or checked again, and a figure on any other line would not have been recounted. This is the failure the pioneer's pre-mortem for contract-014 named: a presentation that "sums or mispresents".</p></div>
+</section>
+
+<section>
+  <div class="kicker">verified — where the text leaves the agent to guess</div>
+  <h2>Sixteen gaps, most of them met by both agents</h2>
+  <p>Both agents guessed the same way almost every time, which is why both upgrades came out the same. A guess is still a guess, and the first real project will not be as plain as these two.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Where</th><th>What the text does not say</th><th>What the agents did</th></tr></thead>
+    <tbody>
+      <tr><td>Staging</td><td>No script produces the set of files a staged kit should hold. The shipped test builder stages a raw copy instead: 145 files, this repository's own records and test evidence among them, against 79.</td><td>Staged by hand for this run.</td></tr>
+      <tr><td>Staging</td><td>The kit's own instance files "are left out" of a staged kit, yet step 1 reads the staged manifest for its version. The manifest is one of those files.</td><td>Both read it for the version and did not install it.</td></tr>
+      <tr><td>Step 1</td><td>"Look at the project's own git status" has no words for a project that is not a repository.</td><td>Both left the question off and said why.</td></tr>
+      <tr><td>Step 3</td><td>An old baseline "marks each path with a leading <code>*</code>, which is dropped" — it also has one space where the current format has two. <strong>Both agents first classified every file as changed</strong>, which would have put some fifty questions on the sheet, and caught it only because the result was absurd.</td><td>Both normalised the two formats.</td></tr>
+      <tr><td>Step 5</td><td>The line history "travels with" the kit, and the list of what to install does not name it.</td><td>Both installed it. One flagged it to the pioneer.</td></tr>
+      <tr><td>Step 5</td><td>The settings merge assumes a key (<code>additionalDirectories</code>) the project's file may not have.</td><td>Took it from the staged template, empty.</td></tr>
+      <tr><td>Step 5</td><td>The rehearsal copies <code>.claude/</code> and <code>CLAUDE.md</code> only, so it cannot see which ignore-file entries the project lacks.</td><td>One read the project's own files from outside the copy.</td></tr>
+      <tr><td>Step 7</td><td>The migration list names six records. The learning log and the casebook are not among them, so their headers are not refreshed. <strong>Confirmed in the upgraded project:</strong> those two still call themselves "the empty seed" while the others do not.</td><td>Followed the text; recorded it.</td></tr>
+      <tr><td>Step 7</td><td>"Verify by diffing against a copy taken before" does not say to set line endings aside. On a project with mixed endings a plain comparison reports every line of two records as removed, which would hide a real loss.</td><td>Both stripped carriage returns first.</td></tr>
+      <tr><td>Step 7</td><td>Where the copies taken before migrating are kept. Inside <code>.claude/skills/</code> they would be written into the new baseline and then deleted.</td><td>Both chose a folder outside it, by luck of judgement.</td></tr>
+      <tr><td>Step 7</td><td>Two template comment lines that the install removes are outside every part the template rule names; "new values are written as plain scalars" and the template's commented <code>workspace</code> line pull opposite ways.</td><td>Reasoned it out, each their own way.</td></tr>
+      <tr><td>Step 2</td><td>The rehearsal log goes "beside the step 9 report" when the project has no report folder, and the step 9 report is given no path.</td><td>Both found the folder in another skill.</td></tr>
+      <tr><td>Step 2</td><td>One of the rehearsal's pass conditions is about the real run, which has not happened when the rehearsal is judged.</td><td>Both judged the rest and said so.</td></tr>
+      <tr><td>Step 9</td><td>"Run every check under <code>checks/</code>" — that folder also holds two tools that need arguments and a data file.</td><td>Ran the five checks.</td></tr>
+      <tr><td>Step 9</td><td>The hook test's telemetry lines are deleted as "the check's, not the session's"; the session mark the same test leaves is not. Then the done script recreates the telemetry file that was just deleted.</td><td>Followed the letter. This is the file the first defect turns on.</td></tr>
+      <tr><td>Done block</td><td>"Checks passed, of how many · hooks that fired, of how many" — neither total is stated anywhere.</td><td>7 and 11 in one run; they could differ in another and both be right.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">One more was noticed and not met: the retired-wordings check scans the project's map, where a base entry the pioneer reworded is theirs to keep. If their wording held a retired phrase, the check would fail and step 9 would tell the agent to fix it.</p>
+</section>
+
+<section>
+  <div class="kicker">verified — what the pioneer is never told</div>
+  <h2>Four things both agents wanted to say and the sheet has no line for</h2>
+  <ul>
+    <li>Twelve base map entries change their wording in this upgrade. They are the kit's, so no question is right — but nothing shows the pioneer which ones, or what they said before.</li>
+    <li>Their one real contract gains four fields marked <code>legacy</code> without a line on the sheet, and keeps a value (<code>approval: gate</code>) the current kit no longer uses.</li>
+    <li>The map has never been ratified in this project, and the ratification line does not say that "later" has been answered once already.</li>
+    <li>Whether the line history is installed — asked of nobody, decided by the agent.</li>
+  </ul>
+  <p>Both agents handled these the same way: they told the pioneer in prose beside the sheet, and listed them in the closing report under <em>what this did not ask</em>. That is the rule of contract-011 working. It is also four things an agent has to think of unprompted.</p>
+</section>
+
+<section>
+  <div class="kicker">not answered</div>
+  <h2>What these two projects cannot show</h2>
+  <div class="claim c"><span class="chip c">open</span><h3>They are plainer than any real project, and different from the first downstream one.</h3><p>Neither has a project skill of its own, so the map question and the roots script were never exercised; the first downstream project has 96. Neither has a record whose base lines the pioneer changed, so the instance-file question never appeared. Neither has a hook of its own in settings, so the by-hand settings merge — the riskiest instruction in step 5 — merged nothing. Neither is a git repository. Neither met a conflict when reapplying. Neither named a workspace. And both start from before contract-006, while the first downstream project starts from 0.16 with installed copies already in place.</p></div>
+  <div class="claim c"><span class="chip c">open</span><h3>No hook fired live.</h3><p>The agents ran each hook once by hand, as the procedure says. What happens when the hooks fire by themselves against a half-migrated project, and whether Claude Code hands the session-start hook a session id, is still unseen.</p></div>
+  <div class="claim c"><span class="chip c">open</span><h3>The test builder itself is out of date.</h3><p>It stages a raw copy rather than the travel set, and it names both projects "fx013" in their records, so the second project's folder and its records disagree. One agent noticed.</p></div>
+</section>
+
+<section>
+  <div class="kicker">recommendation · judgement</div>
+  <h2>One more contract before the first real upgrade</h2>
+  <p>Nothing found here loses a pioneer's records, and both upgrades were clean. The first downstream project could be upgraded today and would very likely come through. I would still not do it yet, for one reason: its upgrade is the first real run of everything since 0.16, and the three defects and the baseline-format trap are each small to fix and each the kind of thing that costs an afternoon when met for the first time in a real project.</p>
+  <p>The contract I would draw:</p>
+  <ul>
+    <li><strong>The hold.</strong> The procedure's hook test stops counting as the start of a session, so the baseline stays newer than the mark; the mark the test leaves is cleaned up with the telemetry lines. Tested by following the procedure's own order, which is what contract-015's tests did not do.</li>
+    <li><strong>The walk.</strong> It moves into its own fixture before calling a hook, so it gives the same answer from inside a project and writes nothing there. Tested from inside an installed fixture.</li>
+    <li><strong>The sheet's figures.</strong> Every count on the sheet is taken with a command, and the real run checks each against the project before acting on the answers.</li>
+    <li><strong>The sixteen gaps</strong>, each closed with the few words it needs — the baseline's separator first, then the two unnamed records, line endings in the verification, where the copies go, the staged manifest as a stated exception, the project without a repository, the line history, the report's folder, which scripts are checks.</li>
+    <li><strong>Staging.</strong> A script that produces the travel set, so a pioneer stages a kit with one command, and the test builder uses it.</li>
+  </ul>
+  <p>Then the first downstream project's own upgrade begins, as the procedure says, with a rehearsal on a copy of that project — which is the test these two projects could not be.</p>
+</section>
+
+<div class="foot">
+  <p><strong>Cost.</strong> Two agents, two phases each: about 470,000 tokens and 52 minutes of agent time, as the harness reported. <strong>Evidence.</strong> Each agent's notes, its two presentations to the pioneer and its rehearsal log are kept outside version control; the three defects and four of the gaps were re-measured on the upgraded projects by the reporting agent. <strong>Not a contract.</strong> Nothing in the kit was changed.</p>
+</div>
+
+</div></body></html>
