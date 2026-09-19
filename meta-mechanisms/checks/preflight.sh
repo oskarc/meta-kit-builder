@@ -51,7 +51,7 @@ else
 fi
 
 # 3. versions (upgrade only)
-newv=$(tr -d '\r' < "$REL/RELEASE" 2>/dev/null | awk '/^version:/{print $2; exit}')
+newv=""; [ -f "$REL/RELEASE" ] && newv=$(tr -d '\r' < "$REL/RELEASE" | awk '/^version:/{print $2; exit}')   # read only when it is there: a redirection from a missing file prints past 2>/dev/null
 if [ "$kind" != install ]; then
   M="$ROOT/.claude/skills/meta-manifest/MANIFEST.yaml"
   if [ ! -f "$M" ]; then refuse "this project has no manifest at .claude/skills/meta-manifest/MANIFEST.yaml, so there is no installed kit to upgrade. Use the install instead."

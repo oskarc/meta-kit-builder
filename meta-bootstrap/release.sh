@@ -14,6 +14,12 @@ SRC="$(cd "$(dirname "$0")/.." && pwd)"
 ALLOW=0; [ "${1:-}" = "--from-last-commit" ] && { ALLOW=1; shift; }
 OUT="${1:?usage: release.sh [--from-last-commit] <outdir>}"
 command -v git >/dev/null 2>&1 || { echo "release refused: git is not available"; exit 1; }
+# <outdir> is read where the command was typed, not where the kit is, so it is resolved BEFORE moving to the kit,
+# and refused when it points inside the kit repository: a release built there sits in the source it ships from
+# (contract-018, from the upgrade rehearsal, where a relative path silently wrote the release into the kit clone).
+case "$OUT" in /*|[A-Za-z]:*) ;; *) OUT="$PWD/$OUT" ;; esac
+od=$(dirname "$OUT"); ob=$(basename "$OUT"); if [ -d "$od" ]; then OUT="$(cd "$od" && pwd)/$ob"; fi
+case "$OUT/" in "$SRC"/*) echo "release refused: <outdir> is inside the kit repository ($OUT). Build the release outside it, in a folder of your own — one built in the source it ships from would be swept into the next build."; exit 1;; esac
 cd "$SRC"
 dirs=$(git ls-tree -d --name-only HEAD | grep -E '^(meta-.*|agents|templates)$')
 if [ "$ALLOW" = 1 ] && [ -n "$(git status --porcelain -- $dirs)" ]; then

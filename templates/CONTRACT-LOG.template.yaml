@@ -16,7 +16,9 @@
 #
 #   - contract_id: contract-NNN             # sequential, never reused
 #     feature: [feature name]
-#     type: contract                        # or analysis-report, with a report-NNN id; the gates skip those
+#     type: contract                        # or analysis-report, with a report-NNN id; the gates skip those, and
+#                                           # an upgrade's migration leaves such an entry alone: no disappointment
+#                                           # line, no pre-mortem, no red test, no verification on a document
 #     date_proposed: YYYY-MM-DD
 #     date_approved: YYYY-MM-DD
 #     approval: approved-at-gate            # or waived-at-spec-lock, when the pioneer chose to skip the gate; `gate` on entries from before 0.15, left as is
@@ -42,7 +44,11 @@
 #        contract: changed only by a revision dated before the verification report]
 #     red_test: {broke: G-N, went_red: T-N}  # written before final approval: one guarantee deliberately broken,
 #                                            # the named test seen to fail, then restored (contract-006 G-5)
-#     status: approved | implemented | verified | learned | legacy
+#     status: approved | implemented | verified | learned | legacy | published
+#                                           # published is an analysis report's only status: a document is not
+#                                           # approved, implemented or verified, and the gates skip it anyway
+#                                           # (contract-018). Reports written before that carry implemented and
+#                                           # are left as they are - a recorded value is never rewritten.
 #     verification_state: none | awaiting-evidence | reported | closed-by-follow-up | legacy
 #     verification:                         # written by kit-verifier, or by the main agent recording a
 #       date: YYYY-MM-DD                    # pioneer confirmation per clause — MARKER: revisions are dated against it

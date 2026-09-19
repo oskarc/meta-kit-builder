@@ -26,11 +26,14 @@ done
 [ "${#files[@]}" -gt 0 ] || { echo "G3-retired broken: no kit texts found under $kit"; exit 1; }
 # shipped FILE — the kit's shipped copy of FILE, or nothing
 shipped() {
-  local rel="${1#$kit/}"
+  local rel="${1#$kit/}" s=""
   case "$rel" in
-    meta-map/MAP.md) [ -f "$kit/templates/MAP.template.md" ] && [ -d "$kit/installed" ] && printf '%s' "$kit/templates/MAP.template.md" ;;
-    *) [ -f "$kit/installed/$rel" ] && printf '%s' "$kit/installed/$rel" ;;
+    meta-map/MAP.md) [ -d "$kit/installed" ] && [ -f "$kit/templates/MAP.template.md" ] && s="$kit/templates/MAP.template.md" ;;
+    *) [ -f "$kit/installed/$rel" ] && s="$kit/installed/$rel" ;;
   esac
+  if [ -n "$s" ]; then printf '%s' "$s"
+  elif [ -d "$kit/installed" ]; then printf '%s' "-"
+  fi
 }
 bad=0
 while IFS= read -r phrase || [ -n "$phrase" ]; do
@@ -40,6 +43,10 @@ while IFS= read -r phrase || [ -n "$phrase" ]; do
     [ -n "$hit" ] || continue
     f="${hit%%:*}"; rest="${hit#*:}"; n="${rest%%:*}"; line="${rest#*:}"; line="${line%$'\r'}"
     s="$(shipped "$f")"
+    if [ "$s" = "-" ]; then
+      echo "note: ${f#$kit/}:$n says \"$phrase\" in a file the kit keeps no shipped copy of here - a template, which an upgrade replaces whole at its end - so whose the line is cannot be told; left alone"
+      continue
+    fi
     if [ -n "$s" ] && ! tr -d '\r' < "$s" | grep -q -x -F -- "$line"; then
       echo "note: ${f#$kit/}:$n says \"$phrase\" in a line that is the project's own, not the kit's — left alone"
       continue

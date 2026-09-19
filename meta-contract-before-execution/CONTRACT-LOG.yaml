@@ -3431,7 +3431,7 @@ contracts:
     feature: The kit is installed and upgraded the way software is upgraded - a built release with a list of what ships, a preflight that refuses with a reason, a snapshot and a named way back, comparison bases replaced last, git's three-way merge for the pioneer's own lines, and tests that write nothing into a project's records
     type: contract
     follows: report-005            # and report-004; the four missing practices and the three rehearsals' findings
-    led_to: []
+    led_to: [contract-018]
     date_proposed: 2026-09-19
     date_approved: 2026-09-19
     approval: approved-at-gate     # pioneer: "The contract is approved" (2026-09-19); the ruling "the kit may use git." given the turn before
@@ -3565,4 +3565,124 @@ contracts:
         date: 2026-09-19
         tests_changed: ["walk-007 states 105 and 112d (the version greps)"]
     cost: {turns: 18, tokens: null, pioneer_minutes: null}    # main-session messages to the pioneer from approval (2026-09-19) to implemented, counted by hand in the session; eight independent agent runs beside them (about 1,470,000 tokens between them, as the harness reported); the main session's tokens not measured; minutes not yet asked
+    work_id: null
+
+  - contract_id: contract-018
+    feature: The procedure stops being prose an agent performs - step 5 becomes a script both runs invoke, the stale rule refuses to delete a project's own precedent check, a file the retired-wordings check cannot attribute is a note, an agent arriving with only the repository's address is told what to do, and the log learns what a report is
+    type: contract
+    follows: contract-017
+    led_to: []
+    date_proposed: 2026-09-19
+    date_approved: 2026-09-19
+    approval: approved-at-gate     # pioneer: "contract approved" (2026-09-19), with the pre-mortem carried over and extended
+    bearing: |
+      The pioneer's real upgrade scored 3 decisions and 0 troubleshooting steps, and in the same run a required
+      step was silently skipped, because the text says "the six above" and makes the reader count bullets. The
+      bet: where a step is a shipped script and a rule is a check, an agent cannot perform it two different ways
+      or miscount it once.
+    # Bears against paragraph five of the founding statement: the upgrade is how the practice reaches a project,
+    # and it reached one for real on 2026-09-19 - 0.16 to 0.25, three days of records, nothing lost. The evidence
+    # is that project's own report, written by the agent that performed the upgrade, and its seven open
+    # shortcomings; every checkable claim in it was verified against this repository before the contract was drawn
+    # (the enumeration by count, the sizes to the byte, the shipped checks, the stale rule's clause, the status
+    # enum with no value a report can hold). Spec lock skipped: the findings were already located. Applies P-008
+    # (what is written about the practice is followable by someone new - here the someone new is an agent) and
+    # P-004 (no step may depend on a command only a human runs - read equally as: nor on a list the agent must
+    # count). Named and not applied: P-006 (when work outgrows a limit the work shrinks) - it bears on the 38 KB
+    # section, which this contract does not touch.
+    tier_1: |
+      The step that installs files is a script the kit ships, and the rehearsal and the real run invoke the same one.
+      A precedent check you wrote can never be deleted by answering the stale line.
+      A header the upgrade forgot fails the run instead of passing as a note nobody reads.
+      An agent that arrives with only the repository's address can install or upgrade without reading sixty
+      kilobytes first, and without being sent into a refusal by the first instruction it is given.
+      Your contract log stops carrying a pre-mortem and a red test on a document.
+      The upgrade report answers one more question: what can this project do now that it could not do before.
+    tier_2: |
+      UC-1 An install script. checks/install.sh performs step 5 - the classified files, the agents, the settings
+           merge, the CLAUDE.md block, the folders and ignore entries - from the classification it is given. Step 5
+           becomes the script and a short statement of what it does. The rehearsal and the real run call it
+           identically. Where it cannot act without guessing, it refuses and names what it could not do.
+      UC-2 The stale rule refuses. A P-NNN.sh whose precedent id is in the project's casebook is never listed
+           stale and never removed; it is a refusal in the script that deletes, not a clause in a paragraph, and it
+           says which file and which precedent.
+      UC-3 The check-ordering regression of contract-017. A file the retired-wordings check cannot attribute - a
+           template, which the kit keeps no shipped copy of - is a note, not a failure. A base line the upgrade
+           forgot still fails.
+      UC-4 The entry point. The README gains a short section for an agent: clone, build a release, place it, follow
+           the staged kit. The install step that the kit's own ground check refuses is corrected. The ground check
+           stops printing a stray shell error beside its refusal.
+      UC-5 The log learns what a report is. The status enum gains the value a report holds, and the migration list
+           skips report entries instead of giving them a disappointment line, a pre-mortem, a red test and a cost.
+      UC-6 One line in the report. The step 9 report carries a required section: what this project can do now that
+           it could not before. "Nothing material" is a complete answer.
+      Not included, named so nothing is lost: bounding the section rather than the paragraph, which means splitting
+           install from upgrade; and promoting "every figure that reaches the pioneer comes from a command" out of
+           this one procedure into the foundation. Both are contract-019.
+    tier_3: |
+      G-1 (UC-1) the script performs exactly what step 5 names and nothing more; both runs invoke it the same way;
+           bash, the kit's usual tools, and git.
+      G-2 (UC-2) no file whose precedent id is in the casebook is ever listed stale, and the report says which were
+           spared.
+      G-3 (UC-3) an unattributable file is a note, never a failure; a forgotten base line still fails.
+      G-4 (UC-4) the README's accounts and the mechanism agree; every wording they replace goes on the retired list.
+      G-5 (UC-5, UC-6) no record loses a value it carries; only what reaches the pioneer changes.
+      G-6 (all) every walk and check passes, and the contract is committed alone.
+    disappointment: |
+      The pioneer, 2026-09-19: "the pre mortem remains, with the addition that we break no other part unintentional
+      as we move forward." So G-1 to G-6 take the pre-mortem's words, and the addition is the line for G-6: nothing
+      outside this contract's work behaves differently afterwards, and where a test of an earlier contract changes,
+      it is named.
+    premortem: |
+      Carried from the draw of 2026-09-19 and confirmed: "pre mortem is only if the other agent dont manage or
+      isnt handling an upgrade well, if it is hard for the agent to follow and do an upgrade, if the agent isnt
+      clear with the human about what the implications is or if it is experienced as heavy or complicated." With
+      the addition: "that we break no other part unintentional as we move forward."
+    tier_4: |
+      T-1 (G-1) Run on a fixture, the script produces from the same classification a project identical to the one
+           the procedure's prose produced, file for file. Step 5's paths and the script's list are the same list.
+           An agent following the text writes no loop of its own. Where the script refuses - a settings file with
+           groups it cannot attribute, a CLAUDE.md block with no markers - it says so and changes nothing.
+      T-2 (G-2) A fixture holding its own precedent check, whose id is in its casebook: it is not listed stale, not
+           removed, and the report says it was spared. A second one whose id is absent is listed and removed as
+           before.
+      T-3 (G-3) Mid-upgrade, the old templates produce notes and a forgotten base line fails; after the upgrade,
+           the check is clean. Measured on a fixture at both points.
+      T-4 (G-4) An independent agent, given one sentence and the repository's address and nothing else, installs
+           into an empty project and upgrades a 0.16 project. Its notes name no step it had to guess about finding,
+           building or placing the kit, and it meets no refusal caused by following the README.
+      T-5 (G-5) A report entry migrated by an upgrade carries no pre-mortem and no red test, and a status the enum
+           admits. An upgrade report carries the efficacy line.
+      T-6 (G-6) All walks and checks pass, every check is exercised in a project's state and not only in this
+           repository, every test of an earlier contract that changes is named as a revision, and the commit holds
+           only this contract's paths.
+      untested: whether an agent on another model reads the new README the same way; and whether the install script
+           holds on a project whose skills were edited - the pioneer's project had none, so the fixtures carry that
+           case.
+      realigned: T-6, by the pioneer's addition to the pre-mortem ("we break no other part unintentional") - it
+           gained the two clauses about exercising every check in a project's state and naming every earlier test
+           that changes.
+    red_test: {broke: G-2, went_red: T-2, how: "the sparing rule's casebook lookup in install.sh was disabled; walk-007 state 179a failed - 'P-010 REMOVED', 147 passed 1 failed; restored from a saved copy; 148 passed 0 failed again", date: 2026-09-20}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: f1a80ff7-fa97-4c9a-af1b-c9d531906784
+    observations: [O-063, O-064, O-065, O-066]
+    revisions:
+      - what: "The release script wrote into the kit's own repository when given a relative path: it moved to the kit before creating the output folder, so `release.sh release-026` built the release inside the kit clone and reported success. The path is now resolved where the command was typed, before the script moves, and a path that lands inside the kit repository is refused with the reason and what to do instead. walk-007 gains state 182."
+        authorised_by: "inside T-4 as approved (an agent given only the repository's address 'meets no refusal caused by following the README' - here it met something worse, a silent success) and the pioneer's addition to the pre-mortem, 2026-09-19: 'we break no other part unintentional as we move forward.' Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-20
+        tests_changed: []
+      - what: "Three tests of earlier contracts changed, all because step 5's prose became a script: contract-010 T-3 (walk-007 state 136) and T-4 (state 137) looked for the sentences in the bootstrap skill that write the workspace grant and render the applications line - those sentences are now the script's, so the states test the skill's new wording and the script's, together; contract-017 T-7 (state 176) looked for the sentence about what is replaced last, which contract-018 rewrote without changing what it says. Nothing any of the three tested has stopped being true."
+        authorised_by: "inside UC-1 as approved ('Step 5 becomes the script and a short statement of what it does') and named under T-6 by the pioneer's addition to the pre-mortem."
+        date: 2026-09-20
+        tests_changed: ["contract-010 T-3 (walk-007 state 136)", "contract-010 T-4 (state 137)", "contract-017 T-7 (state 176)"]
+      - what: "The version moves to 0.26 (manifest, template base_kit_version, README, walk-007's version states), the README gains a Contract-018 bullet, and the wordings this contract replaces go on the retired list - including 'the six above', the line the pioneer's real upgrade miscounted, so no text of the kit can say it again."
+        authorised_by: "the standing rule ('bump it.', 2026-09-17) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-20
+        tests_changed: ["walk-007's version states (105, 112d)"]
+    # T-3's fixture states (179b, 179c) and T-2's (179a) were written during the build; T-4 was two independent
+    # agents given one sentence and the repository's address - one installing into an empty project, one upgrading
+    # a copy of a 0.16 project. Evidence: meta-mechanisms/tests/results/contract-018-T-1-T-6.md
+    cost: {turns: null, tokens: null, pioneer_minutes: null}    # the session was compacted mid-build, so the message count from approval to implemented was not kept; two independent agent runs beside it, the upgrade one about 175,000 tokens as the harness reported
     work_id: null

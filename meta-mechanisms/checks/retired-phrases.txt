@@ -63,3 +63,9 @@ as it stands in the file: the proposed disposition
 # contract-015: a path where a session id belongs, and a promise that rested on a script
 the session's `transcript` path
 which holds the review batch until the next session start
+
+# contract-018: prose an agent performed, and an instruction that had to be counted
+the six above
+**Copy the kit** into your project's
+and the settings merge, done by hand with the file tools
+porting any that the baseline shows were evolved here

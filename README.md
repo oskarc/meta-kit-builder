@@ -6,6 +6,30 @@ This repository holds the **base building kit**: the part that governs how any s
 
 ---
 
+## For an agent: install or upgrade this kit
+
+Four commands, wherever you are. `<kit>` is a clone of this repository — the release is built from its history, so a downloaded archive will not do; `<project>` is the project you are working in.
+
+```
+git clone https://github.com/oskarc/meta-kit-builder.git <kit>     # anywhere outside the project
+bash <kit>/meta-bootstrap/release.sh <release>                     # exactly the files that ship, with their hashes
+mkdir -p <project>/.claude/kit-incoming && cp -R <release>/. <project>/.claude/kit-incoming/   # upgrading
+mkdir -p <project>/.claude/skills       && cp -R <release>/. <project>/.claude/skills/         # installing, no kit here yet
+```
+
+Then, from the project's root, check the ground — it changes nothing and every refusal says why:
+
+```
+bash .claude/kit-incoming/meta-mechanisms/checks/preflight.sh check           # upgrading
+bash .claude/skills/meta-mechanisms/checks/preflight.sh check install        # installing
+```
+
+It will ask the pioneer to commit and push anything uncommitted before you start, and it says why: the run uses git for its snapshot, its way back and its merging. If a run ever stops halfway, `bash .claude/kit-incoming/meta-mechanisms/checks/rollback.sh` puts the project back exactly as it was and the run begins again from the start; a half-finished run is never continued.
+
+Then open `meta-bootstrap/SKILL.md` **in the release you just placed** and follow it: *Upgrading an Existing Install* for an upgrade, Step 1 onwards for an install. That skill is the procedure; everything below on this page is the practice it serves. It stops once, with one page of questions for the pioneer, and asks nothing after that.
+
+---
+
 ## What this is
 
 An organisation's standards are rarely written down or top of mind, but they are always known. They live as the developer's theory of the work — what good looks like here, and what would be wrong. The kit's job is to draw that theory out, progressively, as the work is done. What the developer notices, corrects and decides becomes skills that explain and checks that enforce. Those skills and checks together *are* the standard, and a kit that carries them can operate without its author present for every decision. The developer becomes the auditor and owner of the standard, not the executor of every system.
@@ -132,6 +156,7 @@ For reference, the same eight in one table:
 | `checks/G5-steps.sh` | run by the verifier and on upgrade | fails when a paragraph of the bootstrap skill outgrows 1,200 bytes — the procedure stays in steps |
 | `checks/preflight.sh`, `checks/rollback.sh` | run at the start of an install or upgrade; after one that stopped halfway | checks the ground and refuses with a reason; records the starting point; restores the project to it exactly |
 | `checks/merge.sh` | run on upgrade | puts your own lines onto the new kit's text with git's three-way merge, and reports a conflict with both versions; refreshes a record's header and keeps your notes beneath it |
+| `checks/install.sh` | run at step 5 of an install and of an upgrade, by the rehearsal and the real run alike | takes the classified files, deploys the agents, merges the settings, replaces the `CLAUDE.md` block, adds the folders and ignore entries, removes what the kit no longer ships — and refuses, changing nothing, rather than guess at a settings file or a block it cannot identify; a `P-NNN.sh` whose precedent is in your casebook is never removed |
 | `checks/hooks-selftest.sh` | run at the end of an install or upgrade | runs every hook once against a throwaway copy, so the test writes nothing into your records |
 | `checks/roots.sh`, `checks/residue.sh` | run on upgrade | the project's root nodes by id; the lines of a kit skill that are the project's own, re-wrapping set aside |
 
@@ -206,8 +231,8 @@ All skills follow `[layer]-[name]/SKILL.md`. The folder carries layer identity; 
 
 ## Getting started
 
-1. **Copy the kit** into your project's `.claude/skills/`: every `meta-*/` folder, plus `agents/` and `templates/`. Copy `.gitattributes` into the project root too, or add `*.sh text eol=lf` to the one you have — CRLF endings break the hooks.
-2. **Open a session.** The kit is not active yet: its own manifest declares a base `kit_type`, so every mechanism stays silent. The install cue lives in `meta-bootstrap`'s own description, because the map is not imported until bootstrap writes the CLAUDE.md block. Ask the agent to run meta-bootstrap if it doesn't offer.
+1. **Build a release and place it** in your project's `.claude/skills/` — the four commands under *For an agent* above. A raw copy of this repository is not a kit: it carries this repository's own records, and the install's ground check refuses it.
+2. **Open a session.** The kit is not active yet — the install writes the project's manifest last, and until then every mechanism stays silent. The install cue lives in `meta-bootstrap`'s own description, because the map is not imported until bootstrap writes the CLAUDE.md block. Ask the agent to run meta-bootstrap if it doesn't offer.
 3. Bootstrap reads the project first, then puts everything to you once: the practice, its reading of the project, and one sheet of questions — each with a default and what each answer changes — covering the applications your system spans, a library kit if it found one, the CLAUDE.md block, the settings merge, and whether to ratify the map now or later. *Defaults* is a complete answer. Then it asks for the founding contract, which has its own moment. After that nothing asks: it installs the hooks and agents, writes the CLAUDE.md block, seeds every instance file from its template — replacing the base kit's own copies, with the project manifest written last — and ends on a done block: what was verified, what waits on you and the words that summon it, what was not checked, start working.
 4. **Start a new session**, so the hooks load. From then on the kit runs itself.
 
@@ -252,7 +277,7 @@ Silence is not the measure; failure produces silence too. The ledger and the con
 
 ## Status
 
-The base building kit is at **v0.25**. Since the six-layer form was built and reviewed (contracts 001 and 002), fifteen contracts have moved it:
+The base building kit is at **v0.26**. Since the six-layer form was built and reviewed (contracts 001 and 002), sixteen contracts have moved it:
 
 - **Contract-003** ratified the founding statement's place in every contract: the bearing, read against `FOUNDING.md`, with redraw and reevaluation told apart.
 - **Contract-004** gave every skill the records it owns and a hook that notices when a record is edited without its skill being read, and made the consolidator read each candidate against the text of the skill it would change — so a learning can update or retire a rule as readily as add one. It also made acceptance tests the fourth tier of every contract, frozen at approval.
@@ -269,6 +294,7 @@ The base building kit is at **v0.25**. Since the six-layer form was built and re
 - **Contract-015** moved three promises off the agent's memory and onto mechanisms: the first review batch after an install or upgrade is held by the baseline that run wrote, whether or not the done script was remembered; a contract records the session's id, which the session-start hook names, so the auditor can find the session and no machine path is tracked; and a session launched in one installed kit that moves inside another is told so on every prompt. The walk that travels with the kit now tests which kit a hook acts on, both Windows path spellings, the hold and the session id. The contract gate states the pioneer's default: given no disappointment line, the pre-mortem stands as the line.
 - **Contract-016** put the upgrade procedure into steps without changing a word of it: the bootstrap skill's ten longest paragraphs — the rehearsal step had grown to 4,078 bytes in one — were split at line breaks only, proved identical to the old text once line breaks and list markers are set aside, and read by two independent readers, one given the old text and one the new. A check now fails when any paragraph of that skill outgrows 1,200 bytes.
 - **Contract-017** made the install and the upgrade follow how software is upgraded, after the procedure was checked against twelve standard practices taken from their own documentation (report-005) and rehearsed on three projects: a release is built by one command, with a list of what ships; a preflight checks the ground and refuses with a reason — on uncommitted work it asks the pioneer to commit and push, and says why; every run starts from a recorded point and one command restores it; the files an upgrade compares against are replaced last; the pioneer's own lines are merged onto the new kit by git, which the kit may now use; and the upgrade's tests write nothing into a project's records.
+- **Contract-018** came out of the first upgrade of a real project by an agent that had never seen this repository. It scored clean on both of the procedure's own instruments — three questions asked, no troubleshooting — while a required step was silently skipped, because the text named its files by counting bullets instead of listing them. So the step that installs files became a script both the rehearsal and the real run call, `checks/install.sh`, which refuses rather than guesses: it will not merge a settings file that is not the one the last install shipped, will not replace a `CLAUDE.md` block whose end is a judgement, and will not delete a `P-NNN.sh` whose precedent is in your casebook — the one place the procedure's default motion was deletion of something you made. The README gained the four commands an agent needs, the log learned that a report is not a contract, and the upgrade report gained one question: what can this project do now that it could not before.
 
 The first evaluation in a project other than this one is under way and not yet reported. Known limits are tracked in the manifest's gap queue: independence with a single pioneer; a pioneer who can always read the ledger themselves; the marker-key dependency; this repository not running its own mechanisms in a session; subagent inheritance of deny rules; transcript access for the auditor, and agents' own transcripts going unaudited; the reconstruction test's blinding resting on an instruction rather than a mechanism; the rebuild experiment awaiting its conditions; and a contradicting correction that is due at once still waiting for a batch to open.
 

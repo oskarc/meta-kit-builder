@@ -92,7 +92,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.25" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.25" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.25" || bad "105 version" "-"
+grep -q "^  version: 0.26" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.26" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -106,7 +106,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant fo
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.25" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.25 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.26" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.26 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -177,8 +177,8 @@ grep -q 'Applications in the system flow' "$SRC/meta-bootstrap/SKILL.md" && grep
 grep -q '^  workspace: \[\]' "$SRC/templates/MANIFEST.template.yaml" && grep -q '^  workspace: \[\]' "$SRC/meta-manifest/MANIFEST.yaml" && ok "135a the template and the kit's own manifest carry workspace (T-2)" || bad "135a workspace key" "-"
 mkrec; sed -i '/^  workspace: \[\]$/d' "$R/meta-manifest/MANIFEST.yaml"
 r=$(bash "$G2" "$R" "$R/templates/MANIFEST.template.yaml"); rc=$?; [ $rc != 0 ] && case "$r" in *MANIFEST.yaml*workspace*) ok "135b a manifest without workspace fails the check, naming the key (T-2)";; *) bad "135b message" "$r";; esac || bad "135b missing workspace not caught" "$r"
-grep -q 'The workspace grant' "$SRC/meta-bootstrap/SKILL.md" && grep -q '"additionalDirectories": \[\]' "$SRC/templates/settings.template.json" && grep -q 'rewrite the entries that equal a manifest `workspace` path' "$SRC/meta-bootstrap/SKILL.md" && ok "136 step 5c writes the grant, the template carries the key, the upgrade keeps the pioneer's entries (T-3)" || bad "136 the grant" "-"
-grep -q '^> Applications in the system flow, beyond this repository: __WORKSPACE__' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'rendering `__WORKSPACE__` from the manifest' "$SRC/meta-bootstrap/SKILL.md" && ok "137 the kit block carries the placeholder and step 5 renders it (T-4)" || bad "137 the block" "-"
+grep -q 'The workspace grant' "$SRC/meta-bootstrap/SKILL.md" && grep -q '"additionalDirectories": \[\]' "$SRC/templates/settings.template.json" && grep -q 'is rewritten from the manifest at every upgrade' "$SRC/meta-bootstrap/SKILL.md" && grep -q -F 'permissions.additionalDirectories' "$SRC/meta-mechanisms/checks/install.sh" && ok "136 step 5c writes the grant, the template carries the key, the upgrade keeps the pioneer's entries - since contract-018 install.sh does the writing (T-3)" || bad "136 the grant" "-"
+grep -q '^> Applications in the system flow, beyond this repository: __WORKSPACE__' "$SRC/meta-bootstrap/SKILL.md" && grep -q -F 'rendering the applications line from the manifest' "$SRC/meta-bootstrap/SKILL.md" && grep -q -F '__WORKSPACE__' "$SRC/meta-mechanisms/checks/install.sh" && ok "137 the kit block carries the placeholder and step 5 renders it - since contract-018 install.sh does the rendering (T-4)" || bad "137 the block" "-"
 # T-5: two installed kits, hooks anchored on A
 FX2=$(mktemp -d); A2="$FX2/kitA"; B2="$FX2/kitB"
 for rr in "$A2" "$B2"; do mkdir -p "$rr/.claude/skills/meta-mechanisms/hooks" "$rr/.claude/skills/meta-ledger" "$rr/.claude/skills/meta-manifest" "$rr/.claude/skills/meta-map" "$rr/.claude/skills/meta-contract-before-execution" "$rr/.claude/skills/meta-drift-eventlog" "$rr/sub"; cp "$SRC"/meta-mechanisms/hooks/*.sh "$rr/.claude/skills/meta-mechanisms/hooks/"; printf 'kit_type: project\nnodes:\n  - {id: base-map, kind: map, skill_file: meta-map/SKILL.md, load: always, triggers: [], owns: [meta-map/]}\n' > "$rr/.claude/skills/meta-manifest/MANIFEST.yaml"; printf 'x\n' > "$rr/.claude/skills/meta-map/SKILL.md"; printf 'contracts: []\n' > "$rr/.claude/skills/meta-contract-before-execution/CONTRACT-LOG.yaml"; done
@@ -356,7 +356,7 @@ printf '# all mine\n# every line\n\nentries: []\n' > "$M17/rec2"; r=$(bash "$C17
 # tests that write nothing
 grep -q 'hooks-selftest.sh' "$SRC/meta-bootstrap/SKILL.md" && grep -q 'tests/walk.sh' "$SRC/meta-bootstrap/SKILL.md" && ! grep -q "echo '{\"source\":\"startup\"}'" "$SRC/meta-bootstrap/SKILL.md" && grep -q 'cd "$FX" && printf' "$SRC/meta-mechanisms/tests/walk.sh" && ok "175 the procedure tests the hooks on a throwaway copy and runs the walk, the walk runs inside its own fixture, and no step runs a hook against the live project (T-5, G-4)" || bad "175 tests without side effects" "-"
 B17="$SRC/meta-bootstrap/SKILL.md"
-grep -q -F 'replaced last, in step 9' "$B17" && grep -q -F '**but not yet `templates/` and not yet the installed copies' "$B17" && grep -q -F 'A half-finished upgrade is never continued' "$B17" && grep -q -F 'preflight.sh begin install' "$B17" && grep -q -F 'seven standing questions' "$B17" && ! grep -q -F 'tree-or-commit question (step 1)' "$B17" && grep -q -F 'and git, by the pioneer' "$SRC/meta-mechanisms/SKILL.md" && ok "176 the text: bases replaced last, a run never continued, the install uses the same preflight, seven standing questions, git in the portability rule (T-7, UC-3, UC-4, UC-8)" || bad "176 text" "-"
+grep -q -F 'replaced last, in step 9' "$B17" && grep -q -F 'they are what steps 7 and 8 compare against, and they are replaced last, in step 9' "$B17" && grep -q -F 'A half-finished upgrade is never continued' "$B17" && grep -q -F 'preflight.sh begin install' "$B17" && grep -q -F 'seven standing questions' "$B17" && ! grep -q -F 'tree-or-commit question (step 1)' "$B17" && grep -q -F 'and git, by the pioneer' "$SRC/meta-mechanisms/SKILL.md" && ok "176 the text: bases replaced last, a run never continued, the install uses the same preflight, seven standing questions, git in the portability rule (T-7, UC-3, UC-4, UC-8)" || bad "176 text" "-"
 # found by the first independent rehearsal of this contract's own build (T-5, first run), each now a state
 n=0; for a in yours kit both; do bash "$C17/merge.sh" --take $a "$M17/y3" "$M17/base" "$M17/new" "$M17/t.$a" >/dev/null && ! grep -q -E '^(<<<<<<<|>>>>>>>) ' "$M17/t.$a" && n=$((n+1)); done
 grep -q 'and ours' "$M17/t.yours" && ! grep -q 'reworded by the kit' "$M17/t.yours" && grep -q 'reworded by the kit' "$M17/t.kit" && ! grep -q 'and ours' "$M17/t.kit" && [ "$(grep -n 'reworded by the kit\|and ours' "$M17/t.both" | cut -d: -f2- | tr '\n' '|')" = "line two of the kit, reworded by the kit|line two of the kit, and ours|" ] && [ "$n" = 3 ] && ok "177a a conflict is settled by the tool as the sheet answered - yours, the kit's, or both with the kit's lines first - and no marker is left (T-5)" || bad "177a merge --take" "$n $(cat "$M17/t.both" | tr '\n' '|' | cut -c1-200)"
@@ -370,6 +370,79 @@ mkdir -p "$P17/docs/reports"; echo log > "$P17/docs/reports/rehearsal-2026-01-01
 echo other > "$P17/docs/reports/notes.md"; r=$(cd "$P17" && bash $PF17 check); rc=$?; rm -rf "$P17/docs"
 [ $rc = 1 ] && ok "177e ...while any other uncommitted file beside it still does (T-2)" || bad "177e" "$r"
 rm -rf "$T17"
+
+echo "=== contract-018: the install step is a command, and the rules that mattered are checks ==="
+T18=$(mktemp -d); C18="$SRC/meta-mechanisms/checks"; G18="git -c user.name=walk -c user.email=walk@example.invalid"
+bash "$SRC/meta-bootstrap/release.sh" --from-last-commit "$T18/rel" >/dev/null 2>&1
+for f in install.sh preflight.sh rollback.sh merge.sh hooks-selftest.sh G3-retired.sh; do cp "$C18/$f" "$T18/rel/meta-mechanisms/checks/$f"; done
+cp "$SRC/meta-bootstrap/SKILL.md" "$T18/rel/meta-bootstrap/SKILL.md"; cp "$SRC/templates/settings.template.json" "$T18/rel/templates/settings.template.json"
+( cd "$T18/rel" && find . -type f ! -name RELEASE ! -name RELEASE.sha1 -print0 | sort -z | while IFS= read -r -d '' f; do printf '%s  %s\n' "$(tr -d '\r' < "$f" | sha1sum | cut -c1-40)" "${f#./}"; done > RELEASE.sha1 )
+IN="$T18/rel/meta-mechanisms/checks/install.sh"
+# a project: its settings are the ones its last install shipped, its CLAUDE.md carries the markers, and it holds
+# two precedent checks - one whose precedent is in its own casebook, one whose is not
+mkp18() {
+  local P="$1"; rm -rf "$P"; mkdir -p "$P/.claude/skills/templates" "$P/.claude/skills/meta-casebook" "$P/.claude/skills/meta-mechanisms/checks" "$P/.claude/skills/meta-bootstrap/history" "$P/.claude/skills/agents" "$P/.claude/skills/meta-map" "$P/.claude/agents"
+  cp "$T18/rel/templates/settings.template.json" "$P/.claude/skills/templates/settings.template.json"
+  cp "$T18/rel/templates/settings.template.json" "$P/.claude/settings.json"
+  printf 'precedents:\n  - prec_id: P-010\n    status: active\nscenarios: []\n' > "$P/.claude/skills/meta-casebook/CASEBOOK.yaml"
+  printf 'exit 0\n' > "$P/.claude/skills/meta-mechanisms/checks/P-010.sh"
+  printf 'exit 0\n' > "$P/.claude/skills/meta-mechanisms/checks/P-004.sh"
+  printf 'old\n' > "$P/.claude/skills/meta-bootstrap/history/regenerate.sh"
+  printf 'the old agent\n' > "$P/.claude/skills/agents/kit-verifier.md"; cp "$P/.claude/skills/agents/kit-verifier.md" "$P/.claude/agents/kit-verifier.md"
+  printf 'the old map skill\n' > "$P/.claude/skills/meta-map/SKILL.md"
+  printf '<!-- kit-block:start -->\nold block\n<!-- kit-block:end -->\n\n# The project\n\nNotes.\n' > "$P/CLAUDE.md"
+  printf '.claude/kit-sealed/\n' > "$P/.gitignore"; printf '*.sh text eol=lf\n' > "$P/.gitattributes"
+}
+h18() { ( cd "$1" && find .claude CLAUDE.md .gitignore .gitattributes -type f -print0 | sort -z | xargs -0 sha1sum | sha1sum | cut -c1-16 ); }
+printf 'take meta-map/SKILL.md\ntake agents/kit-verifier.md\nstale meta-bootstrap/history/regenerate.sh\nstale meta-mechanisms/checks/P-010.sh\nstale meta-mechanisms/checks/P-004.sh\n' > "$T18/plan"
+P18="$T18/p"; mkp18 "$P18"; b=$(h18 "$P18")
+printf 'take templates/MAP.template.md\n' > "$T18/plan.bad"
+r=$(cd "$P18" && bash "$IN" upgrade "$T18/plan.bad" 2>&1); rc=$?
+[ $rc = 1 ] && [ "$(h18 "$P18")" = "$b" ] && case "$r" in *"replaced last"*"changed nothing"*) ok "178a a plan that names a template or an installed copy is refused, and the project is untouched (T-1)";; *) bad "178a message" "$r";; esac || bad "178a template not refused" "$rc"
+r=$(cd "$P18" && bash "$IN" upgrade "$T18/plan" 2>&1); rc=$?
+taken=$(cmp -s "$T18/rel/meta-map/SKILL.md" "$P18/.claude/skills/meta-map/SKILL.md" && echo y || echo n)
+dep=$(cmp -s "$T18/rel/agents/kit-verifier.md" "$P18/.claude/agents/kit-verifier.md" && echo y || echo n)
+set18=$(cmp -s "$T18/rel/templates/settings.template.json" "$P18/.claude/settings.json" && echo y || echo n)
+blk18=$(grep -c 'kit-block:start' "$P18/CLAUDE.md"); kept18=$(grep -c '# The project' "$P18/CLAUDE.md")
+[ $rc = 0 ] && [ "$taken$dep$set18" = yyy ] && [ "$blk18" = 1 ] && [ "$kept18" = 1 ] && [ ! -e "$P18/.claude/skills/meta-bootstrap/history/regenerate.sh" ] && [ -f "$P18/.claude/skills/meta-ledger/batches/.gitkeep" ] && grep -q 'session-started' "$P18/.gitignore" && ok "178b it takes the planned files, deploys the agent beside them, writes the settings, replaces the kit block and keeps what follows it, adds the folders and the ignore entries, removes the stale (T-1)" || bad "178b install.sh upgrade" "$rc taken=$taken dep=$dep settings=$set18 block=$blk18 kept=$kept18"
+[ -f "$P18/.claude/skills/meta-mechanisms/checks/P-010.sh" ] && [ ! -e "$P18/.claude/skills/meta-mechanisms/checks/P-004.sh" ] && case "$r" in *"spared"*"P-010"*"casebook"*) ok "179a a precedent check whose precedent is in the project's casebook is spared and named; one whose is not is removed (T-2)";; *) bad "179a spared message" "$r";; esac || bad "179a sparing" "P-010 $([ -f "$P18/.claude/skills/meta-mechanisms/checks/P-010.sh" ] && echo kept || echo REMOVED)"
+Q18="$T18/q"; mkp18 "$Q18"; sed -i 's/"permissions"/"env": {"OURS": "1"}, "permissions"/' "$Q18/.claude/settings.json"; b=$(h18 "$Q18")
+r=$(cd "$Q18" && bash "$IN" upgrade "$T18/plan" 2>&1); rc=$?
+[ $rc = 1 ] && [ "$(h18 "$Q18")" = "$b" ] && case "$r" in *"not the one the last install shipped"*"--skip-settings"*) ok "178c a settings file with something of the project's own in it is refused, with what to do, and nothing at all is changed (T-1)";; *) bad "178c message" "$r";; esac || bad "178c settings not refused" "$rc"
+r=$(cd "$Q18" && bash "$IN" upgrade "$T18/plan" --skip-settings 2>&1); rc=$?
+[ $rc = 0 ] && case "$r" in *"left alone"*) ok "178d ...and with --skip-settings it does the rest and says the settings were left to the agent (T-1)";; *) bad "178d message" "$r";; esac || bad "178d skip-settings" "$rc"
+R18="$T18/r"; mkp18 "$R18"; printf '# Kit-Driven Development\n\nLoad these.\n\n**Our own rule.** Run the linter first.\n\n---\n\n# The project\n' > "$R18/CLAUDE.md"; b=$(h18 "$R18")
+r=$(cd "$R18" && bash "$IN" upgrade "$T18/plan" 2>&1); rc=$?
+[ $rc = 1 ] && [ "$(h18 "$R18")" = "$b" ] && case "$r" in *"no kit-block markers"*"Our own rule"*) ok "178e a CLAUDE.md with no markers is refused, and the span it would have replaced is printed so the pioneer's own paragraph is seen (T-1)";; *) bad "178e message" "$r";; esac || bad "178e markerless" "$rc"
+F18="$T18/fresh"; mkdir -p "$F18/.claude/skills"; cp -R "$T18/rel/." "$F18/.claude/skills/"; printf '../shared — the shared library\n' > "$T18/ws"
+r=$(cd "$F18" && bash "$IN" install --workspace "$T18/ws" 2>&1); rc=$?
+n18=$(ls "$F18/.claude/agents" 2>/dev/null | grep -c '\.md$'); inst18=$(ls "$F18/.claude/skills/installed" 2>/dev/null | wc -l | tr -d ' ')
+[ $rc = 0 ] && [ "$n18" -ge 7 ] && [ "$inst18" -ge 15 ] && grep -q '"additionalDirectories": \["../shared"\]' "$F18/.claude/settings.json" && grep -q 'Applications in the system flow, beyond this repository: ../shared' "$F18/CLAUDE.md" && ok "178f an install deploys the agents, writes the installed copies the next upgrade measures against, grants the application in the settings and names it in the kit block (T-1)" || bad "178f install mode" "$rc agents=$n18 installed=$inst18"
+# T-3: the check at both points of an upgrade, in a project (contract-018 UC-3)
+GQ="$T18/g3b"; mkdir -p "$GQ/meta-x" "$GQ/installed/meta-x" "$GQ/templates" "$GQ/meta-mechanisms/checks"
+cp "$C18/G3-retired.sh" "$C18/retired-phrases.txt" "$GQ/meta-mechanisms/checks/"
+printf 'A kit sentence.\nThe base the upgrade forgot still says three-tier here.\n' > "$GQ/installed/meta-x/SKILL.md"
+cp "$GQ/installed/meta-x/SKILL.md" "$GQ/meta-x/SKILL.md"
+printf 'An old template still says it instructs, it does not bind here.\n' > "$GQ/templates/X.template.md"
+r=$(bash "$GQ/meta-mechanisms/checks/G3-retired.sh"); rc=$?
+nte=$(printf "%s
+" "$r" | grep -c "note: templates/X.template.md.*keeps no shipped copy"); brk=$(printf "%s
+" "$r" | grep -c "G3-retired broken: meta-x/SKILL.md:2")
+[ $rc = 1 ] && [ "$nte" = 1 ] && [ "$brk" = 1 ] && ok "179b mid-upgrade, the old template is a note because whose its line is cannot be told, and a base line the upgrade forgot still fails (T-3)" || bad "179b mid-upgrade" "rc=$rc note=$nte broken=$brk :: $r"
+printf 'A kit sentence.\nThe base now says what the kit says.\n' > "$GQ/installed/meta-x/SKILL.md"
+cp "$GQ/installed/meta-x/SKILL.md" "$GQ/meta-x/SKILL.md"
+printf 'The new template says what the kit says now.\n' > "$GQ/templates/X.template.md"
+r=$(bash "$GQ/meta-mechanisms/checks/G3-retired.sh"); rc=$?
+[ $rc = 0 ] && [ -z "$r" ] && ok "179c ...and once step 9 has replaced both, the same check is clean with nothing left to read (T-3)" || bad "179c after the upgrade" "rc=$rc $r"
+grep -q -F 'install.sh upgrade <plan>' "$SRC/meta-bootstrap/SKILL.md" && grep -q -F 'What it refuses' "$SRC/meta-bootstrap/SKILL.md" && ! grep -q -F 'the settings merge, done by hand with the file tools' "$SRC/meta-bootstrap/SKILL.md" && grep -q -F 'For an agent: install or upgrade this kit' "$SRC/README.md" && grep -q -F 'release.sh <release>' "$SRC/README.md" && grep -q -F 'mkdir -p <project>/.claude/kit-incoming' "$SRC/README.md" && grep -q -F 'mkdir -p <project>/.claude/skills' "$SRC/README.md" && grep -q -F 'install.sh install [--workspace <file>]' "$SRC/meta-bootstrap/SKILL.md" && ! grep -q -F "**Copy the kit** into your project" "$SRC/README.md" && ok "180 step 5 is the command and its refusals; the README opens with the four commands an agent needs, and no longer tells it to copy the repository (T-1, T-4)" || bad "180 the text" "-"
+grep -q -F 'The records are eight:' "$SRC/meta-bootstrap/SKILL.md" && grep -q -F 'an entry that is an analysis report is left alone' "$SRC/meta-bootstrap/SKILL.md" && grep -q -F '| published' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q -F 'what can this project do now that it could not do before?' "$SRC/meta-bootstrap/SKILL.md" && ok "181 the eight records are named, a report keeps no pre-mortem or red test, the enum admits what a report is, and the report asks what changed for the project (T-5, UC-6)" || bad "181 records and report" "-"
+# the release goes where the command was typed, and never into the kit itself (contract-018, from the upgrade rehearsal)
+RD18=$(mktemp -d)
+( cd "$RD18" && bash "$SRC/meta-bootstrap/release.sh" --from-last-commit rel-rel >/dev/null 2>&1 ) || true
+r=$( cd "$RD18" && bash "$SRC/meta-bootstrap/release.sh" --from-last-commit "$SRC/rel-inside" 2>&1 ); rc=$?
+[ -f "$RD18/rel-rel/RELEASE" ] && [ ! -e "$SRC/rel-rel" ] && [ $rc = 1 ] && [ ! -e "$SRC/rel-inside" ] && case "$r" in *"inside the kit repository"*"folder of your own"*) ok "182 a release built with a relative path lands where the command was typed, and one aimed inside the kit repository is refused with nothing written (T-4)";; *) bad "182 message" "$r";; esac || bad "182 release path" "rc=$rc relative=$([ -f "$RD18/rel-rel/RELEASE" ] && echo ok || echo MISSING) inside=$([ -e "$SRC/rel-inside" ] && echo WRITTEN || echo none)"
+rm -rf "$RD18"
+rm -rf "$T18"
 
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

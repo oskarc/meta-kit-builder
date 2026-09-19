@@ -1108,15 +1108,77 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-063
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-018
+    refs: [UC-1, UC-2, meta-mechanisms/checks/install.sh]
+    statement: |
+      a rule that lives as a sentence inside a paragraph is performed differently by different readers; the same
+      rule written as a refusal inside the script that acts cannot be. The stale rule had a clause saying a
+      project's own precedent check is never stale; it was still possible to delete one by answering the stale
+      line. As a refusal in the script that deletes, it is not possible.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-064
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-018
+    refs: [T-4, meta-bootstrap/SKILL.md, step 5]
+    statement: |
+      a defect survives in the half of the text the draw did not look at. The draw read the upgrade path, where
+      step 5 names the script; the install path went on describing the same step as motions to perform by hand and
+      never named it. Two runs of the same step would have differed - which is the defect the contract was drawn
+      against, still standing inside the contract's own work. An agent arriving cold at the other path found it in
+      one reading.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-065
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-018
+    refs: [T-4, meta-bootstrap/release.sh]
+    statement: |
+      a command that reports success is not evidence that it did the right thing. The release script moved to the
+      kit before creating the output folder, so a relative path built the release inside the kit's own clone - and
+      it printed "release 0.26 built ... 82 files". The only sign was the absolute path inside its own success
+      sentence. A path is read where the command was typed; a script that moves first has to resolve it first.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-066
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-018
+    refs: [T-4, G-4, README.md]
+    statement: |
+      the cheapest test of a procedure is an agent that has never read it, given the address and one sentence. Two
+      such runs found three defects in text that had passed every walk and every check, because a walk tests what
+      it was told to look for and an arriving agent tests what the text actually makes it do. Both stopped exactly
+      where the procedure says to stop, which is the other half of the result.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
-
-batches: []
-
-map_proposals: []
-
-audits: []
-
-scores:
-  updated: null
-  contracts: []
-  coincidence: []          # migrated 2026-09-13 (contract-007 step 7): the three retired score keys removed

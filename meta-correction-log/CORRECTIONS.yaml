@@ -685,6 +685,71 @@ corrections:
       does) and C-019 (what it is, why now, what is asked): a precondition is also something put in front of the
       pioneer, and it carries its why.
 
+  - corr_id: C-024
+    date: 2026-09-19
+    contract_id: contract-017
+    moment: M-25
+    grade: frame-reset
+    intervention: redirected
+    agent_offered: |
+      On handing over contract-017, five numbered steps for trying the real upgrade in another repository: run the
+      release script here, copy the folder into the other project's .claude/kit-incoming/, open a session there, what
+      the agent will do first, and the command that restores a run that stopped halfway.
+    pioneer_said: |
+      "i will just tell the agent in the other repo to look at the github repo and upgrade, it will figure out what
+      it needs to do. that is the only way the upgrade is not tied to knowledge only you or i have."
+    reason_given: |
+      "that is the only way the upgrade is not tied to knowledge only you or i have."
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      The agent handed the pioneer a procedure that lived in its own message. The pioneer's test of a kit that
+      travels is that an agent who has never seen this session, told one sentence and given the public repository,
+      can do the upgrade. Read that way, the repository fails today: its README gives the upgrade as one dense
+      paragraph for a reader who already knows, never says to clone, and its install steps still describe a raw
+      copy that contract-017's own preflight refuses. Same family as P-008 (written so that someone new can
+      follow) - here the someone new is an agent.
+
+  - corr_id: C-025
+    date: 2026-09-19
+    contract_id: contract-018
+    moment: M-04
+    grade: frame-reset
+    intervention: redirected
+    agent_offered: |
+      After reading the pioneer's real upgrade report, a numbered list of six pieces of work headed
+      "Contract-018, redrawn from their evidence", each a sentence or two, with two items named as left for
+      later - and then, in the same breath, "is this approved?"
+    pioneer_said: |
+      "Only a contract can be approved"
+    reason_given: |
+      none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      The gate takes a drawn contract and nothing else: bearing, precedent check, the four tiers, and the
+      pioneer's words at the gate. A list of intended work cannot be approved because there is nothing to freeze
+      at approval, nothing a deviation can be measured against, and nothing for the verifier to check clause by
+      clause. The agent had drawn contract-018 properly once, then let the redraw slip back into a summary
+      because the evidence was new. Same family as C-014 (contracts direct and concise) - concise is a property
+      of a contract, not a licence to present something else.
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no
