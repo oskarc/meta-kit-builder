@@ -1,0 +1,31 @@
+# What a release leaves out (contract-017 G-1). One path or glob per line, relative to the repository root.
+# These are this repository's own records and its own test evidence: a project never receives another project's
+# records, and the evidence reads this repository's templates, docs and history. release.sh removes them from the
+# exported folder; nothing else decides what ships. The version a release carries is written into its RELEASE file,
+# so the manifest - a record - does not have to travel to say it.
+
+# this repository's records
+meta-manifest/MANIFEST.yaml
+meta-manifest/INSTALLED.sha1
+meta-map/MAP.md
+meta-founding-contract/FOUNDING.md
+meta-contract-before-execution/CONTRACT-LOG.yaml
+meta-correction-log/CORRECTIONS.yaml
+meta-casebook/CASEBOOK.yaml
+meta-casebook/reconstruction
+meta-drift-eventlog/DRIFTLOG.yaml
+meta-learning/LEARNINGLOG.yaml
+meta-ledger/LEDGER.yaml
+meta-ledger/batches
+meta-ledger/telemetry.log
+
+# this repository's evidence and the tools that only work inside it
+meta-mechanisms/tests/results
+meta-mechanisms/tests/fixtures
+meta-mechanisms/tests/walk-004.sh
+meta-mechanisms/tests/walk-007.sh
+meta-mechanisms/tests/same-words.sh
+meta-mechanisms/checks/P-*.sh
+meta-bootstrap/release.sh
+meta-bootstrap/not-shipped.txt
+meta-bootstrap/history/regenerate.sh

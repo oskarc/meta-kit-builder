@@ -3423,6 +3423,146 @@ contracts:
     cost: {turns: 8, tokens: 177000, pioneer_minutes: null}    # tokens: the third rehearsal's agent, as the harness reported; the main session's not measured
     work_id: null
     follows: report-004
-    led_to: []
+    led_to: [contract-017]
     file: docs/reports/report-005-upgrade-against-standard-practice.html
     artifact: https://claude.ai/artifact/UWCFq2WCoUR33Z9YAzBkgr
+
+  - contract_id: contract-017
+    feature: The kit is installed and upgraded the way software is upgraded - a built release with a list of what ships, a preflight that refuses with a reason, a snapshot and a named way back, comparison bases replaced last, git's three-way merge for the pioneer's own lines, and tests that write nothing into a project's records
+    type: contract
+    follows: report-005            # and report-004; the four missing practices and the three rehearsals' findings
+    led_to: []
+    date_proposed: 2026-09-19
+    date_approved: 2026-09-19
+    approval: approved-at-gate     # pioneer: "The contract is approved" (2026-09-19); the ruling "the kit may use git." given the turn before
+    bearing: |
+      Installing and upgrading the kit is a software upgrade, and standard practice for that is long settled. The
+      procedure follows five of twelve standard practices and lacks four. The bet: adopting the missing four from
+      the documented practice closes what three rehearsals found, and what a fourth would have.
+    # Bears against paragraph five of the founding statement (the practice guides the pioneer): the upgrade is how
+    # the practice reaches a project, and the pioneer's words name what it is - "we should adhere to what it
+    # actually is, upgrading software. It has been solve so completely." Spec lock skipped: the design was surveyed
+    # in report-005. Precedents: applies P-001 (step back and survey before fixing - the survey was report-005),
+    # P-004 (no step may depend on a command only a human can run), P-006 (when text outgrows its limit the text
+    # shrinks and the limit stays - the bootstrap skill's 1,200-byte paragraphs). The pioneer's ruling of
+    # 2026-09-19: "the kit may use git."
+    tier_1: |
+      Staging is one command; it produces exactly the files that ship, with a list of them and their checksums, and
+      the upgrade refuses a staged folder that does not match its list.
+      The upgrade checks the ground before touching anything and refuses, in a plain sentence that says why, unless
+      git is present, the staged kit is whole, no review batch is open and no other upgrade is in progress. Where the
+      pioneer has uncommitted changes it warns and asks them to commit and push, and says why: the upgrade uses git.
+      There is always a way back: the run starts from a recorded point, one command restores .claude exactly, and a
+      run that dies halfway is restored and started again, never continued.
+      Nothing is replaced while it is still needed for comparison.
+      Reapplying the pioneer's lines is done by git's three-way merge, and a conflict is found by the tool and shown
+      on the sheet with both versions.
+      The upgrade's own tests write nothing into the project's records.
+    tier_2: |
+      UC-1 A built release. A release script in the kit repository exports the shipping files from a commit and
+           writes the file list with checksums and the version. The kit's own records and test evidence are marked
+           as not shipping, with git's own attribute. The test builder uses the same script.
+      UC-2 Preflight and lock. One script makes the checks, records the starting point in a lock file, and the lock
+           is removed at the end. The session-start hook reports a lock left behind. On uncommitted changes the
+           script warns and asks the pioneer to commit and push, because the upgrade will use git (C-023).
+      UC-3 Snapshot and rollback. In a repository the snapshot is the recorded commit; outside one, a kept copy. The
+           procedure names the restore command. The sentence that says the upgrade runs only once is replaced.
+      UC-4 Order. Migration and merging come first; the old templates and the installed copies are replaced last.
+      UC-5 The merge. A small wrapper around git merge-file, for skills and for record headers. The residue script
+           stays for showing the pioneer their own lines and for old installs with no copy of what was shipped. The
+           kit's portability rule gains git.
+      UC-6 Tests without side effects. The hook test runs against a throwaway copy. The walk sends a working
+           directory the way a real event does, and the procedure runs it.
+      UC-7 From the rehearsals, what the above does not cover: a stand-in answer for every standing question, and
+           the rehearsal log lists every figure shown to the pioneer beside the command that produced it.
+      UC-8 (from the pre-mortem: wide) The install starts from the same release and uses the same preflight and
+           snapshot as the upgrade. And the second real kind of project - an install from before the map and the
+           hooks - is rehearsed on a copy as well as the first.
+      The pioneer chose, of two options put with their effects: a clean tree is required, and the tree-or-commit
+           question leaves the sheet. Not included, each its own later decision: installing the rehearsed copy
+           instead of repeating the run; migrations chosen by version; keeping the kit's program apart from the
+           project's data; the gaps only an old-format baseline would meet (report-004).
+    tier_3: |
+      G-1 (UC-1) a release holds nothing of this repository's own records or evidence, and never a machine path.
+      G-2 (UC-2, UC-3) a refused or restored project is byte for byte what it was.
+      G-3 (UC-4, UC-5) no word of the pioneer's is lost or moved without the sheet showing it; old installs with no
+           base still work.
+      G-4 (UC-6) a test run leaves the project's records and telemetry untouched.
+      G-5 (all) the bootstrap skill stays within its paragraph limit; every walk and check passes; the contract is
+           committed alone. applies P-006.
+      G-6 (UC-8, from the pre-mortem: long-term) nothing this contract builds has to be undone by the three shape
+           changes it leaves for later.
+    disappointment: |
+      None given at the gate; by the pioneer's standing default of 2026-09-19 the pre-mortem's words stand as the
+      line for G-1 to G-6: "if we stand with problems in the upgrade flow that should have been caught by looking
+      wide and longterm."
+    premortem: |
+      "Pre mortem is if we stand with problems in the upgrade flow that should have been caught by looking wide and
+      longterm." - the pioneer, 2026-09-19. Wide: the draw looked at the upgrade and at one real project; the
+      install is the same flow and the second real project is a different kind of install - both are now inside the
+      contract (UC-8, T-6). Long-term: three shape changes are left for later, and a contract that blocks them would
+      be this failure - so G-6 and T-8.
+    tier_4: |
+      T-1 (G-1) The release script, run here, produces a folder whose files equal its own list and which holds none
+           of this repository's records. Preflight refuses a raw copy of the repository and a staged folder with one
+           file removed.
+      T-2 (G-2) In test projects: uncommitted changes, an open batch, a leftover lock and a missing git are each
+           refused in a plain sentence, nothing changed; the sentence for uncommitted changes asks the pioneer to
+           commit and push and says the upgrade uses git. A clean project passes and its lock names the starting
+           point.
+      T-3 (G-2) An upgrade stopped after the install step is restored by the named command; the tree hashes
+           identical to before. The same in a project that is not a repository, from its kept copy.
+      T-4 (G-3) The wrapper: an added passage is carried onto the new skill; an edit inside a kit sentence keeps its
+           place; an edit the new kit also rewrote comes back as a counted conflict with both versions. A record
+           header with kept notes comes out with exactly its own notes.
+      T-5 (G-3, G-4) An independent agent upgrades a test project that has kept header notes, one added passage and
+           one conflicting edit, following only the text: no step the text does not describe; the conflict on the
+           sheet; headers right; the hold on the first batch working without the done script; the project's
+           telemetry untouched by the tests.
+      T-6 (all) The copy of the first downstream project is rehearsed again with this kit and passes the
+           procedure's own rule; the pioneer answers the sheet. A copy of the second real project - installed before
+           the map and the hooks - is rehearsed too; what it finds is fixed where it falls inside this contract's
+           practices and recorded where it does not.
+      T-7 (G-5) All walks and checks pass. The commit holds only this contract's paths.
+      T-8 (G-6) For each of the three changes left for later, the results state what in this contract it would build
+           on and what it would have to undo. Nothing is undone.
+      untested: any hook firing live in Claude Code; a push to a remote, which preflight asks for and cannot see
+           happen.
+      realigned: T-2 by C-023 (the warn-and-ask sentence, with its reason); T-3 gained the project without a
+           repository, T-6 the second real project, and T-8 was added, by the pre-mortem ("wide and longterm").
+      T-6 as it stood at implemented: the copy of the first downstream project was rehearsed again with this kit and
+           passed the procedure's own rule - 5 decisions, 1 file that genuinely differed, 0 steps the text did not
+           describe (before this contract: 5). Its sheet was put to the pioneer. The pioneer did not answer it on
+           the copy; their words, 2026-09-19: "We should commit and push our work so i can try a real upgrade in
+           another repo. If i find issues we will take them on." So the second half of T-6 - the pioneer answering
+           the sheet, and the real run that follows - is left to that real upgrade, which is a stronger test than
+           the copy, and is not claimed here.
+    red_test: {broke: G-2, went_red: T-3, how: "rollback.sh stopped removing what a halted run had added under .claude/; walk-007 state 173a failed - the tree hashed differently before and after, 134 passed 2 failed; restored from a saved copy; green again", date: 2026-09-19}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: f1a80ff7-fa97-4c9a-af1b-c9d531906784
+    observations: [O-059, O-060, O-061, O-062]
+    revisions:
+      - what: "What does not ship is a list the release script reads (meta-bootstrap/not-shipped.txt), not git's export-ignore attribute as the draw said. The attribute governs every archive of the repository, including the ZIP a newcomer downloads from the hosting site: that download would silently lose the kit's own records, which the README points at as the worked example of the practice."
+        authorised_by: "inside UC-1 as approved; a change of means, not of what ships. Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-19
+        tests_changed: []
+      - what: "Four tests of earlier contracts changed, all because the pioneer took the tree-or-commit question off the sheet (a clean commit is asked for by the preflight instead) and the standing questions went from eight to seven: walk-007 state 131 (contract-009 T-5) now tests that the question is gone and the preflight asks; state 134 (contract-010 T-1) and state 156 (contract-013 T-5) search for 'seven standing questions'; state 143b (contract-011 T-3) counts nine sheet lines, not ten. The retired list swaps 'seven standing questions' for 'eight standing questions'."
+        authorised_by: "Pioneer, 2026-09-19 (C-023): 'The upgrade should warn and ask the pioneer to commit and push any ongoing changes BECAUSE the upgrade will use git.' - their choice between the two options the draw put, with its stated effect: 'the sheet loses one standing question'."
+        date: 2026-09-19
+        tests_changed: ["contract-009 T-5 (walk-007 state 131)", "contract-010 T-1 (state 134)", "contract-011 T-3 (state 143b)", "contract-013 T-5 (state 156)"]
+      - what: "A check of contract-013 changed its behaviour inside a project: G3-retired.sh holds only the kit's text to its list. A line that does not stand in the kit's shipped copy of the file (installed/ for a skill, the map template for the map) is the pioneer's and is reported as a note. In this repository, and in an install with no shipped copies, every line counts as before. Found by T-5's first run: two of the three answers to a conflict could not be carried out, because the pioneer's kept line held a retired wording."
+        authorised_by: "inside G-3 as approved ('no word of the pioneer's is lost'), and C-013's baseline that a project which changes a kit skill decides per file. Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-19
+        tests_changed: []
+      - what: "The independent rehearsals (T-5 twice, T-6 on copies of two real projects) moved the build beyond the draw. Added: merge.sh --take yours|kit|both, and 'both' as a third resolution of a conflict; a rehearsal copy takes the kit's side of a conflict and the sheet still carries it, with the kit's as its default; preflight sets the rehearsal log aside; a rehearsal takes no lock and writes no done block; .gitkeep in the two agent folders; the founding statement's moment on the upgrade path ('not yet given', never a deferral nobody gave); a reapplied template keeps its merged file and a template with no yardstick is replaced and named in the report; a paragraph of the pioneer's inside an old unmarked kit block is carried over; step 9 runs the checks before the comparison bases are replaced; the sheet's lines are numbered as they stand; merge.sh --header prints the lines it keeps. Recorded in tests/results/contract-017-T-5-T-6-T-8.md."
+        authorised_by: "inside T-5 and T-6 as approved ('what it finds is fixed where it falls inside this contract's practices') and the pre-mortem ('problems in the upgrade flow that should have been caught by looking wide'). Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-19
+        tests_changed: []
+      - what: "The version moves to 0.25 (manifest, template base_kit_version, README, walk-007 states 105 and 112d), the README gains a Contract-017 bullet, four rows in its mechanisms table and a rewritten upgrading paragraph, meta-bootstrap/history is regenerated, the tracked fixture builder stages a release and builds a third project (fx016), and walk-007 gains states 171 to 177, by the standing rule."
+        authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-19
+        tests_changed: ["walk-007 states 105 and 112d (the version greps)"]
+    cost: {turns: 18, tokens: null, pioneer_minutes: null}    # main-session messages to the pioneer from approval (2026-09-19) to implemented, counted by hand in the session; eight independent agent runs beside them (about 1,470,000 tokens between them, as the harness reported); the main session's tokens not measured; minutes not yet asked
+    work_id: null

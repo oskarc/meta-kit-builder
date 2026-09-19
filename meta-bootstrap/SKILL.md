@@ -38,18 +38,17 @@ The pioneer answers with one word, *defaults*, or with line numbers and answers 
 
 **The upgrade sheet** (step 2, produced by the rehearsal) carries, in this order, each with the rehearsal's stub as its default:
 
-> 1. tree or commit — which copy is the project's, when kit files differ from the last commit
-> 2. one line per differing skill — *reapply* or *replace*, with every conflict the rehearsal found beneath it and its two resolutions
-> 3. the stale list — remove, one line for the whole list
-> 4. contracts to verify — which recent implemented contract, if any, is verified and audited instead of `legacy`
-> 5. drift entries at `mitigated` — batches, or `legacy`
-> 6. the instance-file question, one line per record whose base lines the pioneer changed — overwrite, keep, or port
-> 7. the workspace question — the applications in the system flow, when the manifest has none
-> 8. the map question — which roots belong in the always-loaded map, when the budget forces it
-> 9. the ratification pass — now or deferred, when anything is undecided
-> 10. the acceptance — remove the staged kit when the report is written
+> 1. one line per differing skill — *reapply* or *replace*, with every conflict the merge found beneath it, both versions shown, and its resolutions: yours, the kit's, or both
+> 2. the stale list — remove, one line for the whole list
+> 3. contracts to verify — which recent implemented contract, if any, is verified and audited instead of `legacy`
+> 4. drift entries at `mitigated` — batches, or `legacy`
+> 5. the instance-file question, one line per record whose base lines the pioneer changed — overwrite, keep, or port
+> 6. the workspace question — the applications in the system flow, when the manifest has none
+> 7. the map question — which roots belong in the always-loaded map, when the budget forces it
+> 8. the ratification pass — now or deferred, when anything is undecided
+> 9. the acceptance — remove the staged kit when the report is written
 
-Lines whose condition does not hold are left off; a line the rehearsal did not reach says so. The eight standing questions of step 2's pass rule are lines 1 and 3 to 9.
+Lines whose condition does not hold are left off, and the lines that remain are numbered 1, 2, 3 … as they stand, so an answer like `3: later` can only mean one thing; beneath the sheet, one sentence per question left off says which it was and why. A line the rehearsal did not reach says so. The seven standing questions of step 2's pass rule are lines 2 to 8. Which copy is the project's — the working tree or the last commit — is no longer asked: the run starts from a clean commit (contract-017).
 
 **The done block.** Written at the end of Step 7 (install) and step 9 (upgrade), then `bash .claude/skills/meta-mechanisms/hooks/mark-done.sh install` (or `upgrade`) is run. The hold on the first review batch does not rest on that script: both flows end by writing the baseline (6j), and the stop-gate holds the batch for as long as that baseline is newer than the last session start (contract-015). No question follows the block.
 
@@ -57,6 +56,7 @@ Lines whose condition does not hold are left off; a line the rehearsal did not r
 > **Verified:** [checks passed, of how many] · [hooks that fired, of how many] · baseline written, [n] files.
 > **Nothing is waiting on you now.** *(or:)* **Waiting on you, when you want it:** the map's [n] entries — say *ratify the map* · [n] drift entries, two per batch — say *open a batch* · [contracts named for verification].
 > **Not checked:** [what this run did not verify, one line each — or: nothing left unchecked].
+> **One change to commit.** Everything this run changed is uncommitted, and nothing else is: commit it as one change, and push it.
 > **Next session** the kit greets you with a backlog line. It is a list, not a task; the first review batch waits for that session.
 > Start working.
 
@@ -139,6 +139,8 @@ Read:
 - Any README or documentation that describes the project's purpose
 
 Also read `.claude/library/[category]/META.yaml` for the category identified, so the sheet can name the kit found there (Step 4 integrates it; nothing is copied yet).
+
+**Check the ground** (contract-017): run `bash .claude/skills/meta-mechanisms/checks/preflight.sh check install`. It changes nothing. It refuses, each time with its reason, when git is missing, when the kit folder is not a whole release, or when the pioneer has uncommitted work. Put its sentences to the pioneer word for word, above the sheet — the one about uncommitted work asks them to commit and push first and says why: the install uses git for its snapshot and its way back. Nothing is installed until it passes.
 
 Then present the introduction (Step 1), the orientation and the install sheet together, in one turn:
 
@@ -248,6 +250,8 @@ Look for `.claude/library/[category]/META.yaml`, where category matches what was
 
 Now the project changes. Everything written here was shown to the developer on the sheet; nothing is shown again, and nothing asks.
 
+First record the starting point: `bash .claude/skills/meta-mechanisms/checks/preflight.sh begin install`. If the run stops before its end, the project is restored with `bash .claude/skills/meta-mechanisms/checks/rollback.sh` and the install started again; a half-finished install is never continued (contract-017).
+
 **5a — CLAUDE.md.** The block was shown on the sheet (line 5); write it at the top of `CLAUDE.md` (create the file if missing) as answered. **Write it as plain text, not inside a code fence** — Claude Code ignores `@` imports inside fences and code spans. Keep the marker comments: the upgrade path uses them to find the block.
 
 > ```
@@ -283,7 +287,7 @@ Each kit hook group in the template already carries `"_kit": "base-building-kit"
 
 **5d — Ignore the seal, keep the endings.** Add `.claude/kit-sealed/` and `.claude/skills/meta-ledger/.session-started` (an empty mark the session-start hook leaves; only its age is read) to `.gitignore`, and `*.sh text eol=lf` to `.gitattributes` (create it if missing). CRLF line endings break the hooks under bash.
 
-**5e — Folders.** Create `.claude/skills/meta-ledger/batches/` and `.claude/skills/meta-casebook/reconstruction/` — the batch files and the reconstruction inputs are the only writable paths two of the agents have.
+**5e — Folders.** Create `.claude/skills/meta-ledger/batches/` and `.claude/skills/meta-casebook/reconstruction/`, each with an empty `.gitkeep` in it — git does not record an empty folder, and a clone would lose them — — the batch files and the reconstruction inputs are the only writable paths two of the agents have.
 
 **5f — Library kit, if one was confirmed in Step 4.** Copy its skill files into `.claude/skills/`, preserving the folder structure. Its map entries and precedents are merged in Step 6.
 
@@ -293,7 +297,7 @@ Each kit hook group in the template already carries `"_kit": "base-building-kit"
 
 ## Step 6 — Seed the Instance Files
 
-**The kit folder you copied carries the base kit repo's own instance files** — its manifest, logs, map, ledger, corrections, casebook and founding file. Every one of them is replaced here. A project never keeps another project's instance data.
+**A release of the kit carries none of the base kit's records; a raw copy of its repository carries all of them** — its manifest, logs, map, ledger, corrections, casebook and founding file. Either way every record is seeded here, and where the base kit's copy is present it is replaced. A project never keeps another project's instance data.
 
 All templates live in `.claude/skills/templates/`. The manifest is written **last**, because that write is what switches the mechanisms on.
 
@@ -344,31 +348,19 @@ History does not inherit. Structure does: the governance of every log travels wi
 
 ## Step 7 — Check the Mechanisms, Then the Ratification Pass as the Sheet Answered
 
-Run each hook once and confirm it prints valid JSON or nothing. `CLAUDE_PROJECT_DIR` must be set, or the scripts fall back to the current directory:
+Run every hook once, from the project's root:
 
 ```
-cd <project root>
-export CLAUDE_PROJECT_DIR="$PWD"
-H=.claude/skills/meta-mechanisms/hooks
-echo '{"source":"startup"}'                                                   | bash $H/session-start.sh
-echo '{"prompt":"add a feature"}'                                             | bash $H/prompt-submit.sh
-echo '{"stop_hook_active":false,"last_assistant_message":"Done."}'             | bash $H/stop-gate.sh
-echo '{"agent_type":"kit-verifier"}'                                           | bash $H/subagent-stop.sh
-echo "{\"tool_input\":{\"file_path\":\"$PWD/.claude/skills/meta-map/MAP.md\"}}" | bash $H/post-read.sh
-echo "{\"tool_input\":{\"file_path\":\"$PWD/.claude/skills/meta-casebook/CASEBOOK.yaml\"}}" | bash $H/owner-check.sh
-echo "{\"tool_name\":\"Read\",\"tool_input\":{\"file_path\":\"$PWD/.claude/skills/meta-ledger/LEDGER.yaml\"}}" | bash $H/batch-blind.sh
-echo '{"tool_input":{"file_path":"src/x.cs"}}'                                 | bash $H/deny-paths.sh "kit-sealed/"
-echo '{"tool_input":{"file_path":"src/x.cs"}}'                                 | bash $H/write-scope.sh "meta-ledger/LEDGER.yaml"
-bash $H/close-batch.sh B-001      # expect: no batch file — correct on a fresh install
-bash $H/reveal-key.sh B-001       # expect: no batch file
-tail -3 .claude/skills/meta-ledger/telemetry.log
+bash .claude/skills/meta-mechanisms/checks/hooks-selftest.sh
 ```
+
+It runs the eleven hook commands against a throwaway copy of this project's `.claude/`, so the test writes nothing into the project's own records — no telemetry line, no session mark (contract-017). It prints each hook's exit code and whether it printed JSON, text or nothing, what `session-start.sh` and `stop-gate.sh` said, the telemetry the copy gathered, and a verdict; it exits non-zero when a hook did not behave.
 
 What a correct fresh install shows:
 - `session-start.sh` prints **one** backlog line — pioneer-owned items are waiting — because the base map entries arrive `proposed`. It deliberately prints no count. A correction recorded in Steps 1–5 adds a second line, and a deferred statement a third.
 - `stop-gate.sh` hands over the batch task (M-16).
 - `batch-blind.sh` prints nothing, because no batch is open yet.
-- `telemetry.log` ends with a `loaded|meta-map/MAP.md` line from the `post-read.sh` run — an absolute path is required, since the hook matches `*/.claude/skills/*` — followed by an ownership line naming `base-casebook` from the `owner-check.sh` run: the casebook skill was never loaded in this shell, and that is exactly what the check records. No `loaded` line means telemetry is not recording, and the map's only firing evidence is missing. No ownership line means `owns:` did not survive the manifest write in 6i.
+- the copy's telemetry ends with a `loaded|meta-map/MAP.md` line from the `post-read.sh` run, followed by an ownership line naming `base-casebook` from the `owner-check.sh` run: the casebook skill was never loaded in this shell, and that is exactly what the check records. No `loaded` line means telemetry is not recording, and the map's only firing evidence is missing. No ownership line means `owns:` did not survive the manifest write in 6i.
 
 If a script errors, or `session-start.sh` mentions contracts, observations or drift entries, the base kit's records are still in place and Step 6 did not complete.
 
@@ -376,7 +368,7 @@ If a script errors, or `session-start.sh` mentions contracts, observations or dr
 
 On a pass: present the entries in their map groups, record each as `ratified`, `declined` or reworded, and remove any `ratification: deferred` marker. On a deferral: add the line `ratification: deferred` inside `MAP.md`'s header comment (the hooks look for that phrase anywhere in the file; a second comment is not needed).
 
-Then end with the done block (see *The sheet and the done block*) — installed, what was verified, what waits and how to summon it, what was not checked, start working — and run `bash .claude/skills/meta-mechanisms/hooks/mark-done.sh install`. The block is the end: no question follows it (contract-011 G-4). What it summarises: always loaded are INTENT.md, the founding statement and the map; the hooks in `.claude/settings.json` run the lifecycle from the next session; the kit agents sit in `.claude/agents/`; every record is seeded and the baseline written; a library kit, if integrated, is the starting standard with its entries proposed until ratified. Every feature begins with a contract, and what the work teaches reaches the pioneer in review batches.
+Then end with the done block (see *The sheet and the done block*) — installed, what was verified, what waits and how to summon it, what was not checked, start working — run `bash .claude/skills/meta-mechanisms/hooks/mark-done.sh install`, and remove the lock with `bash .claude/skills/meta-mechanisms/checks/preflight.sh end`. The block is the end: no question follows it (contract-011 G-4). What it summarises: always loaded are INTENT.md, the founding statement and the map; the hooks in `.claude/settings.json` run the lifecycle from the next session; the kit agents sit in `.claude/agents/`; every record is seeded and the baseline written; a library kit, if integrated, is the starting standard with its entries proposed until ratified. Every feature begins with a contract, and what the work teaches reaches the pioneer in review batches.
 
 ---
 
@@ -392,7 +384,7 @@ Runs when a project has its own manifest and a newer kit is staged.
 - every `meta-*/SKILL.md` and `meta-foundation/INTENT.md`;
 - `agents/` — deployed to `.claude/agents/` *and* kept as the kit's own copy under `.claude/skills/agents/`, which the checks read;
 - `templates/`; `meta-mechanisms/hooks/`;
-- the kit's own checks and tools under `checks/` (every `G*.sh`, `roots.sh`, `residue.sh` and `retired-phrases.txt`);
+- the kit's own checks and tools under `checks/` — everything the release carries there: every `G*.sh`, `roots.sh`, `residue.sh` and `retired-phrases.txt`, and `preflight.sh`, `rollback.sh`, `merge.sh` and `hooks-selftest.sh`;
 - and of `tests/` only `walk.sh` and `walk.expected`, the lifecycle walk that runs in any project.
 
 The base kit's `P-NNN.sh` checks, its `tests/results/`, its contract walks (`walk-004.sh`, `walk-007.sh`) and its `tests/fixtures/` are its own precedents and evidence: they read the base repository's templates, docs and manifest, and travel no more than its casebook does.
@@ -400,6 +392,8 @@ The base kit's `P-NNN.sh` checks, its `tests/results/`, its contract walks (`wal
 The line history under `meta-bootstrap/history/` is the kit's, and travels with it.
 
 The staged folder is that travel set and nothing more: a raw clone of the kit repository is not a staged kit — its evidence under `tests/results/`, its fixtures, its contract walks, its `P-NNN.sh` checks and its own instance files are left out when the kit is staged into `.claude/kit-incoming/` (contract-009 G-1).
+
+**The travel set is built, not assembled by hand** (contract-017): in the kit's repository, `bash meta-bootstrap/release.sh <folder>` exports the shipping files from a commit, leaves out what `meta-bootstrap/not-shipped.txt` lists, and writes two files beside them — `RELEASE` (the kit, its version, the commit it was built from) and `RELEASE.sha1` (every file with its hash). That folder, unchanged, is what goes into `.claude/kit-incoming/`. The version is read from `RELEASE`; the base kit's manifest is a record and does not travel.
 
 The installed copies under `.claude/skills/installed/` are the kit's own record of what it last shipped: replaced on every upgrade from the staged copies, never asked about, and absent from a project installed before contract-008 — step 3 says what stands in for them.
 
@@ -415,7 +409,9 @@ Where a file has no yardstick, its header is not refreshed and not asked about s
 
 A comment line found in a header that the installed template never had (someone kept a note there) is carried over beneath the refreshed block, and a header is never refreshed onto a record whose own template the project declined to take.
 
-A base map entry or base node line is refreshed when it still reads as the installed template wrote it (`.claude/skills/templates/` is the copy the last install shipped, so the comparison is mechanical — **make it in step 3 and write the result into the step 9 report, because step 5 replaces those templates before step 7 runs**) — a map entry's status column excepted, since ratifying is the pioneer's.
+`checks/merge.sh --header <record> <installed template> <staged template> <out>` applies this rule and says how many of the pioneer's lines it kept. It exits 3, writing nothing, when the record's header shares no line with the installed template's: the pioneer replaced it wholesale, which is the instance-file question below (contract-017).
+
+A base map entry or base node line is refreshed when it still reads as the installed template wrote it (`.claude/skills/templates/` is the copy the last install shipped, so the comparison is mechanical — and those templates, like the installed copies, are **replaced last, in step 9, after every comparison that needs them**: contract-017) — a map entry's status column excepted, since ratifying is the pioneer's.
 
 Parts the pioneer changed, and every part where no installed template exists to compare against (a project from before the template existed), are asked about **once per file**, on the sheet: the question lists the parts and is answered for the file as a whole — overwrite them, keep them, or port. One file, one question, however many parts.
 
@@ -423,43 +419,49 @@ Everything the pioneer or the lifecycle wrote — contracts, observations, corre
 
 An upgrade runs in a live session, so the hooks fire throughout it against a half-migrated project — on a first install the manifest written last keeps them silent, on an upgrade nothing does. That is expected; the rehearsal on a copy is where that state is first seen, and a backlog line or a gate task raised mid-upgrade is noted in the log and acted on afterwards.
 
+**The way back** (contract-017). The real run starts from a recorded point and can always return to it. `checks/preflight.sh begin` records the project's last commit — or, outside a repository, keeps a copy at `.claude.before-upgrade/` — in `.claude/kit-upgrade.lock`. If the run stops before its end, for any reason, `bash .claude/kit-incoming/meta-mechanisms/checks/rollback.sh` restores `.claude/`, `CLAUDE.md`, `.gitignore` and `.gitattributes` exactly, leaves the staged kit in place, and the run is started again from step 1. **A half-finished upgrade is never continued**: its installed copies are already the new kit's, so a second pass would measure the kit's old lines as the pioneer's. The session-start hook reports a lock left behind.
+
 The pioneer's own failure condition for an upgrade, recorded on contract-007: *"if it human is required to make many manual decisions or the agent needs to troubleshoot to make it work."* So the upgrade asks the pioneer one thing per file that genuinely differs and nothing else, and it is rehearsed on a copy first — if the rehearsal needs troubleshooting, the procedure is fixed before the real run, never during it.
 
-1. **Stage it.** The pioneer places the new kit in `.claude/kit-incoming/` — the travel set of *What "the kit" is*, not a raw clone.
+1. **Stage it, and check the ground.** The new kit goes into `.claude/kit-incoming/` — a release built with `release.sh` (see *What "the kit" is*), not a raw clone. The pioneer places it, or the agent builds and places it when the kit's repository is within reach.
 
    Where the clone that feeds it fails on path length (Windows' limit: a project under `Program Files` with the clone under a deep temporary folder), clone the kit to a short path first and stage from there; that is this step, not troubleshooting (contract-009 G-1).
 
-   **Before staging, look at the project's own git status:** if kit files under `.claude/` are modified or untracked against the project's last commit, the working tree and the commit are two candidate copies of the project's kit — put the tree-or-commit question on the sheet — which copy is the project's — and say in the step 3 classification which one the residue was measured from; the rehearsal runs on *the tree* (contract-009 G-5, the tree-or-commit question; the sheet, contract-011).
+   Then run `bash .claude/kit-incoming/meta-mechanisms/checks/preflight.sh check` from the project's root. It changes nothing, and it refuses — every refusal with its reason — when git is missing, when the staged kit is not a whole release, when a review batch is open, when an earlier run left its lock, and when the pioneer has uncommitted work.
 
-   Compare its `meta-manifest/MANIFEST.yaml → kit_identity.version` with this project's `kit_identity.base_kit_version`. Equal means nothing to do — say so and stop. **If the project's field is absent** — every manifest before v0.14 — treat the project as pre-0.14 and say so; do not guess a version.
-2. **Rehearse on a copy first** (contract-007 G-4, *applies P-004*). Copy the project's `.claude/` (and its `CLAUDE.md`) to a temporary folder beside it — or, where the project's path is long enough that the copy fails or the checks cannot run there, to a short-pathed folder the rehearsal log names; that choice is this step's, not troubleshooting (contract-009 G-1) — and run steps 3–9 there with the pioneer's answers stubbed:
-   - *reapply* for every skill with residue (the answer that can hit a conflict — a conflict in rehearsal is logged as an offer, never resolved),
+   Put its sentences to the pioneer word for word and stop until it passes. The one about uncommitted work asks them to commit and push first, and says why: the upgrade uses git — their last commit is its snapshot and its way back, and git merges their own lines into the new kit (C-023). That replaces the tree-or-commit question of contract-009: there is one copy of the project's kit, the committed one.
+
+   It exits 3 when the staged version is the installed one: nothing to do — say so and stop. **If the project's `base_kit_version` is absent** — every manifest before v0.14 — treat the project as pre-0.14 and say so; do not guess a version.
+2. **Rehearse on a copy first** (contract-007 G-4, *applies P-004*). Copy the project's `.claude/`, its `CLAUDE.md`, and its `.gitignore` and `.gitattributes` (step 5 reads them) to a temporary folder beside it — or, where the project's path is long enough that the copy fails or the checks cannot run there, to a short-pathed folder the rehearsal log names; that choice is this step's, not troubleshooting (contract-009 G-1) — and run steps 3–9 there with the pioneer's answers stubbed:
+   - *reapply* for every skill with residue (the answer that can hit a conflict — a conflict in rehearsal is logged as an offer and put on the sheet, never decided; the copy itself takes *the kit's* side, `merge.sh --take kit`, so the steps that follow run on a file with no markers in it),
    - *remove* for the stale list,
    - *legacy* for every existing contract (step 7),
+   - *legacy* for the drift entries at `mitigated` (step 7),
+   - *keep* for the instance-file question (step 7),
    - *none for now* for the map question (step 8, if it is asked),
    - *defer* for the ratification pass (step 9, when there is something to ratify — otherwise it is *not reached*),
-   - *the tree* for the tree-or-commit question (step 1),
    - *none named* for the workspace question (step 7),
    - and the acceptance answered *yes* (so `.claude/kit-incoming/` is removed).
 
-   In a rehearsal there is no one to present to: the classification and every offer go into the rehearsal log instead.
+   In a rehearsal there is no one to present to: the classification and every offer go into the rehearsal log instead. The copy takes no lock and ends without ceremony: `preflight.sh begin`, `preflight.sh end`, `mark-done.sh` and the done block belong to the real run, and a rehearsal runs none of them.
 
-   The log is a file, not a transcript: `rehearsal-<date>.md` in the project's report folder (`docs/reports/` where the project has one, else beside the step 9 report), kept after the copy is discarded, holding the three numbers and every defect the copy caught — the step 9 report links it (contract-008 G-5).
+   The log is a file, not a transcript: `rehearsal-<date>.md` in the **project's** `docs/reports/` — the project's, not the copy's, which has no such folder; it is the folder the kit's analysis reports go to, created if the project has none, and the one file a rehearsal writes into the project — kept after the copy is discarded, holding the three numbers and every defect the copy caught — the step 9 report links it (contract-008 G-5). It is the upgrade's own file: `preflight.sh` sets it aside when it looks for uncommitted work, and it is committed with the upgrade, not before it.
 
    The stubs count decisions; they do not show whether a reapplied residue still makes sense against the upgraded skill — so the rehearsal report lists every residue line that could not be reapplied cleanly, and every reapplied line that still names something the staged kit removed or renamed, for the pioneer to weigh on the sheet, before the real run.
 
-   Keep a log of three numbers: **decisions asked**, **files that genuinely differed**, and **troubleshooting steps** — anything you had to do that these steps do not say.
+   Keep a log of three numbers: **decisions asked** (the acceptance line is not one), **files that genuinely differed**, and **troubleshooting steps** — anything you had to do that these steps do not say.
 
-   The rehearsal produces **the sheet** (see *The sheet and the done block*): every question the copy met, one line each, the stub as its default and the impact of each answer, the tree-or-commit question first and the acceptance last.
+   **Every figure that reaches the pioneer comes from a command.** The rehearsal log ends with a table: each figure on the sheet or in the presentation, beside the command that produced it. A count made by eye is not put in front of the pioneer, and the real run runs the same commands again before it acts on the answers — a figure that no longer holds is said in the report (contract-017).
+
+   The rehearsal produces **the sheet** (see *The sheet and the done block*): every question the copy met, one line each, the stub as its default and the impact of each answer, the acceptance last.
 
    Present the rehearsal log and the sheet together, in one turn, and wait once; the real run takes every answer from the sheet and asks nothing (contract-011).
 
    The step 9 report's lists of what was taken, ported, removed and migrated come from the step 3 classification and the step 7 edits, not from a diff of the tree.
 
-   **A file "genuinely differed" when it differs from the baseline *and* its content differs from the staged copy** — a file the project changed in a way the kit has since made identical did not differ, and neither did one the kit changed that this project never touched.
+   **A file "genuinely differed" when it differs from the baseline *and* its content differs from the staged copy** — a file the project changed in a way the kit has since made identical did not differ, and neither did one the kit changed that this project never touched. A record has no staged copy: it counts here when the template rule puts a question about it on the sheet, and not otherwise.
 
-   The rehearsal passes only when every decision asked belongs to a file that genuinely differed or is one of the eight standing questions —
-   - the tree-or-commit question (step 1);
+   The rehearsal passes only when every decision asked belongs to a file that genuinely differed or is one of the seven standing questions —
    - the stale list (step 3);
    - the **instance-file question** — the template rule's one-per-file question on a *record's* base lines (step 7), which is a different question from any skill's overwrite/keep/port and is never answered by inference from those;
    - the contracts the pioneer may name for verification (step 7);
@@ -470,9 +472,9 @@ The pioneer's own failure condition for an upgrade, recorded on contract-007: *"
 
    with the sheet's acceptance line not counted, the third number is zero, **and `checks/G2-migration.sh` exits 0 on the migrated copy** (contract-008 G-2), and at the real run every question the run meets was on the sheet — one that was not is a defect recorded in the report under *what this did not ask*, never asked mid-run (contract-011 G-3);
 
-   otherwise fix the procedure here, in this node, and rehearse again.
+   otherwise the rehearsal has not passed: say so at the top of what is presented, with each step that had to be invented, and do not run the upgrade — the procedure is fixed in the kit's repository and a new release staged. The staged kit is never edited in place.
 
-   Discard the copy. Only then run steps 3–9 on the project.
+   Discard the copy. Only then run steps 3–9 on the project, beginning with `bash .claude/kit-incoming/meta-mechanisms/checks/preflight.sh begin`, which records the starting point (see *The way back*).
 3. **Lay of the land.** Read both kits in full (the base kit's own evidence under `tests/results/` excepted), and read this project's own records before touching any of them — the contract log above all, then the drift log, the learning log and the manifest — so the upgrade knows what the project has built, verified and learned, and can tell a record it must not change from a template part it may refresh.
 
    The pioneer's rule, 2026-09-13: *"get the lay of the land before walking it"* (C-010).
@@ -481,7 +483,7 @@ The pioneer's own failure condition for an upgrade, recorded on contract-007: *"
 
    A baseline from before 0.15 hashed raw bytes: for a file whose hash differs from such a baseline, hash it once more with CRLF endings (`tr -d '\r' < file | sed 's/$/\r/' | sha1sum` — strip first, so the command reads the same on every sed), and if that matches, the file is untouched — an install made on Windows re-saves files with the other ending, and that differs by nothing.
 
-   A kit file the old baseline never listed because its pattern did not cover it (`walk.expected` and `settings.template.json` before 0.15) is untouched, not evolved:
+   A kit file the old baseline never listed because its pattern did not cover it (`walk.expected` and `settings.template.json` before 0.15; the `.lines` history and `retired-phrases.txt` at any version) is untouched, not evolved — a kind of file the baseline never hashed is no evidence of an edit:
    - **untouched here** (hash matches the baseline) → take the staged version, no question asked
    - **evolved here** (hash differs, or no baseline exists) → **measure the residue before asking anything** (contract-008 G-1).
 
@@ -495,13 +497,15 @@ The pioneer's own failure condition for an upgrade, recorded on contract-007: *"
 
      The upgraded skill is taken either way; there is no keeping the old file.
 
-     A residue line that cannot be reapplied cleanly — the passage it extended is gone or reworded — is a conflict: the rehearsal finds it and the sheet carries it with its two resolutions.
+     **Reapplying is a merge, not a judgement** (contract-017): `checks/merge.sh <project copy> <installed copy> <staged copy> <out>` puts the pioneer's edits onto the staged skill with git's three-way merge, each edit where it was made. Exit 0 is a clean result. Exit *n* is *n* conflicts — the pioneer's edit and the kit's change meet in the same lines — and the script prints both versions of each.
+
+     A conflict goes beneath the skill's line on the sheet exactly as printed, with its resolutions: *yours*, *the kit's*, or *both* — the kit's lines, then the pioneer's — which is the usual answer where each side only added something at the same place. A conflict is part of its skill's line, not a decision counted on its own, and its default is *the kit's* — the one answer that leaves no retired wording behind — so *defaults* is still a complete answer; the line says so. The real run applies the answer with `merge.sh --take yours|kit|both`; where one file's conflicts got different answers, each is settled by hand at its markers, and no marker is left. A line of the pioneer's that stays may say what the kit has retired: `G3-retired.sh` holds only the kit's text to its list and reports the pioneer's line as a note. With no installed copy there is no base to merge from: the residue lines are put back where the passage they extended still stands, and a line that cannot be placed — the passage gone or reworded — is a conflict of the same kind.
 
      One the rehearsal did not find is never resolved by the agent and never asked mid-run — the line is left out, the upgraded text stands, and the done block lists it under *what this did not ask* (contract-013).
 
      The baseline the pioneer set (C-013, 2026-09-16): meta skills are the kit's and are not meant to be changed by a project; one that changes them is on its own, and this question is what "on its own" costs — a decision per file, never a silent loss.
 
-     A project with no installed copy — installed before contract-008 — has a stand-in the staged kit carries with it: `meta-bootstrap/history/<skill>.lines`, every line any committed version of that skill ever had (regenerated by `history/regenerate.sh` before a release), read by the same `checks/residue.sh <project copy> <that file>`; a line of the project's copy found there is the kit's, the rest is residue, and the classification says the comparison was made against history, not an installed copy.
+     A project with no installed copy — installed before contract-008 — has a stand-in the staged kit carries with it: `meta-bootstrap/history/<skill>.lines`, every line any committed version of that skill ever had (regenerated in the kit's repository before a release), read by the same `checks/residue.sh <project copy> <that file>`; a line of the project's copy found there is the kit's, the rest is residue, and the classification says the comparison was made against history, not an installed copy.
 
      Nothing outside `.claude/kit-incoming/` is ever consulted.
 
@@ -513,14 +517,16 @@ The pioneer's own failure condition for an upgrade, recorded on contract-007: *"
 
      One line per differing file; none where nothing differs (contract-007 G-3; the two answers, contract-008 C-013).
 
-     For a file under `templates/`, `reapply` means the project's lines carried into the staged template, which then becomes the yardstick the next upgrade compares against
+     For a file under `templates/`, `reapply` means the project's lines carried into the staged template, which then becomes the yardstick the next upgrade compares against. A template has no line history: in a project with no baseline and no installed templates to compare against, the pioneer's edits to a template cannot be told from an older kit's text, so it is replaced, and the report names each such file and says where the old one is — in the starting commit, or the kept copy (*The way back*)
    - **new in the kit** → add it
    - an agent appears twice in the baseline, once where it is deployed and once in the kit's own copy; the pair is **one file** for classification and asks **one** question
-   - **present here, absent from the staged kit** → list it as stale (an agent, a hook, a script or a template the kit no longer ships — `kit-canary-author.md`, `reveal-canaries.sh` and the withdrawn rebuild template from before 0.15, for instance) and remove it only as the sheet's stale line answered, one line for the whole list. Where a file satisfies both this rule and "untouched", stale wins: being absent from the old baseline is not evidence that the base kit's own evidence belongs here. The base kit's own evidence that an earlier install carried — `tests/results/`, any `P-NNN.sh` check in `checks/` whose precedent id is not in this project's casebook, the base kit's contract walks and `tests/fixtures/` — goes on the same list when it is present. Beside each stale file, name any reapplied residue that still refers to it, so the pioneer sees what *reapply* leaves pointing at nothing. A skill whose reapplied residue names, in its `> **Map:**` header, an entry the staged template withdrew has that id removed in step 7, because the header is the map's (meta-map: header and entry are co-owned); this is reported, not asked
+   - **present here, absent from the staged kit** → list it as stale — never the installed copies, never `templates/`, never an instance file, which a release does not carry by design (an agent, a hook, a script or a template the kit no longer ships — `kit-canary-author.md`, `reveal-canaries.sh` and the withdrawn rebuild template from before 0.15, for instance) and remove it only as the sheet's stale line answered, one line for the whole list.
+
+     Where a file satisfies both this rule and "untouched", stale wins: being absent from the old baseline is not evidence that the base kit's own evidence belongs here. The base kit's own evidence that an earlier install carried — `tests/results/`, any `P-NNN.sh` check in `checks/` whose precedent id is not in this project's casebook, the base kit's contract walks and `tests/fixtures/` — goes on the same list when it is present. Beside each stale file, name any reapplied residue that still refers to it, so the pioneer sees what *reapply* leaves pointing at nothing. A skill whose reapplied residue names, in its `> **Map:**` header, an entry the staged template withdrew has that id removed in step 7, because the header is the map's (meta-map: header and entry are co-owned); this is reported, not asked
 
    The classification was presented with the sheet; the real run does not present it again. With no baseline and no installed copy, say which stand-in the residue was measured against — the base kit's history, or nothing; only in the last case must every file be treated as possibly evolved, with the questions one per skill.
 4. **New folders arrive without their records.** A new node's `SKILL.md` is copied; its instance file is **not**. Seed those from the *staged* templates in step 6 below. The staged kit's own ledger, corrections, casebook, map and logs are never copied into the project.
-5. **Install** from the staged copies every kit file classified *untouched* or *new* in step 3 — skills and `INTENT.md`, `templates/` (whose old copies step 7 needs as its yardstick, so step 3's comparison must already be recorded), the hooks, the kit's checks, `walk.sh` and `walk.expected`, the kit's own agent copy under `.claude/skills/agents/`, and the installed copies under `.claude/skills/installed/` — refreshed from the staged copies for every meta skill and `INTENT.md`, whatever the pioneer answered for the file itself, so the next upgrade measures residue from what this one shipped —
+5. **Install** from the staged copies every kit file classified *untouched* or *new* in step 3 — skills and `INTENT.md`, the hooks, the kit's checks, `walk.sh` and `walk.expected`, the line history under `meta-bootstrap/history/`, and the kit's own agent copy under `.claude/skills/agents/` — **but not yet `templates/` and not yet the installed copies under `.claude/skills/installed/`**: they are what steps 7 and 8 compare against, and they are replaced last, in step 9 —
 
    then the agents to `.claude/agents/` (porting any that the baseline shows were evolved here),
 
@@ -529,19 +535,19 @@ The pioneer's own failure condition for an upgrade, recorded on contract-007: *"
    - drop every group that carries it,
    - append the staged template's group for that event,
    - keep every existing `permissions.deny` entry,
-   - and in `permissions.additionalDirectories` rewrite the entries that equal a manifest `workspace` path from the manifest and keep every other entry (5c, contract-010 G-3) —
+   - and in `permissions.additionalDirectories` rewrite the entries that equal a manifest `workspace` path from the manifest and keep every other entry; where the project's settings have no such key, take the template's empty list (5c, contract-010 G-3) —
 
    so the kit's groups are **replaced**, never appended a second time, and groups whose scripts no longer exist go with them.
 
    Replace the CLAUDE.md block between its `kit-block` markers, rendering `__WORKSPACE__` from the manifest's `workspace` list as 5a says (contract-010 G-4).
 
-   When the old block has no markers, it is the contiguous text from the kit's heading to the first horizontal rule or first heading that is not the kit's; replace that span, add the markers, and quote the replaced span in the report.
+   When the old block has no markers, it is the contiguous text from the kit's heading up to, and not including, the first horizontal rule or the first heading that is not the kit's; replace that span, add the markers, and quote the replaced span in the report. Nothing of the pioneer's is dropped with it: a paragraph in that span that reads as the project's own instruction — an override, a local rule — is carried over beneath the new block's end marker, and the report says which. When in doubt, carry it.
 
-   Recreate the 5d–5e entries and folders where a copy lost them.
+   Add the 5d–5e entries and folders wherever they are missing — lost by a copy, or added to the kit since this project was installed.
 
    Remove the stale files confirmed in step 3.
-6. **Seed missing instance files** (6a–6h, including 6e when the project has no `FOUNDING.md` — pre-v0.13 projects don't, and the CLAUDE.md block imports it). Create `.claude/skills/meta-mechanisms/checks/` if absent. Existing instance files are never replaced.
-7. **Migrate existing instance schemas additively** — add what is missing, remove only the retired keys this list names, never change a value that is present; new values are written as plain scalars. Field order carries no meaning: put a new field where it reads naturally in the entry, and do not hunt for an anchor the old entries may not have. Use whatever tooling is reliable for the size of the job — a long migration by hand is its own risk — and **verify by diffing the migrated file against a copy taken before the migration, confirming that every pre-existing line is still there unchanged, except the lines this step itself names for removal or refresh**. The verification is the requirement; the method is yours:
+6. **Seed missing instance files** (6a–6h, including 6e when the project has no `FOUNDING.md` — pre-v0.13 projects don't, and the CLAUDE.md block imports it). Such a project has never been asked for its founding statement, and the upgrade is not the agent's moment to write one: the rehearsal seeds the file with the statement block reading `*Not yet given.*` — never a deferral nobody gave — and the presentation asks for the statement beside the sheet, in Step 3's words and under Step 3's conduct. The real run records what the pioneer gave, or their deferral, as 6e says. Create `.claude/skills/meta-mechanisms/checks/` if absent. Existing instance files are never replaced.
+7. **Migrate existing instance schemas additively** — add what is missing, remove only the retired keys this list names, never change a value that is present; new values are written as plain scalars. Field order carries no meaning: put a new field where it reads naturally in the entry, and do not hunt for an anchor the old entries may not have. Use whatever tooling is reliable for the size of the job — a long migration by hand is its own risk — and **verify by diffing the migrated file against a copy taken before the migration, confirming that every pre-existing line is still there unchanged, except the lines this step itself names for removal or refresh**. Compare with carriage returns set aside on both sides (`tr -d '\r'`), or a project with mixed line endings shows every line as changed and hides a real loss. Keep the copies outside `.claude/` — a temporary folder — so the new baseline never records them. The verification is the requirement; the method is yours:
    - `CONTRACT-LOG.yaml` — every existing entry gains `verification_state: legacy` and `audited: legacy` if absent (the sheet's line for it says whether any recent implemented contract is verified and audited instead; set `none` and `false` on those — and skip the question entirely when every existing entry already carries these fields, since then both answers write the same file), and `disappointment: legacy`, `premortem: legacy`, `red_test: legacy`, `cost: legacy` if absent (contract-006 fields). An older `approval: gate` stays as it is; the template lists it as the pre-0.15 value.
    - `CORRECTIONS.yaml` — every existing entry gains `noticed`, `would_have_been_right` and `seen_before`, each `not asked`, if absent.
    - `LEDGER.yaml` — every batch gains `represented: []` if absent; under `scores`, `canary_catch_rate`, `brier_stated_confidence` and `brier_pioneer_decisions` are removed if present and `coincidence: []` added if absent; a candidate's `lower_bound` is removed if present.
@@ -562,13 +568,13 @@ The pioneer's own failure condition for an upgrade, recorded on contract-007: *"
      - base node lines and base coverage lines follow the template rule, and the template rule's question on them is **its own line on the sheet** — the instance-file question of step 2's list — never answered by inference from what the pioneer said about the skills (contract-008 G-6);
      - `base_kit_version` is set to the staged version.
    - `MAP.md` — every base entry follows the template rule: an entry that still reads as the installed template wrote it takes the staged template's columns and keeps its own status; a base entry the staged template withdrew is removed unless the pioneer reworded it; a reworded entry goes on the sheet's instance-file line. An entry that names a file step 5 removes and was not refreshed here is an error in this list, not a judgement call.
-   - The header comment block of every instance file above follows the template rule. Line endings carry no meaning to the kit: kit files arrive with LF endings, an instance file, a kept skill or `settings.json` may come out of an edit with LF endings where it had CRLF, and nothing restores them — a mixed tree is expected and harmless, and no step checks or repairs endings.
+   - The header comment block of every record follows the template rule — the six above, and the learning log and the casebook, which have no fields to migrate and a header all the same: `checks/merge.sh --header`, one record at a time, against the installed template, which is still in place. Line endings carry no meaning to the kit: kit files arrive with LF endings, an instance file, a kept skill or `settings.json` may come out of an edit with LF endings where it had CRLF, and nothing restores them — a mixed tree is expected and harmless, and no step checks or repairs endings.
    - The `> **Map:**` header of a skill whose residue was reapplied loses any id the staged template withdrew from the map; the rest of the line is the reapplied residue's and stays, and the report lists it where it still names something withdrawn.
 8. **Map the project's nodes.** For each existing non-base node, draft an entry under "Project entries" from its description, as `proposed`, and add the matching `> **Map:**` header.
 
    Then run `checks/G1-size.sh`.
 
-   If the map is over its budget, the drafted entries do not go into the map: write them to `.claude/skills/meta-map/proposed-entries.md` (not loaded), draft into the map one entry per **root** — the nodes `checks/roots.sh MANIFEST.yaml` prints: a project node whose manifest id (joined through `skill_file`, since `dependencies` name ids, never folders) appears in no other node's `dependencies`, a skill registered under two ids counted once; the script's output is the list and the count, and `proposed-entries.md` states that count and nothing else (contract-008 G-3) — run the check again, and the sheet's map line puts the rest to the pioneer — which of these belong in the always-loaded map, and which are reached through the nodes that already name them.
+   If the map is over its budget, the drafted entries do not go into the map: write them to `.claude/skills/meta-map/proposed-entries.md` (not loaded), draft into the map one entry per **root** — the nodes `checks/roots.sh MANIFEST.yaml` prints: a project node whose manifest id (joined through `skill_file`, since `dependencies` name ids, never folders) appears in no other node's `dependencies`, a skill registered under two ids counted once; the script's output is the list and the count, and `proposed-entries.md` opens by stating that count and no other figure (contract-008 G-3) — run the check again, and the sheet's map line puts the rest to the pioneer — which of these belong in the always-loaded map, and which are reached through the nodes that already name them.
 
    If the roots alone still fail the check, the map keeps only its base entries and every drafted entry waits in `proposed-entries.md` for that one question.
 
@@ -581,17 +587,17 @@ The pioneer's own failure condition for an upgrade, recorded on contract-007: *"
 
    and on a deferral add the line `ratification: deferred` inside the map's header comment, so the first session after the upgrade does not open a batch on every drafted entry.
 
+   First **run every check** under `meta-mechanisms/checks/` — the `G*.sh` scripts; the others there are tools the steps call with arguments — `G2-migration.sh <project .claude/skills> <staged MANIFEST.template.yaml> <the copies step 7 took>` among them — the third argument switches on its check that no block of a record was broken apart — which walks each migrated record's structure, counts the migrated fields per entry, and checks every node and every base coverage line of the staged template is registered; it exits non-zero naming the file and the figure, and a non-zero exit is a defect to fix before the report, never a note in it. The checks come before the bases are replaced on purpose: `G3-retired.sh` tells a line the upgrade forgot to refresh from a line of the pioneer's by looking in the OLD shipped copy, and once that copy is replaced a forgotten line reads as the pioneer's and passes as a note (found by the rehearsal on the first downstream project's copy).
+
+   Then **replace the comparison bases**, now that nothing needs the old ones: `templates/` from the staged copies — for a template the sheet answered *reapply*, the merged file of step 3 instead — and the installed copies under `.claude/skills/installed/` refreshed from the staged copies for every meta skill and `INTENT.md`, whatever the pioneer answered for the file itself, so the next upgrade measures residue from what this one shipped.
+
    Then **regenerate the baseline** (6j) — after the marker, so the baseline records the map as it is —
 
-   **run every check** under `meta-mechanisms/checks/` — `G2-migration.sh <project .claude/skills> <staged MANIFEST.template.yaml>` among them, which walks each migrated record's structure, counts the migrated fields per entry, and checks every node and every base coverage line of the staged template is registered; it exits non-zero naming the file and the figure, and a non-zero exit is a defect to fix before the report, never a note in it —
+   then `bash .claude/skills/meta-mechanisms/checks/hooks-selftest.sh`, which runs every hook once against a throwaway copy and so writes nothing into this project's records — on an upgrade the backlog and the gate's task it shows reflect the project's live records, not a fresh install — and `bash .claude/skills/meta-mechanisms/tests/walk.sh`, the lifecycle walk, which runs inside its own fixture and must end *all states match* (contract-017) —
 
-   and the install's Step 7 hook commands — on an upgrade the expectation is only that each hook prints valid JSON or nothing, that `close-batch.sh` and `reveal-key.sh` report *no batch file* (exit code 1 — that is the expected result), and that `telemetry.log` gains its `loaded` line; the backlog and the gate's task reflect the project's live records, not a fresh install, and the staged-kit line prints until the folder is removed at the end.
+   and **report**: present the upgrade as an analysis report — what was taken, ported, asked, removed and migrated, with the rehearsal's three numbers beside the real run's (in a real run the first number counts the questions it met that the sheet had not answered, and should be zero), a link to the rehearsal log, and a section naming what the upgrade did **not** check, so that silence is never read as a clean result (contract-008, the pre-mortem).
 
-   The hook commands append real lines to `telemetry.log` (a `loaded` line and a `bypass` line among them); delete those lines afterwards, since they are the check's, not the session's, and delete the file itself if the checks are what created it —
-
-   and **report**: present the upgrade as an analysis report — what was taken, ported, asked, removed and migrated, with the rehearsal's three numbers beside the real run's, a link to the rehearsal log, and a section naming what the upgrade did **not** check, so that silence is never read as a clean result (contract-008, the pre-mortem).
-
-   End with the done block (see *The sheet and the done block*) — upgraded to the version, what was verified, what waits, what was not checked and *what this did not ask*, start working — run `bash .claude/skills/meta-mechanisms/hooks/mark-done.sh upgrade`, and remove `.claude/kit-incoming/` as the sheet's acceptance line answered.
+   End with the done block (see *The sheet and the done block*) — upgraded to the version, what was verified, what waits, what was not checked and *what this did not ask*, start working — run `bash .claude/skills/meta-mechanisms/hooks/mark-done.sh upgrade`, remove the lock with `bash .claude/skills/meta-mechanisms/checks/preflight.sh end`, and remove `.claude/kit-incoming/` as the sheet's acceptance line answered.
 
    No question follows the block (contract-011 G-4).
 
@@ -601,8 +607,8 @@ The pioneer's own failure condition for an upgrade, recorded on contract-007: *"
 
 - It does not audit the existing codebase for problems or improvements — that comes later, through use
 - It does not negotiate its steps with existing tools, plugins or hooks — conflicts are named and surfaced, not resolved by compromise
-- It does not change anything in the project before Step 5, and never before the orientation in Step 2 has been confirmed
-- It does not run more than once per install, and once per upgrade
+- It does not change anything in the project before Step 5, and never before the orientation in Step 2 has been confirmed — an upgrade's rehearsal log, written to `docs/reports/`, is the one exception
+- It does not continue a run that stopped halfway — the project is restored with `rollback.sh` and the run started again
 - It does not draft, suggest, or shape the founding statement — it asks for it and records it verbatim
 - It does not overwrite instance data or folder-copy a kit over an evolved one
 - It does not create a type-category manifest — that is meta-extract's artifact, when the instruments say the standard is ready

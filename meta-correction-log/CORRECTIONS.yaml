@@ -654,6 +654,37 @@ corrections:
       fix proposed for the hold patched a fragile design, a rule was generalised from one miscount, and the
       recommendation was itself a list of local patches, which P-001 rules against.
 
+  - corr_id: C-023
+    date: 2026-09-19
+    contract_id: contract-017
+    moment: M-04
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      Two options for a project with uncommitted kit changes at the start of an upgrade, each with its effects:
+      "Clean tree required (recommended)" - the upgrade refuses to start until the pioneer commits or stashes - and
+      "Keep the question" - the sheet goes on asking which copy is the project's.
+    pioneer_said: |
+      "The upgrade should warn and ask the pioneer to commit and push any ongoing changes BECAUSE the upgrade will
+      use git. that way the human understands this is to make it alot less messy."
+    reason_given: |
+      "that way the human understands this is to make it alot less messy."
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      The pioneer took the recommended option and rewrote how it meets them: not a refusal but a warning with its
+      reason and an ask - commit and push, because the upgrade uses git. Same family as C-016 (say what each choice
+      does) and C-019 (what it is, why now, what is asked): a precondition is also something put in front of the
+      pioneer, and it carries its why.
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no

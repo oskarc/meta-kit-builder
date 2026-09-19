@@ -40,7 +40,9 @@ DEFMSG="Work done. drift score 0.1"
 # show LABEL [MESSAGE] [STOP_HOOK_ACTIVE]
 show() {
   local label="$1" msg="${2:-$DEFMSG}" sha="${3:-false}" r
-  r=$(printf '{"stop_hook_active":%s,"last_assistant_message":"%s"}' "$sha" "$msg" \
+  # every real event carries the session's working directory; sending it here is what lets the walk give the same
+  # answer when it is run from inside an installed project, and keeps it out of that project's records (contract-017)
+  r=$(cd "$FX" && printf '{"cwd":"%s","stop_hook_active":%s,"last_assistant_message":"%s"}' "$FX" "$sha" "$msg" \
       | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh" 2>&1)
   if [ -z "$r" ]; then
     printf '%-62s -> (silent)\n' "$label"
@@ -411,12 +413,12 @@ contracts:
     bearing: b
     transcript: 8f2c1e9a-3b7d-4c55-9a10-6e2f0d4b7c31
 EOF
-r=$(printf '{"stop_hook_active":false,"last_assistant_message":"%s"}' "$DEFMSG" | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh" 2>&1)
+r=$(cd "$FX" && printf '{"cwd":"%s","stop_hook_active":false,"last_assistant_message":"%s"}' "$FX" "$DEFMSG" | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh" 2>&1)
 case "$r" in *"session id 8f2c1e9a-3b7d-4c55-9a10-6e2f0d4b7c31"*) say "41 during the hold an audit is still handed over, by session id" "audit, by session id" ;; *kit-session-auditor*) say "41 during the hold an audit is still handed over, by session id" "audit, NO ID" ;; *) say "41 during the hold an audit is still handed over, by session id" "NOT HANDED OVER" ;; esac
 printf 'contracts: []\n' | w_contracts
-r=$(printf '{"source":"startup","session_id":"8f2c1e9a-3b7d-4c55-9a10-6e2f0d4b7c31"}' | CLAUDE_PROJECT_DIR="$FX" bash "$H/session-start.sh" 2>&1)
+r=$(cd "$FX" && printf '{"cwd":"%s","source":"startup","session_id":"8f2c1e9a-3b7d-4c55-9a10-6e2f0d4b7c31"}' "$FX" | CLAUDE_PROJECT_DIR="$FX" bash "$H/session-start.sh" 2>&1)
 case "$r" in *"8f2c1e9a-3b7d-4c55-9a10-6e2f0d4b7c31"*) say "42 session start names the session's id" "named" ;; *) say "42 session start names the session's id" "NOT NAMED" ;; esac
-r=$(printf '{"stop_hook_active":false,"last_assistant_message":"%s"}' "$DEFMSG" | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh" 2>&1)
+r=$(cd "$FX" && printf '{"cwd":"%s","stop_hook_active":false,"last_assistant_message":"%s"}' "$FX" "$DEFMSG" | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh" 2>&1)
 case "$r" in *kit-batch-assembler*) say "43 after the next session start the batch is handed over" "handed over" ;; *) say "43 after the next session start the batch is handed over" "STILL HELD" ;; esac
 sleep 1; printf 'x  z\n' > "$K/meta-manifest/INSTALLED.sha1"
 show "44 an upgrade ends mid-session (baseline rewritten): held again"

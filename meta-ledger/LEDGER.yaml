@@ -1033,6 +1033,81 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-059
+    date: 2026-09-19
+    source: ser
+    contract_id: contract-017
+    refs: [report-005, C-022, the bearing]
+    statement: |
+      the upgrade procedure was derived over nine contracts by meeting its defects one rehearsal at a time, when
+      it is an instance of a problem with settled practice - a software upgrade. The pioneer named it ("we should
+      adhere to what it actually is"); checking the procedure once against twelve documented practices found the
+      four it lacked, three of which would have prevented what three rehearsals had found. Before designing a
+      mechanism, ask what the thing actually is and whether that is already solved; the kit's own rule to survey
+      before fixing did not prompt that question, because the survey looked inward.
+    level_guess: principle
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-060
+    date: 2026-09-19
+    source: ser
+    contract_id: contract-017
+    refs: [T-5, T-6, tests/results/contract-017-T-5-T-6-T-8.md]
+    statement: |
+      every rehearsal by a reader other than the builder found something the builder's own tests passed over,
+      including in the work of this very contract: the log the procedure orders blocked the step that follows it,
+      a conflict's answers could not be carried out, a new sentence overrode an old rule. The walk was green each
+      time. A procedure is not tested by testing its scripts; it is tested by someone following it, on a project
+      shaped like a real one, and the fixtures that match no real project tested the kit's past.
+    level_guess: principle
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-061
+    date: 2026-09-19
+    source: ser
+    contract_id: contract-017
+    refs: [G-3, meta-mechanisms/checks/G3-retired.sh, step 9]
+    statement: |
+      a check that compares a project's text with the kit's shipped copy only means something while the copy it
+      compares against is the one the text was written from. The retired-wordings check was first placed after the
+      upgrade had replaced that copy, so a line the upgrade forgot to refresh read as the pioneer's and passed as a
+      note. The order of a check and the thing it compares against is part of the check.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-062
+    date: 2026-09-19
+    source: ser
+    contract_id: contract-017
+    refs: [C-023, meta-mechanisms/checks/preflight.sh]
+    statement: |
+      a refusal is also something put in front of the pioneer. The preflight was drawn as "refuses unless the tree
+      is clean"; the pioneer rewrote it as a warning that asks them to commit and push and says why - the upgrade
+      uses git. Every refusal the script prints now carries its reason and what to do, and the rehearsing agents
+      passed those sentences on word for word without being asked to soften or explain them.
+    level_guess: pattern
+    stated_confidence: 0.7
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
 
 batches: []

@@ -83,6 +83,14 @@ if [ -d "$ROOT/.claude/kit-incoming" ]; then
 "
 fi
 
+# A lock left behind means an install or upgrade began here and did not reach its end (contract-017 UC-2, UC-3).
+if [ -f "$ROOT/.claude/kit-upgrade.lock" ]; then
+  rb=".claude/skills/meta-mechanisms/checks/rollback.sh"
+  [ -f "$ROOT/.claude/kit-incoming/meta-mechanisms/checks/rollback.sh" ] && rb=".claude/kit-incoming/meta-mechanisms/checks/rollback.sh"
+  lines="${lines}- An install or upgrade was started here and did not finish -> M-27 tell the pioneer, then restore the project with: bash $rb - and start the run again from its first step. A half-finished run is never continued.
+"
+fi
+
 if [ -z "$lines" ]; then
   body="Kit backlog (session-start hook): clear."
 else

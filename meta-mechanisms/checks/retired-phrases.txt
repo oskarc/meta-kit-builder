@@ -27,7 +27,7 @@ ask once, as a standing question
 # contracts 009 to 011: the standing questions are eight, and they sit on the sheet
 four standing questions at most
 six standing questions
-seven standing questions
+eight standing questions
 
 # contract-009 and contract-013: no seeded file calls itself a template
 This file is a template
