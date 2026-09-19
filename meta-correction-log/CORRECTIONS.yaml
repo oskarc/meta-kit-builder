@@ -621,6 +621,39 @@ corrections:
       looks at its own output before it goes and changes it for the reader. A format can pass while the conduct is
       absent. The draft had put this under "untested"; the pioneer moved it into the tests. Same family as C-019.
 
+  - corr_id: C-022
+    date: 2026-09-19
+    contract_id: null
+    moment: M-25
+    grade: frame-reset
+    intervention: redirected
+    agent_offered: |
+      After report-004, a recommendation to draw one more contract before the first downstream project's upgrade,
+      in three widths, with the narrow one recommended: fix the three defects the rehearsal found, script the
+      baseline comparison and the staging, record the other gaps. Beside it, a reading of where the practice is
+      heading: prose giving way to scripts, and nine contracts in a row spent on the kit itself.
+    pioneer_said: |
+      "I want you to challenge your narrative and your suggestions for what needs fixing and how it should be
+      resolved. if they hold we can draw a contract after that"
+    reason_given: |
+      none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      The pioneer held the gate before a contract was drawn, not at it. The challenge was then made against
+      evidence the recommendation had not looked at - the two installed projects' actual versions and records -
+      and changed it: the baseline defect given top place cannot occur in the project about to be upgraded, the
+      fix proposed for the hold patched a fragile design, a rule was generalised from one miscount, and the
+      recommendation was itself a list of local patches, which P-001 rules against.
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no

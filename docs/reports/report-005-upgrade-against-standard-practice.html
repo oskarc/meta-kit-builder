@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Upgrade Against Standard Practice</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#F3F1EC; --surface:#FFFFFF; --sunken:#E9E6DF; --ink:#1B1C1A; --muted:#5B5E57; --faint:#8B8E86; --rule:#CFCCC3; --accent:#2E6B6F;
+    --verified:#3C6E47; --verified-wash:#E4EDE6; --corrected:#8A6320; --corrected-wash:#F3EBD9; --open:#9A3A2C; --open-wash:#F5E3DF;
+    --display:"Newsreader",Georgia,serif; --body:"Source Sans 3",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F; --accent:#7FB8BB;
+    --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18; } }
+  :root[data-theme="dark"]{
+    --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F; --accent:#7FB8BB;
+    --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;padding-block:0 96px;padding-inline:20px}
+  .wrap{max-width:780px;margin:0 auto}
+  header{padding:56px 0 24px;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:12px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  h1{font-family:var(--display);font-size:clamp(34px,6vw,50px);line-height:1.05;font-weight:600;margin:0;text-wrap:balance}
+  .standfirst{font-size:19px;color:var(--muted);margin:0;max-width:62ch}
+  .tally{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:20px}
+  .tally div{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+  .tally .n{font-family:var(--mono);font-size:24px;font-variant-numeric:tabular-nums}
+  .tally .l{font-size:13px;color:var(--muted);line-height:1.3}
+  section{padding-top:40px}
+  h2{font-family:var(--display);font-size:26px;font-weight:600;margin:0 0 6px;text-wrap:balance}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  p{margin:0 0 14px;max-width:68ch}
+  code{font-family:var(--mono);font-size:.86em;background:var(--sunken);padding:1px 5px;border-radius:2px}
+  .claim{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--rule);padding:12px 16px;margin-bottom:8px}
+  .claim.v{border-left-color:var(--verified)} .claim.c{border-left-color:var(--corrected)} .claim.o{border-left-color:var(--open)}
+  .claim h3{font-size:16px;font-weight:600;margin:4px 0 4px;line-height:1.4}
+  .claim p{margin:0 0 6px;font-size:15px;color:var(--muted)} .claim p:last-child{margin-bottom:0}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;font-weight:600}
+  .chip.v{background:var(--verified-wash);color:var(--verified)} .chip.c{background:var(--corrected-wash);color:var(--corrected)} .chip.o{background:var(--open-wash);color:var(--open)} .chip.j{background:var(--sunken);color:var(--muted)}
+  .src{font-size:13px;color:var(--faint)}
+  .tbl{overflow-x:auto;margin:14px 0 6px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:560px}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--ink)}
+  tbody tr:last-child td{border-bottom:none}
+  ul{margin:0 0 14px;padding-left:22px} li{margin-bottom:6px}
+  blockquote{margin:0 0 14px;padding:10px 16px;border-left:3px solid var(--accent);background:var(--surface);font-size:15.5px}
+  .foot{margin-top:52px;padding-top:14px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--muted)}
+</style>
+</head>
+<body><div class="wrap">
+
+<header>
+  <div class="eyebrow">report-005 · analysis report · base building kit · 2026-09-19</div>
+  <h1>The kit's upgrade, held against how software is upgraded</h1>
+  <p class="standfirst">Installing and upgrading the kit is a software upgrade, and that problem is solved. The procedure was read in full against the standard practice, each practice taken from its own documentation. It already does five of the twelve things. It lacks four outright, and three of those would have prevented what the rehearsals found.</p>
+  <div class="tally">
+    <div><span class="n">12</span><span class="l">standard practices checked</span></div>
+    <div><span class="n">5</span><span class="l">the procedure already has</span></div>
+    <div><span class="n">3</span><span class="l">it has in part</span></div>
+    <div><span class="n">4</span><span class="l">it lacks</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="kicker">what was done</div>
+  <h2>Sources first, then the text, then one test</h2>
+  <p>Eleven pages of primary documentation were fetched as raw text, so that everything quoted below is copied: the Debian Policy Manual on maintainer scripts and on configuration files, the dpkg manual, git's manuals for <code>merge-file</code> and for attributes, Terraform's <code>plan</code>, Ansible's check mode, the Rails migrations guide, and two chapters of Google's <em>Site Reliability Engineering</em>. Then the bootstrap skill's install and upgrade sections were read again, whole, against them. One test was run: git's three-way merge on the same files the rehearsal used. Nothing in the kit was changed.</p>
+</section>
+
+<section>
+  <div class="kicker">verified — practice by practice</div>
+  <h2>The checklist</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>The practice</th><th>What the kit's procedure does</th><th></th></tr></thead>
+    <tbody>
+      <tr><td><strong>Plan before apply.</strong> Terraform: "The plan command alone does not actually carry out the proposed changes". Ansible: "In check mode, Ansible runs without making any changes on remote systems."</td><td>The rehearsal on a copy, which produces the sheet. This is the procedure's strongest part and it worked in all three rehearsals.</td><td><span class="chip v">has</span></td></tr>
+      <tr><td><strong>All questions up front, with defaults, then an unattended run.</strong> dpkg: "always choose the default action without prompting."</td><td>The sheet, <em>defaults</em> as a complete answer, the silent run. Two standing questions have no default for the rehearsal to use, which the third rehearsal met.</td><td><span class="chip v">has</span></td></tr>
+      <tr><td><strong>Local changes survive an upgrade.</strong> Debian Policy: "local changes must be preserved during a package upgrade".</td><td>Reapply or replace, per file, never silently. Records are never replaced.</td><td><span class="chip v">has</span></td></tr>
+      <tr><td><strong>Verify afterwards.</strong></td><td>The migration check, the other checks, each hook run once, the baseline regenerated. Strong — but the hook test writes into the project's live records, which is what defeats the hold on the first review batch.</td><td><span class="chip v">has</span></td></tr>
+      <tr><td><strong>A report of what was done.</strong></td><td>The rehearsal log, the upgrade report with what was not checked, the done block.</td><td><span class="chip v">has</span></td></tr>
+      <tr><td><strong>A three-way merge for local edits.</strong> git: "git merge-file incorporates all changes that lead from &lt;base&gt; to &lt;other&gt; into &lt;current&gt;."</td><td>The idea is there — the installed copies are the base. The mechanism is a hand-written script that treats the project's lines as a set, with no position, and leaves the putting-back to the agent's judgement. See the test below.</td><td><span class="chip c">part</span></td></tr>
+      <tr><td><strong>What was tested is what gets installed.</strong> A saved plan is applied as saved.</td><td>The rehearsal migrates a copy, verifies it, and then <em>discards it</em>. The real run does the whole migration again by hand. Two runs by an agent are not the same run: one rehearsal's count was wrong where its real run's was right.</td><td><span class="chip c">part</span></td></tr>
+      <tr><td><strong>Migrations that know their version.</strong> Rails: "Rails uses this timestamp to determine which migration should be run and in what order".</td><td>Step 7 is written as "gains this if absent", which is safe to repeat — a sound pattern of its own. But it is one list for every era, read in full by every agent; the recorded version is never used to skip what a project is already past.</td><td><span class="chip c">part</span></td></tr>
+      <tr><td><strong>Safe to run again after a failure.</strong> Debian Policy: "If the first call failed, or aborted half way through for some reason, the second call should merely do the things that were left undone the first time, if any, and exit with a success status if everything is OK."</td><td>The skill says the opposite: "It does not run more than once per install, and once per upgrade". Nothing says what to do if a session dies at step 6. By reasoning, not by test: a second run would be unsafe, because step 5 has by then refreshed the installed copies, so the project's old kit lines would measure as the project's own.</td><td><span class="chip o">lacks</span></td></tr>
+      <tr><td><strong>A snapshot before the destructive step, and a way back.</strong> Debian's maintainer scripts carry an "error unwind" call for every step of an upgrade.</td><td>None. No "start from a clean commit", no copy kept, no rollback. And the procedure destroys its own comparison bases before using them: step 5 replaces the templates and the installed copies, step 7 then needs the old templates' text. On the first downstream project's copy this turned 9 kept header lines into 14.</td><td><span class="chip o">lacks</span></td></tr>
+      <tr><td><strong>A built release with a list of what ships.</strong> git: "Files and directories with the attribute export-ignore won’t be added to archive files."</td><td>"The pioneer places the new kit in <code>.claude/kit-incoming/</code> — the travel set … not a raw clone", from a paragraph of prose. No build step, no file list, no checksum, no version tag; step 1 cannot tell a good staged kit from a partial one. The kit's own test builder gets it wrong.</td><td><span class="chip o">lacks</span></td></tr>
+      <tr><td><strong>Preconditions, and a lock.</strong> Package managers take a lock before they touch anything; the dpkg manual names "the frontend lock".</td><td>One precondition only: the versions differ. Not checked: that the working tree is clean, that the staged folder is whole, that no review batch is open (while one is, the session cannot read the ledger it has to migrate), that no other session is at work in the project.</td><td><span class="chip o">lacks</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="kicker">verified — one test</div>
+  <h2>The merge the kit needs already exists</h2>
+  <p>The rehearsal's own case was given to <code>git merge-file</code>: the skill as the old kit shipped it, the project's copy with its two added lines, and the new kit's skill. It works on plain files; the project need not be a repository.</p>
+  <div class="claim v"><span class="chip v">result</span><h3>The project's two lines, put back on the new skill, in one command.</h3><p>Exit code 0, and the output is character for character what the rehearsing agent produced by hand: the new kit's skill with the project's lines at the end.</p></div>
+  <div class="claim v"><span class="chip v">result</span><h3>An edit inside a kit sentence keeps its place.</h3><p>The project changed two words in a line the new kit left alone. The merge kept the project's wording exactly where it was. The kit's own script reports that whole line as "the project's", with no place to put it back; an agent would have to guess.</p></div>
+  <div class="claim v"><span class="chip v">result</span><h3>A real conflict is reported by the tool, not judged by the agent.</h3><p>The project edited a line the new kit also rewrote. Exit code 1 — the count of conflicts — and both versions are set side by side between markers, labelled <em>project</em> and <em>new-kit</em>. That is exactly what the sheet needs beneath a skill's line: "a residue line that cannot be reapplied cleanly" stops being a judgement.</p></div>
+  <p class="src">The same merge fits the record headers that went wrong in the third rehearsal: base, the old template's header; current, the record's header with the pioneer's notes; other, the new template's. It does not help a project installed before the kit kept installed copies, which has no base; the line history stays as the fallback there.</p>
+</section>
+
+<section>
+  <div class="kicker">judgement — what is underneath</div>
+  <h2>Two causes behind most of the procedure's length</h2>
+  <div class="claim c"><span class="chip j">cause</span><h3>The program and the project's data share folders.</h3><p>A kit skill, which an upgrade should replace wholesale, sits in the same folder as the record the project owns: the ledger skill beside the ledger. That one fact is why a kit can never be folder-copied, why staging has to strip out the kit's own records, why the staged manifest is a contradiction, why there is a template rule at all, and why this repository ships records that every install must replace. Software that keeps what it ships apart from what the user writes upgrades by replacing a folder. This is a change of shape, and itself a migration; it is named here, not proposed yet.</p></div>
+  <div class="claim c"><span class="chip j">cause</span><h3>The procedure is performed twice by hand, once to test and once for real.</h3><p>Standard practice builds the new state beside the old, verifies it, and swaps. The kit already builds and verifies it — and then throws it away. Promoting the rehearsed copy, after the pioneer's answers are applied to it, would make the tested result the installed one, give a rollback for free (the old folder is still there), and remove the question of what happens when a run dies half way.</p></div>
+</section>
+
+<section>
+  <div class="kicker">verified — what is the kit's own</div>
+  <h2>Two things with no off-the-shelf answer</h2>
+  <p>The one who carries out the procedure is an agent reading prose, and what the pioneer has written into a skill is judgement in natural language. So: how a runbook is written for an agent to follow, and how a conflict is put to someone who decides by meaning rather than by diff. Google's book ranks automation from "No automation" up to "The database ships with its own failover script"; the kit sits between, shipping some of its own scripts and performing the rest from a document. Every rehearsal has moved one more step from the document into a script, which is the ordinary direction.</p>
+</section>
+
+<section>
+  <div class="kicker">recommendation · judgement</div>
+  <h2>Draw the contract in these terms</h2>
+  <p>Not a list of the rehearsals' gaps, but the four missing practices, which cover the gaps that mattered:</p>
+  <ul>
+    <li><strong>Snapshot, order, rollback.</strong> The run starts from a clean commit or a kept copy. The comparison bases — old templates, installed copies — are replaced last, not first. The procedure says how to go back, and that a failed run is restored and started again rather than continued.</li>
+    <li><strong>Preconditions.</strong> Clean tree, whole staged kit, no open review batch, no other session; checked by a script before anything is read.</li>
+    <li><strong>A built release.</strong> One command produces the staged kit, with a list of its files and their checksums, and step 1 verifies the staged folder against that list. The kit's test builder uses it.</li>
+    <li><strong>The merge.</strong> <code>git merge-file</code> does the reapplying and finds the conflicts, for skills and for record headers. <strong>This needs a ruling from the pioneer:</strong> the kit's own rule limits its scripts to bash, sed, awk, grep, tr and date. <em>Allow git:</em> the merge becomes mechanical and the kit's own residue script shrinks to the fallback for old installs; git must then be present wherever the kit is upgraded, which Claude Code already requires on Windows and which a project under version control has anyway. <em>Keep the rule:</em> reapplying stays the agent's judgement, as now, with the risks the test shows.</li>
+    <li><strong>Tests that do not write into live records.</strong> The hook test runs against a scratch copy, which also repairs the hold on the first review batch; the travelling walk is run by the procedure from its own fixture, or no longer shipped.</li>
+    <li>From the rehearsals, only what these do not already cover: a default for every standing question, counts on the sheet from named commands.</li>
+  </ul>
+  <p>Left for later, each as its own decision: promoting the rehearsed copy instead of repeating the run; migrations chosen by version; keeping the program apart from the project's data.</p>
+</section>
+
+<div class="foot">
+  <p><strong>Sources, fetched 2026-09-19.</strong> Debian Policy Manual, chapters 6 (maintainer scripts) and 10 (files) · dpkg(1) · git-merge-file and gitattributes, git-scm.com · Terraform CLI, <em>plan</em> · Ansible, <em>check mode and diff mode</em> · Rails Guides, <em>Active Record Migrations</em> · <em>Site Reliability Engineering</em>, chapters 5 and 7. Every passage in quotation marks was copied from the fetched page. <strong>Not a contract.</strong> Nothing in the kit was changed.</p>
+</div>
+
+</div></body></html>

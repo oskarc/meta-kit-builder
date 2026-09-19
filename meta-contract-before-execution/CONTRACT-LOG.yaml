@@ -3376,6 +3376,53 @@ contracts:
     revisions: []
     cost: {turns: 9, tokens: 470000, pioneer_minutes: null}    # tokens: the two agents' four runs, as the harness reported; the main session's not measured
     work_id: null
-    led_to: []
+    led_to: [report-005]
     file: docs/reports/report-004-upgrade-rehearsal-at-0-24.html
     artifact: https://claude.ai/artifact/BJL4W8ZkRYjDKsx6hf5KhG
+
+  - contract_id: report-005
+    type: analysis-report
+    feature: the kit's install and upgrade held against how software is upgraded - twelve standard practices, each taken from its own documentation, checked against the bootstrap skill read in full; a third rehearsal, on a copy of the first downstream project, recorded beside it
+    date_proposed: 2026-09-19
+    date_approved: 2026-09-19
+    approval: n/a - analysis report, asked for by the pioneer ("Yes, we should adhere to what it actually is, upgrading software. It has been solve so completely. Do the check")
+    bearing: |
+      Not a contract. After report-004 the pioneer had the agent challenge its own recommendation (C-022), then asked
+      whether what it proposed was anything but classic runbook practice. It was not. So the procedure was checked
+      against that practice as a whole instead of being patched from the rehearsals' lists.
+    tier_1: |
+      Not a contract. Between the two reports a third rehearsal ran, on a scratch copy of the first downstream
+      project at 0.16: it failed the procedure's own pass rule with five unstated steps, the worst of them that step
+      5 replaces the old templates before step 7 needs their text to tell the pioneer's header notes from the kit's -
+      measured on the copy, 9 kept lines in one record came out as 14, 8 in another as 12. The fixtures could not
+      show it; they have no kept notes.
+    tier_2: |
+      Twelve practices, from eleven fetched pages (Debian Policy, dpkg, git, Terraform, Ansible, Rails, Google's SRE
+      book); every quoted passage checked against the fetched text. The procedure has five: plan before apply, all
+      questions up front with defaults, local changes preserved, verification afterwards, a report. It has three in
+      part: a three-way merge (the idea, not the tool), installing what was tested (the rehearsed copy is discarded
+      and the run repeated by hand), migrations that know their version. It lacks four: safety on a second run (the
+      skill says it runs once), a snapshot and a way back (and it destroys its comparison bases before using them),
+      a built release with a list of what ships, preconditions and a lock. One test: git merge-file reproduced the
+      rehearsal's reapply result exactly, kept an in-line edit in place, and reported a true conflict by exit code
+      and markers.
+    tier_3: |
+      Recommendation, marked as judgement: draw the contract as the four missing practices plus the merge and tests
+      that do not write into live records; from the rehearsals only what those do not cover. One ruling is the
+      pioneer's: whether the kit's scripts may use git, which its portability rule excludes. Named for later, each
+      its own decision: promoting the rehearsed copy instead of repeating the run, migrations chosen by version,
+      keeping the program apart from the project's data - the last being the cause of most of the procedure's length.
+    disappointment: n/a - analysis report
+    premortem: n/a - analysis report
+    red_test: n/a - analysis report
+    status: implemented
+    verification_state: none
+    audited: false
+    observations: []
+    revisions: []
+    cost: {turns: 8, tokens: 177000, pioneer_minutes: null}    # tokens: the third rehearsal's agent, as the harness reported; the main session's not measured
+    work_id: null
+    follows: report-004
+    led_to: []
+    file: docs/reports/report-005-upgrade-against-standard-practice.html
+    artifact: https://claude.ai/artifact/UWCFq2WCoUR33Z9YAzBkgr
