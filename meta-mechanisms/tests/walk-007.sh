@@ -93,7 +93,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.28" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.28" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
+grep -q "^  version: 0.29" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.29" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -107,7 +107,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant fo
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.28" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.28 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.29" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.29 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -199,7 +199,7 @@ cmd=$(sed -n '/"SessionStart"/,/\]/p' "$SRC/templates/settings.template.json" | 
 r=$(cd "$A2/sub" && printf '{"source":"startup"}' | CLAUDE_PROJECT_DIR=/nonexistent bash -c "$cmd" | sed 's/.*additionalContext":"//')
 case "$r" in *"Drift entries watching"*) ok "139a the template's SessionStart command finds kit A by walking up from its subfolder (T-6)";; *) bad "139a locator" "$r";; esac
 n=$(grep -c 'hooks/lib.sh' "$SRC"/agents/kit-*.md | awk -F: '{s+=$2} END{print s}'); [ "$n" = 16 ] && ok "139b all sixteen agent hook lines use the locator (T-6)" || bad "139b agent locators" "$n"
-n=$(grep -c 'hooks/lib.sh' "$SRC/templates/settings.template.json"); [ "$n" = 7 ] && ok "139c all seven template hook commands use the locator (T-6)" || bad "139c template locators" "$n"
+n=$(grep -c 'hooks/lib.sh' "$SRC/templates/settings.template.json"); [ "$n" = 8 ] && ok "139c all eight template hook commands use the locator (T-6, the eighth added by contract-021)" || bad "139c template locators" "$n"
 grep -q 'Which kit a hook acts on' "$SRC/meta-mechanisms/SKILL.md" && ok "140 the mechanisms node states which kit a hook acts on" || bad "140 mechanisms node" "-"
 rm -rf "$FX2"
 
@@ -284,7 +284,7 @@ grep -q -F 'The agent regards how it presents its output to the pioneer and adap
 
 echo "=== contract-015: promises that hold without the agent remembering ==="
 X15="$SRC/meta-mechanisms/tests/walk.expected"
-n=$(grep -c . "$X15"); p=$(sed -n '37,47p' "$X15" | grep -c -E '/|\\'); d=$(grep -c -E '[A-Za-z]:[/\\]|/tmp/|Users' "$X15"); [ "$n" = 57 ] && [ "$p" = 0 ] && [ "$d" = 0 ] && ok "165 the travelling walk has 57 states; the eleven that print a derived word carry no path or slash, and no line anywhere carries a machine path or drive letter (T-3, realigned by contract-019)" || bad "165 travelling walk" "lines=$n platform-marks=$p machine-paths=$d"
+n=$(grep -c . "$X15"); p=$(sed -n '37,47p' "$X15" | grep -c -E '/|\\'); d=$(grep -c -E '[A-Za-z]:[/\\]|/tmp/|Users' "$X15"); [ "$n" = 65 ] && [ "$p" = 0 ] && [ "$d" = 0 ] && ok "165 the travelling walk has 65 states; the eleven that print a derived word carry no path or slash, and no line anywhere carries a machine path or drive letter (T-3, realigned by contract-019)" || bad "165 travelling walk" "lines=$n platform-marks=$p machine-paths=$d"
 e=$(awk '/^  - contract_id: contract-015$/{f=1} f&&/^    transcript:/{print $2; exit}' "$SRC/meta-contract-before-execution/CONTRACT-LOG.yaml")
 case "$e" in */*|"") t=0 ;; *) t=1 ;; esac
 [ "$t" = 1 ] && grep -q -F 'find it with Glob on `~/.claude/projects/*/<id>.jsonl`' "$SRC/agents/kit-session-auditor.md" && grep -q -F 'the id alone, which the session-start hook names, never a path' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q -F 'session-start hook names, never a path' "$SRC/templates/CONTRACT-LOG.template.yaml" && ok "166 the session id's road is written end to end: hook, entry, gate, auditor - and this contract's own entry records an id, no path (T-2)" || bad "166 session id" "entry transcript=$e"
@@ -538,5 +538,47 @@ grep -q -F '`approvals`' "$SRC/agents/kit-session-auditor.md" && grep -q -F '`de
 # the always-loaded layer did not grow
 b20=$(wc -c < "$IN20"); m20=$(wc -c < "$SRC/meta-map/MAP.md")
 [ "$b20" -le 5120 ] && [ "$m20" -lt 7133 ] && ok "195 the always-loaded layer is inside every allowance after the swap - the four questions cost less than the block they replace (T-5, G-5, P-006)" || bad "195 always-loaded size" "intent=$b20 map=$m20"
+echo "=== contract-021: a workflow that heals itself ==="
+# an agent is recorded starting, not only stopping, and the wiring says which tool starts one
+grep -q -F 'agent-launch' "$SRC/meta-mechanisms/hooks/agent-launch.sh" \
+  && grep -q -F 'record_fingerprint' "$SRC/meta-mechanisms/hooks/agent-launch.sh" \
+  && grep -q -F 'record_fingerprint' "$SRC/meta-mechanisms/hooks/subagent-stop.sh" \
+  && grep -q -F '"matcher": "Task|Agent"' "$SRC/templates/settings.template.json" \
+  && grep -q -F 'agent-launch.sh' "$SRC/templates/settings.template.json" \
+  && ok "196 an agent is recorded starting as well as stopping, with the length of every record it may write, and the settings wire it to the tool that launches one (T-1)" || bad "196 the launch record" "-"
+# the four states the gate can now tell apart
+grep -q -F 'agent_flight()' "$SRC/meta-mechanisms/hooks/lib.sh" \
+  && grep -q -F 'AGENT_LEASE=3' "$SRC/meta-mechanisms/hooks/lib.sh" \
+  && grep -q -F 'agent_resumed()' "$SRC/meta-mechanisms/hooks/lib.sh" \
+  && grep -q -F 'lapsed' "$SRC/meta-mechanisms/hooks/stop-gate.sh" \
+  && grep -q -F 'waiting on you rather than stuck' "$SRC/meta-mechanisms/hooks/stop-gate.sh" \
+  && grep -q -F 'other kit task(s) are due behind this one' "$SRC/meta-mechanisms/hooks/stop-gate.sh" \
+  && ok "197 the gate can tell running from lapsed from wrote-nothing from done, holds the queue while an agent runs, tells waiting from failing, and names the depth behind the task it hands over (T-1, T-3, T-4, T-5)" || bad "197 the gate" "-"
+# the index: measurably smaller, and nothing an agent must act on is missing from it
+IDX=$(mktemp); bash "$SRC/meta-mechanisms/checks/records-index.sh" "$SRC" > "$IDX" 2>/dev/null
+ib=$(wc -c < "$IDX"); rb=$(( $(wc -c < "$SRC/meta-ledger/LEDGER.yaml") + $(wc -c < "$SRC/meta-correction-log/CORRECTIONS.yaml") ))
+due_o=$(grep -c '^[[:space:]]*consolidated: false' "$SRC/meta-ledger/LEDGER.yaml"); in_o=$(grep -c '^[0-9]* | O-' "$IDX")
+due_c=$(grep -c '^[[:space:]]*clerked: false' "$SRC/meta-correction-log/CORRECTIONS.yaml"); in_c=$(grep -c '^[0-9]* | C-' "$IDX")
+[ "$ib" -lt $((rb / 4)) ] && [ "$in_o" = "$due_o" ] && [ "$in_c" = "$due_c" ] && grep -q '^[0-9]* | O-' "$IDX" \
+  && ok "198 the index of what an agent must act on is at least four times smaller than the records it replaces, and every item due appears in it with the line to open ($ib bytes against $rb; $in_o observations, $in_c corrections) (T-2)" || bad "198 the index" "index=$ib records=$rb obs=$in_o/$due_o corr=$in_c/$due_c"
+rm -f "$IDX"
+# the two agents that exhausted are told to read it, and to write as they go
+n21=0
+for a in kit-consolidator kit-case-clerk; do
+  grep -q -F 'Read the index, not the record' "$SRC/agents/$a.md" && grep -q -F 'Write as you go' "$SRC/agents/$a.md" && n21=$((n21+1))
+done
+[ "$n21" = 2 ] && ok "199 both agents that ran out of turns are told to read the index rather than the record, and that an item finished is an item written (T-1, UC-2)" || bad "199 the agents" "$n21 of 2"
+# the node says what the workflow now does for itself
+grep -q -F '## A workflow that heals itself' "$SRC/meta-mechanisms/SKILL.md" \
+  && grep -q -F 'That is a lease' "$SRC/meta-mechanisms/SKILL.md" \
+  && grep -q -F 'Waiting is not failing' "$SRC/meta-mechanisms/SKILL.md" \
+  && grep -q -F 'hooks/agent-launch.sh' "$SRC/meta-mechanisms/SKILL.md" \
+  && grep -q -F 'checks/records-index.sh' "$SRC/meta-mechanisms/SKILL.md" \
+  && ok "200 the mechanisms node carries what the workflow does for itself and lists both new mechanisms in its inventory (T-7, G-6)" || bad "200 the node" "-"
+# the fixture is a project now, which is why the walk can reach any of this
+grep -q -F 'settings.template.json" "$FX/.claude/settings.json' "$SRC/meta-mechanisms/tests/walk.sh" \
+  && grep -q -F 'kit-sealed' "$SRC/meta-mechanisms/tests/walk.sh" \
+  && grep -q -F 'agents/*.md "$FX/.claude/agents/' "$SRC/meta-mechanisms/tests/walk.sh" \
+  && ok "201 the lifecycle fixture is built as a real project - settings, a seal and agents - which no test the kit owned had ever carried (T-7, UC-7)" || bad "201 the fixture" "-"
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

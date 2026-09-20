@@ -112,11 +112,31 @@ still runs no agent, which stays a carried gap below.
 
 ## Next
 
+- **The seal: why the batch step cannot write its key.** The one step of the lifecycle that has never run, across
+  three releases and three reports. The kit's own hooks permit the write and the project setting that guards the
+  path is a read rule, so the cause is in how the permission behaves at runtime, which cannot be reproduced from
+  the base kit. Contract-021 made the failure survivable — it stops the queue once rather than forever — and left
+  the cause here.
 - **Bound the upgrade section, not the paragraph** — which means splitting install from upgrade in
   `meta-bootstrap`. Named in contract-018, which called it contract-019; the vocabulary of failure took that
   number and the closing four took contract-020, so this is contract-021.
 - **Promote "every figure that reaches the pioneer comes from a command"** out of the upgrade procedure and
   into the foundation, where it governs every number the agent shows.
+
+## Research — where this has been solved already
+
+Named from knowledge, not yet read. The pioneer asked for the lay of the land before the kit invents its own
+answer to a problem other disciplines have worked on for decades. Each line is the one idea worth taking.
+
+| Domain | The idea |
+|---|---|
+| Durable workflow engines (Temporal, Step Functions, Airflow) | Progress is journaled as it happens, so a dead worker resumes from the log. Leases with expiry answer "is it running or stuck" and "who holds this record" with one mechanism. Dead-letter queues keep what cannot be processed from blocking everything behind it. |
+| Erlang and OTP supervision trees | Let it crash, restart under a declared strategy, and a restart intensity limit: more than X restarts in Y seconds escalates to the parent instead of looping. Recover, recover, then stop and tell someone. |
+| Autonomic computing and Kubernetes | The monitor-analyse-plan-execute loop over shared knowledge, and reconciliation: compare declared desired state against actual and close the gap continuously, rather than dispatching a plan step by step. |
+| Site reliability engineering | Automated remediation with an explicit last rung — a human is paged only once the automation has exhausted its options. Runbooks, error budgets, the toil-versus-work distinction. |
+| Databases | Write-ahead logging: record the intent before the act, so recovery can replay or unwind. The kit already borrows this for the upgrade; it argues an agent should write intent first, not result last. |
+| Toyota: jidoka, andon, poka-yoke | A machine stops itself rather than produce defects, and the stop is visible and owned. Mistake-proofing makes the wrong action impossible rather than detectable. |
+| Resilience engineering and human factors | Bainbridge's *Ironies of Automation* (1983): automating the easy parts leaves the human only the hard parts, with less practice at them — which is the five-against-twelve split, stated forty years ago. Woods on graceful extensibility covers running out of adaptive capacity. |
 
 ## Later — the shape changes contract-017 left standing
 

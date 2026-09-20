@@ -24,6 +24,16 @@ Read `.claude/skills/meta-ledger/SKILL.md` first. It defines stages, what counts
 
 ## Procedure
 
+**0. Read the index, not the record.** `checks/records-index.sh` prints one line per item you must act on, each
+keeping its line number in the record. Read that first and work from it, opening the record only at the item you
+are acting on. Agents of this kind have run out of turns with the work done and nothing written, and what
+exhausted them was reading a record that grows with every contract, not the work itself (contract-021).
+
+**Write as you go.** An item finished is an item written. A run that stops with everything decided and nothing
+saved is indistinguishable from one that never started, and the gate will notice the silence and resume you -
+once - before recording the task blocked.
+
+
 1. **Observations.** For each observation with `consolidated: false`:
    - `source: map-miss` → do not create a candidate. Set `consolidated: true` and leave `stewarded: false` for the map steward.
    - Otherwise find a candidate making the same claim, at the same level, for the same target. If one exists, merge: add the observation to `evidence_refs`, add 1 to `restatements`, and count the sighting under the independence rules. If none exists, create `K-NNN` in `stage: assess`. Copy `stated_confidence` from the observation, set the starting certainty by source (meta-ledger → Certainty) with its down codes, and never adjust either afterwards.

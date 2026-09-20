@@ -39,6 +39,13 @@
         "hooks": [
           { "type": "command", "command": "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/batch-blind.sh\"'" }
         ]
+      },
+      {
+        "_kit": "base-building-kit",
+        "matcher": "Task|Agent",
+        "hooks": [
+          { "type": "command", "command": "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/agent-launch.sh\"'" }
+        ]
       }
     ],
     "PostToolUse": [

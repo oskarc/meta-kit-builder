@@ -2,6 +2,10 @@
 # lib.sh — shared helpers for the kit's mechanisms. Governed by meta-mechanisms/SKILL.md.
 # Portable by design: bash, sed, awk, grep, tr, date. No jq, no python.
 #
+# Since contract-021 the gate also reads its own telemetry: agent-launch, subagent, agent-resume and its own
+# stop-gate lines tell it whether an agent is running, whether the last one wrote anything, and how long a
+# hand-over has been repeating. That is evidence the hooks already wrote and nobody read.
+#
 # State is read through FLAT MARKER KEYS in the instance files (verification_state:, audited:, transcript:,
 # consolidated:, stewarded:, review_due:, clerked:, decided:, revealed:, and the blocked_* keys beside them).
 # Two rules keep that parsing honest:
@@ -243,6 +247,63 @@ repeated_handovers() {
     $2=="stop-gate"       { if ($3==d) run++; else run=0; next }
     $2=="stop-gate-fault" { run=0; next }
   END { print run+0 }' "$TELEMETRY"
+}
+
+# nlines FILE — lines in FILE, 0 when missing. The cheapest change-detector the portability list allows:
+# an agent that writes to a YAML record adds lines to it.
+nlines() {
+  [ -f "$1" ] || { echo 0; return; }
+  local n; n=$(grep -c '' "$1" 2>/dev/null); echo "${n:-0}"
+}
+
+# record_fingerprint — the length of every record a kit agent may write, as one field.
+# Taken when an agent is launched and again when it stops: unchanged means it wrote nothing, which is what
+# happens when an agent exhausts its turns — no report, no partial result, silence with the work done and lost
+# (contract-021 UC-1).
+record_fingerprint() {
+  printf '%s.%s.%s.%s.%s' "$(nlines "$LEDGER")" "$(nlines "$CORRECTIONS")" "$(nlines "$CONTRACTS")" \
+    "$(nlines "$CASEBOOK")" "$(nlines "$DRIFT")"
+}
+
+# agent_flight — what the telemetry says about the last agent launch, as one word:
+#   running   launched, no stop recorded yet, and fewer than LEASE gate firings have passed
+#   lapsed    launched, no stop recorded, and the lease has run out — it never reported finishing
+#   nothing   it stopped and every record is exactly as long as it was: it wrote nothing
+#   done      it stopped and something was written
+#   none      no agent has been launched in this sitting
+# The lease is what a durable workflow engine calls a visibility timeout: a hold that expires, so a worker that
+# dies silently cannot keep a task forever.
+AGENT_LEASE=3
+agent_flight() {
+  [ -f "$TELEMETRY" ] || { echo none; return; }
+  awk -F'|' -v lease="$AGENT_LEASE" '
+    $2=="session-start" && ($3=="startup" || $3=="resume") { type=""; launched=""; stopped=""; gates=0; next }
+    $2=="agent-launch" { split($3, a, ":"); type=a[1]; launched=a[2]; stopped=""; gates=0; next }
+    $2=="subagent"     { if (type != "") { split($3, b, ":"); stopped=(b[2]=="" ? "?" : b[2]) } next }
+    $2=="stop-gate" || $2=="stop-gate-fault" { if (type != "" && stopped == "") gates++ ; next }
+    END {
+      if (type == "") { print "none"; exit }
+      if (stopped == "") { print (gates >= lease ? "lapsed" : "running"); exit }
+      if (stopped == "?" || launched == "") { print "done"; exit }
+      print (stopped == launched ? "nothing" : "done")
+    }
+  ' "$TELEMETRY"
+}
+
+# agent_last_type — the agent the last launch names
+agent_last_type() {
+  [ -f "$TELEMETRY" ] || return 0
+  awk -F'|' '$2=="agent-launch" { split($3, a, ":"); t=a[1] } END { print t }' "$TELEMETRY"
+}
+
+# agent_resumed — true when that agent has already been given one resume since it was launched
+agent_resumed() {
+  [ -f "$TELEMETRY" ] || return 1
+  awk -F'|' '
+    $2=="agent-launch" { seen=0; next }
+    $2=="agent-resume" { seen=1 }
+    END { exit !seen }
+  ' "$TELEMETRY"
 }
 
 # late_test_revisions — ids of reported contracts with a revision that changes Tier 4 tests dated AFTER the

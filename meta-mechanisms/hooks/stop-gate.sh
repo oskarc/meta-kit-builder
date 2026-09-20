@@ -34,8 +34,16 @@ esac
 
 ct=$(contracts_table)
 bt=$(batches_table)
-reason=""
-gate() { if [ -z "$reason" ] && [ -n "$id" ]; then reason="$1"; fi; }
+reason=""; owner=""; queued=0
+# A task is handed over once; the rest are counted, so the pioneer sees the depth of the queue behind it without
+# having to ask (contract-021 UC-5). Pioneer-owned items are never counted - knowing how many are really due
+# would let the re-presented ones be counted out (contract-011).
+gate() {
+  if [ -n "$id" ]; then
+    if [ -z "$reason" ]; then reason="$1"; owner="${2:-agent}"
+    elif [ "${2:-agent}" != pioneer ]; then queued=$((queued+1)); fi
+  fi
+}
 count_gate() { if [ "${1:-0}" -ge "$2" ] 2>/dev/null; then id="$1"; else id=""; fi; }
 HOOKS='bash ".claude/skills/meta-mechanisms/hooks'
 
@@ -59,6 +67,39 @@ if [ -n "$blk" ]; then
     id="$bid"
     telemetry blocked-announced "$bid:$bkey"
     gate "$bkind $bid cannot be worked: its $bkey has been blocked since $bsince, and the pioneer has not been told in this sitting. Put it to them now, in their words, before other kit work: what is stuck — $breason — and what it is waiting for — $bwait. Then give them the choices and say which you suggest: clear it (you write $bkey back to false once what it waits for exists, and the task returns to the queue), leave it blocked while the rest of the lifecycle runs on, or something they name instead. The rest of the queue is routed as usual from here (M-32)."
+  fi
+fi
+
+# 0a. An agent is running. Nothing else is dispatched until it finishes: four times downstream the gate handed
+#     over a second agent while the first still held the ledger, and only a person watching stopped the
+#     collision (contract-021 UC-3). The hold expires like a lease - an agent that dies without reporting
+#     cannot keep the queue forever - and when it does, the gate says so rather than pretending it finished.
+flight=$(agent_flight)
+if [ -z "$reason" ]; then
+  case "$flight" in
+    running) exit 0 ;;
+    lapsed)
+      telemetry agent-lease-lapsed "$(agent_last_type)"
+      printf '{"hookSpecificOutput":{"hookEventName":"Stop","additionalContext":"%s"}}\n' \
+        "$(json_escape "Kit mechanism (stop-gate): the $(agent_last_type) agent was launched and never reported finishing, and the queue has been held for it long enough. It is released now. If it produced anything, record that before the next task; if it did not, say so to the pioneer. The queue continues from the next turn.")"
+      exit 0
+      ;;
+  esac
+fi
+
+# 0b. The last agent stopped and wrote nothing, which is what exhausting its turns looks like: no report, no
+#     partial result, silence with the work done and lost. Downstream that happened eight times in two days to
+#     four different agents, and a person restarted every one by hand (contract-021 UC-1). It is resumed once;
+#     a second silence is recorded blocked and the queue moves on (P-004: the recovery is never the pioneer's).
+if [ -z "$reason" ] && [ "$flight" = nothing ]; then
+  at=$(agent_last_type)
+  if agent_resumed; then
+    id="$at"
+    gate "the $at agent has now run twice and written nothing both times, which is what it looks like when an agent runs out of turns with the work done and unsaved. Stop relaunching it. Record the task it was doing as blocked on its own record - the state key set to blocked, with blocked_reason, blocked_waiting_for and blocked_since beside it (M-32) - and put it to the pioneer with what you suggest. The rest of the queue runs on from the next turn."
+  else
+    telemetry agent-resume "$at"
+    id="$at"
+    gate "the $at agent stopped without writing anything to the records it is allowed to write. That is what running out of turns looks like from outside: the work is done and unsaved, not undone. Resume that same agent - do not start it over - and tell it to write what it already has before doing anything else. If it comes back empty a second time the task is recorded blocked instead."
   fi
 fi
 
@@ -91,7 +132,7 @@ fi
 
 # 5. A verification that reported corrected or open clauses, with the contract still implemented.
 id=$(first_id "$ct" '$2=="implemented" && $3=="reported"')
-gate "Contract $id has a verification report but is still implemented. Read its verification block and put every corrected and open clause to the pioneer. Then close it one of three ways: set status: verified (all clauses verified, or the pioneer confirms per clause); draw the follow-up work as its own contract and set verification_state: closed-by-follow-up with a follows: link; or set verification_state: none once new evidence exists to re-verify (M-12)."
+gate "Contract $id has a verification report but is still implemented. Read its verification block and put every corrected and open clause to the pioneer. Then close it one of three ways: set status: verified (all clauses verified, or the pioneer confirms per clause); draw the follow-up work as its own contract and set verification_state: closed-by-follow-up with a follows: link; or set verification_state: none once new evidence exists to re-verify (M-12)." pioneer
 
 # 6. Verification evidence, from outside the builder.
 id=$(first_id "$ct" '$2=="implemented" && $3=="none"')
@@ -130,7 +171,7 @@ if ! has_open_batch && ! in_grace; then
   else
     id=""
   fi
-  gate "Pioneer-owned items are waiting: candidates, map proposals, unratified entries, unranked cards, precedent conflicts or drift resolutions. Launch the kit-batch-assembler subagent to assemble a batch, then present it per meta-skill-builder's review batch (M-16). Never read .claude/kit-sealed/, and while the batch is open your reads of the ledger are blocked so re-presented items stay indistinguishable."
+  gate "Pioneer-owned items are waiting: candidates, map proposals, unratified entries, unranked cards, precedent conflicts or drift resolutions. Launch the kit-batch-assembler subagent to assemble a batch, then present it per meta-skill-builder's review batch (M-16). Never read .claude/kit-sealed/, and while the batch is open your reads of the ledger are blocked so re-presented items stay indistinguishable." pioneer
 fi
 
 # 11. Map misses waiting for the steward.
@@ -148,12 +189,18 @@ gate "Contract $id has no bearing. Tell the pioneer it was approved without one;
 # it to the pioneer for steering and suggest an action at this point"). The count is the trailing run of identical
 # hand-overs in telemetry, which the gate already writes; any other gate event breaks the run.
 det=$(printf '%s' "$reason" | cut -c1-72)
-if [ "$(repeated_handovers "$det")" -ge 2 ]; then
+# Waiting is not failing. A task whose next move is the pioneer's repeats because they have not answered yet,
+# and calling that a fault told an agent downstream to record a working mechanism as broken (contract-021 UC-4).
+if [ "$owner" = pioneer ] && [ "$(repeated_handovers "$det")" -ge 2 ]; then
+  reason="$reason This is the third turn with this same task, and it is waiting on you rather than stuck - nothing is wrong with it. Nothing else is dispatched until it is answered."
+elif [ "$(repeated_handovers "$det")" -ge 2 ]; then
   telemetry stop-gate-fault "$det"
   reason="this is the third turn running with the same kit task and nothing has changed - $det - which is a fault, not a backlog — the task cannot be cleared the way it is being tried. Stop trying it. Surface it to the pioneer for steering: name the task, what you have tried, and why it does not complete. Suggest an action — usually to record it blocked, which is the state key on that record set to blocked with blocked_reason, blocked_waiting_for and blocked_since beside it, so the rest of the lifecycle runs on and what is stuck stays visible (M-32) — and ask whether to do that or something they name instead."
   telemetry stop-gate "$(printf '%s' "$reason" | cut -c1-72)"
 else
   telemetry stop-gate "$det"
 fi
+behind=""
+[ "$queued" -gt 0 ] && behind=" $queued other kit task(s) are due behind this one."
 printf '{"hookSpecificOutput":{"hookEventName":"Stop","additionalContext":"%s"}}\n' \
-  "$(json_escape "Kit mechanism (stop-gate): $reason One kit task per turn. The pioneer does not need to invoke this.")"
+  "$(json_escape "Kit mechanism (stop-gate): $reason One kit task per turn.$behind The pioneer does not need to invoke this.")"

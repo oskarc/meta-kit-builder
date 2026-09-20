@@ -1332,4 +1332,81 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-075
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-021
+    refs: [UC-1, meta-mechanisms/hooks/agent-launch.sh]
+    statement: |
+      a mechanism cannot recover from a state it never records. The kit logged that an agent stopped and nothing
+      at all about one starting, and three different failures were invisible behind that single gap: an agent
+      that exhausted its turns looked identical to one that had never run, two agents could be sent at the same
+      record with nothing to notice the first was still holding it, and a task being worked on right now looked
+      exactly like a task nobody had touched in three turns. One new line of evidence separated all three.
+    level_guess: pattern
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-076
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-021
+    refs: [UC-2, meta-mechanisms/checks/records-index.sh]
+    statement: |
+      what exhausts an agent is what it must read before it can start, not the work it was asked to do. One
+      consolidation merged sixteen observations inside its budget and a later one merged two and ran out; the
+      work got smaller and the record got bigger. An instruction to write early did not help, which rules out
+      thoroughness. A budget is a constant and a record grows with every contract, so any constant fails
+      eventually - the input is the only side of that comparison the kit controls.
+    level_guess: pattern
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-077
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-021
+    refs: [UC-4, meta-mechanisms/hooks/stop-gate.sh]
+    statement: |
+      elapsed time without change is not a fault unless you know what the change is waiting on. The repetition
+      detector shipped the day before called a task a fault twice when nothing was wrong: once the agent doing
+      it was running at that moment, once it was complete and waiting for the pioneer to decide. Its remedy
+      would have written into the record that a mechanism had failed. A detector that measures only elapsed
+      turns will always mistake patience for failure; what it needs is not a longer threshold but a model of
+      who or what is being waited for.
+    level_guess: pattern
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-078
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-021
+    refs: [UC-7, meta-mechanisms/tests/walk.sh]
+    statement: |
+      a test suite is blind to everything its fixture is not. The lifecycle walk drove the hooks through dozens
+      of states against a folder with no project settings, no seal and no agents - so the one step that cannot
+      run at all, a batch that cannot write its key, survived three releases and three reports while every walk
+      passed. The fixture had been built to exercise the mechanisms rather than to resemble a project, and the
+      difference between those two is where the failures live.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []

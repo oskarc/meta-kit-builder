@@ -37,6 +37,8 @@ The kit's own history is the evidence. In the downstream projects, drift inciden
 | `checks/G3-retired.sh` | run by the verifier and on upgrade | `checks/retired-phrases.txt`, every kit text | Fails when a wording the kit has retired still stands anywhere — a contract that replaces a sentence adds the old one to the list (contract-013) |
 | `checks/G4-pointers.sh` | run by the verifier and on upgrade | every `node → Heading` pointer | Fails when a pointer names a heading its target does not have (contract-013) |
 | `checks/G5-steps.sh` | run by the verifier and on upgrade | `meta-bootstrap/SKILL.md` | Fails when a paragraph of the bootstrap skill is over 1,200 bytes, naming the line — the text an agent follows while records are at risk stays in steps, and the allowance does not move (contract-016) |
+| `hooks/agent-launch.sh` | PreToolUse on the tool that launches an agent | the agent's type and the length of every record a kit agent may write | Records that an agent is STARTING. Nothing did before, so an agent that exhausted its turns, a collision and a task being worked on all looked alike |
+| `checks/records-index.sh` | run by an agent before it reads a record | LEDGER.yaml, CORRECTIONS.yaml | One line per item to act on, each keeping its line number, so what an agent must read does not grow with the project |
 | `checks/G6-refusals.sh` | run by the verifier and on upgrade | every refusal string in `checks/`, `hooks/` and `meta-bootstrap/` | Fails when a refusal the kit can print is not registered in `refusal-nextsteps.txt` with the next step it gives the reader (contract-019) |
 | `checks/transcript-digest.sh` | run by the agent before it launches the session auditor | a session transcript | Writes one row per turn — line, time, who, flags, tools, files, first words — so the audit can be started at any transcript size |
 | `checks/preflight.sh` | run at the start of an install or upgrade, from the NEW kit's copy | the staged kit's `RELEASE.sha1`, the ledger, git status, the lock | `check` changes nothing and refuses, each time with its reason, when git is missing, the staged kit is not a whole release, a review batch is open, a lock is left, or the pioneer has uncommitted work (it asks them to commit and push, and says why); `begin` records the starting point in `.claude/kit-upgrade.lock`; `end` removes it (contract-017) |
@@ -143,7 +145,7 @@ bash, sed, awk, grep, tr and date — and git, by the pioneer's ruling of 2026-0
 
 ## Adding or changing a mechanism
 
-A mechanism is a node change and needs a contract (M-30). The contract's Tier 3 names the event, the files and keys read, the output, and its Tier 4 the fixture test: a sample hook input and the exact output expected. Run the fixture before and after — **and walk the lifecycle, not only the script**: one batch and one contract through every state, because each hook can pass while the loop they form deadlocks. Every walk exits non-zero on a failure. `tests/walk.sh` ships with the kit and runs in any project: it drives the stop-gate through 46 states and diffs against `tests/walk.expected` (regenerate that file only when a gate message changed by design — the command is in the script's header). `tests/walk-004.sh` (the ownership check, late test revisions, retirement, the batch) and `tests/walk-007.sh` (what session-start says, the question guard, the size check, import-loaded owners, the README's structure) are the base kit's own contract walks: they read this repository's templates, docs and manifest, and do not travel. The checks under `checks/` are run by the verifier and on every upgrade; `G1-size.sh` travels, the `P-NNN.sh` checks are this repository's own precedents and do not. Extend them with every mechanism change; a state the walk does not visit is a state nobody has seen. Add the row to the inventory, the keys to the marker-key contract, and — when the mechanism replaces a prose rule — record `mitigation_medium: mechanism` on the drift entry it answers.
+A mechanism is a node change and needs a contract (M-30). The contract's Tier 3 names the event, the files and keys read, the output, and its Tier 4 the fixture test: a sample hook input and the exact output expected. Run the fixture before and after — **and walk the lifecycle, not only the script**: one batch and one contract through every state, because each hook can pass while the loop they form deadlocks. Every walk exits non-zero on a failure. `tests/walk.sh` ships with the kit and runs in any project: it drives the stop-gate through 54 states and diffs against `tests/walk.expected` (regenerate that file only when a gate message changed by design — the command is in the script's header). `tests/walk-004.sh` (the ownership check, late test revisions, retirement, the batch) and `tests/walk-007.sh` (what session-start says, the question guard, the size check, import-loaded owners, the README's structure) are the base kit's own contract walks: they read this repository's templates, docs and manifest, and do not travel. The checks under `checks/` are run by the verifier and on every upgrade; `G1-size.sh` travels, the `P-NNN.sh` checks are this repository's own precedents and do not. Extend them with every mechanism change; a state the walk does not visit is a state nobody has seen. Add the row to the inventory, the keys to the marker-key contract, and — when the mechanism replaces a prose rule — record `mitigation_medium: mechanism` on the drift entry it answers.
 
 ## Failure modes
 
@@ -152,6 +154,34 @@ A mechanism is a node change and needs a contract (M-30). The contract's Tier 3 
 - **Over-triggering.** A gate that hands a task every turn becomes noise the pioneer tunes out. One task per turn, and questions are never buried.
 - **False authority.** A mechanism that passed says the form held, not that the judgement was sound. A bearing that exists is not a bearing that steers.
 - **Mechanising judgement.** A hook that decided whether a learning is elevation or recovery would be a green light on a judgement nobody made. Mechanisms route and refuse; they never elevate.
+
+## A workflow that heals itself
+
+Four kit agents ran out of turns eight times in two days downstream, every one with the work done and nothing
+written, and a person restarted each by hand. Four times the gate dispatched a second agent while the first still
+held the ledger, and only someone watching stopped the collision. Twice it called a task waiting on the pioneer a
+fault. The pioneer's words: the workflow is fragile as it stands, and before anything else it must be
+self-healing (contract-021).
+
+**An agent is recorded starting, not only stopping.** `agent-launch.sh` writes the agent's type and the length of
+every record a kit agent may write; `subagent-stop.sh` writes the same again. Equal lengths mean nothing was
+written. From those two lines the gate can tell four states apart that used to look identical: running, never
+reported finishing, stopped having written nothing, stopped having written something.
+
+**While an agent runs, nothing else is dispatched.** That is a lease, in the sense a durable workflow engine
+means: a hold on the queue that expires. If the agent never reports finishing, the hold lapses after three gate
+firings, the gate says so plainly, and the queue continues - a worker that dies silently cannot keep a task
+forever.
+
+**An agent that wrote nothing is resumed, once.** Not restarted: told to write what it already has. A second
+silence records the task blocked with its reason and the queue moves on. The recovery is the workflow's, never a
+command the pioneer runs (P-004).
+
+**Waiting is not failing.** A hand-over repeating because the pioneer has not answered is waiting; the gate says
+so rather than calling it a fault. Only a task with nobody and nothing pending is a fault.
+
+**The queue's depth rides along.** Every hand-over names how many other kit tasks stand behind it, so a backlog
+reaches the pioneer without their having to ask. Pioneer-owned items stay uncounted (contract-011).
 
 ## Blocked tasks
 

@@ -24,6 +24,16 @@ Read `.claude/skills/meta-casebook/SKILL.md` and `.claude/skills/meta-correction
 
 ## Procedure
 
+**0. Read the index, not the record.** `checks/records-index.sh` prints one line per item you must act on, each
+keeping its line number in the record. Read that first and work from it, opening the record only at the item you
+are acting on. Agents of this kind have run out of turns with the work done and nothing written, and what
+exhausted them was reading a record that grows with every contract, not the work itself (contract-021).
+
+**Write as you go.** An item finished is an item written. A run that stops with everything decided and nothing
+saved is indistinguishable from one that never started, and the gate will notice the silence and resume you -
+once - before recording the task blocked.
+
+
 1. For each correction in `CORRECTIONS.yaml` with `clerked: false`, read it and the contract entry it names.
 2. **Is it a correction?** An answer to a question the agent asked is *not* automatically outside scope: **an answer that departs from the option the agent recommended, or writes its own, is a correction** (`grade: option-override`) and is clerked like any other. Only a plain answer that changes nothing the agent proposed, or an approval, is set aside: write `clerk_note` saying why, leave `precedent: pending-pioneer`, set `clerked: true`, and list it in your final message so the pioneer can overrule you. You never decide finally that the pioneer's words did not matter.
 3. **Precedent.** If the correction decides a situation that could recur, write `P-NNN`:

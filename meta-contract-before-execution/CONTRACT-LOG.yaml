@@ -3982,3 +3982,131 @@ contracts:
     # project, a bug and no mention of this contract. Evidence: meta-mechanisms/tests/results/contract-020-T-1-T-7.md
     cost: {turns: 3, tokens: null, pioneer_minutes: null}    # messages to the pioneer from approval to implemented; the main session's tokens not measured, the two acceptance agents' about 134,000 as the harness reported; minutes not asked - the pioneer does not remember them and the field stays null rather than estimated
     work_id: null
+
+  - contract_id: contract-021
+    feature: A workflow that heals itself - an agent that ends with nothing written is noticed and resumed, what an agent must read is bounded, the gate stops dispatching into work in flight, waiting stops being called a fault, the queue's depth reaches the pioneer unasked, and a step that cannot run is recorded and routed past
+    type: contract
+    follows: contract-020
+    led_to: []
+    date_proposed: 2026-09-20
+    date_approved: 2026-09-20
+    approval: approved-at-gate     # pioneer: "The contract is approved" (2026-09-20), with the three choices taken as drawn - they were marked with a recommendation each and the tiers carry those
+    bearing: |
+      The lifecycle stops depending on a person noticing when it breaks. The bet: its failures are few and
+      shaped - an agent that ends with nothing written, two agents sent at one record, a task waiting called a
+      fault, a step that cannot run at all - so the workflow can catch and recover each one itself, and record
+      what it cannot.
+    # Bears against paragraph five of the founding statement (the practice guides the pioneer): a downstream
+    # report of 2026-09-20 ran the full lifecycle for the first time and found the pioneer holding it together -
+    # four agents exhausted their budgets eight times with nothing written and were restarted by hand each time,
+    # four dispatch collisions were serialised by a person watching, and the one step that cannot run at all has
+    # been failing silently for three releases. The pioneer's words: the workflow is fragile as it stands, and
+    # before anything else it must be self-healing. Precedents: applies P-004 (no step may depend on a command
+    # only a human runs - which is exactly what the eight recoveries were), P-005 (only the party allowed to
+    # write a record writes it), P-001 (survey wide first), P-002 and P-008; distinguished from P-006 on the
+    # boundary the pioneer drew at C-027 - a turn budget is a limit that stops an agent working at all, not a
+    # limit on what the work produces, so P-006 does not forbid moving it; it is not moved anyway, because a
+    # larger constant fails later rather than differently. Governed by the pioneer's ruling of 2026-09-20 that
+    # nothing may block the work being initiated without asking them for guidance.
+    tier_1: |
+      The user is the pioneer, and any agent working under the kit. Today, when a kit agent runs out of turns it
+      writes nothing and says nothing: the work is done and lost, and only a person noticing restarts it. That
+      happened eight times in two days downstream, to four different agents. Two agents get dispatched at the
+      same record and nothing but a person watching prevents the collision. A task that is simply waiting for the
+      pioneer's decision is announced as a fault, with advice to record a working mechanism as failed. And a step
+      that cannot run at all stops the queue behind it silently, and has for three releases.
+      Success: the workflow notices its own failures, recovers what it can without the pioneer, records what it
+      cannot, keeps moving, and says what is queued behind the task it hands over - unasked.
+      Without it the pioneer is the scheduler and the error handler, which is the opposite of what the kit is for.
+    tier_2: |
+      UC-1 An agent that ends with nothing written is noticed and resumed. A new hook records, when an agent is
+           launched, which records it may write and how long they are; the existing stop hook compares. Nothing
+           changed means the gate's next hand-over is to resume that agent with what it already has - once. A
+           second failure records the task blocked, with the reason, and the queue moves on.
+      UC-2 What an agent must read is bounded. One script builds an index of the items an agent must act on -
+           the unconsolidated observations, the unclerked corrections - the way the transcript digest bounded the
+           audit. The agents that exhausted read the index and go to the record only for an item they are acting
+           on.
+      UC-3 The gate does not dispatch into work in flight. With launch and stop both recorded it knows an agent
+           is running, and hands over nothing that writes the same record until it finishes.
+      UC-4 Repetition is a fault only when nothing is waiting. A task whose next move is the pioneer's, or whose
+           agent is running, is not repeating - it is waiting, and the gate says which.
+      UC-5 The queue's depth reaches the pioneer unasked. The gate names how many agent tasks stand behind the
+           one it hands over. Pioneer-owned items stay uncounted (contract-011).
+      UC-6 A step that cannot run is recorded and routed past. The blocked state applies to an agent's own
+           failure, so a batch that cannot write its key stops the queue once, not forever.
+      UC-7 The walk can reach all of it. The lifecycle fixture gains project settings, a seal and agent records,
+           and the new states are driven there. Three releases missed the batch failure because no test the kit
+           owns can see it.
+      The pioneer approved the contract as drawn, and the three choices put at the gate each carried a
+           recommendation which the tiers already express: an exhausted agent is resumed once and then blocked;
+           the index is built now rather than after; and this contract makes the batch step's failure survivable
+           while the permission behaviour behind it stays its own work.
+      Not included, named so nothing is lost: that permission behaviour, which belongs to the harness and cannot
+           be reproduced here; and raising any agent's turn budget as a constant.
+    tier_3: |
+      G-1 (UC-1, UC-6) no failure of the lifecycle is silent: every one leaves a record and names a next step.
+      G-2 (UC-1) the recovery is the workflow's, never a command the pioneer runs. applies P-004.
+      G-3 (UC-2) the index is measurably smaller than the record it replaces, measured on this repository's own
+           records, and an agent reading it can still reach every item it must act on.
+      G-4 (UC-3, UC-4) the gate never dispatches into a record being written, and never calls waiting a fault.
+      G-5 (UC-5) the pioneer sees the depth of the agent queue without asking; pioneer-owned items are still
+           never counted.
+      G-6 (UC-7) every state this contract adds is reachable in the walk, on a fixture carrying settings, a seal
+           and agents.
+      G-7 (all) bash, sed, awk, grep, tr, date and git; no new per-turn cost the gate does not already pay;
+           nothing scores the pioneer; the contract is committed alone.
+    disappointment: |
+      The pioneer, 2026-09-20, given once for every guarantee: "disappointment is same as it says."
+    premortem: |
+      "Pre-mortem is if this still results in a fragile workflow that would depend on a pioneer reminding or
+      asking the agent to go to the next step." - the pioneer, 2026-09-20.
+    tier_4: |
+      T-1 (G-1, G-2) On a fixture: an agent launched, stopped, records unchanged - the gate's next hand-over is a
+           resume naming that agent. The same again - the task is recorded blocked with its reason and the queue
+           moves to the next item.
+      T-2 (G-3) The index built over this repository's own ledger and correction log, with both sizes printed:
+           the index is smaller by a stated factor, and every unconsolidated item and unclerked correction
+           appears in it.
+      T-3 (G-4) A fixture with an agent in flight: the gate hands over nothing that writes the same record, and
+           hands it over once the stop is recorded.
+      T-4 (G-4) The same hand-over three turns running while an agent runs, or while the next move is the
+           pioneer's: the gate says what it is waiting on and does not call it a fault. Three times with nothing
+           in flight and nothing owed by the pioneer: the fault, as now.
+      T-5 (G-5) The gate's message names the number of agent tasks behind it; a fixture with pioneer-owned items
+           due shows no count of those.
+      T-6 (G-1, UC-6) A fixture whose batch step cannot write its key: it is recorded blocked, the pioneer is
+           told once, and the queue proceeds.
+      T-7 (G-6, G-7) All walks and checks pass on a fixture that now carries settings, a seal and agent records;
+           the commit holds only this contract's paths.
+      T-8 (all) An independent agent, given a project whose consolidation exhausts and only the kit's text, ends
+           with the work either recovered or recorded - and its notes say whether it had to be told anything by
+           a person.
+      untested: the permission behaviour that makes the batch step's write fail, which is the harness's and not
+           the kit's; and whether bounded reading actually prevents exhaustion in a live run at scale, which
+           needs a project with large records.
+      realigned: none at the gate - the pioneer gave the pre-mortem and one disappointment line for every
+           guarantee, and approved the contract as drawn.
+    red_test: {broke: G-4, went_red: T-3, how: "the hold that stops the gate dispatching while an agent runs was removed; walk state 59 failed - the gate handed over a second agent while the first was still recorded as running, which is the collision that needed a person watching; restored from a saved copy; all 65 states match again", date: 2026-09-20}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: f1a80ff7-fa97-4c9a-af1b-c9d531906784
+    observations: [O-075, O-076, O-077, O-078]
+    revisions:
+      - what: "Three tests of earlier contracts changed. Contract-010 T-6 counted seven hook commands in the settings template and now counts eight, the new one being the record of an agent starting. Contract-015 T-3 holds the travelling walk to its number of states, which is 65 now: eight new ones drive the healing and the fixture they run in is a project rather than a bare skills folder. The walk's own version states follow the version."
+        authorised_by: "inside G-6 and G-7 as approved, and the disappointment line the pioneer gave for every guarantee. Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-20
+        tests_changed: ["contract-010 T-6 (walk-007 state 139c)", "contract-015 T-3 (state 165)", "the version states (105, 112d)"]
+      - what: "T-8 - an independent agent given a project whose consolidation exhausts - is deferred rather than claimed. It needs records larger than this repository's to exhaust an agent honestly, and a run on smaller ones would prove nothing. Named in the results record as deferred with what it needs."
+        authorised_by: "no authorisation sought: a test the contract names is not claimed as passed. Recorded so the gap is visible rather than quietly absent."
+        date: 2026-09-20
+        tests_changed: []
+      - what: "The version moves to 0.29 (manifest, template base_kit_version, README, the walk's version states), the README gains a Contract-021 bullet and two rows in its mechanisms table. The refusal check caught this contract's own new refusal before any test did, and it was registered with its next step - the mechanism from the contract before working on the contract after."
+        authorised_by: "the standing rule on the version ('bump it.', 2026-09-17) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-20
+        tests_changed: []
+    # Evidence: meta-mechanisms/tests/results/contract-021-T-1-T-8.md. The report that drew this contract is the
+    # downstream project's fifth, read and verified against this repository before the contract was drawn.
+    cost: {turns: 2, tokens: null, pioneer_minutes: null}    # messages to the pioneer from approval to implemented; the main session's tokens not measured; minutes not asked - the pioneer does not remember them and the field stays null rather than estimated
+    work_id: null
