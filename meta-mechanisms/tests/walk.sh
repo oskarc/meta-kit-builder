@@ -80,7 +80,7 @@ observations:
   - obs_id: O-1
     consolidated: false
 EOF
-CLOSE='What should you have based the framing of the output on? The plan. What did you base the framing of the output on? The plan. Why did you choose to base the framing of the output on that? It governs. How did you present this to the pioneer to make sure they could align on the basis of the output? I showed the source.'
+CLOSE='What should you have based the framing of the output on? The plan. What did you base the framing of the output on? The plan. Why did you choose to base the framing of the output on that? It governs. How are you presenting this to the pioneer to make sure they can align on the basis of the output? I showed the source.'
 show "04 question before the closing four must defer" "Should I keep the agent? $CLOSE"
 show "05 question, no closing four at all" 'Should I keep it?'
 show "06 no question, the closing four present" "All set. $CLOSE"

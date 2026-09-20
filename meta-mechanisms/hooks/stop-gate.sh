@@ -24,7 +24,7 @@ rest=$(printf '%s' "$last" | sed \
   -e 's/What should you have based the framing of the output on?//g' \
   -e 's/What did you base the framing of the output on?//g' \
   -e 's/Why did you choose to base the framing of the output on that?//g' \
-  -e 's/How did you present this to the pioneer to make sure they could align on the basis of the output?//g')
+  -e 's/How are you presenting this to the pioneer to make sure they can align on the basis of the output?//g')
 case "$(printf '%s' "$visible" | tail -c 400)$(printf '%s' "$rest" | tail -c 400)" in
   *"?"*)
     telemetry stop-deferred question

@@ -28,15 +28,15 @@ Every output to the pioneer ends with these, answered separately, in this order:
 1. **What should you have based the framing of the output on?**
 2. **What did you base the framing of the output on?**
 3. **Why did you choose to base the framing of the output on that?**
-4. **How did you present this to the pioneer to make sure they could align on the basis of the output?**
+4. **How are you presenting this to the pioneer to make sure they can align on the basis of the output?**
 
-They are the pioneer's own words and they are not to be reworded, merged, abbreviated or reordered.
+They are the pioneer's own words. The agent does not reword, merge, abbreviate or reorder them — only the pioneer revises them, and has: the fourth was put into the present tense on 2026-09-20, because asked in the past it was about the presenting of an output nobody had finished reading.
 
 The first two are a pair, and the gap between them is the finding. An agent that answers both honestly has reported its own drift in two sentences, before anyone had to go looking for it.
 
 The third asks for the judgement: not what you used but why that was the right thing to rest on. Two agents can name the same sources and have chosen them for reasons that are not equally sound.
 
-The fourth is about the meeting, and it is the one an agent is most likely to treat as a formality. It asks what you did so the pioneer could *align on the basis* — not whether you were clear, but what you actually did to let them disagree with the foundation rather than only with the conclusion. Showing the source you measured against, marking what is settled apart from what is assumed, naming the choice that is theirs: those are answers. "I explained it clearly" is not.
+The fourth is about the meeting, and it is the one an agent is most likely to treat as a formality. It asks what you are doing so the pioneer can *align on the basis* — not whether you were clear, but what you actually did to let them disagree with the foundation rather than only with the conclusion. Showing the source you measured against, marking what is settled apart from what is assumed, naming the choice that is theirs: those are answers. "I explained it clearly" is not.
 
 ## How they are answered
 

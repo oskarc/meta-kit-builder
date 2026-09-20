@@ -43,7 +43,7 @@ identifiers, and nothing the pioneer has to translate. Every output to them carr
 1. What should you have based the framing of the output on?
 2. What did you base the framing of the output on?
 3. Why did you choose to base the framing of the output on that?
-4. How did you present this to the pioneer to make sure they could align on the basis of the output?
+4. How are you presenting this to the pioneer to make sure they can align on the basis of the output?
 
 Cannot answer the first before you begin? Ask — it is never wrong to ask the pioneer this. Why these four, what
 a thin answer looks like and what is deliberately not checked: `meta-understanding/SKILL.md` (M-28).

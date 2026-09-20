@@ -62,7 +62,7 @@ r=$(ss); case "$r" in *"Pioneer-owned"*) ok "94e three due candidates -> the lin
 
 echo "=== T-6: the question guard ==="
 mk; printf 'observations:\n  - obs_id: O-1\n    consolidated: false\n' > "$K/meta-ledger/LEDGER.yaml"
-CLOSE20='What should you have based the framing of the output on? The plan. What did you base the framing of the output on? The plan. Why did you choose to base the framing of the output on that? It governs. How did you present this to the pioneer to make sure they could align on the basis of the output? I showed the source.'
+CLOSE20='What should you have based the framing of the output on? The plan. What did you base the framing of the output on? The plan. Why did you choose to base the framing of the output on that? It governs. How are you presenting this to the pioneer to make sure they can align on the basis of the output? I showed the source.'
 n=$(gate "Done. $CLOSE20 Shall I proceed with the retirement?"); [ "$n" = 0 ] && ok "95 a question AFTER the closing four defers the gate - its own four question marks are removed before the scan (T-6, realigned by contract-020)" || bad "95 question after block" "fired"
 n=$(gate "Implemented the change. Want me to run the tests? $CLOSE20"); [ "$n" = 0 ] && ok "96 a question before the block defers" || bad "96" "fired"
 grep -q '|stop-deferred|question' "$K/meta-ledger/telemetry.log" && ok "96b …and writes a stop-deferred line the steward can read" || bad "96b telemetry" "$(cat "$K/meta-ledger/telemetry.log" 2>/dev/null)"
@@ -504,7 +504,7 @@ IN20="$SRC/meta-foundation/INTENT.md"; UN20="$SRC/meta-understanding/SKILL.md"
 q20a="What should you have based the framing of the output on?"
 q20b="What did you base the framing of the output on?"
 q20c="Why did you choose to base the framing of the output on that?"
-q20d="How did you present this to the pioneer to make sure they could align on the basis of the output?"
+q20d="How are you presenting this to the pioneer to make sure they can align on the basis of the output?"
 n20=0
 for q in "$q20a" "$q20b" "$q20c" "$q20d"; do
   grep -q -F -- "$q" "$IN20" && grep -q -F -- "$q" "$UN20" && n20=$((n20+1))

@@ -1089,6 +1089,44 @@ corrections:
       rests on an assumed approval has to show up in the answer to what the framing was based on.
 
 
+  - corr_id: C-034
+    date: 2026-09-20
+    contract_id: contract-020
+    moment: M-05
+    grade: option-override
+    intervention: did-it
+    agent_offered: |
+      Having been told that a question lacking context should be revised rather than explained around, the agent
+      proposed one candidate wording for the fourth: "What did you do so the pioneer can align on what this rests
+      on, and disagree with it?" - and offered the alternative of being given the pioneer's own preferred words.
+    pioneer_said: |
+      "How are you presenting this to the pioneer to make sure they can align on the basis of the output?"
+    reason_given: |
+      none given
+    noticed: |
+      not asked - the pioneer answered by writing the question rather than describing what was wrong with the
+      agent's
+    would_have_been_right: |
+      From the pioneer's own words in the same message, not asked separately: the question in the present
+      continuous - how you ARE presenting this - keeping their own wording otherwise.
+    seen_before: |
+      pending - not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      The pioneer did the work themselves rather than choose between the agent's options, which is why this is
+      recorded at did-it: the first such entry in this log, where every previous correction is redirected. The
+      change is two words - did you present becomes are you presenting, could becomes can - and it removes the
+      defect an independent reader had named: a question asked in the past tense, at the close of an output, about
+      the presenting of the very thing the pioneer has not finished reading. The agent's own candidate had dropped
+      the pioneer's word align and added a clause about disagreement; theirs keeps align and fixes only the tense,
+      which is the smaller and better change. Note for the casebook: the agent had treated the wording of the four
+      as fixed because the pioneer wrote it, and defended it on that ground to an independent reader; the pioneer
+      released it the moment it cost the instrument something. Authorship is not a reason to keep a sentence.
+
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no

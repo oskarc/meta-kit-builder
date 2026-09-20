@@ -3970,6 +3970,10 @@ contracts:
         authorised_by: "the standing rule on the version ('bump it.', 2026-09-17) - recorded for the pioneer to confirm or refuse"
         date: 2026-09-20
         tests_changed: ["the walk's version states (105, 112d)"]
+      - what: "The fourth question is revised, by the pioneer, into the present tense: 'How are you presenting this to the pioneer to make sure they can align on the basis of the output?' Asked in the past it was about the presenting of an output nobody had finished reading, which an independent reader named as the vaguest of the four; the agent had defended its wording on the ground that the pioneer wrote it, and added explanation around it in the node rather than fix it. The new wording is in the always-loaded file, the node, the gate's list of question marks to remove before it scans for a question, and both walks' fixtures. The node also stops claiming the four may never be reworded: the agent does not reword them, the pioneer may and did."
+        authorised_by: "Pioneer, 2026-09-20: 'If the questions lack context then we should revise that', then the revised question in their own words (C-034)."
+        date: 2026-09-20
+        tests_changed: ["contract-020 T-1 and T-5 (walk-007 state 190 and the guard fixtures in both walks)"]
       - what: "Found and not fixed: the manifest is YAML-shaped but has never been valid YAML - 61 lines would fail a strict read, because an unquoted value beginning with a word and a colon parses as a mapping key. Nothing in the kit reads it with a YAML parser, since the hooks use awk and the portability rule forbids anything else, so it has never mattered. A single line was quoted during this build and then unquoted again rather than leave the file half-fixed and appear to parse. Recorded in the roadmap."
         authorised_by: "no authorisation sought: nothing was changed. Recorded so the finding is not lost."
         date: 2026-09-20
