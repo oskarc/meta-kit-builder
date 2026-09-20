@@ -125,18 +125,93 @@ still runs no agent, which stays a carried gap below.
 
 ## Research — where this has been solved already
 
-Named from knowledge, not yet read. The pioneer asked for the lay of the land before the kit invents its own
-answer to a problem other disciplines have worked on for decades. Each line is the one idea worth taking.
+**Done 2026-09-21.** Six sources read first-hand; one, Bainbridge, read only through an encyclopaedia summary
+because the paper would not render — her own sentences are still unread and nothing below quotes her. Sources
+and extracts are kept locally under `research/`.
 
-| Domain | The idea |
-|---|---|
-| Durable workflow engines (Temporal, Step Functions, Airflow) | Progress is journaled as it happens, so a dead worker resumes from the log. Leases with expiry answer "is it running or stuck" and "who holds this record" with one mechanism. Dead-letter queues keep what cannot be processed from blocking everything behind it. |
-| Erlang and OTP supervision trees | Let it crash, restart under a declared strategy, and a restart intensity limit: more than X restarts in Y seconds escalates to the parent instead of looping. Recover, recover, then stop and tell someone. |
-| Autonomic computing and Kubernetes | The monitor-analyse-plan-execute loop over shared knowledge, and reconciliation: compare declared desired state against actual and close the gap continuously, rather than dispatching a plan step by step. |
-| Site reliability engineering | Automated remediation with an explicit last rung — a human is paged only once the automation has exhausted its options. Runbooks, error budgets, the toil-versus-work distinction. |
-| Databases | Write-ahead logging: record the intent before the act, so recovery can replay or unwind. The kit already borrows this for the upgrade; it argues an agent should write intent first, not result last. |
-| Toyota: jidoka, andon, poka-yoke | A machine stops itself rather than produce defects, and the stop is visible and owned. Mistake-proofing makes the wrong action impossible rather than detectable. |
-| Resilience engineering and human factors | Bainbridge's *Ironies of Automation* (1983): automating the easy parts leaves the human only the hard parts, with less practice at them — which is the five-against-twelve split, stated forty years ago. Woods on graceful extensibility covers running out of adaptive capacity. |
+The question was what other disciplines do about a workflow that recovers from its own failures without a
+person. Seven findings, ordered by what they change here.
+
+### 1. We collapse four different failures into one
+
+Temporal detects four things, with four separate timeouts, because they are four different problems: work that
+was queued and never picked up; a single attempt that hangs; the whole job including all its retries; and an
+attempt that is running but making no progress. The kit has one crude version of the second.
+
+The consequence is concrete: **we cannot tell an agent that never started from one that started and died.** Both
+read as "launched, no stop recorded". The first needs relaunching, the second needs resuming, and telling an
+agent to "write what you already have" when it never ran is nonsense.
+
+And the sentence that justifies the whole apparatus, which applies exactly to us: *"The Temporal Server doesn't
+detect failures when a Worker loses communication with the Server or crashes."* No engine detects silent death
+directly. Every one of them infers it from a timeout, which means our lease is the right shape and the right
+answer is more kinds of timeout, not a cleverer one.
+
+### 2. Nothing heartbeats, and that is the signal we most lack
+
+A heartbeat is a ping that says work is still progressing. It is the only thing that tells a slow agent from a
+stuck one — and telling those apart is precisely what we cannot currently do. The index built this week already
+gives an agent a per-item structure to report against: an item finished is a natural beat.
+
+### 3. Escalation should be graded, and ours has two rungs and no clock
+
+Erlang's supervisors carry an intensity and a period: more than so many restarts within so many seconds and the
+supervisor stops trying and escalates to its parent. Ours is intensity one with no period at all — resume once,
+then block, however far apart the failures are. Its warning also lands: intensities **multiply** across levels,
+so an agent that retries internally, under a gate that resumes, under a pioneer who restarts, makes far more
+attempts than any layer intended.
+
+### 4. Toyota's cord does not stop the line, and the popular version we were carrying is wrong
+
+Pulling the andon cord raises a signal. The line keeps moving to the next fixed position — one work cycle, five
+to thirty seconds — and the team leader has that window to resolve it. The line stops only if they cannot. Two
+things follow. There is a **bounded window for the nearest responder before anything escalates**, which is what
+our single resume accidentally is. And the stop happens at a **safe point**, the end of a work cycle, never
+mid-task — which we do not honour: nothing stops a block being recorded in the middle of a write.
+
+### 5. Backoff, with a cap and a reset
+
+Kubernetes restarts a failed container after 100ms, doubling to a five-minute ceiling, and resets the counter
+once the thing has run cleanly for ten minutes. We resume immediately, into exactly the condition that just
+failed. If the cause is size — which the evidence says it is — an immediate retry is a retry into the same wall.
+
+Its three probes are the same lesson as finding 1 from another angle: *started*, *healthy* and *ready for work*
+are three questions with three different answers. The startup probe exists because slow-starting things were
+being killed by health checks meant for running ones — which is exactly the mistake a shorter lease would make
+here.
+
+### 6. A gap this reading found in what we shipped last night
+
+Every one of these engines assumes at-least-once delivery, and therefore demands that retried work be
+idempotent. **Our resume is not.** "Resume and write what you already have" is safe only if the agent had
+written nothing; if it had written half its items and stopped, nothing prevents it writing some of them twice.
+No run has shown this, because no agent has yet been resumed after a partial write — which is luck, not design.
+
+### 7. Two warnings that bound the whole direction, and disagree with each other
+
+Google's definition of toil ends with a caution aimed straight at the conclusion this kit has been drawing:
+it warns against using *"human judgment"* as an excuse for poor system design. Our reading of one day's evidence
+— that mechanisms caught five failures with a shape and a person caught twelve without one — is one step away
+from being exactly that excuse.
+
+Bainbridge's is the opposite warning. Automating the parts that can be automated leaves the human only the parts
+that cannot, with less practice at them and a monitoring job people do badly. The better the workflow heals
+itself, the rarer and harder the pioneer's interventions become. Her remedy is not less automation but more
+preparation — the operator needs *more* training for the rare crucial moment, not less.
+
+Held together: automate what has a shape, and do not let "that needs judgement" become the reason a shapeless
+failure was never given one. But expect that every success here raises what is asked of the pioneer on the day
+something falls outside it.
+
+### What should be drawn from this
+
+Nothing is drawn yet. In order of what the evidence supports:
+
+1. **Idempotent resume** — the gap above, in work already shipped. Smallest and most urgent.
+2. **Tell "never started" from "started and died"**, because the recovery differs.
+3. **A heartbeat**, so slow and stuck stop looking alike.
+4. **A period on the escalation**, and backoff with a reset, rather than an immediate retry into the same wall.
+5. **Record a block at a safe point**, never mid-write.
 
 ## Later — the shape changes contract-017 left standing
 
