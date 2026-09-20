@@ -64,6 +64,8 @@ Each listed approval is written so the pioneer can act on it: what was assumed, 
 
 If any active skill's constraints were not followed, name the skill and the specific human statement that authorised the deviation. If there is no such statement, the deviation is unauthorised and must be flagged — not justified.
 
+**A kit task that cannot be done is not a deviation** when its record says so. Declining a task the stop-gate hands over is a deviation only while the record still reads `false`; once the state reads `blocked` with its reason and what it waits for, declining it is following the practice and no deviation is written (contract-019, meta-mechanisms → Blocked tasks). An instrument that scores the honest answer as drift teaches the dishonest one — launching the thing that cannot work, letting it fail quietly, and writing nothing.
+
 ---
 
 ## What ABSENT Means

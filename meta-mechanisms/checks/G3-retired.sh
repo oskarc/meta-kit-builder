@@ -18,12 +18,12 @@
 here="$(cd "$(dirname "$0")" && pwd)"
 kit="${1:-$(cd "$here/../.." && pwd)}"
 list="$here/retired-phrases.txt"
-[ -f "$list" ] || { echo "G3-retired broken: $list is missing"; exit 1; }
+[ -f "$list" ] || { echo "G3-retired broken: $list is missing — it ships beside this script; restore it from the staged kit or from git history, and do not run the check without it"; exit 1; }
 files=()
 for f in "$kit"/meta-*/SKILL.md "$kit/meta-foundation/INTENT.md" "$kit/meta-map/MAP.md" "$kit"/agents/*.md "$kit"/templates/* "$kit/README.md"; do
   [ -f "$f" ] && files+=("$f")
 done
-[ "${#files[@]}" -gt 0 ] || { echo "G3-retired broken: no kit texts found under $kit"; exit 1; }
+[ "${#files[@]}" -gt 0 ] || { echo "G3-retired broken: no kit texts found under $kit — pass the kit root as the first argument, which in a project is .claude/skills"; exit 1; }
 # shipped FILE — the kit's shipped copy of FILE, or nothing
 shipped() {
   local rel="${1#$kit/}" s=""

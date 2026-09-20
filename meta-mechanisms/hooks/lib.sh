@@ -3,7 +3,8 @@
 # Portable by design: bash, sed, awk, grep, tr, date. No jq, no python.
 #
 # State is read through FLAT MARKER KEYS in the instance files (verification_state:, audited:, transcript:,
-# consolidated:, stewarded:, review_due:, clerked:, decided:, revealed:). Two rules keep that parsing honest:
+# consolidated:, stewarded:, review_due:, clerked:, decided:, revealed:, and the blocked_* keys beside them).
+# Two rules keep that parsing honest:
 #   * a marker is only read at the entry's own indentation, so an enumerated value quoted inside a tier
 #     block or a revision note is prose, not state;
 #   * values may carry a trailing `# comment`.
@@ -155,7 +156,7 @@ contracts_table() {
       if (line ~ /^[[:space:]]+type:[[:space:]]*analysis-report[[:space:]]*$/) { skip=1 }
       if (line ~ /^[[:space:]]+status:[[:space:]]*(approved|implemented|verified|learned|legacy)[[:space:]]*$/) { st=$2 }
       if (line ~ /^[[:space:]]+verification_state:[[:space:]]*(none|awaiting-evidence|reported|closed-by-follow-up|legacy)[[:space:]]*$/) { vs=$2 }
-      if (line ~ /^[[:space:]]+audited:[[:space:]]*(true|false|legacy)[[:space:]]*$/) { au=$2 }
+      if (line ~ /^[[:space:]]+audited:[[:space:]]*(true|false|legacy|blocked)[[:space:]]*$/) { au=$2 }
       if (line ~ /^[[:space:]]+bearing:/) { br=1 }
     }
     END { emit() }
@@ -177,6 +178,71 @@ contract_field() {
       exit
     }
   ' "$CONTRACTS"
+}
+
+# blocked_list FILE ID_KEY STATE_KEY — every entry in FILE whose STATE_KEY reads `blocked`, one per line:
+#   id|since|reason|waiting_for
+# A task nobody can clear is the failure mode meta-mechanisms names; contract-019 gives it a value to be written
+# down in, beside the field it belongs to and in the same record, so one read finds both the state and its reason
+# (the pioneer's ruling of 2026-09-20: the drift log is written by other agents and would take two files).
+# The blocked_* keys are read at the entry's own indentation, like every other marker.
+blocked_list() {
+  [ -f "$1" ] || return 0
+  awk -v idkey="$2" -v statekey="$3" '
+    function emit() { if (id != "" && st == "blocked") print id "|" since "|" reason "|" waiting; id="" }
+    /^[[:space:]]*#/ { next }
+    /^[[:space:]]*-[[:space:]]+[A-Za-z_]+_id:[[:space:]]*[^[:space:]]/ {
+      emit()
+      key=$2; sub(/:$/, "", key)
+      keyind = index($0, "-") + 2
+      if (key == idkey) { id=$3; sub(/[[:space:]]*#.*$/, "", id); st=""; since=""; reason=""; waiting="" }
+      else { id="" }
+      next
+    }
+    /^[a-z_]+:/ { emit(); next }
+    {
+      if (id == "") next
+      if (match($0, /[^ ]/) != keyind) next
+      line = $0; sub(/[[:space:]]*#.*$/, "", line); sub(/[[:space:]]+$/, "", line)
+      if (line ~ ("^[[:space:]]+" statekey ":[[:space:]]*blocked$")) { st="blocked" }
+      # a bar in a value would shift every field the gate reads, so it never survives the reader
+      if (line ~ /^[[:space:]]+blocked_since:[[:space:]]*[^[:space:]]/)       { since=line;   sub(/^[[:space:]]+blocked_since:[[:space:]]*/, "", since);    gsub(/\|/, "/", since) }
+      if (line ~ /^[[:space:]]+blocked_reason:[[:space:]]*[^[:space:]]/)      { reason=line;  sub(/^[[:space:]]+blocked_reason:[[:space:]]*/, "", reason);  gsub(/\|/, "/", reason) }
+      if (line ~ /^[[:space:]]+blocked_waiting_for:[[:space:]]*[^[:space:]]/) { waiting=line; sub(/^[[:space:]]+blocked_waiting_for:[[:space:]]*/, "", waiting); gsub(/\|/, "/", waiting) }
+    }
+    END { emit() }
+  ' "$1"
+}
+
+# blocked_all — every blocked task in the project, one per line: file_label|id|state_key|since|reason|waiting_for
+blocked_all() {
+  blocked_list "$CONTRACTS"   contract_id audited      | sed 's/^/contract|/;s/|/|audited|/2'
+  blocked_list "$CORRECTIONS" corr_id     clerked      | sed 's/^/correction|/;s/|/|clerked|/2'
+  blocked_list "$LEDGER"      obs_id      consolidated | sed 's/^/observation|/;s/|/|consolidated|/2'
+  blocked_list "$LEDGER"      batch_id    revealed     | sed 's/^/batch|/;s/|/|revealed|/2'
+}
+
+# announced_this_sitting KEY — true when KEY was already put to the pioneer since the last session start.
+# Once per sitting, not once ever: an announcement the agent never made must come back, or a blocked task can
+# disappear silently — which is the pre-mortem of contract-019 in one line.
+announced_this_sitting() {
+  [ -f "$TELEMETRY" ] || return 1
+  awk -F'|' -v k="$1" '
+    $2=="session-start" && ($3=="startup" || $3=="resume") { seen=0 }
+    $2=="blocked-announced" && $3==k { seen=1 }
+    END { exit !seen }
+  ' "$TELEMETRY"
+}
+
+# repeated_handovers DETAIL — how many times in a row the gate has just handed over this same task with nothing
+# changing in between. Counts the trailing run of identical stop-gate lines in telemetry; any other gate event
+# breaks the run. Three in a row is a fault, not a backlog (contract-019 UC-5).
+repeated_handovers() {
+  [ -f "$TELEMETRY" ] || { echo 0; return; }
+  awk -F'|' -v d="$1" '
+    $2=="stop-gate"       { if ($3==d) run++; else run=0; next }
+    $2=="stop-gate-fault" { run=0; next }
+  END { print run+0 }' "$TELEMETRY"
 }
 
 # late_test_revisions — ids of reported contracts with a revision that changes Tier 4 tests dated AFTER the

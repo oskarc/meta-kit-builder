@@ -1181,4 +1181,79 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-067
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-019
+    refs: [UC-1, meta-mechanisms/hooks/lib.sh, verification_state]
+    statement: |
+      a boolean cannot carry a reason, and the kit had already learned that once without noticing. The verification
+      field has a real vocabulary - none, awaiting-evidence, reported, closed-by-follow-up - and awaiting-evidence
+      is exactly "attempted, cannot complete, here is what is needed". Four other lifecycle fields stayed true or
+      false for five versions. A vocabulary invented in one place does not spread to the places that need it.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-068
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-019
+    refs: [UC-5, meta-mechanisms/hooks/stop-gate.sh]
+    statement: |
+      two mechanisms each behaving correctly can hold a project still. The gate was right that the session was
+      unaudited; the agent was right that the audit could not be completed; neither could see that the exchange
+      had happened before, because neither held any memory of the last turn. What broke the loop was not better
+      judgement on either side but a third thing - a count of identical hand-overs, from evidence the gate was
+      already writing and nobody was reading.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-069
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-019
+    refs: [UC-6, meta-antidrift/SKILL.md]
+    statement: |
+      an instrument that scores the honest answer as a departure teaches the dishonest one. Twenty deviations were
+      written into a downstream agent's own fidelity score for giving the only true answer available to a broken
+      mechanism, while launching the thing that could not work and letting it fail quietly would have scored clean.
+      The rule was not wrong - a deviation does need a human statement - it was that the practice had no way to say
+      the task was impossible, so every truthful refusal had to be recorded as drift.
+    level_guess: pattern
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-070
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-019
+    refs: [UC-8, T-9, meta-mechanisms/checks/refusal-nextsteps.txt]
+    statement: |
+      a refusal is a fork in the road, and what it says decides which way the reader goes. The agent that met the
+      kit's refusals with their next steps inside them never searched for a way out: in its words, the recovery
+      path "arrived with the failure instead of having to be searched for", and the pointer to a named section cut
+      what it had to read to find the rule. Ten of the kit's own refusals had said only what was wrong. The test of
+      a refusal is not whether it is accurate but whether the reader knows what to do when they have read it.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []

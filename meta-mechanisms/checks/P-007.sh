@@ -40,7 +40,7 @@ for f in "$kit/templates/CONTRACT-LOG.template.yaml" "$kit/meta-contract-before-
 done
 
 if [ "$found" -eq 0 ]; then
-  echo "P-007 broken: no contract log or template found under ${kit} — nothing carries the tier order"
+  echo "P-007 broken: no contract log or template found under ${kit} — nothing carries the tier order; pass the kit root as the first argument, or seed the log from templates/CONTRACT-LOG.template.yaml"
   exit 1
 fi
 

@@ -750,6 +750,121 @@ corrections:
       because the evidence was new. Same family as C-014 (contracts direct and concise) - concise is a property
       of a contract, not a licence to present something else.
 
+  - corr_id: C-026
+    date: 2026-09-20
+    contract_id: null
+    moment: M-25
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      Having verified a downstream agent's report against this kit, the agent closed with two options: "do you
+      want our own analysis published as report-006 - their report is about our kit, and the measurements from
+      this session are new evidence - or is telling you enough?"
+    pioneer_said: |
+      "Store our analysis as part of a roadmap doc, then draw the contract for this."
+    reason_given: |
+      none given
+    noticed: |
+      pending - the three questions were asked in the same turn this entry was written
+    would_have_been_right: |
+      pending - the three questions were asked in the same turn this entry was written
+    seen_before: |
+      pending - the three questions were asked in the same turn this entry was written
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: null
+    clerk_note: |
+      Both options the agent offered treated an analysis as something that is either published as a report or
+      spoken once and lost. The pioneer named a third place: a roadmap the work stands on, where an analysis is
+      kept because it decides what comes next, not because it is finished. The kit has no such document; every
+      deferred item so far has lived inside the contract entry that deferred it, where only an agent reading the
+      log finds it.
+
+
+  - corr_id: C-027
+    date: 2026-09-20
+    contract_id: contract-019
+    moment: M-04
+    grade: tier-redraw
+    intervention: redirected
+    agent_offered: |
+      In the precedent check of the contract-019 draw: "You ruled that when the work outgrows a limit in an
+      approved guarantee, the limit does not move - the work shrinks: 'we cant start with moving our
+      allowance' (P-006). This decides the auditor: its input shrinks, its thirty-turn budget stays." Five
+      other precedents were applied and one distinguished; no ruling of this kind was named.
+    pioneer_said: |
+      "Id add another precedent check: 'No check must block the work being initiated, if something is not
+      possible to resolve; ask the pioneer for guidance.'"
+    reason_given: |
+      "Meaning a size limit must not block an agent from performing a task, limiting size of the map.md file
+      is a different class. In this instance the gate broke the workflow and the pioneer had no way to resolve
+      it without diverting the meta approach."
+    noticed: |
+      From the pioneer's own words in the same message, not asked separately: "the gate broke the workflow and
+      the pioneer had no way to resolve it without diverting the meta approach."
+    would_have_been_right: |
+      From the pioneer's own words in the same message, not asked separately: the ruling itself - "No check
+      must block the work being initiated, if something is not possible to resolve; ask the pioneer for
+      guidance" - and the class distinction: a limit on what the work produces (the map's size) is not the
+      same class as a limit that stops an agent performing a task.
+    seen_before: |
+      pending - asked in the same turn this entry was written
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      Two things to carry. First, the holding the pioneer stated, which is theirs and not derived: no check may
+      block the work being initiated; where something cannot be resolved, the pioneer is asked for guidance.
+      Second, the boundary it draws around P-006: that precedent governs a limit on what the work produces -
+      the map's byte cap, where the work shrinks and the allowance stays - and does not reach a limit that
+      stops an agent performing a task at all. The agent had read the two as one class and let P-006 decide
+      the auditor's budget. The reach is wider than the contract that provoked it: every refusal the kit ships
+      is a check that can stop work, and the rule is written in none of them.
+
+
+  - corr_id: C-028
+    date: 2026-09-20
+    contract_id: contract-019
+    moment: M-04
+    grade: detail
+    intervention: redirected
+    agent_offered: |
+      At the gate of the contract-019 redraw, the third of three choices put to the pioneer: "The repetition
+      threshold. My draft: N=3, told to both you and the agent, because the downstream day ran to twenty-one
+      with you watching." The use case it refers to (UC-5) says "The same task handed over N times with no
+      change of state is a fault, not a backlog."
+    pioneer_said: |
+      "3. not sure what you mean."
+    reason_given: |
+      none given
+    noticed: |
+      not asked - the pioneer asked for the answer first ("It aligns with my intent but answer my question
+      first"), and the three questions were not put a second time in that turn
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      No grade in the set fits this cleanly, and that is itself the finding. The pioneer did not correct a
+      direction, a tier or an option - they reported that an ask did not land. The grades name every shape the
+      pioneer's judgement takes when it changes the work, and none names the moment the work could not be
+      judged because the agent wrote the question in its own vocabulary. Recorded as detail for want of a
+      better grade; the clerk should put to the pioneer whether the set needs a value for it. The kit already
+      holds the rule this breaks - contract-014's acceptance criterion in the pioneer's own words, "The agent
+      regards how it presents its output to the pioneer and adapts it to make it accessible, clear and
+      actionable", and the auditor's presented_for_pioneer check, which fails a message that "needs something
+      from the pioneer without stating the choices and what each does". The agent named a variable, N, and a
+      number for it, without ever saying what would be counted or what would happen at the count. The same
+      shape the pioneer named at C-019: "it assumed we had both an exact memory of something only the agent
+      had read." There it was a record's id; here it is a variable in a use case only the agent had read.
+
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no

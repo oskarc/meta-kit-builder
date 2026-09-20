@@ -37,6 +37,8 @@ The kit's own history is the evidence. In the downstream projects, drift inciden
 | `checks/G3-retired.sh` | run by the verifier and on upgrade | `checks/retired-phrases.txt`, every kit text | Fails when a wording the kit has retired still stands anywhere — a contract that replaces a sentence adds the old one to the list (contract-013) |
 | `checks/G4-pointers.sh` | run by the verifier and on upgrade | every `node → Heading` pointer | Fails when a pointer names a heading its target does not have (contract-013) |
 | `checks/G5-steps.sh` | run by the verifier and on upgrade | `meta-bootstrap/SKILL.md` | Fails when a paragraph of the bootstrap skill is over 1,200 bytes, naming the line — the text an agent follows while records are at risk stays in steps, and the allowance does not move (contract-016) |
+| `checks/G6-refusals.sh` | run by the verifier and on upgrade | every refusal string in `checks/`, `hooks/` and `meta-bootstrap/` | Fails when a refusal the kit can print is not registered in `refusal-nextsteps.txt` with the next step it gives the reader (contract-019) |
+| `checks/transcript-digest.sh` | run by the agent before it launches the session auditor | a session transcript | Writes one row per turn — line, time, who, flags, tools, files, first words — so the audit can be started at any transcript size |
 | `checks/preflight.sh` | run at the start of an install or upgrade, from the NEW kit's copy | the staged kit's `RELEASE.sha1`, the ledger, git status, the lock | `check` changes nothing and refuses, each time with its reason, when git is missing, the staged kit is not a whole release, a review batch is open, a lock is left, or the pioneer has uncommitted work (it asks them to commit and push, and says why); `begin` records the starting point in `.claude/kit-upgrade.lock`; `end` removes it (contract-017) |
 | `checks/rollback.sh` | run after an install or upgrade that stopped halfway | the lock | Restores `.claude/`, `CLAUDE.md` and the two ignore files to the recorded commit, or from the kept copy outside a repository; leaves the staged kit in place. A half-finished run is never continued (contract-017) |
 | `checks/merge.sh` | run on upgrade | a project's copy, the installed copy, the staged copy | git's three-way merge for a skill the project edited — exit code is the number of conflicts, each printed with both versions; `--header` refreshes a record's comment block and keeps the pioneer's notes beneath it (contract-017) |
@@ -124,9 +126,9 @@ The scripts read state through flat keys. Two rules make that parsing honest, an
 | File | Keys the mechanisms read |
 |---|---|
 | MANIFEST.yaml | its presence, and `kit_type` (`base` means "not installed here"); per node `id`, `skill_file` and `owns` — a flow list `[a, b]` or a block list, paths relative to `.claude/skills/`, a folder covering what is under it — in either the one-line node form the template seeds or the block form |
-| CONTRACT-LOG.yaml | entry-opening `contract_id` (a `report-NNN` id or `type: analysis-report` marks an entry the gates skip), `status` (approved \| implemented \| verified \| learned \| legacy), `verification_state` (none \| awaiting-evidence \| reported \| closed-by-follow-up \| legacy), `audited` (true \| false \| legacy), `bearing`, `transcript` (`null`/`~`/`none` read as absent); `verification.date` at the entry's indentation + 2, and per `revisions` item `date` and `tests_changed` (`[]`/`null`/`none` read as no tests) |
-| LEDGER.yaml | entry-opening `obs_id`, `cand_id`, `batch_id`, `prop_id`, `audit_id`; `consolidated`, `stewarded`, `review_due`, `state: pending`, `decided`, `revealed` |
-| CORRECTIONS.yaml | `clerked` |
+| CONTRACT-LOG.yaml | entry-opening `contract_id` (a `report-NNN` id or `type: analysis-report` marks an entry the gates skip), `status` (approved \| implemented \| verified \| learned \| legacy), `verification_state` (none \| awaiting-evidence \| reported \| closed-by-follow-up \| legacy), `audited` (true \| false \| legacy \| blocked), `bearing`, `transcript` (`null`/`~`/`none` read as absent), and beside a blocked state `blocked_since`, `blocked_reason`, `blocked_waiting_for` — each one line; `verification.date` at the entry's indentation + 2, and per `revisions` item `date` and `tests_changed` (`[]`/`null`/`none` read as no tests) |
+| LEDGER.yaml | entry-opening `obs_id`, `cand_id`, `batch_id`, `prop_id`, `audit_id`; `consolidated` and `revealed` (true \| false \| blocked, with the `blocked_*` keys beside them), `stewarded`, `review_due`, `state: pending`, `decided`, `revealed` |
+| CORRECTIONS.yaml | `clerked` (true \| false \| blocked, with the `blocked_*` keys beside it) |
 | CASEBOOK.yaml | `pioneer_ranking: pending`, `conflict: P-NNN` |
 | DRIFTLOG.yaml | `status` (`watching` is counted in the backlog; `mitigated` makes a resolution item due; `legacy` — a pre-upgrade entry the pioneer deferred — is counted nowhere and presented in no batch) |
 | MAP.md | the trailing `proposed` / `ratified` / `declined` column, and the `ratification: deferred` marker |
@@ -141,15 +143,58 @@ bash, sed, awk, grep, tr and date — and git, by the pioneer's ruling of 2026-0
 
 ## Adding or changing a mechanism
 
-A mechanism is a node change and needs a contract (M-30). The contract's Tier 3 names the event, the files and keys read, the output, and its Tier 4 the fixture test: a sample hook input and the exact output expected. Run the fixture before and after — **and walk the lifecycle, not only the script**: one batch and one contract through every state, because each hook can pass while the loop they form deadlocks. Every walk exits non-zero on a failure. `tests/walk.sh` ships with the kit and runs in any project: it drives the stop-gate through 36 states and diffs against `tests/walk.expected` (regenerate that file only when a gate message changed by design — the command is in the script's header). `tests/walk-004.sh` (the ownership check, late test revisions, retirement, the batch) and `tests/walk-007.sh` (what session-start says, the question guard, the size check, import-loaded owners, the README's structure) are the base kit's own contract walks: they read this repository's templates, docs and manifest, and do not travel. The checks under `checks/` are run by the verifier and on every upgrade; `G1-size.sh` travels, the `P-NNN.sh` checks are this repository's own precedents and do not. Extend them with every mechanism change; a state the walk does not visit is a state nobody has seen. Add the row to the inventory, the keys to the marker-key contract, and — when the mechanism replaces a prose rule — record `mitigation_medium: mechanism` on the drift entry it answers.
+A mechanism is a node change and needs a contract (M-30). The contract's Tier 3 names the event, the files and keys read, the output, and its Tier 4 the fixture test: a sample hook input and the exact output expected. Run the fixture before and after — **and walk the lifecycle, not only the script**: one batch and one contract through every state, because each hook can pass while the loop they form deadlocks. Every walk exits non-zero on a failure. `tests/walk.sh` ships with the kit and runs in any project: it drives the stop-gate through 45 states and diffs against `tests/walk.expected` (regenerate that file only when a gate message changed by design — the command is in the script's header). `tests/walk-004.sh` (the ownership check, late test revisions, retirement, the batch) and `tests/walk-007.sh` (what session-start says, the question guard, the size check, import-loaded owners, the README's structure) are the base kit's own contract walks: they read this repository's templates, docs and manifest, and do not travel. The checks under `checks/` are run by the verifier and on every upgrade; `G1-size.sh` travels, the `P-NNN.sh` checks are this repository's own precedents and do not. Extend them with every mechanism change; a state the walk does not visit is a state nobody has seen. Add the row to the inventory, the keys to the marker-key contract, and — when the mechanism replaces a prose rule — record `mitigation_medium: mechanism` on the drift entry it answers.
 
 ## Failure modes
 
 - **Silent rot.** A renamed key, a moved file, a path the matcher no longer sees. The mechanism stops firing and nothing errors. Watch telemetry for events that stop appearing.
-- **A step nobody can clear.** Every gate task must have a write that ends it. A task with no exit repeats every turn and blocks every step below it.
+- **A step nobody can clear.** Every gate task must have a write that ends it. A task with no exit repeats every turn and blocks every step below it. Answered by Blocked tasks below (contract-019), which is the exit when the write cannot be made.
 - **Over-triggering.** A gate that hands a task every turn becomes noise the pioneer tunes out. One task per turn, and questions are never buried.
 - **False authority.** A mechanism that passed says the form held, not that the judgement was sound. A bearing that exists is not a bearing that steers.
 - **Mechanising judgement.** A hook that decided whether a learning is elevation or recovery would be a green light on a judgement nobody made. Mechanisms route and refuse; they never elevate.
+
+## Blocked tasks
+
+A gate task that cannot be completed is written down as such, and the pioneer is asked for guidance. The pioneer's
+ruling of 2026-09-20: *"No check must block the work being initiated, if something is not possible to resolve; ask
+the pioneer for guidance."* Before it, a task that could not be done and a task nobody had got to were recorded
+identically — `audited: false` either way — so the gate asked for the impossible every turn and every step below it
+went unserved. A day of that downstream is what drew contract-019.
+
+**The state.** Each of the four lifecycle booleans — `audited`, `clerked`, `consolidated`, `revealed` — takes
+`blocked` as a third value, with three one-line keys beside it at the entry's own indentation:
+
+```yaml
+    audited: blocked
+    blocked_since: 2026-09-20
+    blocked_reason: the transcript is 70 MB and the auditor's search returns whole turns, so it fills its budget first
+    blocked_waiting_for: a digest of the transcript, built by checks/transcript-digest.sh
+```
+
+The reason lives on the record beside the state, not in the drift log, by the pioneer's ruling: one read finds both,
+and the drift log is written by other agents.
+
+**What the gate does with it.** A blocked task is skipped, so the queue below it runs. Once per sitting — not once
+ever, or an announcement the agent never made would disappear — the gate hands the agent the task of putting it to
+the pioneer: what is stuck, what it waits for, the choices, and which the agent suggests. Clearing it is the agent's
+write, never the pioneer's command (P-004): set the key back to `false` once what it waits for exists, and the task
+returns to the queue.
+
+**Recording it and saying it are one act, not two turns.** "One kit task per turn" governs the tasks the gate hands
+over; writing the state and putting it to the pioneer is a single one. No ledger observation is owed for a block —
+what was learned goes in the hand-over, where the pioneer can see it and decide. Keep each of the three values to
+one line and leave `|` out of them: the gate reads these fields bar-separated, and the reader replaces a bar
+rather than let it shift a field.
+
+**Repetition is a fault, not a backlog.** The same hand-over three turns running with nothing changing means the
+task cannot be cleared the way it is being tried. The gate stops repeating itself, says so, and tells the agent to
+surface it for steering with a suggested action — usually to record it blocked. The count is the trailing run of
+identical hand-overs in telemetry, which the gate already writes; any other gate event breaks the run.
+
+**Every refusal carries a way forward.** The same ruling governs the scripts: a refusal names what to do next, and
+where the agent can do nothing, it says to ask the pioneer. `checks/G6-refusals.sh` holds every refusal the kit can
+print to that rule — a message not registered in `checks/refusal-nextsteps.txt` fails the check, which is how a new
+refusal cannot be added without one.
 
 ## What this skill does not do
 

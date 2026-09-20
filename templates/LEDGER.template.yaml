@@ -31,7 +31,8 @@
 #                                          # the pioneer (their words carry no forecast and nobody supplies one)
 #       loaded_candidates: []              # K-NNN in the observer's context: cited or read
 #       prompted: false                    # true when the kit asked for it (a batch revise, a question)
-#       consolidated: false                # MARKER — kit-consolidator sets true
+#       consolidated: false                # MARKER — kit-consolidator sets true; blocked when it cannot run,
+#                                          # with blocked_since / blocked_reason / blocked_waiting_for beside it
 #       merged_into: null                  # K-NNN
 #       stewarded: n/a                     # map-miss only: false until kit-map-steward reads it
 #
@@ -73,7 +74,8 @@
 #       file: meta-ledger/batches/B-NNN.md
 #       items: 0
 #       decided: false                     # MARKER — set by close-batch.sh
-#       revealed: false                    # MARKER — set by the main agent after applying decisions
+#       revealed: false                    # MARKER — set by the main agent after applying decisions; blocked
+#                                          # when it cannot be, with the blocked_* keys beside it
 #       represented: []                    # written at the reveal, one per re-presented item:
 #                                          # {cand_id, prior, now, consistent} — never pooled into a rate
 #

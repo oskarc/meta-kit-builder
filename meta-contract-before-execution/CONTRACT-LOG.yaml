@@ -3681,8 +3681,161 @@ contracts:
         authorised_by: "the standing rule ('bump it.', 2026-09-17) - recorded for the pioneer to confirm or refuse"
         date: 2026-09-20
         tests_changed: ["walk-007's version states (105, 112d)"]
+      - what: "The two pieces of work this contract named as contract-019 - bounding the upgrade section rather than the paragraph, which means splitting install from upgrade, and promoting 'every figure that reaches the pioneer comes from a command' into the foundation - are contract-020. A larger contract took 019: the vocabulary of failure, drawn 2026-09-20 from a downstream project's report. Both stand unchanged in docs/ROADMAP.md under Next, which is where deferred work now lives."
+        authorised_by: "Pioneer, 2026-09-20: 'Store our analysis as part of a roadmap doc, then draw the contract for this.'"
+        date: 2026-09-20
+        tests_changed: []
     # T-3's fixture states (179b, 179c) and T-2's (179a) were written during the build; T-4 was two independent
     # agents given one sentence and the repository's address - one installing into an empty project, one upgrading
     # a copy of a 0.16 project. Evidence: meta-mechanisms/tests/results/contract-018-T-1-T-6.md
     cost: {turns: null, tokens: null, pioneer_minutes: null}    # the session was compacted mid-build, so the message count from approval to implemented was not kept; two independent agent runs beside it, the upgrade one about 175,000 tokens as the harness reported
+    work_id: null
+
+  - contract_id: contract-019
+    feature: The kit gains a way to say a task cannot be done and to put it to the pioneer - a third state with a reason on every gate task, a gate that skips it and notices repetition, a bounded input for the auditor, and every refusal the kit prints carrying a way forward
+    type: contract
+    follows: contract-018
+    led_to: []
+    date_proposed: 2026-09-20
+    date_approved: 2026-09-20
+    approval: approved-at-gate     # pioneer: "It aligns with my intent but answer my question first" (2026-09-20), then, on the last open choice: "yes, thats a great idea. 3 times means surface it to the pioneer for steering and suggest an action at this point."
+    bearing: |
+      The kit gains a way to say that a task cannot be done and to put that to the pioneer, so no check can
+      leave the work stopped with nobody able to resolve it. The bet: what is missing is a vocabulary for
+      failure and a route to the pioneer - not a fix to the agent that jammed - because every boolean in the
+      lifecycle and every refusal in the kit has the same gap inside it.
+    # Bears against paragraph five of the founding statement (the practice guides the pioneer): a day of this
+    # practice downstream was spent with the pioneer typing task names by hand while a mechanism politely asked
+    # for the one thing that could not be done. The evidence is that project's own report, written by the agent
+    # that did the refusing, with every checkable claim verified against this repository before the contract was
+    # drawn, plus measurements taken here; the analysis is docs/ROADMAP.md. Spec lock skipped: the design was
+    # surveyed there. Precedents: the pioneer's ruling of 2026-09-20 (C-027) decides it - "No check must block
+    # the work being initiated, if something is not possible to resolve; ask the pioneer for guidance";
+    # distinguished from P-006 (that governs a limit on what the work produces, not a limit that stops an agent
+    # performing a task - the pioneer drew that boundary in the same words); applies P-004 (no step may depend
+    # on a command only a human can run), P-001 (a shortcoming is a retargeting issue - survey wide first),
+    # P-002 with P-003 (build it at once in the base kit, evaluate downstream), P-008 (written so someone new
+    # can follow it); distinguished from P-005 (no session is blind to these records, so no new agent).
+    tier_1: |
+      The user is the pioneer, and any agent working under the kit. Today, when a kit task cannot be completed,
+      the agent has two moves and both are bad: run it anyway and produce nothing, or refuse and have the
+      refusal scored as drifting from the practice. The queue behind it stops, and the pioneer ends up running
+      the lifecycle by hand - which is leaving the practice in order to keep the practice moving.
+      Success: the agent writes down that the task is blocked and why; the gate hands over the next task
+      instead; the pioneer is asked, once, for guidance - told what is stuck, what it is waiting for, and what
+      they can choose; and when the cause is cleared the task returns on its own. Every refusal the kit prints
+      ends with a way forward, and where there is none, it says so and asks the pioneer.
+      Without it, one broken mechanism takes the lifecycle offline quietly, and no record can ever afterwards
+      tell a task nobody could do from one nobody did.
+    tier_2: |
+      UC-1 A third state. audited, clerked, consolidated and revealed gain a blocked value carrying a reason
+           and a date. The marker-key table, the templates and the hooks' parser learn it in one act.
+      UC-2 The gate skips a blocked task and routes the next one. Never silence - that is gap-025, where an
+           unlisted value switches a mechanism off and nobody is told.
+      UC-3 It asks the pioneer for guidance, once. The gate hands the agent the task of putting it to them:
+           what is stuck, the reason recorded, what it is waiting for, and the choices. The gate never decides
+           anything that is the pioneer's.
+      UC-4 Unblocking is the agent's write. When the thing the task waited for exists, the agent clears the
+           state and the task returns to the queue.
+      UC-5 The gate notices repetition. The same task handed over three times with no change of state is a
+           fault, not a backlog. Every firing is already written to telemetry; nothing reads it. The pioneer's
+           words at the gate, which are the acceptance criterion for this use case: "3 times means surface it
+           to the pioneer for steering and suggest an action at this point."
+      UC-6 A documented refusal is not a deviation. Declining a task whose record carries a blocked state with
+           a reason is following the practice, and the score says so.
+      UC-7 The auditor's input is bounded so the audit can start at any transcript size: a digest of one
+           compact row per turn, produced before it is launched - it has no Bash - which it reads instead of
+           the raw file, going back only for an exact quote.
+      UC-8 Every refusal the kit prints names a way forward. Refusal messages are registered in a list beside
+           the scripts, each with its next step, the way retired wordings already are; a script that prints an
+           unregistered refusal fails the check. Where a refusal genuinely has no next step the agent can
+           take, its registered next step is to ask the pioneer for guidance.
+      UC-9 A walk that can see this: skipped, put to the pioneer once, cleared, returned - and the repetition
+           fault.
+      The pioneer chose, of the choices put with their effects: all four fields at once, not audited alone
+           ("all at once"); the reason on the record beside the field, not in the drift log - their reason:
+           "when the record is checked it will find a reason, if its driftlog then its a problem because those
+           are different agents. and it has 2 use 2 files to find the state."; and three repetitions, surfaced
+           to the pioneer with a suggested action.
+      Not included, named so nothing is lost: giving the auditor Bash; a general input budget for every kit
+           agent; and validating every record against the marker-key table, which is gap-025 in full.
+    tier_3: |
+      G-1 (UC-1) no record loses a value it carries; every existing entry reads exactly as it does now. The
+           value is declared in the marker-key table, the templates and the parser together - never in one.
+      G-2 (UC-2, UC-4) a blocked task is skipped, never silently and never forever: it is announced, and it is
+           a state the agent can clear without the pioneer. applies P-004.
+      G-3 (UC-3, UC-5, UC-8) nothing in this contract ends the road. Every blocked task, every third
+           repetition and every refusal reaches the pioneer with what is stuck, why, what they can choose and
+           a suggested action, in words a newcomer can follow. applies the pioneer's ruling of 2026-09-20
+           (C-027) and P-008.
+      G-4 (UC-5) the repetition check reads only what the hooks already write, stays inside bash, sed, awk,
+           grep, tr, date and git, and adds no per-turn cost the gate does not already pay.
+      G-5 (UC-6) the rule lives where the score is defined - meta-antidrift and meta-foundation - not only in
+           the mechanism, so an agent reading the instrument sees it.
+      G-6 (UC-7) the audit can be initiated whatever the transcript's size; the auditor's budget is untouched,
+           and what it can no longer see is written into the agent file as a stated limit.
+      G-7 (UC-9) a walk visits the blocked path; no walk or check regresses; the contract is committed alone.
+      G-8 (all) nothing here requires the pioneer to run a command, and nothing scores them.
+    disappointment: |
+      The pioneer, 2026-09-20: "Disappointment same as it says." - given for every guarantee, G-1 to G-8, with
+      the pre-mortem beside it.
+    premortem: |
+      "pre mortem is if this still allows the workflow to break silently." - the pioneer, 2026-09-20.
+    tier_4: |
+      T-1 (G-1) In a fixture holding a blocked entry: the gate's table reads it as blocked, every other entry
+           reads as before, and the migration check passes on a record carrying the new field.
+      T-2 (G-2) A fixture with the audit blocked: the gate's next hand-over is the task below it. Then the
+           state is cleared and the audit is handed over again - the same fixture, both directions.
+      T-3 (G-3) The blocked hand-over names the task, the reason, what it waits for, the choices and a
+           suggested action, and no run of the gate ends with a blocked task and no sentence.
+      T-4 (G-4, G-3) A fixture whose telemetry holds the same task three times with no state change: the gate
+           calls it a fault, names the count, surfaces it to the pioneer for steering and suggests an action.
+           Twice: silent.
+      T-5 (G-5) The sentence stands in meta-antidrift and meta-foundation, and an agent declining a task whose
+           record is blocked writes no deviation.
+      T-6 (G-6) Measured on this repository's own session transcript: the four searches the auditor is told to
+           make return 15.2 MB against the raw file today; against the digest they return under 0.5 MB, by
+           command, and the auditor's file no longer instructs an unbounded search.
+      T-7 (G-3, UC-8) Every refusal string the kit's scripts can print is registered with a next step; a
+           deliberately unregistered refusal fails the check. The four that end the road today - G3-retired's
+           and G5-steps' missing-file refusals, "release refused: git is not available" and "release refused:
+           <outdir> exists and is not empty" - each gain one and are named in the results.
+      T-8 (G-7) All walks and checks pass, the walk visits skip, ask, clear and repetition, and the commit
+           holds only this contract's paths.
+      T-9 (all) An independent agent, given a project whose auditor cannot finish and only the kit's own text,
+           ends with a blocked record, a gate that moved on, and a question to the pioneer naming what is
+           stuck - without being told this contract exists.
+      untested: whether the blocked sentence lands for the pioneer (P-008's own check is not checkable);
+           whether a real audit succeeds on the digest in a live session - T-6 measures the input, not the
+           outcome; whether gate positions 1 to 3 can jam the same way, which would be worse, being higher.
+      realigned: the precedent check, G-3, T-3 and T-7 were redrawn by the pioneer's ruling of 2026-09-20
+           (C-027), which took the auditor's budget out of P-006's class and put every refusal in the kit
+           inside this contract; UC-5, G-3 and T-4 carry the pioneer's own words on what happens at the third
+           repetition. The disappointment lines were given as "same as it says" after the redraw.
+    red_test: {broke: G-2, went_red: T-2, how: "the gate's audit filter was changed so a blocked task is handed over again; walk.sh state 49 failed - the queue below it stopped running and the walk reported MISMATCH against walk.expected; restored from a saved copy; all 56 states match again", date: 2026-09-20}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: f1a80ff7-fa97-4c9a-af1b-c9d531906784
+    observations: [O-067, O-068, O-069, O-070]
+    revisions:
+      - what: "The moment took M-32, not the M-31 the build first used. M-31 belonged to the rebuild moment contract-004 T-9 seeded and contract-006 G-7 withdrew, and walk-004 holds both maps to never carrying it again. Caught by that walk before anything was committed."
+        authorised_by: "contract-006 G-7 as approved, and its test; no choice was available."
+        date: 2026-09-20
+        tests_changed: []
+      - what: "One test of an earlier contract changed: contract-015 T-3 (walk-007 state 165) held the travelling walk to 47 states with no slash in the eleven that print a derived word. The walk is 56 states now, and the nine new ones name relative script paths - .claude/skills/meta-mechanisms/checks/transcript-digest.sh - in the gate's own message. The state holds the count at 56, keeps the no-slash rule for those eleven, and gains a rule the old one implied but never tested: no line anywhere carries a machine path or drive letter."
+        authorised_by: "inside G-7 as approved (no walk or check regresses) and the disappointment line the pioneer gave for every guarantee, 'same as it says'. Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-20
+        tests_changed: ["contract-015 T-3 (walk-007 state 165)"]
+      - what: "Four defects T-9 found were fixed inside the contract: meta-contract-before-execution/SKILL.md, the node that owns the record, did not list the blocked value its own mechanism accepts; the digest's refusal told the reader to say so in an audit that cannot exist when the digest cannot be built; a bar in blocked_reason would have shifted every field the gate reads, silently; and two questions the agent had to settle alone - whether recording the state and telling the pioneer are one turn or two, and whether a block owes a ledger observation - are now answered in the text."
+        authorised_by: "inside T-9 as approved, and the pre-mortem the pioneer gave: 'if this still allows the workflow to break silently.' Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-20
+        tests_changed: []
+      - what: "Two of the kit's own allowances bit during the build and the work shrank rather than the allowance (P-006): INTENT.md stood exactly on its 5,120-byte cap, so the sentence added there was paid for by tightening four others; and walk-004 holds each map under 7,133 bytes, so the new entry was paid for by pruning six. The version moves to 0.27 (manifest, template base_kit_version, README, walk-007's version states), the README gains a Contract-019 bullet and two mechanism rows, and docs/ROADMAP.md moves this work out of Now."
+        authorised_by: "P-006 as approved, and the standing rule on the version ('bump it.', 2026-09-17) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-20
+        tests_changed: ["walk-007's version states (105, 112d)"]
+    # T-9 was one independent agent given a jammed fixture project, the gate's real hand-over and nothing else.
+    # Evidence: meta-mechanisms/tests/results/contract-019-T-1-T-9.md
+    cost: {turns: 1, tokens: null, pioneer_minutes: null}    # one message to the pioneer from approval to implemented - the build ran in a single stretch; the main session's tokens not measured, the T-9 agent's about 103,000 as the harness reported; minutes not yet asked
     work_id: null

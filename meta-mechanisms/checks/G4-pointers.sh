@@ -16,7 +16,7 @@ files=()
 for f in "$kit"/meta-*/SKILL.md "$kit/meta-foundation/INTENT.md" "$kit/meta-map/MAP.md" "$kit"/agents/*.md "$kit/templates/MAP.template.md"; do
   [ -f "$f" ] && files+=("$f")
 done
-[ "${#files[@]}" -gt 0 ] || { echo "G4-pointers broken: no kit texts found under $kit"; exit 1; }
+[ "${#files[@]}" -gt 0 ] || { echo "G4-pointers broken: no kit texts found under $kit — pass the kit root as the first argument, which in a project is .claude/skills"; exit 1; }
 anchors() { # anchors <file>: one anchor per line
   tr -d '\r' < "$1" | awk '
     /^#+ /          { a = $0; sub(/^#+ +/, "", a); print a; next }

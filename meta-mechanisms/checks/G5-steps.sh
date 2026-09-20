@@ -11,7 +11,7 @@ LIMIT=1200
 here="$(cd "$(dirname "$0")" && pwd)"
 kit="${1:-$(cd "$here/../.." && pwd)}"
 f="$kit/meta-bootstrap/SKILL.md"
-[ -f "$f" ] || { echo "G5-steps broken: $f is missing"; exit 1; }
+[ -f "$f" ] || { echo "G5-steps broken: $f is missing — this check reads the bootstrap skill; restore it from the staged kit, or run the check from the kit root"; exit 1; }
 LC_ALL=C awk -v max="$LIMIT" '
   { n = length($0); if (n > max) { printf "G5-steps broken: meta-bootstrap/SKILL.md line %d is %d bytes, over the %d-byte allowance for one paragraph — split it into steps; the allowance does not move\n", NR, n, max; bad = 1 } }
   END { exit bad }' "$f"

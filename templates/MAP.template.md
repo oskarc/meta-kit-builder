@@ -21,7 +21,7 @@ M-28 | turn-close | always | must | the end of every output | a session-level an
 ## Before building
 
 M-04 | feature-request | situation | must | asked to build, change or fix anything | questions, explanations or reviews that change nothing (M-25) | meta-contract-before-execution → The Bearing, The Proposal; CASEBOOK.yaml → M-04 precedents | proposed
-M-05 | design-ambiguity | situation | must | what the feature is stays open: content, direction, several realisations, tunable numbers | mechanical work; a spec locked earlier | meta-contract-before-execution → Spec Lock; CASEBOOK.yaml → M-05 precedents | proposed
+M-05 | design-ambiguity | situation | must | what the feature is stays open: content, direction, realisations, tunable numbers | mechanical work; a spec locked earlier | meta-contract-before-execution → Spec Lock; CASEBOOK.yaml → M-05 precedents | proposed
 M-24 | founding-question | situation + hook: Stop | must | a bearing may sit outside the founding statement, or it is missing or amended | a bearing that plainly serves it (M-04) | meta-founding-contract | proposed
 M-29 | candidate-check | situation | ambient | drawing Tier 3 guardrails where a trial or adopted candidate applies | a batch is open — the ledger is closed until the reveal | LEDGER.yaml → candidates; meta-ledger → Candidates | proposed
 M-25 | analysis-work | situation | ambient | the work yields findings, a verdict or options, not a plan | a tiered build plan (M-04) | meta-contract-artifact → Template A | proposed
@@ -43,7 +43,8 @@ M-12 | verification-evidence | hook: Stop | must | a contract is implemented, ev
 M-13 | learning-due | hook: Stop | must | contracts sit at status verified | only implemented, or corrected and open clauses outstanding (M-12 first) | meta-learning | proposed
 M-14 | consolidation-due | hook: Stop | must | ledger observations are unconsolidated | — | agent: kit-consolidator | proposed
 M-15 | correction-unclerked | hook: Stop | must | corrections carry clerked: false | — | agent: kit-case-clerk | proposed
-M-19 | drift-analysis | situation | ambient | the pioneer asks what happened, or an audit shows one aspect ABSENT twice | a single ABSENT (M-18) | meta-antidrift-expand | proposed
+M-19 | drift-analysis | situation | ambient | the pioneer asks what happened, or an audit shows an aspect ABSENT twice | a single ABSENT (M-18) | meta-antidrift-expand | proposed
+M-32 | task-blocked | hook: Stop | must | a kit task cannot be completed, or the gate reports one three turns running | — | meta-mechanisms → Blocked tasks | proposed
 
 ## Review and the standard
 
@@ -54,10 +55,10 @@ M-26 | extraction | situation | must | the pioneer judges type-category nodes re
 
 ## The map and the kit
 
-M-20 | map-miss | situation | must | kit knowledge existed but did not load when it applied — noticed by you, an agent or the pioneer | knowledge the kit lacks (a gap: meta-manifest) | meta-ledger → Observations (source: map-miss) | proposed
-M-21 | map-review-due | hook: Stop | ambient | three or more map misses are unstewarded | — | agent: kit-map-steward | proposed
-M-30 | mechanism-change | situation | must | a hook, agent scope, the blind or the seal needs adding, changing or debugging; or a prose rule regressed twice | a node's guidance is what changes (M-22) | meta-mechanisms → Adding or changing a mechanism | proposed
-M-27 | install-or-upgrade | situation | must | no manifest of its own, one still declaring a base kit_type, or a kit staged in .claude/kit-incoming/ | the manifest exists and matches the kit version | meta-bootstrap | proposed
+M-20 | map-miss | situation | must | kit knowledge existed but did not load when it applied | knowledge the kit lacks (a gap: meta-manifest) | meta-ledger → Observations (source: map-miss) | proposed
+M-21 | map-review-due | hook: Stop | ambient | three or more map misses unstewarded | — | agent: kit-map-steward | proposed
+M-30 | mechanism-change | situation | must | a hook, agent scope, the blind or the seal needs adding or changing; or a prose rule regressed twice | a node's guidance is what changes (M-22) | meta-mechanisms → Adding or changing a mechanism | proposed
+M-27 | install-or-upgrade | situation | must | no manifest of its own, one still declaring a base kit_type, or a kit staged in .claude/kit-incoming/ | the manifest matches the kit version | meta-bootstrap | proposed
 
 ## Project entries
 

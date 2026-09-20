@@ -33,6 +33,29 @@ gate() { if [ -z "$reason" ] && [ -n "$id" ]; then reason="$1"; fi; }
 count_gate() { if [ "${1:-0}" -ge "$2" ] 2>/dev/null; then id="$1"; else id=""; fi; }
 HOOKS='bash ".claude/skills/meta-mechanisms/hooks'
 
+# 0. A task nobody can clear is not a backlog. Where a record says a gate task is blocked, the pioneer is asked
+#    for guidance before anything else is routed — and the gate then routes past it, so one stuck task cannot take
+#    the lifecycle offline (contract-019 UC-2, UC-3; the pioneer's ruling of 2026-09-20: "No check must block the
+#    work being initiated, if something is not possible to resolve; ask the pioneer for guidance"). Once per
+#    sitting, not once ever: an announcement the agent never made has to come back.
+id=""
+blk=$(blocked_all | head -n1)
+if [ -n "$blk" ]; then
+  bkind=${blk%%|*}; brest=${blk#*|}
+  bid=${brest%%|*}; brest=${brest#*|}
+  bkey=${brest%%|*}; brest=${brest#*|}
+  bsince=${brest%%|*}; brest=${brest#*|}
+  breason=${brest%%|*}; bwait=${brest#*|}
+  [ -n "$bsince" ] || bsince="an unrecorded date"
+  [ -n "$breason" ] || breason="none recorded on the entry"
+  [ -n "$bwait" ] || bwait="not recorded on the entry"
+  if ! announced_this_sitting "$bid:$bkey"; then
+    id="$bid"
+    telemetry blocked-announced "$bid:$bkey"
+    gate "$bkind $bid cannot be worked: its $bkey has been blocked since $bsince, and the pioneer has not been told in this sitting. Put it to them now, in their words, before other kit work: what is stuck — $breason — and what it is waiting for — $bwait. Then give them the choices and say which you suggest: clear it (you write $bkey back to false once what it waits for exists, and the task returns to the queue), leave it blocked while the rest of the lifecycle runs on, or something they name instead. The rest of the queue is routed as usual from here (M-32)."
+  fi
+fi
+
 # 1. An open batch whose every item is decided: close it, or the blind never lifts.
 id=""
 for b in $(rows "$bt" '$2=="false"' | awk '{print $1}'); do
@@ -55,8 +78,8 @@ if [ -n "$id" ]; then
   [ -n "$t" ] || t="(none recorded on the entry — say in the audit which session you read)"
   # A value with no slash in it is a session id (contract-015 G-2): say what it is and how the file is found.
   case "$t" in
-    */*|"("*) gate "Contract $id is implemented and its session is unaudited. Launch the kit-session-auditor subagent with the contract id $id and transcript path: $t. Give it no account of how the work went (M-11)." ;;
-    *) gate "Contract $id is implemented and its session is unaudited. Launch the kit-session-auditor subagent with the contract id $id and the session id $t - the transcript is the file named $t.jsonl under the Claude projects folder in the user's home, which the auditor finds by that name. Give it no account of how the work went (M-11)." ;;
+    */*|"("*) gate "Contract $id is implemented and its session is unaudited. First build the digest the auditor reads: run bash \".claude/skills/meta-mechanisms/checks/transcript-digest.sh\" $t with Bash — it prints the path it wrote. Then launch the kit-session-auditor subagent with the contract id $id, transcript path: $t, and that digest path. Give it no account of how the work went (M-11)." ;;
+    *) gate "Contract $id is implemented and its session is unaudited. First build the digest the auditor reads: run bash \".claude/skills/meta-mechanisms/checks/transcript-digest.sh\" $t with Bash — it finds the transcript by that session id and prints the path it wrote. Then launch the kit-session-auditor subagent with the contract id $id, the session id $t and that digest path. Give it no account of how the work went (M-11)." ;;
   esac
 fi
 
@@ -113,6 +136,18 @@ id=$(first_id "$ct" '$5=="no" && ($3=="none" || $3=="awaiting-evidence" || $3=="
 gate "Contract $id has no bearing. Tell the pioneer it was approved without one; do not draft one after the fact. Record bearing: 'none recorded at approval' on the entry so the gap stays visible (M-24)."
 
 [ -z "$reason" ] && exit 0
-telemetry stop-gate "$(printf '%s' "$reason" | cut -c1-72)"
+
+# The same task handed over three turns running with nothing changing in between is a fault, not a backlog: the gate
+# stops repeating itself and says so (contract-019 UC-5, in the pioneer's words at the gate — "3 times means surface
+# it to the pioneer for steering and suggest an action at this point"). The count is the trailing run of identical
+# hand-overs in telemetry, which the gate already writes; any other gate event breaks the run.
+det=$(printf '%s' "$reason" | cut -c1-72)
+if [ "$(repeated_handovers "$det")" -ge 2 ]; then
+  telemetry stop-gate-fault "$det"
+  reason="this is the third turn running with the same kit task and nothing has changed - $det - which is a fault, not a backlog — the task cannot be cleared the way it is being tried. Stop trying it. Surface it to the pioneer for steering: name the task, what you have tried, and why it does not complete. Suggest an action — usually to record it blocked, which is the state key on that record set to blocked with blocked_reason, blocked_waiting_for and blocked_since beside it, so the rest of the lifecycle runs on and what is stuck stays visible (M-32) — and ask whether to do that or something they name instead."
+  telemetry stop-gate "$(printf '%s' "$reason" | cut -c1-72)"
+else
+  telemetry stop-gate "$det"
+fi
 printf '{"hookSpecificOutput":{"hookEventName":"Stop","additionalContext":"%s"}}\n' \
   "$(json_escape "Kit mechanism (stop-gate): $reason One kit task per turn. The pioneer does not need to invoke this.")"

@@ -92,7 +92,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.26" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.26" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
+grep -q "^  version: 0.27" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.27" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -106,7 +106,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant fo
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.26" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.26 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.27" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.27 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -283,7 +283,7 @@ grep -q -F 'The agent regards how it presents its output to the pioneer and adap
 
 echo "=== contract-015: promises that hold without the agent remembering ==="
 X15="$SRC/meta-mechanisms/tests/walk.expected"
-n=$(grep -c . "$X15"); p=$(sed -n '37,$p' "$X15" | grep -c -E '/|\\'); [ "$n" = 47 ] && [ "$p" = 0 ] && ok "165 the travelling walk has 47 states, and the eleven new lines carry no path, drive letter or slash (T-3)" || bad "165 travelling walk" "lines=$n platform-marks=$p"
+n=$(grep -c . "$X15"); p=$(sed -n '37,47p' "$X15" | grep -c -E '/|\\'); d=$(grep -c -E '[A-Za-z]:[/\\]|/tmp/|Users' "$X15"); [ "$n" = 56 ] && [ "$p" = 0 ] && [ "$d" = 0 ] && ok "165 the travelling walk has 56 states; the eleven that print a derived word carry no path or slash, and no line anywhere carries a machine path or drive letter (T-3, realigned by contract-019)" || bad "165 travelling walk" "lines=$n platform-marks=$p machine-paths=$d"
 e=$(awk '/^  - contract_id: contract-015$/{f=1} f&&/^    transcript:/{print $2; exit}' "$SRC/meta-contract-before-execution/CONTRACT-LOG.yaml")
 case "$e" in */*|"") t=0 ;; *) t=1 ;; esac
 [ "$t" = 1 ] && grep -q -F 'find it with Glob on `~/.claude/projects/*/<id>.jsonl`' "$SRC/agents/kit-session-auditor.md" && grep -q -F 'the id alone, which the session-start hook names, never a path' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q -F 'session-start hook names, never a path' "$SRC/templates/CONTRACT-LOG.template.yaml" && ok "166 the session id's road is written end to end: hook, entry, gate, auditor - and this contract's own entry records an id, no path (T-2)" || bad "166 session id" "entry transcript=$e"
@@ -444,5 +444,59 @@ r=$( cd "$RD18" && bash "$SRC/meta-bootstrap/release.sh" --from-last-commit "$SR
 rm -rf "$RD18"
 rm -rf "$T18"
 
+echo "=== contract-019: a task that cannot be done has a state, a reason and a way to the pioneer ==="
+T19=$(mktemp -d); C19="$SRC/meta-mechanisms/checks"
+# G-1: the value is declared in the parser, the marker-key table and every template that carries one of the four
+grep -q -F 'audited:[[:space:]]*(true|false|legacy|blocked)' "$SRC/meta-mechanisms/hooks/lib.sh" \
+  && grep -q -F 'blocked_since' "$SRC/meta-mechanisms/hooks/lib.sh" \
+  && grep -q -F 'true \| false \| legacy \| blocked' "$SRC/meta-mechanisms/SKILL.md" \
+  && grep -q -F 'blocked_since' "$SRC/templates/CONTRACT-LOG.template.yaml" \
+  && grep -q -F 'blocked' "$SRC/templates/CORRECTIONS.template.yaml" \
+  && grep -q -F 'blocked' "$SRC/templates/LEDGER.template.yaml" \
+  && ok "183 the third state is declared in the parser, the marker-key table and the templates together, never in one alone (T-1)" || bad "183 the third state" "-"
+# G-5: the rule where the score is defined, not only in the mechanism
+grep -q -F 'A kit task that cannot be done is not a deviation' "$SRC/meta-antidrift/SKILL.md" \
+  && grep -q -F 'recorded `blocked`' "$SRC/meta-foundation/INTENT.md" \
+  && ok "184 a refusal with a reason on the record is not a deviation, said where the score is defined and in the intent (T-5)" || bad "184 the instrument" "-"
+# G-3 / UC-8: every refusal the kit can print is registered with a next step, and an unregistered one fails
+bash "$C19/G6-refusals.sh" >/dev/null 2>&1 && reg_ok=y || reg_ok=n
+cp -R "$SRC/meta-mechanisms" "$T19/mm" 2>/dev/null; mkdir -p "$T19/kit"; mv "$T19/mm" "$T19/kit/meta-mechanisms"
+printf '\n[ "x" = "y" ] && echo "G5-steps broken: an unregistered refusal"\n' >> "$T19/kit/meta-mechanisms/checks/G5-steps.sh"
+r=$(bash "$T19/kit/meta-mechanisms/checks/G6-refusals.sh" "$T19/kit" 2>&1); rc=$?
+[ "$reg_ok" = y ] && [ $rc = 1 ] && case "$r" in *"not registered with a way forward"*"ask the pioneer for guidance"*) ok "185 every refusal the kit prints is registered with its next step, and one that is not fails the check, saying how to register it (T-7)";; *) bad "185 message" "$r";; esac || bad "185 the registry" "registered=$reg_ok rc=$rc"
+# and the ten that ended the road now name a way forward
+n19=0
+for m in "INTENT.md is missing — restore" "MAP.md is missing — seed" "is missing — it ships beside this script" "no kit texts found under \$kit — pass" "is missing — this check reads the bootstrap skill" "nothing carries the tier order; pass" "git is not available — a release is exported" "exists and is not empty — give a path" "no kit_identity.version in the committed manifest — the version is read" "next: finish the migration step"; do
+  grep -rqF -- "$m" "$C19"/*.sh "$SRC/meta-bootstrap/release.sh" && n19=$((n19+1))
+done
+[ "$n19" = 10 ] && ok "186 the ten refusals that said only what was wrong now each name what to do next (T-7)" || bad "186 dead-end refusals" "$n19 of 10"
+# G-6: the auditor reads a digest, states its limit, keeps its budget; the gate builds the digest first
+grep -q -F 'Find the span, in the digest' "$SRC/agents/kit-session-auditor.md" \
+  && grep -q -F 'never the raw transcript' "$SRC/agents/kit-session-auditor.md" \
+  && grep -q -F 'maxTurns: 30' "$SRC/agents/kit-session-auditor.md" \
+  && grep -q -F 'audited: blocked' "$SRC/agents/kit-session-auditor.md" \
+  && grep -q -F 'transcript-digest.sh' "$SRC/meta-mechanisms/hooks/stop-gate.sh" \
+  && ! grep -q -F 'Transcripts are large: use Grep, not a whole-file Read' "$SRC/agents/kit-session-auditor.md" \
+  && ok "187 the auditor reads a digest and says what it cannot see, its budget is untouched, and the gate builds the digest before launching it (T-6)" || bad "187 the auditor" "-"
+# the digest itself, on a transcript shaped like a real one
+printf '%s\n' \
+  '{"type":"queue-operation","operation":"enqueue"}' \
+  '{"parentUuid":null,"type":"user","message":{"role":"user","content":[{"type":"text","text":"draw contract-019 for this"}]},"timestamp":"2026-09-20T10:00:00.000Z","origin":{"kind":"human"}}' \
+  '{"parentUuid":"x","isSidechain":false,"message":{"id":"m1","type":"message","role":"assistant","content":[{"type":"text","text":"Tier 1 of the draw. drift score (agent)"},{"type":"tool_use","id":"t1","name":"Edit","input":{"file_path":"/p/SKILL.md"}}]},"timestamp":"2026-09-20T10:00:01.000Z"}' \
+  '{"parentUuid":"y","type":"user","message":{"role":"user","content":[{"type":"tool_result","is_error":true,"content":"no"}]},"timestamp":"2026-09-20T10:00:02.000Z"}' \
+  > "$T19/t.jsonl"
+bash "$C19/transcript-digest.sh" "$T19/t.jsonl" "$T19/d.txt" >/dev/null 2>&1
+rows=$(grep -c . "$T19/d.txt")
+[ "$rows" = 3 ] \
+  && grep -q '^2 | 2026-09-20 10:00:00 | human' "$T19/d.txt" \
+  && grep -q 'agent | drift,tier | Edit | SKILL.md' "$T19/d.txt" \
+  && grep -q 'result | err' "$T19/d.txt" \
+  && ok "188 the digest is one row per turn, keeps the transcript line number, tells the pioneer's turns from the agent's, and flags the drift blocks, the ids and the errors the audit looks for (T-6)" || bad "188 the digest" "rows=$rows :: $(tr '\n' '/' < "$T19/d.txt" | cut -c1-200)"
+# the moment, and the section it points at
+grep -q -F 'M-32 | task-blocked' "$SRC/meta-map/MAP.md" && grep -q -F 'M-32 | task-blocked' "$SRC/templates/MAP.template.md" \
+  && grep -q -F '## Blocked tasks' "$SRC/meta-mechanisms/SKILL.md" \
+  && grep -q -F 'Answered by Blocked tasks below' "$SRC/meta-mechanisms/SKILL.md" \
+  && ok "189 the moment a task cannot be done is on the map, in both copies, and the failure mode names the section that answers it (T-1)" || bad "189 the map" "-"
+rm -rf "$T19"
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

@@ -33,7 +33,9 @@ here="$(cd "$(dirname "$0")" && pwd)"
 kit="${1:-$(cd "$here/../.." && pwd)}"
 tpl="${2:-$kit/templates/MANIFEST.template.yaml}"
 pre="${3:-}"
-fail(){ echo "G2-migration broken: $*"; exit 1; }
+# Every refusal names a way forward (contract-019 UC-8): the messages below say what is wrong with a record,
+# and this line says what to do about any of them.
+fail(){ echo "G2-migration broken: $*"; echo "  next: finish the migration step that writes this record (meta-bootstrap step 7), then run this check again. If the record cannot be completed at all, record the task blocked with its reason and put it to the pioneer (meta-mechanisms → Blocked tasks)."; exit 1; }
 
 C="$kit/meta-contract-before-execution/CONTRACT-LOG.yaml"
 D="$kit/meta-drift-eventlog/DRIFTLOG.yaml"

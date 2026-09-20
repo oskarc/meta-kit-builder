@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run from anywhere: bash meta-mechanisms/tests/walk.sh — drives the hooks through 47 states in a temp fixture: the stop-gate's lifecycle (01-36), then which kit a hook acts on, the hold on the first batch and the session id (37-47).
+# Run from anywhere: bash meta-mechanisms/tests/walk.sh — drives the hooks through 56 states in a temp fixture: the stop-gate's lifecycle (01-36), which kit a hook acts on, the hold on the first batch and the session id (37-47), then a task that cannot be done — the third state, the skip, the ask and the repetition fault (48-56).
 # Lifecycle walk: drive stop-gate.sh through every state of the kit's state machine.
 SRC="$(cd "$(dirname "$0")/../.." && pwd)"
 
@@ -431,6 +431,32 @@ r=$(ps "$PLAIN" "$FX"); case "$r" in *"has a different one"*) say "46 launched i
 r=$(ps "$FX" "$B2");    case "$r" in *"has a different one"*"kitB"*) say "47 launched in kit A, working in kit B" "tells the pioneer, naming both" ;; *) say "47 launched in kit A, working in kit B" "SILENT" ;; esac
 rm -rf "$PLAIN"
 
+
+echo "=== a task that cannot be done: the third state, the skip, the ask and the repetition fault (contract-019) ==="
+BLOCKED_LOG='contracts:
+  - contract_id: c-1
+    status: implemented
+    verification_state: none
+    audited: blocked
+    blocked_since: 2026-09-20
+    blocked_reason: the transcript is 70 MB and the search returns whole turns, so the auditor fills before it reads
+    blocked_waiting_for: a digest built by checks/transcript-digest.sh
+    bearing: |
+      audited: false in here is prose, not state
+'
+mk; printf '%s' "$BLOCKED_LOG" | w_contracts
+show "48 a blocked task is put to the pioneer before anything else is routed"
+show "49 ...and not again in the same sitting: the queue below it runs"
+printf '2026-09-20T00:00:00Z|session-start|startup|\n' >> "$K/meta-ledger/telemetry.log"
+show "50 a new sitting puts it to the pioneer again"
+mk; printf '%s' "$BLOCKED_LOG" | sed 's/audited: blocked/audited: false/' | w_contracts
+show "51 cleared, the same task is handed over as before"
+show "52 ...twice is still a backlog"
+show "53 ...three turns running with nothing changed is a fault, with an action suggested"
+show "54 ...and the turn after the fault routes normally again"
+mk; printf 'corrections:\n  - corr_id: C-1\n    clerked: blocked\n    blocked_since: 2026-09-20\n    blocked_reason: the correction names a record the project does not have\n    blocked_waiting_for: the pioneer to say which record was meant\n' | w_corr
+show "55 a blocked correction is put to the pioneer, and the clerk is not asked for it"
+show "56 ...and with it announced, nothing else is due"
 echo "=== telemetry ==="
 ls -1 "$K/meta-ledger/" 2>/dev/null
 tail -n 4 "$K/meta-ledger/telemetry.log" 2>/dev/null || echo "(no telemetry written)"

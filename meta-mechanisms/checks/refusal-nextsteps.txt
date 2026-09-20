@@ -1,0 +1,122 @@
+# refusal-nextsteps.txt — every refusal the kit can print, and what the reader does next.
+# Held by checks/G6-refusals.sh (contract-019 G-3). The pioneer's ruling of 2026-09-20: "No check must
+# block the work being initiated, if something is not possible to resolve; ask the pioneer for guidance."
+#
+# Format: the message exactly as the check reads it (variables normalised to <>), then a line beginning
+# "-> " with the next step. Rebuild the message list with: bash checks/G6-refusals.sh --list
+# A new refusal in a kit script fails the check until it is registered here with its next step.
+
+G1-size broken: <> has <> entries, over the 40-entry allowance — prune the map; the allowance does not move
+-> prune the map to under 40 entries; the allowance is not moved (P-006).
+
+G1-size broken: <> is <> bytes, over the 8192-byte allowance — prune the map; the allowance does not move
+-> prune the map to under 8 KB; the allowance is not moved (P-006).
+
+G1-size broken: meta-foundation/INTENT.md is <> bytes, over the 5120-byte allowance — shorten it or point to a node; the allowance does not move
+-> shorten INTENT.md, or move the detail into the node it belongs to and point at it.
+
+G1-size broken: meta-foundation/INTENT.md is missing — restore it from the kit's own copy or from git history; if this project never had one, run this check from the kit root instead
+-> restore it from the staged kit or from git history; run the check from the kit root if this is not a project.
+
+G1-size broken: meta-map/MAP.md is missing — seed it from templates/MAP.template.md (meta-bootstrap step 5), or run this check from the kit root
+-> seed the map from templates/MAP.template.md (meta-bootstrap step 5).
+
+G2-migration broken: $*
+-> the fail line prints its own next step: finish the migration step that writes the record (meta-bootstrap step 7) and run the check again; where the record cannot be completed, record the task blocked and put it to the pioneer.
+
+G3-retired broken: <> is missing — it ships beside this script; restore it from the staged kit or from git history, and do not run the check without it
+-> restore the file from the staged kit or from git history; the check does not run without it.
+
+G3-retired broken: <>:<> still says \"<>\"
+-> replace the retired wording, or - if the line is the pioneer's own and the kit keeps no shipped copy - leave it and say so; the check prints it as a note where it can tell.
+
+G3-retired broken: no kit texts found under <> — pass the kit root as the first argument, which in a project is .claude/skills
+-> pass the kit root as the first argument - .claude/skills in a project.
+
+G4-pointers broken: <>:<> points at <>, which has no file
+-> fix the pointer to name a file that exists, or create the node it names (meta-manifest).
+
+G4-pointers broken: <>:<> → \"<>\" is no heading of <>
+-> fix the pointer to name a heading the target actually has, or add that heading.
+
+G4-pointers broken: no kit texts found under <> — pass the kit root as the first argument, which in a project is .claude/skills
+-> pass the kit root as the first argument - .claude/skills in a project.
+
+G5-steps broken: <> is missing — this check reads the bootstrap skill; restore it from the staged kit, or run the check from the kit root
+-> restore meta-bootstrap/SKILL.md from the staged kit, or run the check from the kit root.
+
+G5-steps broken: meta-bootstrap/SKILL.md line %d is %d bytes, over the %d-byte allowance for one paragraph — split it into steps; the allowance does not move\n
+-> split the paragraph into steps; the allowance is not moved (P-006).
+
+G6-refusals broken: <> is missing — it ships beside this script; restore it from the staged kit or from git history
+-> restore the file from the staged kit or from git history; the check does not run without it.
+
+G6-refusals broken: a refusal the kit can print is not registered with a way forward:
+-> add the message to this file with its own -> line; where the reader can do nothing themselves, the next step is to ask the pioneer for guidance.
+
+G6-refusals broken: a registered refusal carries no next step — every message in refusal-nextsteps.txt is followed by a line beginning \"-> \" saying what the reader does next:
+-> add a line beginning '-> ' under the message named, saying what the reader does next.
+
+G6-refusals broken: no kit scripts found under <> — pass the kit root as the first argument, which in a project is .claude/skills
+-> pass the kit root as the first argument - .claude/skills in a project.
+
+P-004 broken: a commands/ directory ships with the kit at <> — the workflow is handled by the agent, no human-triggered commands
+-> remove the commands directory; the workflow is the agent's, with no human-triggered commands (P-004).
+
+P-004 broken: a kit file points at a slash-command path (<>) — the workflow is handled by the agent, no human-triggered commands
+-> replace the slash-command pointer with the agent or hook that does the work (P-004).
+
+P-005 broken: <> is missing — observations recorded while a batch is open go through an agent allowed to write to the ledger
+-> restore agents/kit-recorder.md; observations written while a batch is open go through it (P-005).
+
+P-005 broken: <> ships — the write goes to an agent allowed to write there, not to an append helper
+-> delete the append helper; the write goes to kit-recorder, which is allowed to write to the ledger (P-005).
+
+P-005 broken: kit-recorder.md does not name meta-ledger/LEDGER.yaml in its write scope — the recorder is the agent allowed to write there
+-> put meta-ledger/LEDGER.yaml back in kit-recorder's write scope (P-005).
+
+P-006 broken: <> has <> entries, over the <>-entry allowance — shrink the map, the allowance does not move
+-> shrink the map; the allowance is not moved (P-006).
+
+P-006 broken: <> is <> bytes, over the <>-byte allowance — shrink the map, the allowance does not move
+-> shrink the map; the allowance is not moved (P-006).
+
+P-006 broken: meta-map/MAP.md is missing — nothing to hold to the allowance
+-> seed the map from templates/MAP.template.md; until it exists there is nothing to hold to the allowance.
+
+P-007 broken: %s:%d an acceptance test (T-N) sits inside tier_3 — acceptance tests are Tier 4, after the guardrails\n
+-> move the acceptance test into tier_4; tests come after the guardrails (P-007).
+
+P-007 broken: %s:%d tier_4 comes before tier_3 — acceptance tests are Tier 4, after the guardrails\n
+-> put tier_4 after tier_3 in the entry (P-007).
+
+P-007 broken: no contract log or template found under <> — nothing carries the tier order; pass the kit root as the first argument, or seed the log from templates/CONTRACT-LOG.template.yaml
+-> pass the kit root as the first argument, or seed the log from templates/CONTRACT-LOG.template.yaml.
+
+P-007 broken: templates/CONTRACT-LOG.template.yaml has no tier_4 block — acceptance tests are Tier 4, after the guardrails
+-> restore the tier_4 block in the template; a contract's tests are Tier 4 (P-007).
+
+digest refused: no transcript found for \"<>\" — pass the path to the .jsonl file, or check the session id on the contract entry. If the transcript is genuinely gone, record the audit blocked on the contract entry with that reason and put it to the pioneer (meta-mechanisms → Blocked tasks)
+-> pass the path to the .jsonl file, or check the session id on the contract entry. If the transcript is genuinely gone, record the audit blocked with that reason and put it to the pioneer.
+
+refused: an upgrade needs the plan step 3's classification decided — install.sh upgrade <plan>
+-> decide the classification in step 3 of the upgrade and pass the plan file to install.sh.
+
+refused: run this from the project's root — there is no .claude folder in <>
+-> run the command from the project root, the folder holding .claude.
+
+release refused: <> exists and is not empty — give a path that does not exist yet, or empty that folder first; a release is never merged into what is already there
+-> give a path that does not exist yet, or empty that folder first.
+
+release refused: <outdir> is inside the kit repository (<>). Build the release outside it, in a folder of your own — one built in the source it ships from would be swept into the next build.
+-> build the release in a folder outside the kit's clone.
+
+release refused: git is not available — a release is exported from a commit, so install Git for Windows (or your platform's git) and run this again; there is no way to build one without it
+-> install git and run the command again; a release is exported from a commit, so there is no way to build one without it. If git cannot be installed here, say so to the pioneer and ask how they want the kit carried across.
+
+release refused: no kit_identity.version in the committed manifest — the version is read from the commit, not the working tree, so commit the manifest first and run this again
+-> commit the manifest with its version; the release reads the commit, not the working tree.
+
+release refused: the shipping folders have uncommitted changes. A release is built from a commit, so what ships is what is recorded — commit first.
+-> commit the shipping folders first; what ships is what is recorded.
+

@@ -32,7 +32,8 @@
 #       [where have you seen this before? — or: not asked]
 #     supersedes: []                       # corr_ids this reverses
 #     recorded_by: main-agent | kit-session-auditor
-#     clerked: false                       # MARKER — kit-case-clerk sets true
+#     clerked: false                       # MARKER — kit-case-clerk sets true; blocked when it cannot run,
+#                                          # with blocked_since / blocked_reason / blocked_waiting_for beside it
 #     precedent: null                      # P-NNN / S-NNN written by kit-case-clerk, or pending-pioneer
 #     clerk_note: null                     # why the clerk set it aside; the pioneer can overrule
 #

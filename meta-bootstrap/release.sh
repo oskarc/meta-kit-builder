@@ -13,7 +13,7 @@ set -e
 SRC="$(cd "$(dirname "$0")/.." && pwd)"
 ALLOW=0; [ "${1:-}" = "--from-last-commit" ] && { ALLOW=1; shift; }
 OUT="${1:?usage: release.sh [--from-last-commit] <outdir>}"
-command -v git >/dev/null 2>&1 || { echo "release refused: git is not available"; exit 1; }
+command -v git >/dev/null 2>&1 || { echo "release refused: git is not available — a release is exported from a commit, so install Git for Windows (or your platform's git) and run this again; there is no way to build one without it"; exit 1; }
 # <outdir> is read where the command was typed, not where the kit is, so it is resolved BEFORE moving to the kit,
 # and refused when it points inside the kit repository: a release built there sits in the source it ships from
 # (contract-018, from the upgrade rehearsal, where a relative path silently wrote the release into the kit clone).
@@ -28,7 +28,7 @@ elif [ -n "$(git status --porcelain -- $dirs)" ]; then
   echo "release refused: the shipping folders have uncommitted changes. A release is built from a commit, so what ships is what is recorded — commit first."
   exit 1
 fi
-if [ -e "$OUT" ] && [ -n "$(ls -A "$OUT" 2>/dev/null)" ]; then echo "release refused: $OUT exists and is not empty"; exit 1; fi
+if [ -e "$OUT" ] && [ -n "$(ls -A "$OUT" 2>/dev/null)" ]; then echo "release refused: $OUT exists and is not empty — give a path that does not exist yet, or empty that folder first; a release is never merged into what is already there"; exit 1; fi
 mkdir -p "$OUT"; OUT="$(cd "$OUT" && pwd)"
 git archive HEAD $dirs | tar -x -C "$OUT"
 grep -v -E '^[[:space:]]*(#|$)' "$SRC/meta-bootstrap/not-shipped.txt" | tr -d '\r' | while IFS= read -r pat; do
@@ -36,7 +36,7 @@ grep -v -E '^[[:space:]]*(#|$)' "$SRC/meta-bootstrap/not-shipped.txt" | tr -d '\
   ( cd "$OUT" && for p in $pat; do [ -e "$p" ] && rm -rf "$p"; done; true )
 done
 version=$(git show HEAD:meta-manifest/MANIFEST.yaml | tr -d '\r' | awk '/^kit_identity:/{f=1;next} f&&/^[^ ]/{f=0} f&&/^  version:/{print $2; exit}')
-[ -n "$version" ] || { echo "release refused: no kit_identity.version in the committed manifest"; exit 1; }
+[ -n "$version" ] || { echo "release refused: no kit_identity.version in the committed manifest — the version is read from the commit, not the working tree, so commit the manifest first and run this again"; exit 1; }
 ( cd "$OUT" && find . -type f ! -name RELEASE ! -name RELEASE.sha1 -print0 | sort -z \
   | while IFS= read -r -d '' f; do printf '%s  %s\n' "$(tr -d '\r' < "$f" | sha1sum | cut -c1-40)" "${f#./}"; done > RELEASE.sha1 )
 n=$(grep -c . "$OUT/RELEASE.sha1")

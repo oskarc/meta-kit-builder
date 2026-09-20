@@ -65,7 +65,11 @@
 #       summary: {verified: 0, corrected: 0, open: 0}
 #       open_needs: []                      # what evidence would close each open clause
 #     verification_history: []              # earlier verification blocks, kept rather than overwritten
-#     audited: false                        # true once kit-session-auditor has run; legacy before v0.14
+#     audited: false                        # true once kit-session-auditor has run; legacy before v0.14; blocked
+#                                           # when it cannot be run at all, with the three keys below beside it
+#     blocked_since: 2026-09-20             # ONLY with a blocked state; one line each, at the entry's indentation
+#     blocked_reason: the transcript is 70 MB and the auditor's search returns whole turns
+#     blocked_waiting_for: a digest of the transcript, built by checks/transcript-digest.sh
 #     transcript: null                      # the implementing session's id, recorded at implemented - the id the
 #                                           # session-start hook names, never a path (contract-015)
 #     observations: []                      # O-NNN recorded after implementation
