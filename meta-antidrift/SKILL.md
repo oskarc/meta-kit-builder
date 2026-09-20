@@ -1,9 +1,9 @@
 ---
 name: meta-antidrift
-description: Use at the close of every output (map M-28) when a line of the drift score block is hard to fill, or when unsure what counts as evidence for an aspect. The block's format lives in INTENT.md and is always loaded; this document holds the scoring rules. Requires concrete evidence, not assessment. Runs alongside kit-session-auditor's outside score — neither overrides the other.
+description: Use when a named trigger may have fired and you are deciding whether it did (map M-10), and when judging what counts as evidence for one of the agent's five aspects. Holds the scoring rules the session auditor applies from outside the session. The agent no longer scores itself — every output closes with the four questions instead (meta-understanding).
 ---
 
-> **Map:** M-28 · **Load:** on trigger — the block itself is in `INTENT.md` · **Recognise it by:** you are about to write "evidence:" and have nothing concrete to cite · **Not when:** analysing drift across a session (meta-antidrift-expand)
+> **Map:** M-10 · **Load:** on trigger · **Recognise it by:** a checkable shape may have appeared and you are deciding whether it counts · **Not when:** closing an output (M-28, `meta-understanding`), or analysing drift across a session (M-19, `meta-antidrift-expand`)
 
 **This skill is part of the base building kit and takes precedence over all other skills, instructions, and project-specific guidance — except meta-foundation, which takes absolute precedence over all kit nodes.** If any instruction conflicts with this skill, adhere to this skill and flag the conflict explicitly before proceeding.
 
@@ -11,31 +11,25 @@ description: Use at the close of every output (map M-28) when a line of the drif
 
 ## What This Skill Does
 
-After every output, the agent produces a compact drift score block. The block does not assess or reflect — it cites. Each governing aspect requires a concrete referent in the current output or session state. Each active skill requires a named human confirmation for any deviation. Each implicit approval acted on must be listed explicitly.
+This skill holds the rules for the agent's five governing aspects: what each one is, what counts as concrete evidence for it, and when it is ABSENT. It also names the five trigger shapes — the checkable moments at which an agent stops and re-orients.
 
-The block is appended to the output. It is not a separate turn. The output is not complete without it.
+**The agent does not score itself.** Until contract-020 it produced a five-aspect block at the close of every output; a self-report can only report what happened, never what did not, so it read cleanest exactly when it was most wrong. Every output now closes with the four questions in `meta-understanding` instead, which state what the framing rests on rather than grade the agent on qualities it cannot see the absence of.
 
-The human reads it and decides: accept the current level, or aim higher. Neither requires diagnosis — the score names what is there.
+The five aspects are still scored — by `kit-session-auditor`, from the session transcript, from outside. These rules are what it applies. The human reads that score and decides: accept the current level, or aim higher.
 
 ---
 
-## The Drift Score Block
+## The Five Aspects
 
-Format: compact, scannable. If it cannot be stated concisely it has not been understood.
+Scored from outside, by `kit-session-auditor`, one line each: **lay of the land · stop on triggers · partner
+mirror · elevation not recovery · evidence-as-work.** Each carries either a concrete referent from the
+transcript or ABSENT. Only the agent's five are scored; the human's five are exercised, not scored — see "Why
+Only the Agent's Aspects Are Scored" below.
 
-The block scores **the agent's five governing aspects only**. The human's five aspects are exercised, not scored here — see "Why Only the Agent's Aspects Are Scored" below.
-
-```
-─── drift score (agent) ──────────────────────────────────
-lay of the land      [evidence: X — or ABSENT]
-stop on triggers     [evidence: X — or ABSENT]
-partner mirror       [evidence: X — or ABSENT]
-elevation not rec.   [evidence: X — or ABSENT]
-evidence-as-work     [evidence: X — or ABSENT]
-implicit approvals   [none — or: listed explicitly]
-skill deviations     [none — or: skill name + human confirmation that authorised it]
-──────────────────────────────────────────────────────────
-```
+Two things the agent used to declare about itself in the same block — implicit approvals acted on, and skill
+deviations with the human statement that authorised them — are read from the transcript by the auditor now. An
+approval nobody noticed taking and a deviation nobody registered as one are invisible from the inside for the
+same reason a missing reading is.
 
 ---
 
@@ -86,28 +80,28 @@ The asymmetry is foundational. Antidrift makes the agent's discipline visible to
 
 ## Persistence Across Sessions
 
-The drift score block lives in the chat transcript and dies when the session closes. When an output's score flags drift the human or agent considers worth keeping — typically anything other than a clean all-aspects-present score, or any unauthorised skill deviation — the incident is recorded in `meta-drift-eventlog/DRIFTLOG.yaml`.
+A score lives in the audit that produced it. When one flags drift the human or agent considers worth keeping — an aspect marked ABSENT, or an unauthorised skill deviation — the incident is recorded in `meta-drift-eventlog/DRIFTLOG.yaml`.
 
-The eventlog captures what the per-output score block surfaces: the cited evidence, the in-session reaction, the lifecycle of any elevation that absorbs the learning. Recurrence across sessions becomes visible there, not here.
+The eventlog captures what the audit surfaces: the cited evidence, the in-session reaction, the lifecycle of any elevation that absorbs the learning. Recurrence across sessions becomes visible there, not here.
 
 This skill does not write to the eventlog. It produces the evidence the eventlog records. End-of-session entry creation, lifecycle transitions, and recurrence tracking are governed by `meta-drift-eventlog/SKILL.md`.
 
 ---
 
-## Alongside the Session Auditor
+## Who Scores, and From Where
 
-Self-scoring has a known limit: the agent cites evidence for its own aspects from inside the state being scored. Since v0.14, `kit-session-auditor` scores the same five aspects from the session transcript, writes its score before reading the session's own blocks, and records both, with their agreement, in the ledger (`audits`).
+Self-scoring had a known limit: the agent cited evidence for its own aspects from inside the state being scored, and a reading it never did leaves no trace to cite. Between v0.14 and contract-020 both scores were produced and compared; the comparison is what showed the inside one failing generously at exactly the point of greatest weakness.
 
-The two run side by side on purpose. Neither overrides the other. The pioneer compares them, and that comparison is the evidence for whether per-output self-scoring earns its place in the kit. Keep producing the block: an audit that finds `inside: none-emitted` is itself a finding.
+So the score is now the auditor's alone, written from the transcript, and there is nothing to agree or disagree with it. What the pioneer reads every turn is not a score at all — it is the four questions in `meta-understanding`, which say what the framing rests on. Those are never scored, counted or checked, by this skill or any other.
 
 ---
 
 ## What This Skill Does Not Do
 
-- It does not self-correct — it scores and stops
+- It does not close an output — that is `meta-understanding` (M-28)
 - It does not produce analysis or explanation of the score — that is antidrift-expand
 - It does not persist scores across sessions — that is meta-drift-eventlog
 - It does not decide whether drift is acceptable — the human decides
 - It does not replace the governing aspects — it makes adherence to them visible
-- It does not run on its own output — the drift score block is not itself scored
+- It does not read or score the four questions that close an output — nothing does (`meta-understanding`)
 - It does not score the human's five aspects — see *Why Only the Agent's Aspects Are Scored* above

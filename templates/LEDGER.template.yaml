@@ -95,8 +95,8 @@
 #       contract_id: contract-NNN
 #       transcript: [path read, and whether it was the implementing session]
 #       outside: {lay_of_the_land: , stop_on_triggers: , partner_mirror: , elevation: , evidence_as_work: }
-#       inside: none-emitted               # or the same five keys, from the session's own score blocks
-#       agreement: 0/5
+#       approvals: []                      # permissions acted on that the pioneer never gave in words
+#       deviations: []                     # departures from an active skill with no authorising statement
 #       form: {contract_before_code: , bearing_present: , spec_lock_when_due: , observations_recorded: , moments_named: , corrections_recorded: , precedent_check: , presented_for_pioneer: , sealed_access: }
 #       findings: []                       # O-NNN, C-NNN
 #

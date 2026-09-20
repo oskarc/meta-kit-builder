@@ -2198,7 +2198,7 @@ contracts:
         authorised_by: "Pioneer, 2026-09-18, approving contract-011: 'contract approved'"
         date: 2026-09-18
         tests_changed: [T-3]
-    cost: {turns: 36, tokens: null, pioneer_minutes: null}    # turns = main-session assistant messages from approval (2026-09-16) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
+    cost: {turns: 36, tokens: null, pioneer_minutes: null}    # turns = main-session assistant messages from approval (2026-09-16) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked The pioneer did not remember the minutes when asked on 2026-09-20, so the field stays null rather than estimated and is not asked for again.
     work_id: null
 
   - contract_id: report-001
@@ -2440,7 +2440,7 @@ contracts:
         authorised_by: "Pioneer, 2026-09-18, approving contract-013, whose UC-1 lists it: 'the contract is approved.'"
         date: 2026-09-18
         tests_changed: []
-    cost: {turns: 59, tokens: null, pioneer_minutes: null}    # main-session assistant messages from approval (2026-09-17) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
+    cost: {turns: 59, tokens: null, pioneer_minutes: null}    # main-session assistant messages from approval (2026-09-17) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked The pioneer did not remember the minutes when asked on 2026-09-20, so the field stays null rather than estimated and is not asked for again.
     work_id: null
 
   - contract_id: report-002
@@ -2690,7 +2690,7 @@ contracts:
         authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' to the same on contract-010) - recorded for the pioneer to confirm or refuse"
         date: 2026-09-18
         tests_changed: []
-    cost: {turns: 32, tokens: null, pioneer_minutes: null}    # main-session assistant messages from approval (2026-09-18) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked
+    cost: {turns: 32, tokens: null, pioneer_minutes: null}    # main-session assistant messages from approval (2026-09-18) to implemented, tool-call rounds included, counted from the transcript; tokens not measured; minutes: the pioneer's, to be asked The pioneer did not remember the minutes when asked on 2026-09-20, so the field stays null rather than estimated and is not asked for again.
     work_id: null
 
   - contract_id: contract-012
@@ -3564,7 +3564,7 @@ contracts:
         authorised_by: "the standing rule ('bump it.', 2026-09-17; 'yes' on contract-010) - recorded for the pioneer to confirm or refuse"
         date: 2026-09-19
         tests_changed: ["walk-007 states 105 and 112d (the version greps)"]
-    cost: {turns: 18, tokens: null, pioneer_minutes: null}    # main-session messages to the pioneer from approval (2026-09-19) to implemented, counted by hand in the session; eight independent agent runs beside them (about 1,470,000 tokens between them, as the harness reported); the main session's tokens not measured; minutes not yet asked
+    cost: {turns: 18, tokens: null, pioneer_minutes: null}    # main-session messages to the pioneer from approval (2026-09-19) to implemented, counted by hand in the session; eight independent agent runs beside them (about 1,470,000 tokens between them, as the harness reported); the main session's tokens not measured; minutes not yet asked The pioneer did not remember the minutes when asked on 2026-09-20, so the field stays null rather than estimated and is not asked for again.
     work_id: null
 
   - contract_id: contract-018
@@ -3688,7 +3688,7 @@ contracts:
     # T-3's fixture states (179b, 179c) and T-2's (179a) were written during the build; T-4 was two independent
     # agents given one sentence and the repository's address - one installing into an empty project, one upgrading
     # a copy of a 0.16 project. Evidence: meta-mechanisms/tests/results/contract-018-T-1-T-6.md
-    cost: {turns: null, tokens: null, pioneer_minutes: null}    # the session was compacted mid-build, so the message count from approval to implemented was not kept; two independent agent runs beside it, the upgrade one about 175,000 tokens as the harness reported
+    cost: {turns: null, tokens: null, pioneer_minutes: null}    # the session was compacted mid-build, so the message count from approval to implemented was not kept; two independent agent runs beside it, the upgrade one about 175,000 tokens as the harness reported The pioneer did not remember the minutes when asked on 2026-09-20, so the field stays null rather than estimated and is not asked for again.
     work_id: null
 
   - contract_id: contract-019
@@ -3837,5 +3837,144 @@ contracts:
         tests_changed: ["walk-007's version states (105, 112d)"]
     # T-9 was one independent agent given a jammed fixture project, the gate's real hand-over and nothing else.
     # Evidence: meta-mechanisms/tests/results/contract-019-T-1-T-9.md
-    cost: {turns: 1, tokens: null, pioneer_minutes: null}    # one message to the pioneer from approval to implemented - the build ran in a single stretch; the main session's tokens not measured, the T-9 agent's about 103,000 as the harness reported; minutes not yet asked
+    cost: {turns: 1, tokens: null, pioneer_minutes: null}    # one message to the pioneer from approval to implemented - the build ran in a single stretch; the main session's tokens not measured, the T-9 agent's about 103,000 as the harness reported; minutes not yet asked The pioneer did not remember the minutes when asked on 2026-09-20, so the field stays null rather than estimated and is not asked for again.
+    work_id: null
+
+  - contract_id: contract-020
+    feature: The closing four - every output to the pioneer ends with what the framing rests on, what it should have rested on, why, and how it was put to them, in the agent's own prose; the agent stops grading itself and a new node carries why the questions exist
+    type: contract
+    follows: contract-019
+    led_to: []
+    date_proposed: 2026-09-20
+    date_approved: 2026-09-20
+    approval: approved-at-gate     # pioneer: "The contract is approved" (2026-09-20), after a spec lock whose four answers are recorded as C-032 and C-033
+    bearing: |
+      The agent's understanding stops being the one output nothing shows the pioneer, by ending every hand-back
+      with what the framing rests on rather than a grade the agent gives itself. The bet: four answers the
+      pioneer can disagree with are worth more than five scores they can only accept - and the check on them is
+      the pioneer, over rounds, not a mechanism.
+    # Bears against paragraph five of the founding statement (the practice guides the pioneer): the closing block
+    # is where the agent meets the pioneer at the end of every turn, and a downstream report of 2026-09-20 showed
+    # it reading clean through a day in which the understanding underneath was thin enough that a single question
+    # dissolved it. Spec lock held: the four questions are the pioneer's own, given verbatim, and the four design
+    # choices were put to them with their effects (C-032, C-033). Precedents: applies P-006 (the work shrinks, not
+    # the allowance - measured, the swap is smaller than what it replaces), P-004 (no step depends on a command
+    # the human runs), P-008 (written so someone new can follow it); distinguished from P-003 (that set the reach
+    # of one contract across the whole kit; this changes one output and the six things that reference it).
+    # Governed throughout by the pioneer's rulings of 2026-09-20: the answers are not audited - "its not WHAT is
+    # said, its HOW its said" - and the always-loaded layer is what holds the practice in front of the agent
+    # under execution pressure.
+    tier_1: |
+      The user is the pioneer, and any agent working under the kit. Today the close of every output tells the
+      pioneer how the agent rates itself on five qualities. It cannot report a reading it never did, so it reads
+      cleanest exactly when it is most wrong - which a downstream report documented across a working day in which
+      every gate went green while the understanding underneath would not survive one question.
+      Success: every output to the pioneer ends with four answers, in the agent's own words, about what the
+      framing should have rested on, what it did rest on, why that, and how it was put to them. The pioneer can
+      see the basis, disagree with it, and realign the framing before the work compounds - and across rounds can
+      watch understanding being built, or failing to hold. If the agent cannot answer the first question before
+      it starts, it asks, and asking costs it nothing.
+      Without it the agent's understanding stays invisible until something breaks, and the pioneer finds out by
+      accident.
+    tier_2: |
+      UC-1 The closing four. EVERY output to the pioneer ends with the four questions, each answered separately,
+           two to three sentences, in the agent's own words, specific to that task. Never merged, never
+           summarised. Nothing is exempt: discussion, turns before a spec lock, one-line answers, questions back
+           to the pioneer. This is the pioneer's pre-mortem line, so it is said plainly rather than left to
+           interpretation.
+      UC-2 A node that carries why. A new skill holds the questions, the failure they answer, the pioneer's own
+           words that set the frame, what a thin answer looks like, and the rule that asking before beginning is
+           never wrong - so an agent reading it can get behind the practice rather than comply with it.
+      UC-3 The self-score goes. meta-antidrift stops producing a closing block. It keeps the aspect definitions
+           and the five trigger shapes, which the session auditor and M-10 still read.
+      UC-4 The auditor picks up the declarations. It records implicit approvals acted on and unauthorised skill
+           deviations from the transcript, and it does not read, score or check the four answers.
+      UC-5 The moment retargets. M-28 points at the new node; no new map entry, so the map's one byte of headroom
+           is not spent.
+      UC-6 The marker's dependents move together: the stop-gate's question guard, the transcript digest's flag,
+           the auditor's step 4, INTENT.md's template and M-18's wording, in one act.
+      The pioneer chose, of the options put with their effects: a new skill rather than a change to
+           meta-antidrift's output, "to build the context of why we have this" (C-032); the aspects scored by the
+           auditor from outside with the agent no longer grading itself; every output to the pioneer rather than
+           only those that frame work; and the implicit-approval and skill-deviation declarations left to the
+           auditor, because "the new questions is a stronger form and covers those" (C-033).
+      Not included, named so nothing is lost: any check on the four answers; any count of the sentences; and
+           provenance labels inside contracts, which the downstream report recommends and which is its own
+           decision.
+    tier_3: |
+      G-1 (UC-1) the four questions ship in the pioneer's words, unaltered, as four separate questions, and the
+           block appears at every output to them without exception.
+      G-2 (UC-1, UC-2) nothing scores, counts or checks an answer - not a hook, not a check, not an agent.
+           applies the pioneer's ruling of 2026-09-20.
+      G-3 (UC-2) the node carries the why: the failure, the pioneer's words, and what a thin answer looks like,
+           written so someone new can follow it. applies P-008.
+      G-4 (UC-3, UC-4) no reading the kit gets from outside the agent is lost; what is lost is only the agent's
+           grade of itself.
+      G-5 (UC-5, UC-6) the always-loaded layer does not grow (P-006), and after the change the gate still finds a
+           question the pioneer was asked - the block now carries four question marks of its own, which the old
+           guard would read as a question and defer on every turn.
+      G-6 (all) every walk and check passes, the contract is committed alone, and nothing here needs the pioneer
+           to run a command (P-004).
+      G-7 (all) the answers are concise and clear to the pioneer. They never have to translate what the agent
+           wrote to know what it means, and no answer references an identifier of any kind. The pioneer's words:
+           "If the answers is not concise and clear to the human. the human must not translate the words the
+           agent writes to understand what it means, and do not reference any id's." Nothing checks this: their
+           ruling is that a breach is evidence, not a failed check - "if the output is containing IDs or words
+           that require translation that is evidence for the pioneer."
+    disappointment: |
+      The pioneer, 2026-09-20, given once for every guarantee: "If the answers is not concise and clear to the
+      human. the human must not translate the words the agent writes to understand what it means, and do not
+      reference any id's."
+    premortem: |
+      "If the block isnt triggered at every output to the human, including discussion before spec-lock." - the
+      pioneer, 2026-09-20.
+    tier_4: |
+      T-1 (G-1, G-7) The four questions stand in INTENT.md and in the node, word for word as the pioneer gave
+           them, as four questions; and the rule that the answers carry no identifiers and need no translation
+           stands in both places too.
+      T-2 (G-2) A fixture whose block holds four deliberately thin answers changes no mechanism's behaviour, and
+           no check, hook or agent file mentions reading them.
+      T-3 (G-3) The node carries the failure, the pioneer's words and the thin-answer guidance; an independent
+           agent reading only that node can say what the four questions are for and why.
+      T-4 (G-4) On a fixture transcript the auditor records an implicit approval and an unauthorised deviation,
+           and its audit contains no score of the four answers.
+      T-5 (G-5) INTENT.md is at or under its allowance, the map gains no entry, and - measured after the marker
+           changes - a message ending in a question still defers the gate while a message whose only question
+           marks are the block's four does not.
+      T-6 (G-6) All walks and checks pass; the commit holds only this contract's paths.
+      T-7 (all, G-7) An independent agent, given a task and only the kit's text, ends its hand-back with four
+           answers specific to that task; its answers are read for identifiers and for whether they need
+           translating, and its notes say whether it knew it could ask before beginning.
+      untested: whether an answer resonates for the pioneer - that is the instrument itself, and it is judgement;
+           whether a lie collapses within a few rounds, which needs rounds; and G-7 beyond the single independent
+           run, because the standard is the pioneer's reading and nothing may check it.
+      realigned: UC-1 and G-1 gained the explicit "every output, nothing exempt" from the pre-mortem; G-7 was
+           added whole from the disappointment line; T-1 and T-7 gained the identifier and translation clauses;
+           T-5 gained the block's own question marks, which the old guard would have deferred on every turn.
+    red_test: {broke: G-5, went_red: T-5, how: "the gate's marker was put back to the phrase the block no longer carries; walk state 06 went silent - the gate deferred a turn with no question in it, because the block's own four question marks were all it could see, which is the lifecycle stopping on every turn; restored from a saved copy; all 57 states match again", date: 2026-09-20}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: f1a80ff7-fa97-4c9a-af1b-c9d531906784
+    observations: [O-071, O-072, O-073, O-074]
+    revisions:
+      - what: "Three tests of earlier contracts changed. Contract-007 T-6, twice: the question guard's fixtures carried the phrase the old block opened with, and now carry the real closing four - one of them proves the case the guard exists for, a question after the block, which is preserved rather than narrowed. Contract-015 T-3: the travelling walk is 57 states, having gained one that drives the guard against the new block."
+        authorised_by: "inside G-5 and G-6 as approved, and the disappointment line the pioneer gave for every guarantee. Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-20
+        tests_changed: ["contract-007 T-6 (walk-007 states 95 and 97; walk states 04, 06)", "contract-015 T-3 (walk-007 state 165)"]
+      - what: "Five defects an independent reader found in the new node were fixed inside the contract: the fourth question carried no stated purpose while the first two had one; the scope never said what an output to another agent is, which the reader noticed by declining to close its own report with the block; the claim that the block is not a report on the agent is contradicted by two of the four questions, so it now says what it actually is not - a rating; the length rule was defended with an aphorism rather than attributed to the pioneer who set it; and the instrument's real limit - that it does not catch an agent which does not know it does not know - was conceded inside a failure mode instead of stated in the open."
+        authorised_by: "inside T-3 and G-3 as approved (the node is written so someone new can follow it). Recorded for the pioneer to confirm or refuse."
+        date: 2026-09-20
+        tests_changed: []
+      - what: "The version moves to 0.28 (manifest, template base_kit_version, README, the walk's version states), the README gains a Contract-020 bullet and the new node in its layout, and the node is registered in the manifest. The map gained no entry: the closing moment already had one and was retargeted, so the map's one byte of headroom was not spent."
+        authorised_by: "the standing rule on the version ('bump it.', 2026-09-17) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-20
+        tests_changed: ["the walk's version states (105, 112d)"]
+      - what: "Found and not fixed: the manifest is YAML-shaped but has never been valid YAML - 61 lines would fail a strict read, because an unquoted value beginning with a word and a colon parses as a mapping key. Nothing in the kit reads it with a YAML parser, since the hooks use awk and the portability rule forbids anything else, so it has never mattered. A single line was quoted during this build and then unquoted again rather than leave the file half-fixed and appear to parse. Recorded in the roadmap."
+        authorised_by: "no authorisation sought: nothing was changed. Recorded so the finding is not lost."
+        date: 2026-09-20
+        tests_changed: []
+    # T-3 and T-7 were two independent agents: one given only the new node and asked to attack it, one given a
+    # project, a bug and no mention of this contract. Evidence: meta-mechanisms/tests/results/contract-020-T-1-T-7.md
+    cost: {turns: 3, tokens: null, pioneer_minutes: null}    # messages to the pioneer from approval to implemented; the main session's tokens not measured, the two acceptance agents' about 134,000 as the harness reported; minutes not asked - the pioneer does not remember them and the field stays null rather than estimated
     work_id: null

@@ -9,7 +9,7 @@
 # of the raw file, going back to the file only to quote something exactly.
 #
 # A row is:  <line> | <time> | <who> | <flags> | <tools> | <files touched> | <the first words>
-#   flags    drift       this turn carries a drift score block (the auditor's step 4 reads the line itself)
+#   flags    closing-four  this turn ends with the closing four (contract-020)
 #            err         a tool on this turn returned an error
 #   who      human       the pioneer's own words (a user turn whose origin is human)
 #            agent       the assistant
@@ -54,11 +54,11 @@ awk -v OFS=' | ' '
   }
   # What a row is flagged for. The digest replaces a search of the raw file, so it has to answer the searches
   # that search was making: the record ids named on the turn, the tier headings of a contract draw, the moment
-  # of approval, and the drift score blocks step 4 compares against. Without these a grep of the digest for a
+  # of approval, and the turns that end with the closing four. Without these a grep of the digest for a
   # contract id finds only the turns that happened to open with it.
   function flags(   f, t, s, seen) {
     f = ""
-    if (index($0, "drift score (agent)")) f = "drift"
+    if (index($0, "What should you have based the framing")) f = "closing-four"
     if (index($0, "\"is_error\":true")) f = (f == "" ? "err" : f ",err")
     if (index($0, "Tier 1") || index($0, "Tier 4") || index($0, "tier_1")) f = (f == "" ? "tier" : f ",tier")
     if (index($0, "contract is approved") || index($0, "Approve to proceed") || index($0, "approved-at-gate")) \

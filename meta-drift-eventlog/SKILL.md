@@ -1,6 +1,6 @@
 ---
 name: meta-drift-eventlog
-description: Use when a drift score line is ABSENT, a skill deviation is unauthorised, or the pioneer names drift (map M-18), and when an elevation is linked to a past incident. Persistent log of drift incidents — evidence, in-session reaction, the elevation that absorbed the lesson and the medium it was encoded in. Makes drift cumulative across sessions so recurrence shows, and so a prose mitigation that failed is visibly due to become a mechanism.
+description: Use when an audit marks an aspect ABSENT, a skill deviation is unauthorised, or the pioneer names drift (map M-18), and when an elevation is linked to a past incident. Persistent log of drift incidents — evidence, in-session reaction, the elevation that absorbed the lesson and the medium it was encoded in. Makes drift cumulative across sessions so recurrence shows, and so a prose mitigation that failed is visibly due to become a mechanism.
 ---
 
 > **Map:** M-08, M-18 · **Load:** on trigger; its counts reach every session through the session-start hook · **Recognise it by:** something in this session departed from an aspect or an active skill · **Not when:** the pioneer redirects work that was not drift (meta-correction-log, M-07)
@@ -11,7 +11,7 @@ description: Use when a drift score line is ABSENT, a skill deviation is unautho
 
 ## What This Skill Does
 
-Persists drift incidents that meta-antidrift surfaces in-session. The per-output drift score block lives in the chat transcript and dies when the session closes. This skill captures the durable record — every flagged incident with concrete evidence, the in-session reaction, and the lifecycle of any elevation that absorbed the learning.
+Persists drift incidents the session's audit and the pioneer surface. A score lives in the audit that wrote it and in the chat transcript and dies when the session closes. This skill captures the durable record — every flagged incident with concrete evidence, the in-session reaction, and the lifecycle of any elevation that absorbed the learning.
 
 The log answers questions that no single session can:
 - *Has this aspect drifted before?*
@@ -103,7 +103,7 @@ An entry whose `recurrence_count` keeps rising while its status still reads `mit
 ## Update Protocol
 
 **When entries are added:**
-- When a drift score line comes back ABSENT, or a skill deviation has no authorising statement — immediately, while the evidence is fresh (M-18)
+- When an audit marks an aspect ABSENT, or a skill deviation has no authorising statement — immediately, while the evidence is fresh (M-18)
 - On human-flagged drift, immediately
 - From `kit-session-auditor`: the auditor proposes entries in its final message, in this schema, and the main agent records them. The auditor never writes this file
 - During `meta-antidrift-expand` passes that surface previously-missed patterns
@@ -159,4 +159,4 @@ This mirrors how `gap_queue: []` resets per project — the structure inherits, 
 - It does not auto-elevate entries — every elevation goes through `meta-skill-builder`'s abstraction loop
 - It does not replace `meta-antidrift`'s per-output scoring — it preserves what that scoring detected
 - It does not analyse patterns on its own — `meta-antidrift-expand` reads the log to do analysis
-- It does not require entries for every session — sessions where antidrift scored clean produce no log entries, and that silence is itself evidence the discipline held
+- It does not require entries for every session — sessions whose audit scored clean produce no log entries, and that silence is itself evidence the discipline held

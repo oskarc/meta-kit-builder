@@ -865,6 +865,230 @@ corrections:
       had read." There it was a record's id; here it is a variable in a use case only the agent had read.
 
 
+  - corr_id: C-029
+    date: 2026-09-20
+    contract_id: null
+    moment: M-25
+    grade: frame-reset
+    intervention: redirected
+    agent_offered: |
+      An analysis challenging the always-loaded layer, reading the map as a router and judging every entry by
+      one test - "does the agent have to recognise this moment unaided?" - and proposing that the nine
+      mechanism-announced entries, 20% of the map, move out of always-loaded context because "the hook's message
+      already carries the id and the node", and that the map "should hold the moments nobody will announce".
+    pioneer_said: |
+      "I believe the map and intent.md should be used to add robustness to the practice, or to strengthen
+      compliance or remind the agent running a kit what it must hold and what is the humans part, so it doesnt
+      loose itself in execution pressure and only read headlines. an agent only reading the headline of the meta
+      foundation will not work within the practice for example."
+    reason_given: |
+      "an agent only reading the headline of the meta foundation will not work within the practice for example."
+    noticed: |
+      pending - asked in the same turn this entry was written
+    would_have_been_right: |
+      From the pioneer's own words in the same message, not asked separately: the always-loaded layer is for
+      robustness, compliance and reminding the agent what it must hold and what the human's part is, so it does
+      not lose itself under execution pressure - not an index judged by whether a pointer is needed.
+    seen_before: |
+      pending - asked in the same turn this entry was written
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      The agent had been judging the always-loaded files by the cost of carrying them; the pioneer judges them by
+      what they hold the agent to. Under the agent's reading an entry earns its place by being needed for routing,
+      so anything a mechanism announces is waste. Under the pioneer's, the always-loaded layer is what keeps the
+      practice present when execution pressure is highest, and a pointer that the reader will skim is not enough -
+      the text has to carry enough substance to bind. The two readings disagree about nearly every recommendation
+      the analysis made. Note for the casebook: this bears directly on P-006, which capped the map when it was
+      understood as an index. If the always-loaded layer's job is robustness, the cap is a limit on how much of
+      the practice can be made robust, which is a different class of limit - the same distinction the pioneer drew
+      at C-027.
+
+
+  - corr_id: C-030
+    date: 2026-09-20
+    contract_id: null
+    moment: M-05
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      Asked to evaluate replacing the antidrift block with an exam, the agent proposed one aimed at reading:
+      questions "drawn from what the turn actually touched", machine-selectable from the records, of the shape
+      "you cited P-006 - quote its holding", on the principle that "a quote either is at that line or it isn't".
+      It named the risk of the agent setting its own questions, and said nothing about how the agent should
+      account for its judgement or for how it met the pioneer.
+    pioneer_said: |
+      "\"What should you have based the framing of the output on?\" \"What did you base the framing of the
+      output on?\" \"Why did you choose to base the framing of the output on that?\" \"How did you present this
+      to the pioneer to make sure they could align on the basis of the output?\"
+      The answer to these questions will help the pioneer to identify if the agent is drifting or is lost. They
+      cannot be gamed because all of those require transparency on the agents judgement. All those answers point
+      to something specific about the current task, if they diverge from the pioneers intent the pioneer can take
+      action to realign the framing."
+      Continued in the next message, the same statement: "If the agent knows the practice expects it to produce
+      this output it can ask the pioneer if it is uncertain before beginning. its never bad to ask the human of
+      this."
+    reason_given: |
+      "At times ive noticed that an agent needs alot of coaching regarding the practice to actually get how it
+      should meet the pioneer in the work."
+    noticed: |
+      From the pioneer's own words in the same message, not asked separately: an agent needs a great deal of
+      coaching before it grasps how it should meet the pioneer in the work - so the closing block should be
+      where that meeting is rehearsed, not where the agent reports on itself.
+    would_have_been_right: |
+      From the pioneer's own words in the same message, not asked separately: four questions about the basis of
+      the framing - what it should have been, what it was, why that was chosen, and how it was put to the
+      pioneer so they could align on it.
+    seen_before: |
+      pending - not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      The agent aimed its exam at an action - did you open the file - which is checkable but shallow: an agent
+      can have read everything and still frame the work on the wrong half of it, which is the failure the
+      downstream report named as presentable and wrong. The pioneer aimed at the decision instead: what the
+      framing rests on, what it should have rested on, why, and how that was put to them. The gap between the
+      first two questions is drift stated by the agent in its own words; the third exposes the judgement; the
+      fourth makes the meeting with the pioneer an obligation in the moment rather than an audit finding after
+      it. Note for the casebook: the agent's version produces material the pioneer can only accept or ignore;
+      the pioneer's produces material they can disagree with, which is what makes it an alignment instrument
+      rather than a compliance one.
+
+
+  - corr_id: C-031
+    date: 2026-09-20
+    contract_id: null
+    moment: M-05
+    grade: frame-reset
+    intervention: redirected
+    agent_offered: |
+      "The one thing I can add: answer two is mechanically verifiable, and we built the means this morning" -
+      the agent proposed that the session auditor cross-check the agent's stated basis against the transcript
+      digest's record of which files each turn touched, "so a false answer to question two is detectable
+      without anyone's judgement", calling it the plug for "the only gap where these questions could be gamed
+      quietly".
+    pioneer_said: |
+      "The answers do not need to be audited, because the answer is checkable by the human. If it is gamed, if
+      it is a lie, it will become clear in a few rounds, because the story will not hold with what gets output.
+      And its the pioneers responsibility to catch that.
+      These 4 questions works because its not WHAT is said, its HOW its said. Its the basis of spec driven
+      development and this approach, when the agent can tell the human in a way that resonates with the human;
+      that is when the human knows the understanding is mature to act on."
+    reason_given: |
+      "when the agent can tell the human in a way that resonates with the human; that is when the human knows
+      the understanding is mature to act on."
+    noticed: |
+      From the pioneer's own words in the same message, not asked separately: the agent had made the four
+      questions into a detector to be verified, when what they measure is whether the telling resonates - which
+      no check can read, and which a lie cannot sustain across rounds because the story stops matching the work.
+    would_have_been_right: |
+      From the pioneer's own words in the same message, not asked separately: leave the answers unaudited. The
+      human checks them, over rounds, against what the work produces, and catching that is the pioneer's
+      responsibility.
+    seen_before: |
+      pending - not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      Third time in one exchange that the agent answered a question of judgement by reaching for a mechanism:
+      at C-029 it read the always-loaded map as a router to be minimised rather than as what holds the practice
+      in front of the agent; here it proposed auditing the four questions it had just been told cannot be gamed
+      because they require transparency of judgement. The downstream report the pioneer had given it an hour
+      earlier names this exact instinct and warns against it - "the kit's instinct, and mine, is to convert
+      every finding into a check ... an agent that can produce a fluent wrong explanation can produce a fluent
+      proxy just as easily" - and the agent did it anyway, within the hour, having quoted that warning
+      approvingly in its own reply.
+      The substance to carry, in the pioneer's own frame: the four questions measure how the telling lands, not
+      whether the facts check out. A verification against which files were opened would have converted an
+      instrument of alignment into one of compliance, and taught the agent to open files rather than to
+      understand - reading without understanding being the failure the whole design exists to surface. The
+      detection is cumulative and human: a story that is not true stops matching the work within a few rounds.
+      The pioneer accepts that detection as their own responsibility, knowingly - the same reports call the
+      human as sole detector fragile, "attention, not a system", so this is a trade taken with open eyes and
+      should be recorded as accepted rather than missed.
+
+
+  - corr_id: C-032
+    date: 2026-09-20
+    contract_id: null
+    moment: M-05
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      At the spec lock, of three ways to own the four questions, the agent recommended: "Change meta-antidrift's
+      output - meta-antidrift already owns the end of every output (M-28) and the hooks already parse for its
+      block. Only what the block contains changes. No new map entry - the map has one byte of headroom - no
+      second closing block, and the mechanisms keep one marker to find."
+    pioneer_said: |
+      "Im leaning toward a new skill and the reason is to build the context of why we have this. our
+      conversation and my input should set a frame that the agent can get behind."
+    reason_given: |
+      "to build the context of why we have this. our conversation and my input should set a frame that the agent
+      can get behind."
+    noticed: |
+      From the pioneer's own words in the same message, not asked separately: a node is where the reasoning for
+      a practice is kept, and an agent that is only handed four questions has nothing to get behind.
+    would_have_been_right: |
+      From the pioneer's own words in the same message, not asked separately: a new skill, whose job is to carry
+      why the four questions exist - the conversation and the pioneer's own input as the frame.
+    seen_before: |
+      pending - not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      The agent weighed the choice by what it costs the mechanisms - one marker, no new map entry, no second
+      block - and the pioneer weighed it by what an agent reading it would be able to stand behind. Both are
+      true; they are not the same question. The pioneer is buying a place to keep the reasoning, which no amount
+      of retargeting an existing node provides, and which their own observation the turn before had already
+      named: an agent needs a great deal of coaching before it grasps how to meet the pioneer in the work. Note
+      that the cost the agent raised turned out not to exist: the moment already has a map entry (M-28), so the
+      new node is a retarget, not a new line, and the map's one byte is not spent.
+
+  - corr_id: C-033
+    date: 2026-09-20
+    contract_id: null
+    moment: M-05
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      At the same spec lock, on the two lines the closing block carries besides the aspects, the agent
+      recommended: "Both stay - they are declarations with consequences, not self-assessment; the drift log
+      reads them, and contract-019 just rewired what counts as a deviation. Two short lines under the four
+      answers."
+    pioneer_said: |
+      "leave them to the auditor, the pioneer uses the new questions. the new questions is a stronger form and
+      covers those."
+    reason_given: |
+      "the new questions is a stronger form and covers those."
+    noticed: |
+      From the pioneer's own words in the same message, not asked separately: the four questions already reach
+      what the two declaration lines were for, so keeping the lines beside them adds form without adding reach.
+    would_have_been_right: |
+      From the pioneer's own words in the same message, not asked separately: the declarations move to the
+      auditor, which reads the session from outside; what the pioneer reads is the four answers.
+    seen_before: |
+      pending - not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      The agent kept the two lines because they feed a record; the pioneer moved them because of who reads them.
+      A declaration the agent writes about itself is the same shape as the self-score being removed - an implicit
+      approval nobody noticed taking, or a deviation nobody registered as one, is invisible from the inside for
+      the same reason a missing reading is. Read from outside, by the auditor, it is evidence; read from inside,
+      it is a line that says "none". The four questions cover the ground the pioneer needs because a basis that
+      rests on an assumed approval has to show up in the answer to what the framing was based on.
+
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no

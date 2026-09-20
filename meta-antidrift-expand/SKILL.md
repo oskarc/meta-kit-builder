@@ -11,7 +11,7 @@ description: Use when the pioneer asks what happened in a session, or when an au
 
 ## What This Skill Does
 
-Produces a full analysis of behavioural drift across the current session or a named scope. Where meta-antidrift scores individual outputs, meta-antidrift-expand maps patterns across outputs — which aspects drifted repeatedly, where drift onset appeared and what followed, which implicit approvals accumulated, what the trajectory looked like.
+Produces a full analysis of behavioural drift across the current session or a named scope. Where the session auditor scores a session from outside, meta-antidrift-expand maps patterns across outputs — which aspects drifted repeatedly, where drift onset appeared and what followed, which implicit approvals accumulated, what the trajectory looked like.
 
 This is the instrument for re-orientation conversations and skill-builder passes. It does not propose fixes. It produces the evidence the human needs to decide what to address and at what level.
 
@@ -26,7 +26,7 @@ The pioneer can ask for it at any time, and the agent runs it without being aske
 - "Expand the drift analysis"
 - "Let's deep dive the session"
 - "Walk me through what happened"
-- A session where antidrift scores showed repeated ABSENT on the same aspect
+- A session whose audit showed repeated ABSENT on the same aspect
 - A session that produced a significant failure or deterioration
 - Before a skill-builder pass on a drift-related learning
 
@@ -36,7 +36,7 @@ The pioneer can ask for it at any time, and the agent runs it without being aske
 
 ### 1 — Session Drift Map
 
-For each output in the session scope, produce a one-line entry showing its drift score summary:
+For each output in the session scope, produce a one-line entry summarising what it rested on and where it drifted:
 
 ```
 Output N  |  [aspect initials with evidence/absent]  |  implicit approvals: N  |  deviations: N

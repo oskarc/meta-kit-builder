@@ -7,7 +7,7 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.27            # the six-layer form after contracts 003–019: tier 4, ownership, the subtraction, upgrade readiness, the upgrade that compares by mechanism, the first real run's gaps closed, a vocabulary for what cannot be done
+  version: 0.28            # the six-layer form after contracts 003–019: tier 4, ownership, the subtraction, upgrade readiness, the upgrade that compares by mechanism, the first real run's gaps closed, a vocabulary for what cannot be done
   parent_kit: null
   workspace: []
   status: active
@@ -17,7 +17,7 @@ nodes:
   # ─── Layer 1 · Intent (always loaded) ─────────────────────────────────────
 
   - id: base-intent
-    concern: Always-loaded distillation of the foundation — the aspects in their own words, how work moves in the six-layer form, the drift score block
+    concern: Always-loaded distillation of the foundation — the aspects in their own words, how work moves in the six-layer form, the four questions every output closes with
     kind: intent
     skill_file: meta-foundation/INTENT.md
     owns: [meta-foundation/INTENT.md]
@@ -176,15 +176,29 @@ nodes:
       - Schema extended in v0.14 (kind, load, triggers, base_kit_version); promotion criteria now instrumented and untested.
       - owns: and status: retired added by contract-004; no node has been retired yet, so the reassignment of orphaned records is a written rule with no instance.
 
+  - id: base-understanding
+    concern: The closing four — every output to the pioneer ends with what the framing rests on, what it should have rested on, why, and how it was put to them, in the agent's own prose; never scored, counted or checked
+    kind: skill
+    skill_file: meta-understanding/SKILL.md
+    owns: [meta-understanding/SKILL.md]
+    layer: meta
+    phase: always
+    load: trigger
+    triggers: [M-28]
+    status: new
+    dependencies: [base-foundation, base-intent]
+    open_gaps:
+      - "Whether an answer resonates for the pioneer is the instrument itself and cannot be checked; whether a stated basis that is untrue collapses within a few rounds needs rounds to show."
+
   - id: base-antidrift
-    concern: Post-output drift scoring — the block lives in INTENT.md; scoring rules here; runs alongside the session auditor's outside score
+    concern: The five aspects and the five trigger shapes — the rules the session auditor applies from outside; the agent no longer scores itself
     kind: skill
     skill_file: meta-antidrift/SKILL.md
     owns: [meta-antidrift/SKILL.md]
     layer: meta
     phase: always
     load: trigger
-    triggers: [M-28]
+    triggers: [M-10]
     status: mature
     dependencies: [base-foundation]
     open_gaps: []
@@ -695,7 +709,7 @@ gap_queue:
     concern: The question guard is a heuristic, not a rule
     surfaced_by: manual
     surfaced_in: 2026-09-12 contract-003
-    description: The stop-gate protects a closing question by cutting at the last "drift score" marker and searching the final 400 characters for a "?". It is calibrated to over-defer rather than bury a question, but it can still be fooled — a question followed by a long closing passage, or a message that never emits the block. Its first two versions both passed their fixtures and failed realistic input (drift-002).
+    description: The stop-gate protects a closing question by cutting at the last occurrence of the first of the closing four and searching the final 400 characters for a "?", with the block's own four question marks removed first. It is calibrated to over-defer rather than bury a question, but it can still be fooled — a question followed by a long closing passage, or a message that never emits the block. Its first two versions both passed their fixtures and failed realistic input (drift-002).
     candidate_level: implementation
     priority: medium
     status: open

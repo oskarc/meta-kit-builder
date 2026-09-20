@@ -17,7 +17,7 @@ Three files, imported by CLAUDE.md at launch:
 
 | File | Layer | Job |
 |---|---|---|
-| `meta-foundation/INTENT.md` | 1 · Intent | What the work is in service of; the aspects; how work moves; the drift score block |
+| `meta-foundation/INTENT.md` | 1 · Intent | What the work is in service of; the aspects; how work moves; the four questions every output closes with |
 | `meta-founding-contract/FOUNDING.md` | 1 · Intent | What this project is |
 | `meta-map/MAP.md` | 2 · Map | Moments → what to load |
 

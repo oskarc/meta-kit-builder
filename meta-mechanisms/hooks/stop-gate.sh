@@ -9,17 +9,23 @@ kit_installed || exit 0
 [ "$(json_bool stop_hook_active)" = "true" ] && exit 0
 
 # A question to the pioneer is never buried. The message arrives with its JSON escapes intact, so rather
-# than decoding them: cut everything from the LAST "drift score" marker (the block that closes every
-# output — the phrase also occurs in ordinary prose, so the last one is the block), then look for a
-# question mark anywhere in the closing stretch of what remains. A late "?" that was not a question costs
-# one turn of delay; a missed question gets buried under a kit task, which is the worse failure.
+# than decoding them: cut everything from the LAST occurrence of the first of the closing four, which is the
+# line the block opens with (contract-020) — an agent may quote that question in its prose, so the last one is
+# the block — then look for a question mark in the closing stretch of what remains. A late "?" that was not a
+# question costs one turn of delay; a missed question gets buried under a kit task, which is worse.
 last=$(json_str last_assistant_message)
-# `.*` is greedy, so the capture runs to the LAST "drift score" in the message; a message without the
-# phrase is passed through unchanged.
-visible=$(printf '%s' "$last" | sed -e 's/\(.*\)drift score.*/\1/')
-# A question can sit before the block or after it (contract-007 G-6): check the closing stretch of both the text
-# before the block and the whole message. The deferral is logged; the map steward reads how often it happens.
-case "$(printf '%s' "$visible" | tail -c 400)$(printf '%s' "$last" | tail -c 400)" in
+# `.*` is greedy, so the capture runs to the LAST occurrence; a message without the block passes through whole.
+visible=$(printf '%s' "$last" | sed -e 's/\(.*\)What should you have based the framing.*/\1/')
+# A question can sit before the block or after it (contract-007 G-6), so the whole message is scanned too — but
+# the block now carries four question marks of its own, and without removing them every turn would read as a
+# question and the lifecycle would never run again. The four are removed by their exact words, decoration and
+# all, before the scan. The deferral is logged; the map steward reads how often it happens.
+rest=$(printf '%s' "$last" | sed \
+  -e 's/What should you have based the framing of the output on?//g' \
+  -e 's/What did you base the framing of the output on?//g' \
+  -e 's/Why did you choose to base the framing of the output on that?//g' \
+  -e 's/How did you present this to the pioneer to make sure they could align on the basis of the output?//g')
+case "$(printf '%s' "$visible" | tail -c 400)$(printf '%s' "$rest" | tail -c 400)" in
   *"?"*)
     telemetry stop-deferred question
     exit 0

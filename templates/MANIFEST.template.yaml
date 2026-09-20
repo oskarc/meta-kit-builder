@@ -18,7 +18,7 @@ kit_identity:
   category: __CATEGORY__
   version: 0.1
   parent_kit: base-building-kit
-  base_kit_version: 0.27
+  base_kit_version: 0.28
   library_kit: __LIBRARY_KIT__
   workspace: []              # the other repositories this system is made of: [{name, path, role}], path relative to this one; filled at install from the Step 2 orientation (contract-010)
   status: active
@@ -29,7 +29,7 @@ nodes:
   # `load` describes the node's skill_file. base-map and base-founding-contract pair a trigger-loaded
   # skill with an always-loaded data file (MAP.md, FOUNDING.md).
 
-  - {id: base-intent, concern: Always-loaded distillation of the foundation — aspects, how work moves, the drift score block, kind: intent, skill_file: meta-foundation/INTENT.md, owns: [meta-foundation/INTENT.md], layer: meta, phase: always, load: always, triggers: [M-09, M-10, M-28], status: thin, dependencies: [base-foundation], open_gaps: []}
+  - {id: base-intent, concern: Always-loaded distillation of the foundation — aspects, how work moves, the four questions every output closes with, kind: intent, skill_file: meta-foundation/INTENT.md, owns: [meta-foundation/INTENT.md], layer: meta, phase: always, load: always, triggers: [M-09, M-10, M-28], status: thin, dependencies: [base-foundation], open_gaps: []}
   - {id: base-founding-contract, concern: The project's own statement — immutable original plus dated amendments; the bearing; redraw vs reevaluation, kind: skill, skill_file: meta-founding-contract/SKILL.md, data_file: meta-founding-contract/FOUNDING.md, owns: [meta-founding-contract/FOUNDING.md, meta-founding-contract/SKILL.md], layer: meta, phase: always, load: trigger, triggers: [M-24], status: thin, dependencies: [base-foundation], open_gaps: []}
   - {id: base-map, concern: When to use what — the always-loaded index from named moments to one-hop pointers, kind: map, skill_file: meta-map/SKILL.md, data_file: meta-map/MAP.md, owns: [meta-map/MAP.md, meta-map/SKILL.md], layer: meta, phase: always, load: trigger, triggers: [M-22], status: thin, dependencies: [base-intent], open_gaps: []}
   - {id: base-foundation, concern: Philosophical foundation and operational frame — the work, the roles, the governing aspects, kind: skill, skill_file: meta-foundation/SKILL.md, owns: [meta-foundation/SKILL.md, meta-foundation/INTENT.md], layer: meta, phase: always, load: trigger, triggers: [M-03], status: mature, dependencies: [], open_gaps: []}

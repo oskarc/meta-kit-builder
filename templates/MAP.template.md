@@ -16,7 +16,7 @@ Name the moment by its id before acting, then load what it points to. Nothing fi
 M-01 | session-start | hook: SessionStart | must | a session begins | — | work the hook's backlog, one kit task per turn | proposed
 M-02 | name-the-moment | hook: UserPromptSubmit | must | every prompt, before acting | — | this map: state the id, then load its target | proposed
 M-03 | frame-uncertain | situation | must | unsure what work this is, what the pioneer's role asks, or no entry fits | a moment with a clear entry (M-20 records the miss) | meta-foundation | proposed
-M-28 | turn-close | always | must | the end of every output | a session-level analysis (M-19) | INTENT.md → Close every output with this block; meta-antidrift → The Drift Score Block | proposed
+M-28 | turn-close | always | must | the end of every output | a session-level analysis (M-19) | INTENT.md → Close every output by answering these four; meta-understanding | proposed
 
 ## Before building
 
@@ -33,7 +33,7 @@ M-07 | pioneer-correction | situation + hook cue | must | the pioneer redirects,
 M-08 | deviation-found | situation | must | the work must depart from the approved contract | a change already in revisions; an unauthorised one is drift (M-18) | meta-contract-before-execution → The Approval Gate | proposed
 M-09 | evidence-gap | situation | must | about to rely on an unverified API, mechanic, number or claim | a fact checked this session, with its source | INTENT.md → The agent holds five aspects | proposed
 M-10 | second-attempt | situation | must | about to retry a fix shape that already failed | a different hypothesis, surveyed first | meta-antidrift → Scoring Rules | proposed
-M-18 | drift-flagged | situation | must | a drift score line is ABSENT, a deviation is unauthorised, or the pioneer names drift | a clean score | meta-drift-eventlog | proposed
+M-18 | drift-flagged | situation | must | an audit marks an aspect ABSENT, a deviation is unauthorised, or the pioneer names drift | a clean score | meta-drift-eventlog | proposed
 M-23 | thin-node-touched | situation | ambient | a guardrail or gap touches a node marked thin or missing | a node change (M-22) | meta-manifest → How to Read the Manifest | proposed
 
 ## After building

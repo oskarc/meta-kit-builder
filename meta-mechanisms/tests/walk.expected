@@ -1,9 +1,9 @@
 01 clean kit -> (silent)
 02 kit_type base (uninstalled) must stay silent -> (silent)
 03 stop_hook_active -> (silent)
-04 question before drift block must defer -> (silent)
-05 question, no drift block at all -> (silent)
-06 no question, drift block present -> Kit mechanism (stop-gate): 1 ledger observation(s) are unconsolidated. Launch the kit-consolidator subagent (M-14). One kit task per turn. The pioneer does not need to invoke this."}}
+04 question before the closing four must defer -> (silent)
+05 question, no closing four at all -> (silent)
+06 no question, the closing four present -> Kit mechanism (stop-gate): 1 ledger observation(s) are unconsolidated. Launch the kit-consolidator subagent (M-14). One kit task per turn. The pioneer does not need to invoke this."}}
 07 open batch, 1 of 2 decided -> (silent)
 08 open batch, all decided -> close -> Kit mechanism (stop-gate): Every item in review batch B-1 carries a decision. Run bash \".claude/skills/meta-mechanisms/hooks/close-batch.sh\" B-1 with Bash to mark it decided — the ledger stays closed to you until you do (M-17, meta-skill-builder). One kit task per turn. The pioneer does not need
 09 decided, unrevealed -> reveal (comment on id) -> Kit mechanism (stop-gate): Review batch B-1 is decided but its key is unopened. Run bash \".claude/skills/meta-mechanisms/hooks/reveal-key.sh\" B-1 with Bash, then apply the decisions to items that were not re-presented, write the represented record, and set revealed: true on the batch (M-17, meta-s
@@ -54,3 +54,4 @@
 54 ...and the turn after the fault routes normally again -> Kit mechanism (stop-gate): Contract c-1 is implemented and its session is unaudited. First build the digest the auditor reads: run bash \".claude/skills/meta-mechanisms/checks/transcript-digest.sh\" (none recorded on the entry — say in the audit which session you read) with Bash — it prints the 
 55 a blocked correction is put to the pioneer, and the clerk is not asked for it -> Kit mechanism (stop-gate): correction C-1 cannot be worked: its clerked has been blocked since 2026-09-20, and the pioneer has not been told in this sitting. Put it to them now, in their words, before other kit work: what is stuck — the correction names a record the project does not have — and w
 56 ...and with it announced, nothing else is due -> (silent)
+57 a question AFTER the closing four still defers, though the block carries four of its own -> (silent)

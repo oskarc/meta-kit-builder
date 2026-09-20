@@ -62,10 +62,11 @@ r=$(ss); case "$r" in *"Pioneer-owned"*) ok "94e three due candidates -> the lin
 
 echo "=== T-6: the question guard ==="
 mk; printf 'observations:\n  - obs_id: O-1\n    consolidated: false\n' > "$K/meta-ledger/LEDGER.yaml"
-n=$(gate 'Done. drift score 0.1 lay 0.2 Shall I proceed with the retirement?'); [ "$n" = 0 ] && ok "95 a question AFTER the drift block defers the gate" || bad "95 question after block" "fired"
-n=$(gate 'Implemented the change. Want me to run the tests? drift score 0.1'); [ "$n" = 0 ] && ok "96 a question before the block defers" || bad "96" "fired"
+CLOSE20='What should you have based the framing of the output on? The plan. What did you base the framing of the output on? The plan. Why did you choose to base the framing of the output on that? It governs. How did you present this to the pioneer to make sure they could align on the basis of the output? I showed the source.'
+n=$(gate "Done. $CLOSE20 Shall I proceed with the retirement?"); [ "$n" = 0 ] && ok "95 a question AFTER the closing four defers the gate - its own four question marks are removed before the scan (T-6, realigned by contract-020)" || bad "95 question after block" "fired"
+n=$(gate "Implemented the change. Want me to run the tests? $CLOSE20"); [ "$n" = 0 ] && ok "96 a question before the block defers" || bad "96" "fired"
 grep -q '|stop-deferred|question' "$K/meta-ledger/telemetry.log" && ok "96b …and writes a stop-deferred line the steward can read" || bad "96b telemetry" "$(cat "$K/meta-ledger/telemetry.log" 2>/dev/null)"
-n=$(gate 'All done, tests green. drift score 0.1'); [ "$n" = 1 ] && ok "97 no question -> the gate fires" || bad "97 no question" "silent"
+n=$(gate "All done, tests green. $CLOSE20"); [ "$n" = 1 ] && ok "97 no question -> the gate fires, although the block carries four question marks of its own (T-6, realigned by contract-020)" || bad "97 no question" "silent"
 grep -q 'stop-deferred' "$SRC/agents/kit-map-steward.md" && ok "98 the steward's definition names the deferral event" || bad "98 steward" "-"
 
 echo "=== T-7: walks that fail ==="
@@ -92,7 +93,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.27" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.27" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
+grep -q "^  version: 0.28" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.28" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -106,7 +107,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant fo
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.27" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.27 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.28" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.28 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -283,7 +284,7 @@ grep -q -F 'The agent regards how it presents its output to the pioneer and adap
 
 echo "=== contract-015: promises that hold without the agent remembering ==="
 X15="$SRC/meta-mechanisms/tests/walk.expected"
-n=$(grep -c . "$X15"); p=$(sed -n '37,47p' "$X15" | grep -c -E '/|\\'); d=$(grep -c -E '[A-Za-z]:[/\\]|/tmp/|Users' "$X15"); [ "$n" = 56 ] && [ "$p" = 0 ] && [ "$d" = 0 ] && ok "165 the travelling walk has 56 states; the eleven that print a derived word carry no path or slash, and no line anywhere carries a machine path or drive letter (T-3, realigned by contract-019)" || bad "165 travelling walk" "lines=$n platform-marks=$p machine-paths=$d"
+n=$(grep -c . "$X15"); p=$(sed -n '37,47p' "$X15" | grep -c -E '/|\\'); d=$(grep -c -E '[A-Za-z]:[/\\]|/tmp/|Users' "$X15"); [ "$n" = 57 ] && [ "$p" = 0 ] && [ "$d" = 0 ] && ok "165 the travelling walk has 57 states; the eleven that print a derived word carry no path or slash, and no line anywhere carries a machine path or drive letter (T-3, realigned by contract-019)" || bad "165 travelling walk" "lines=$n platform-marks=$p machine-paths=$d"
 e=$(awk '/^  - contract_id: contract-015$/{f=1} f&&/^    transcript:/{print $2; exit}' "$SRC/meta-contract-before-execution/CONTRACT-LOG.yaml")
 case "$e" in */*|"") t=0 ;; *) t=1 ;; esac
 [ "$t" = 1 ] && grep -q -F 'find it with Glob on `~/.claude/projects/*/<id>.jsonl`' "$SRC/agents/kit-session-auditor.md" && grep -q -F 'the id alone, which the session-start hook names, never a path' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q -F 'session-start hook names, never a path' "$SRC/templates/CONTRACT-LOG.template.yaml" && ok "166 the session id's road is written end to end: hook, entry, gate, auditor - and this contract's own entry records an id, no path (T-2)" || bad "166 session id" "entry transcript=$e"
@@ -482,21 +483,60 @@ grep -q -F 'Find the span, in the digest' "$SRC/agents/kit-session-auditor.md" \
 printf '%s\n' \
   '{"type":"queue-operation","operation":"enqueue"}' \
   '{"parentUuid":null,"type":"user","message":{"role":"user","content":[{"type":"text","text":"draw contract-019 for this"}]},"timestamp":"2026-09-20T10:00:00.000Z","origin":{"kind":"human"}}' \
-  '{"parentUuid":"x","isSidechain":false,"message":{"id":"m1","type":"message","role":"assistant","content":[{"type":"text","text":"Tier 1 of the draw. drift score (agent)"},{"type":"tool_use","id":"t1","name":"Edit","input":{"file_path":"/p/SKILL.md"}}]},"timestamp":"2026-09-20T10:00:01.000Z"}' \
+  '{"parentUuid":"x","isSidechain":false,"message":{"id":"m1","type":"message","role":"assistant","content":[{"type":"text","text":"Tier 1 of the draw. What should you have based the framing of the output on?"},{"type":"tool_use","id":"t1","name":"Edit","input":{"file_path":"/p/SKILL.md"}}]},"timestamp":"2026-09-20T10:00:01.000Z"}' \
   '{"parentUuid":"y","type":"user","message":{"role":"user","content":[{"type":"tool_result","is_error":true,"content":"no"}]},"timestamp":"2026-09-20T10:00:02.000Z"}' \
   > "$T19/t.jsonl"
 bash "$C19/transcript-digest.sh" "$T19/t.jsonl" "$T19/d.txt" >/dev/null 2>&1
 rows=$(grep -c . "$T19/d.txt")
 [ "$rows" = 3 ] \
   && grep -q '^2 | 2026-09-20 10:00:00 | human' "$T19/d.txt" \
-  && grep -q 'agent | drift,tier | Edit | SKILL.md' "$T19/d.txt" \
+  && grep -q 'agent | closing-four,tier | Edit | SKILL.md' "$T19/d.txt" \
   && grep -q 'result | err' "$T19/d.txt" \
-  && ok "188 the digest is one row per turn, keeps the transcript line number, tells the pioneer's turns from the agent's, and flags the drift blocks, the ids and the errors the audit looks for (T-6)" || bad "188 the digest" "rows=$rows :: $(tr '\n' '/' < "$T19/d.txt" | cut -c1-200)"
+  && ok "188 the digest is one row per turn, keeps the transcript line number, tells the pioneer's turns from the agent's, and flags the closing four, the ids and the errors the audit looks for (T-6)" || bad "188 the digest" "rows=$rows :: $(tr '\n' '/' < "$T19/d.txt" | cut -c1-200)"
 # the moment, and the section it points at
 grep -q -F 'M-32 | task-blocked' "$SRC/meta-map/MAP.md" && grep -q -F 'M-32 | task-blocked' "$SRC/templates/MAP.template.md" \
   && grep -q -F '## Blocked tasks' "$SRC/meta-mechanisms/SKILL.md" \
   && grep -q -F 'Answered by Blocked tasks below' "$SRC/meta-mechanisms/SKILL.md" \
   && ok "189 the moment a task cannot be done is on the map, in both copies, and the failure mode names the section that answers it (T-1)" || bad "189 the map" "-"
 rm -rf "$T19"
+echo "=== contract-020: every output ends with what the framing rests on, not a grade the agent gives itself ==="
+IN20="$SRC/meta-foundation/INTENT.md"; UN20="$SRC/meta-understanding/SKILL.md"
+q20a="What should you have based the framing of the output on?"
+q20b="What did you base the framing of the output on?"
+q20c="Why did you choose to base the framing of the output on that?"
+q20d="How did you present this to the pioneer to make sure they could align on the basis of the output?"
+n20=0
+for q in "$q20a" "$q20b" "$q20c" "$q20d"; do
+  grep -q -F -- "$q" "$IN20" && grep -q -F -- "$q" "$UN20" && n20=$((n20+1))
+done
+[ "$n20" = 4 ] && grep -q -F 'identifiers, and nothing the pioneer has to translate' "$IN20" && grep -q -F "do not reference any id's" "$UN20" \
+  && ok "190 the four questions stand word for word in the always-loaded file and in the node, as four questions, with the rule that no answer carries an identifier (T-1, G-7)" || bad "190 the four questions" "$n20 of 4 in both"
+# nothing reads them
+rd20=$(grep -rl 'What should you have based' "$SRC/meta-mechanisms/checks" "$SRC/meta-mechanisms/hooks" 2>/dev/null | sed 's#.*/##' | sort | tr '\n' ' ')
+grep -q -F 'you do not read, quote, score or check those answers' "$SRC/agents/kit-session-auditor.md" \
+  && grep -q -F 'It does not read or score the four questions that close an output' "$SRC/meta-antidrift/SKILL.md" \
+  && grep -q -F 'Not a check.' "$UN20" && [ "$rd20" = "stop-gate.sh transcript-digest.sh " ] \
+  && grep -q -F 'removed by their exact words' "$SRC/meta-mechanisms/hooks/stop-gate.sh" \
+  && ok "191 only two mechanisms name the block at all - one to find where the message ends, one to flag the turn - and neither reads an answer; the auditor and the scoring node both say plainly that they do not (T-2, G-2)" || bad "191 what names the block" "$rd20"
+# the node carries why, not just what
+grep -q -F 'Understanding is the one output with no instrument' "$UN20" \
+  && grep -q -F 'A coherent account suppresses the impulse to check' "$UN20" \
+  && grep -q -F 'It is never wrong to ask the pioneer this' "$UN20" \
+  && grep -q -F 'It becomes a form' "$UN20" \
+  && ok "192 the node carries the failure it answers, why no gate can catch it, that asking first is free, and what a thin answer looks like (T-3, G-3)" || bad "192 the node's why" "-"
+# the moment moved and the map did not grow
+grep -q -F 'meta-understanding' "$SRC/meta-map/MAP.md" && grep -q -F 'meta-understanding' "$SRC/templates/MAP.template.md" \
+  && ! grep -q 'The Drift Score Block' "$SRC/meta-map/MAP.md" \
+  && grep -q -F '> **Map:** M-10' "$SRC/meta-antidrift/SKILL.md" \
+  && [ "$(grep -c '^M-[0-9]' "$SRC/meta-map/MAP.md")" = 31 ] \
+  && ok "193 the closing moment points at the new node in both maps, the scoring node moved to its own moment, and the map gained no entry (T-5, UC-5)" || bad "193 the moment" "entries=$(grep -c '^M-[0-9]' "$SRC/meta-map/MAP.md")"
+# the auditor: declarations in, inside score out
+grep -q -F '`approvals`' "$SRC/agents/kit-session-auditor.md" && grep -q -F '`deviations`' "$SRC/agents/kit-session-auditor.md" \
+  && ! grep -q -F 'agreement n/5' "$SRC/agents/kit-session-auditor.md" \
+  && ! grep -q -F 'inside:' "$SRC/templates/LEDGER.template.yaml" \
+  && ok "194 the auditor reads the approvals acted on and the unauthorised deviations from the transcript, and neither it nor the ledger's shape still carries a score of the agent by itself (T-4, G-4)" || bad "194 the auditor" "-"
+# the always-loaded layer did not grow
+b20=$(wc -c < "$IN20"); m20=$(wc -c < "$SRC/meta-map/MAP.md")
+[ "$b20" -le 5120 ] && [ "$m20" -lt 7133 ] && ok "195 the always-loaded layer is inside every allowance after the swap - the four questions cost less than the block they replace (T-5, G-5, P-006)" || bad "195 always-loaded size" "intent=$b20 map=$m20"
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

@@ -114,7 +114,7 @@ still runs no agent, which stays a carried gap below.
 
 - **Bound the upgrade section, not the paragraph** — which means splitting install from upgrade in
   `meta-bootstrap`. Named in contract-018, which called it contract-019; the vocabulary of failure took that
-  number, so this is contract-020, and contract-018's entry records the change.
+  number and the closing four took contract-020, so this is contract-021.
 - **Promote "every figure that reaches the pioneer comes from a command"** out of the upgrade procedure and
   into the foundation, where it governs every number the agent shows.
 
@@ -138,4 +138,20 @@ Each is its own decision, and none is blocked by the others:
 - **A project can read as installed with no hooks wired up.** `kit_installed` is false only when the manifest is
   missing or declares a base `kit_type`. A project whose manifest says `kit_type: project` but which has no
   `.claude/settings.json` passes that test while no mechanism can fire, and nothing detects it. Found by
-  contract-019's T-9 agent, in the fixture it was given.
+  contract-019's T-9 agent, in the fixture it was given.  Seen a second time by contract-020's T-7 agent, which named
+  it unprompted in a different fixture.
+- **The practice has no shape for "the contract cannot be drawn yet."** An agent asked to plan a fix could not
+  write the last two tiers without facts no file in the project held. The blocked state covers a lifecycle task a
+  hook hands over, not a build request the agent cannot responsibly tier. It improvised, correctly, from the
+  pioneer's ruling that nothing may stop the work without asking — but the procedure does not name the case.
+- **Two moments claim the same request.** "Tell me what you would do, no code yet" reads as both a build request
+  and analysis work; the two entries' boundaries do not settle it. The agent chose by the recognition test —
+  whether the next action changes a file — which is in one skill and not in the map.
+- **The contract artifact skill and the contract skill disagree on when a contract is published** — before
+  approval by one, on approval by the other.
+- **The spec lock names a tool an agent may not have.** It requires the question tool for its blocking decisions;
+  a subagent has none, and the step degrades silently into prose.
+- **The manifest is YAML-shaped but not valid YAML.** 61 lines would fail a strict read, because an unquoted value
+  that begins with a word and a colon parses as a mapping key. Nothing in the kit reads it with a YAML parser —
+  the hooks use awk and the portability rule forbids anything else — so it has never mattered. It would matter
+  the first time anyone points a YAML tool at a project's records.

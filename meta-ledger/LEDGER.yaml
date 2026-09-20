@@ -1256,4 +1256,80 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-071
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-020
+    refs: [UC-1, meta-foundation/INTENT.md, meta-antidrift/SKILL.md]
+    statement: |
+      a self-report can only report what happened, never what did not, so it reads cleanest exactly where it is
+      most wrong. The block it replaced was told in its own skill to cite rather than assess, and the five-slot
+      shape made it assess anyway for six versions. The lesson is not that the instruction was too weak but that
+      a form decides what can be said in it: give an agent five qualities to rate and it will rate them.
+    level_guess: pattern
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-072
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-020
+    refs: [G-5, meta-mechanisms/hooks/stop-gate.sh]
+    statement: |
+      a mechanism can be undone by the content of what it reads, not only by an edit to itself. The gate finds a
+      question to the pioneer by scanning the closing stretch of the agent's message for a question mark; the
+      block that now closes every message carries four. Nothing edited the gate, and the lifecycle would have
+      stopped on every turn from the moment the block shipped. The dependency was invisible from either file and
+      only appeared when the two were read together.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-073
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-020
+    refs: [T-3, T-7, meta-understanding/SKILL.md]
+    statement: |
+      a document written to be got behind rather than complied with can be tested by giving it to a reader who
+      has nothing else, and asking them to attack it. One reading of the new node found five real defects in it -
+      a question with no stated purpose, a scope that never said what an output to another agent is, a claim the
+      questions themselves contradict, a rule defended by an aphorism, and a concession buried in a failure mode
+      that belonged in the open. None would have been found by a check, and all five were cheap to fix.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-074
+    date: 2026-09-20
+    source: ser
+    contract_id: contract-020
+    refs: [T-7, UC-1]
+    statement: |
+      the instrument worked on its first live run, on an agent that had never heard of it. Given a project, a bug
+      and no mention of this contract, it closed with the four answers - unmerged, in its own words, no
+      identifier in any of them - and its second answer stated plainly the part of the framing it could not base
+      on anything, and that it had turned that part into a question rather than filling it in. The gap between
+      what the framing should rest on and what it did rest on is what the pioneer reads, and it appeared without
+      anyone asking for it.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []

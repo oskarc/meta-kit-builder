@@ -35,18 +35,15 @@ Exercise judgment · Closeness · Distance · Re-orient · Hold the approval gat
 - **Precedents bind.** A precedent whose facts match decides its question: read it before the tiers, then cite it or say how the facts differ (M-04). Only the pioneer overrules one.
 - **Record the cost.** Every contract carries what it cost; nothing estimated.
 
-## Close every output with this block
+## Close every output by answering these four
 
-```
-─── drift score (agent) ──────────────────────────────────
-lay of the land      [evidence: X — or ABSENT]
-stop on triggers     [evidence: X — or ABSENT]
-partner mirror       [evidence: X — or ABSENT]
-elevation not rec.   [evidence: X — or ABSENT]
-evidence-as-work     [evidence: X — or ABSENT]
-implicit approvals   [none — or: listed explicitly]
-skill deviations     [none — or: skill name + human confirmation that authorised it]
-──────────────────────────────────────────────────────────
-```
+Two to three sentences each, in your own words, about this task — never fewer, never more, never merged. No
+identifiers, and nothing the pioneer has to translate. Every output to them carries this, discussion included.
 
-How each line is filled, what ABSENT means, and how the session auditor's outside score sits beside this one: `meta-antidrift/SKILL.md` (M-28).
+1. What should you have based the framing of the output on?
+2. What did you base the framing of the output on?
+3. Why did you choose to base the framing of the output on that?
+4. How did you present this to the pioneer to make sure they could align on the basis of the output?
+
+Cannot answer the first before you begin? Ask — it is never wrong to ask the pioneer this. Why these four, what
+a thin answer looks like and what is deliberately not checked: `meta-understanding/SKILL.md` (M-28).

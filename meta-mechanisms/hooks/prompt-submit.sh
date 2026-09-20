@@ -8,7 +8,7 @@ kit_installed || exit 0
 telemetry prompt
 
 prompt=$(json_str prompt)
-msg="Kit: before acting, name this moment by its map id (meta-map/MAP.md) and load what that entry points to. Close the turn with the drift score block from INTENT.md."
+msg="Kit: before acting, name this moment by its map id (meta-map/MAP.md) and load what that entry points to. Close the turn by answering the four questions in INTENT.md."
 
 if printf '%s' "$prompt" | grep -qiE "instead|wrong|not what|rather than|redo|revert|scrap|undo|go back|don'?t want|do not want|that'?s not|isn'?t right|i said|stop|reconsider|rethink"; then
   msg="$msg This prompt may correct or redirect earlier work. If it does, record it verbatim before continuing (M-07, meta-correction-log)."
