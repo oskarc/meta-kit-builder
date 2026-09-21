@@ -29,3 +29,7 @@ meta-mechanisms/checks/P-*.sh
 meta-bootstrap/release.sh
 meta-bootstrap/not-shipped.txt
 meta-bootstrap/history/regenerate.sh
+
+# a file named *.project.* is a project's own addition beside a kit file (contract-023 UC-16); this repository has
+# none, and a release never carries one
+meta-mechanisms/checks/*.project.*

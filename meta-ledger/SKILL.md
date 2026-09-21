@@ -24,7 +24,7 @@ Every system that learns well separates a fast store of observations from a slow
 | `LEDGER.yaml` | see each section | observations, candidates, batches, map proposals, audits, scores |
 | `batches/B-NNN.md` | kit-batch-assembler; verdicts and decisions by the main agent | one review batch as presented to the pioneer |
 | `telemetry.log` | hooks | firing and running evidence (meta-mechanisms) |
-| `.claude/kit-sealed/B-NNN.key` | kit-batch-assembler | which items are re-presented and what the pioneer decided on them before; opened only by `reveal-key.sh` |
+| `.claude/kit-sealed/B-NNN.key` | kit-batch-assembler, through `seal-key.sh` — never with the file tools, which the program underneath refuses in that folder | which items are re-presented and what the pioneer decided on them before; sealed only by `seal-key.sh`, opened only by `reveal-key.sh` |
 
 No agent or session loads LEDGER.yaml whole into working context, and while a batch is open the presenting session cannot read it at all (`batch-blind.sh`) — by path or by directory search. The casebook stays readable, because cards and precedents are never re-presented.
 
@@ -39,7 +39,7 @@ Raw, cheap, append-only. Written by the main agent after implementation (the Sta
 - **`loaded_candidates`** — every candidate id that was in the observer's context: cited in the contract (M-29) or read during the work. One definition, used everywhere.
 - **`prompted`** — `true` when the observation came from an answer the kit asked for (a batch `revise`, a question put to the pioneer). A prompted observation is never counted as the unprompted pioneer evidence of independence rule 3.
 - **`certainty_codes`** — optional at creation; a session-level drift analysis adds `compromised-session` here so the consolidator carries it onto the candidate.
-- **`consolidated: false`** until kit-consolidator processes it. Map misses also carry **`stewarded: false`** until kit-map-steward reads them.
+- **`consolidated: false`** until kit-consolidator processes it. Map misses also carry **`stewarded: false`** until kit-map-steward reads them. Either takes `blocked`, with `blocked_since`, `blocked_reason` and `blocked_waiting_for` beside it, when the agent cannot take the observation at all (meta-mechanisms → Blocked tasks).
 
 ## Candidates
 
@@ -104,7 +104,7 @@ A candidate shows its counts — helpful and harmful, by reading — and the pio
 
 ## Review batches
 
-**Assembled** by kit-batch-assembler when the stop-gate says pioneer-owned items are waiting (M-16). Seven item kinds, all of them decisions only the pioneer can take:
+**Assembled** by kit-batch-assembler when the stop-gate says pioneer-owned items are waiting (M-16). A batch that cannot be assembled has no entry to say so on, so the ledger says it for itself: `assembly: blocked` at the top level, beside `observations:` and `candidates:`, with the same three `blocked_*` lines at the same column. The gate then holds the batch step, puts it to the pioneer once a sitting, and the session writes `assembly: false` when what it waited for exists (contract-023). Seven item kinds, all of them decisions only the pioneer can take:
 
 | Kind | Comes from | Decisions |
 |---|---|---|
@@ -166,7 +166,7 @@ A decision the pioneer asks for outside a batch is recorded with `batch: direct`
 
 ## Map proposals, audits and scores
 
-`map_proposals` are written by kit-map-steward and decided at batches; ratified ones are applied to MAP.md by the main agent, declined ones marked `declined`, revised ones set back to `pending` carrying the pioneer's wording so the steward redrafts them. `audits` are written by kit-session-auditor: an outside score of the agent's aspects, the session's own score, their agreement, and evidence-of-form checks.
+`map_proposals` are written by kit-map-steward and decided at batches; ratified ones are applied to MAP.md by the main agent, declined ones marked `declined`, revised ones set back to `pending` carrying the pioneer's wording so the steward redrafts them. `audits` are written by kit-session-auditor: an outside score of the agent's aspects, the approvals the agent acted on that the pioneer never gave in words, its deviations with no authorising statement, and evidence-of-form checks. There is no score of the session's own to compare with: the agent stopped scoring itself in contract-020.
 
 The consolidator maintains `scores`:
 

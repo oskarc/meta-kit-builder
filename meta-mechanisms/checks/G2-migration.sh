@@ -17,7 +17,8 @@
 #      is followed by at least one deeper line; every line is a list item, a `key:` line, a comment, or a plain
 #      scalar's continuation (any line deeper than the `key: value` or bare `key:` line it continues); siblings at one indent are all list
 #      items or all keys, never mixed — a sequence written at its key's own indent is that key's, not a mix.
-#   2. Migrated fields. Every contract entry carries exactly one verification_state, audited, disappointment,
+#   2. Migrated fields. Every contract entry — an analysis report is not one, and is left out — carries exactly one
+#      verification_state, audited, disappointment,
 #      premortem (and red_test and cost unless status: approved, since both are written later); every drift entry exactly one status; every
 #      correction exactly one noticed, would_have_been_right and seen_before; every manifest node exactly one
 #      kind, load and triggers, and owns unless it is an agent; every ledger batch exactly one represented; the
@@ -84,11 +85,17 @@ for f in "$C" "$D" "$R" "$L" "$M"; do out="$(structure "$f")" || fail "$out"; do
 
 # --- 2. migrated fields ---------------------------------------------------------------------------------------
 count(){ # count <file> <entrykey> <fieldkey>: "<entry> <count>" per entry, the field counted at the entry's field indent
+  # An analysis report in the contract log — a `report-NNN` id or `type: analysis-report` — is left out: a document
+  # has no disappointment line, no pre-mortem, no red test and no verification, and step 7 of the upgrade leaves
+  # such an entry alone (contract-018 UC-5). This check demanded all of them from it anyway until contract-023, so
+  # a report written exactly as the rule requires failed the check shipped beside the rule.
   tr -d '\r' < "$1" | awk -v EK="$2" -v FK="$3" '
     function ind(s){ match(s, /^ */); return RLENGTH }
-    $0 ~ "^ *- "EK": " { if (e!="") print e, c; e=$0; sub(/^ *- [a-z_]*: */, "", e); c=0; fi=ind($0)+2; next }
+    function flush(){ if (e!="" && !rep) print e, c }
+    $0 ~ "^ *- "EK": " { flush(); e=$0; sub(/^ *- [a-z_]*: */, "", e); c=0; fi=ind($0)+2; rep=(EK=="contract_id" && e ~ /^report-/); next }
+    e!="" && EK=="contract_id" && ind($0)==fi && $0 ~ /^ *type: *analysis-report *(#.*)?$/ { rep=1 }
     e!="" && ind($0)==fi && $0 ~ "^ *"FK":" { c++ }
-    END { if (e!="") print e, c }'
+    END { flush() }'
 }
 need(){ # need <file> <entrykey> <field> [<status that exempts a missing field>]
   count "$1" "$2" "$3" | while read -r e c; do

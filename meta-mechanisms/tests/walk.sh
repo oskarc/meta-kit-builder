@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run from anywhere: bash meta-mechanisms/tests/walk.sh — drives the hooks through 65 states in a temp fixture built as a real project — settings, a seal and agents: the stop-gate's lifecycle (01-36), which kit a hook acts on, the hold on the first batch and the session id (37-47), a task that cannot be done (48-56), the closing four against the question guard (57), and a workflow healing itself — the queue's depth, the hold while an agent runs, the resume, the lease that lapses and waiting told from failing (58-65).
+# Run from anywhere: bash meta-mechanisms/tests/walk.sh — drives the hooks through 78 states in a temp fixture built as a real project — settings, a seal and agents: the stop-gate's lifecycle (01-36), which kit a hook acts on, the hold on the first batch and the session id (37-47), a task that cannot be done (48-56), the closing four against the question guard (57), and a workflow healing itself — the queue's depth, the hold while an agent runs, the resume, the lease that lapses and waiting told from failing (58-65), and the repairs of contract-023 — only the kit's own agents watched, a merge in place not read as silence, the batch step's jam called a fault with a place to write it down, a blocked map miss, a task with no blocked state never told to write one, and a key sealed by one script and opened by the other (66-78).
 # Lifecycle walk: drive stop-gate.sh through every state of the kit's state machine.
 SRC="$(cd "$(dirname "$0")/../.." && pwd)"
 
@@ -39,8 +39,11 @@ mk() {
   cp "$SRC/templates/settings.template.json" "$FX/.claude/settings.json"
   cp "$SRC"/agents/*.md "$FX/.claude/agents/"
 }
-# fp — the fingerprint of the fixture's records, as the hooks take it
-fp() { ( cd "$FX" && . "$H/lib.sh" >/dev/null 2>&1; set_root "$FX"; record_fingerprint ); }
+# launch TYPE / stopped TYPE — the REAL launch and stop hooks, fed what the program sends them. Until contract-023
+# this walk wrote their telemetry lines by hand, so the one walk that travels to projects never ran the hook that
+# records an agent starting.
+launch()  { ( cd "$FX" && printf '{"cwd":"%s","tool_name":"Agent","tool_input":{"subagent_type":"%s"}}' "$FX" "$1" | CLAUDE_PROJECT_DIR="$FX" bash "$H/agent-launch.sh" ); }
+stopped() { ( cd "$FX" && printf '{"cwd":"%s","agent_type":"%s"}' "$FX" "$1" | CLAUDE_PROJECT_DIR="$FX" bash "$H/subagent-stop.sh" ); }
 tel() { printf '%s|%s|%s|\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$1" "$2" >> "$K/meta-ledger/telemetry.log"; }
 
 DEFMSG="Work done. drift score 0.1"
@@ -477,19 +480,89 @@ echo "=== a workflow that heals itself (contract-021) ==="
 mk; printf 'observations:\n  - obs_id: O-1\n    consolidated: false\n' > "$K/meta-ledger/LEDGER.yaml"
 printf 'corrections:\n  - corr_id: C-1\n    clerked: false\n' > "$K/meta-correction-log/CORRECTIONS.yaml"
 show "58 a hand-over names how many kit tasks stand behind it"
-tel agent-launch "kit-consolidator:$(fp)"
+launch kit-consolidator
 show "59 while an agent runs, nothing else is dispatched"
-tel subagent "kit-consolidator:$(fp)"
+stopped kit-consolidator
 show "60 it stopped having written nothing: resume it, do not start it over"
 show "61 ...and a second silence records the task blocked and moves the queue on"
 mk; printf 'observations:\n  - obs_id: O-1\n    consolidated: false\n' > "$K/meta-ledger/LEDGER.yaml"
-tel agent-launch "kit-case-clerk:$(fp)"
+launch kit-case-clerk
 tel stop-gate "x"; tel stop-gate "x"; tel stop-gate "x"
 show "62 an agent that never reported finishing releases the queue, and the gate says so"
 mk; printf 'contracts:\n  - contract_id: c-1\n    status: implemented\n    verification_state: reported\n    audited: true\n    bearing: |\n      b\n' | w_contracts
 show "63 a task whose next move is the pioneer's, once"
 show "64 ...twice"
 show "65 ...three turns running is waiting on them, not a fault"
+
+echo "=== the obvious repairs (contract-023) ==="
+# says LABEL NEEDLE [ABSENT] — fires the gate once, like show, and answers whether its WHOLE message carries NEEDLE
+# and not ABSENT: show prints only a message's first 300 characters, and what a fault suggests comes after them.
+says() {
+  local r
+  r=$(cd "$FX" && printf '{"cwd":"%s","stop_hook_active":false,"last_assistant_message":"%s"}' "$FX" "$DEFMSG" \
+      | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh" 2>&1)
+  case "$r" in
+    *"$2"*) if [ -n "${3:-}" ] && case "$r" in *"$3"*) true ;; *) false ;; esac; then printf '%-62s -> NO: it also says: %s\n' "$1" "$3"
+            else printf '%-62s -> yes\n' "$1"; fi ;;
+    *) printf '%-62s -> NO: %s\n' "$1" "$(printf '%s' "$r" | sed -e 's/.*additionalContext":"//' | cut -c1-160)" ;;
+  esac
+}
+UNCLERKED='corrections:
+  - corr_id: C-1
+    clerked: false
+'
+mk; printf '%s' "$UNCLERKED" | w_corr
+launch Explore
+show "66 a project's own helper agent is running: the kit's queue is not held for it, nor is it read as a kit agent"
+stopped Explore
+mk; printf '%s' "$UNCLERKED" | w_corr
+printf 'observations:\n  - obs_id: O-1\n    consolidated: false\n    merged_into: null\ncandidates:\n  - cand_id: K-1\n    evidence_refs: [O-0]\n    restatements: 1\n' | w_ledger
+launch kit-consolidator
+sed -i -e 's/consolidated: false/consolidated: true/' -e 's/merged_into: null/merged_into: K-1/' -e 's/\[O-0\]/[O-0, O-1]/' -e 's/restatements: 1/restatements: 2/' "$K/meta-ledger/LEDGER.yaml"
+stopped kit-consolidator
+show "67 a consolidator that merged in place, adding no line, wrote something: the queue moves on"
+mk; printf '%s' "$UNCLERKED" | w_corr; mkdir -p "$K/meta-casebook/reconstruction"
+launch kit-reconstructor
+printf '# predictions\n' > "$K/meta-casebook/reconstruction/RT-001.predictions.md"
+stopped kit-reconstructor
+show "68 the reconstructor's predictions file is a write: nobody is told to resume it"
+CARD='precedents: []
+scenarios:
+  - card_id: S-1
+    pioneer_ranking: pending
+'
+MISSES='observations:
+  - obs_id: O-1
+    source: map-miss
+    consolidated: true
+    stewarded: false
+  - obs_id: O-2
+    source: map-miss
+    consolidated: true
+    stewarded: false
+  - obs_id: O-3
+    source: map-miss
+    consolidated: true
+    stewarded: false
+'
+mk; printf '%s' "$CARD" | w_case; printf '%s' "$MISSES" | w_ledger
+show "69 items only the pioneer can decide are due: a batch is to be assembled"
+show "70 ...twice is still a backlog"
+says "71 ...three turns is a fault with a place to write it down, never waiting on the pioneer" "assembly: blocked at the top level of LEDGER.yaml" "waiting on you rather than stuck"
+{ printf 'assembly: blocked\nblocked_since: 2026-09-21\nblocked_reason: the key cannot be sealed in this project\nblocked_waiting_for: the pioneer to say how to proceed\n'; printf '%s' "$MISSES"; } | w_ledger
+show "72 the batch step, recorded blocked, is put to the pioneer once"
+show "73 ...and the queue behind it runs"
+mk; printf 'observations:\n  - obs_id: O-1\n    source: map-miss\n    consolidated: true\n    stewarded: blocked\n    blocked_since: 2026-09-21\n    blocked_reason: the telemetry is more than the steward can read in its turns\n    blocked_waiting_for: the pioneer to say whether it is trimmed\n' | w_ledger
+show "74 a map miss the steward could not take is put to the pioneer"
+mk; printf 'contracts:\n  - contract_id: c-1\n    status: implemented\n    verification_state: awaiting-evidence\n    audited: true\n' | w_contracts
+show "75 a task with no blocked state of its own, once"
+show "76 ...twice"
+says "77 ...and its fault never tells the agent to write a state the task does not have" "has no blocked state of its own" "blocked_reason"
+mk; printf '# Review batch B-001\n\n## I-1\nDecision: adopt\n\n## I-2\nDecision: decline\n' | w_batch B-001
+sealed=$(printf 'I-1: K-001\nI-2: REPRESENTED K-004 | prior: adopt | batch: B-000\n' | (cd "$FX" && bash "$H/seal-key.sh" B-001) 2>&1 | head -n1 | cut -c1-24)
+again=$(printf 'I-1: K-001\nI-2: K-002\n' | (cd "$FX" && bash "$H/seal-key.sh" B-001) 2>&1 | grep -c 'never overwritten')
+opened=$(cd "$FX" && bash "$H/reveal-key.sh" B-001 2>&1 | grep -c '^I-[0-9]')
+printf '%-62s -> %s; a second sealing refused: %s; lines opened after the decisions: %s\n' "78 the key is sealed by one script and opened by the other" "$sealed" "$again" "$opened"
 
 echo "=== telemetry ==="
 ls -1 "$K/meta-ledger/" 2>/dev/null

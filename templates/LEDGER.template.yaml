@@ -13,7 +13,7 @@
 # writes after a reveal; batches — kit-batch-assembler, then the main agent; map_proposals — kit-map-steward,
 # then the main agent; audits — kit-session-auditor; scores — kit-consolidator.
 # MARKER KEYS read by the mechanisms — do not rename: consolidated, stewarded, review_due, batch_id,
-# decided, revealed, state: pending.
+# decided, revealed, state: pending, and the top-level assembly.
 # Does not travel via meta-extract.
 #
 # Schema:
@@ -34,7 +34,8 @@
 #       consolidated: false                # MARKER — kit-consolidator sets true; blocked when it cannot run,
 #                                          # with blocked_since / blocked_reason / blocked_waiting_for beside it
 #       merged_into: null                  # K-NNN
-#       stewarded: n/a                     # map-miss only: false until kit-map-steward reads it
+#       stewarded: n/a                     # map-miss only: false until kit-map-steward reads it; blocked when it
+#                                          # cannot take it, with the blocked_* keys beside it
 #
 #   candidates:
 #     - cand_id: K-NNN
@@ -78,6 +79,11 @@
 #                                          # when it cannot be, with the blocked_* keys beside it
 #       represented: []                    # written at the reveal, one per re-presented item:
 #                                          # {cand_id, prior, now, consistent} — never pooled into a rate
+#
+#   assembly: blocked                      # MARKER, optional, at the TOP LEVEL beside batches: — written by the main
+#   blocked_since: YYYY-MM-DD              # agent when a review batch cannot be assembled at all (the batch step has
+#   blocked_reason: [one line]             # no entry of its own until it has succeeded). The gate holds the step and
+#   blocked_waiting_for: [one line]        # puts it to the pioneer once a sitting; cleared by writing assembly: false
 #
 #   map_proposals:
 #     - prop_id: MP-NNN

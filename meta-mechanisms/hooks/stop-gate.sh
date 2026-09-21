@@ -34,14 +34,22 @@ esac
 
 ct=$(contracts_table)
 bt=$(batches_table)
-reason=""; owner=""; queued=0
-# A task is handed over once; the rest are counted, so the pioneer sees the depth of the queue behind it without
-# having to ask (contract-021 UC-5). Pioneer-owned items are never counted - knowing how many are really due
-# would let the re-presented ones be counted out (contract-011).
+reason=""; owner=""; where=""; queued=0
+# gate MESSAGE [OWNER] [COUNTED] [WHERE] — a task is handed over once; the rest are counted, so the pioneer sees
+# the depth of the queue behind it without having to ask (contract-021 UC-5).
+#   OWNER    whose move the task's NEXT step is: `agent` (default) or `pioneer`. Only a task waiting on the pioneer
+#            is "waiting, not failing" when it repeats.
+#   COUNTED  `no` for a task that must never appear in the count behind another: anything made of pioneer-owned
+#            items, because knowing how many are really due would let the re-presented ones be counted out
+#            (contract-011). These were one flag until contract-023, and the batch step — the agent's move, made of
+#            pioneer-owned items — was tagged the pioneer's to keep it uncounted; a jammed assembler was then
+#            reported as "waiting on you rather than stuck - nothing is wrong with it".
+#   WHERE    where this task is written down as blocked, in words; empty when it has no blocked state. The fault
+#            message tells the agent to write exactly that and never a key the task does not have (contract-023 G-2).
 gate() {
   if [ -n "$id" ]; then
-    if [ -z "$reason" ]; then reason="$1"; owner="${2:-agent}"
-    elif [ "${2:-agent}" != pioneer ]; then queued=$((queued+1)); fi
+    if [ -z "$reason" ]; then reason="$1"; owner="${2:-agent}"; where="${4:-}"
+    elif [ "${3:-yes}" != no ] && [ "${2:-agent}" != pioneer ]; then queued=$((queued+1)); fi
   fi
 }
 count_gate() { if [ "${1:-0}" -ge "$2" ] 2>/dev/null; then id="$1"; else id=""; fi; }
@@ -66,7 +74,12 @@ if [ -n "$blk" ]; then
   if ! announced_this_sitting "$bid:$bkey"; then
     id="$bid"
     telemetry blocked-announced "$bid:$bkey"
-    gate "$bkind $bid cannot be worked: its $bkey has been blocked since $bsince, and the pioneer has not been told in this sitting. Put it to them now, in their words, before other kit work: what is stuck — $breason — and what it is waiting for — $bwait. Then give them the choices and say which you suggest: clear it (you write $bkey back to false once what it waits for exists, and the task returns to the queue), leave it blocked while the rest of the lifecycle runs on, or something they name instead. The rest of the queue is routed as usual from here (M-32)."
+    # the batch step has no entry of its own, so it is named as what it is rather than by an id
+    case "$bkey" in
+      assembly) bwhat="A review batch cannot be assembled: the ledger has recorded that blocked" ;;
+      *)        bwhat="$bkind $bid cannot be worked: its $bkey has been blocked" ;;
+    esac
+    gate "$bwhat since $bsince, and the pioneer has not been told in this sitting. Put it to them now, in their words, before other kit work: what is stuck — $breason — and what it is waiting for — $bwait. Then give them the choices and say which you suggest: clear it (you write $bkey back to false once what it waits for exists, and the task returns to the queue), leave it blocked while the rest of the lifecycle runs on, or something they name instead. The rest of the queue is routed as usual from here (M-32)."
   fi
 fi
 
@@ -95,7 +108,12 @@ if [ -z "$reason" ] && [ "$flight" = nothing ]; then
   at=$(agent_last_type)
   if agent_resumed; then
     id="$at"
-    gate "the $at agent has now run twice and written nothing both times, which is what it looks like when an agent runs out of turns with the work done and unsaved. Stop relaunching it. Record the task it was doing as blocked on its own record - the state key set to blocked, with blocked_reason, blocked_waiting_for and blocked_since beside it (M-32) - and put it to the pioneer with what you suggest. The rest of the queue runs on from the next turn."
+    aw=$(agent_block_where "$at")
+    if [ -n "$aw" ]; then
+      gate "the $at agent has now run twice and written nothing both times, which is what it looks like when an agent runs out of turns with the work done and unsaved. Stop relaunching it. Record the task it was doing as blocked - $aw - with blocked_reason, blocked_waiting_for and blocked_since beside it (M-32), and put it to the pioneer with what you suggest. The rest of the queue runs on from the next turn."
+    else
+      gate "the $at agent has now run twice and written nothing both times, which is what it looks like when an agent runs out of turns with the work done and unsaved. Stop relaunching it. Its task has no blocked state of its own, so there is nothing to write: tell the pioneer what it was asked to do, that it came back empty twice, and what you suggest, and ask how to proceed (M-32). The rest of the queue runs on from the next turn."
+    fi
   else
     telemetry agent-resume "$at"
     id="$at"
@@ -112,7 +130,7 @@ gate "Every item in review batch $id carries a decision. Run $HOOKS/close-batch.
 
 # 2. A decided batch must be revealed before anything else touches the ledger.
 id=$(first_id "$bt" '$2=="true" && $3=="false"')
-gate "Review batch $id is decided but its key is unopened. Run $HOOKS/reveal-key.sh\" $id with Bash, then apply the decisions to items that were not re-presented, write the represented record, and set revealed: true on the batch (M-17, meta-skill-builder)."
+gate "Review batch $id is decided but its key is unopened. Run $HOOKS/reveal-key.sh\" $id with Bash, then apply the decisions to items that were not re-presented, write the represented record, and set revealed: true on the batch (M-17, meta-skill-builder)." agent yes "revealed: blocked on that batch in LEDGER.yaml"
 
 # 3. A test changed after the verifier reported is drift, not a revision (contract-004 G-3, M-18).
 id=$(late_test_revisions | head -n1)
@@ -125,8 +143,8 @@ if [ -n "$id" ]; then
   [ -n "$t" ] || t="(none recorded on the entry — say in the audit which session you read)"
   # A value with no slash in it is a session id (contract-015 G-2): say what it is and how the file is found.
   case "$t" in
-    */*|"("*) gate "Contract $id is implemented and its session is unaudited. First build the digest the auditor reads: run bash \".claude/skills/meta-mechanisms/checks/transcript-digest.sh\" $t with Bash — it prints the path it wrote. Then launch the kit-session-auditor subagent with the contract id $id, transcript path: $t, and that digest path. Give it no account of how the work went (M-11)." ;;
-    *) gate "Contract $id is implemented and its session is unaudited. First build the digest the auditor reads: run bash \".claude/skills/meta-mechanisms/checks/transcript-digest.sh\" $t with Bash — it finds the transcript by that session id and prints the path it wrote. Then launch the kit-session-auditor subagent with the contract id $id, the session id $t and that digest path. Give it no account of how the work went (M-11)." ;;
+    */*|"("*) gate "Contract $id is implemented and its session is unaudited. First build the digest the auditor reads: run bash \".claude/skills/meta-mechanisms/checks/transcript-digest.sh\" $t with Bash — it prints the path it wrote. Then launch the kit-session-auditor subagent with the contract id $id, transcript path: $t, and that digest path. Give it no account of how the work went (M-11)." agent yes "audited: blocked on that contract entry in CONTRACT-LOG.yaml" ;;
+    *) gate "Contract $id is implemented and its session is unaudited. First build the digest the auditor reads: run bash \".claude/skills/meta-mechanisms/checks/transcript-digest.sh\" $t with Bash — it finds the transcript by that session id and prints the path it wrote. Then launch the kit-session-auditor subagent with the contract id $id, the session id $t and that digest path. Give it no account of how the work went (M-11)." agent yes "audited: blocked on that contract entry in CONTRACT-LOG.yaml" ;;
   esac
 fi
 
@@ -140,7 +158,7 @@ gate "Contract $id is implemented with verification_state: none. If tests, obser
 
 # 7. Observations waiting for consolidation.
 count_gate "$(count_matches '^[[:space:]]+consolidated:[[:space:]]*false' "$LEDGER")" 1
-gate "$id ledger observation(s) are unconsolidated. Launch the kit-consolidator subagent (M-14)."
+gate "$id ledger observation(s) are unconsolidated. Launch the kit-consolidator subagent (M-14)." agent yes "consolidated: blocked on each observation that cannot be taken, in LEDGER.yaml"
 
 # 8. Verified contracts waiting for a learning diff.
 count_gate "$(nrows "$ct" '$2=="verified"')" 1
@@ -148,35 +166,23 @@ gate "$id contract(s) are verified and awaiting a learning diff. Run the meta-le
 
 # 9. Corrections waiting for the case clerk.
 count_gate "$(count_matches '^[[:space:]]+clerked:[[:space:]]*false' "$CORRECTIONS")" 1
-gate "$id pioneer correction(s) are not yet clerked. Launch the kit-case-clerk subagent (M-15)."
+gate "$id pioneer correction(s) are not yet clerked. Launch the kit-case-clerk subagent (M-15)." agent yes "clerked: blocked on each correction that cannot be taken, in CORRECTIONS.yaml"
 
 # 10. Pioneer-owned items are due and no batch is open — and no install or upgrade ended in this session (in_grace,
 #     contract-011): the first batch after one waits for the next session start. The count is deliberately not named: knowing how
 #    many real items are due would let the re-presented items be counted out.
-if ! has_open_batch && ! in_grace; then
-  due=$(count_matches '^[[:space:]]+review_due:[[:space:]]*true' "$LEDGER")
-  pend=$(count_matches '^[[:space:]]+state:[[:space:]]*pending' "$LEDGER")
-  cards=$(count_matches '^[[:space:]]+pioneer_ranking:[[:space:]]*pending' "$CASEBOOK")
-  conflicts=$(count_matches '^[[:space:]]+conflict:[[:space:]]*P-' "$CASEBOOK")
-  resolutions=$(count_matches '^[[:space:]]+status:[[:space:]]*mitigated' "$DRIFT")
-  props=0
-  # Unratified base entries wait for the install-time ratification pass; until it has run or been
-  # declined, they do not open batches of their own (meta-bootstrap Step 7).
-  if ! grep -q 'ratification: deferred' "$MAPFILE" 2>/dev/null; then
-    props=$(count_matches '\|[[:space:]]*proposed[[:space:]]*$' "$MAPFILE")
-  fi
-  if [ "${due:-0}" -ge 3 ] || [ "${pend:-0}" -ge 1 ] || [ "${cards:-0}" -ge 1 ] \
-     || [ "${conflicts:-0}" -ge 1 ] || [ "${resolutions:-0}" -ge 1 ] || [ "${props:-0}" -ge 1 ]; then
-    id="due"
-  else
-    id=""
-  fi
-  gate "Pioneer-owned items are waiting: candidates, map proposals, unratified entries, unranked cards, precedent conflicts or drift resolutions. Launch the kit-batch-assembler subagent to assemble a batch, then present it per meta-skill-builder's review batch (M-16). Never read .claude/kit-sealed/, and while the batch is open your reads of the ledger are blocked so re-presented items stay indistinguishable." pioneer
+#     Whether items are due is one rule, in lib.sh, which session-start and the waiting list call too (contract-023 UC-9).
+#     The NEXT MOVE here is the agent's — launch the assembler — so a jam is a fault like any other, and it has a
+#     place to be written down: `assembly: blocked` in the ledger, which also holds this step until it is cleared.
+#     It stays out of the count behind another task, because what it is made of is the pioneer's (contract-023 UC-2).
+if ! has_open_batch && ! in_grace && ! assembly_is_blocked; then
+  if pioneer_items_due "$LEDGER" "$CASEBOOK" "$DRIFT" "$MAPFILE"; then id="due"; else id=""; fi
+  gate "Pioneer-owned items are waiting: candidates, map proposals, unratified entries, unranked cards, precedent conflicts or drift resolutions. Launch the kit-batch-assembler subagent to assemble a batch, then present it per meta-skill-builder's review batch (M-16). Never read .claude/kit-sealed/, and while the batch is open your reads of the ledger are blocked so re-presented items stay indistinguishable." agent no "assembly: blocked at the top level of LEDGER.yaml, beside observations: and candidates:"
 fi
 
 # 11. Map misses waiting for the steward.
 count_gate "$(count_matches '^[[:space:]]+stewarded:[[:space:]]*false' "$LEDGER")" 3
-gate "$id map misses are unstewarded. Launch the kit-map-steward subagent (M-21)."
+gate "$id map misses are unstewarded. Launch the kit-map-steward subagent (M-21)." agent yes "stewarded: blocked on each map miss that cannot be taken, in LEDGER.yaml"
 
 # 12. Form check: a live contract with no bearing (gap-009).
 id=$(first_id "$ct" '$5=="no" && ($3=="none" || $3=="awaiting-evidence" || $3=="reported")')
@@ -195,7 +201,14 @@ if [ "$owner" = pioneer ] && [ "$(repeated_handovers "$det")" -ge 2 ]; then
   reason="$reason This is the third turn with this same task, and it is waiting on you rather than stuck - nothing is wrong with it. Nothing else is dispatched until it is answered."
 elif [ "$(repeated_handovers "$det")" -ge 2 ]; then
   telemetry stop-gate-fault "$det"
-  reason="this is the third turn running with the same kit task and nothing has changed - $det - which is a fault, not a backlog — the task cannot be cleared the way it is being tried. Stop trying it. Surface it to the pioneer for steering: name the task, what you have tried, and why it does not complete. Suggest an action — usually to record it blocked, which is the state key on that record set to blocked with blocked_reason, blocked_waiting_for and blocked_since beside it, so the rest of the lifecycle runs on and what is stuck stays visible (M-32) — and ask whether to do that or something they name instead."
+  # The action suggested is one the agent can take: where this task's block is written, or — for a task with no
+  # blocked state — that there is nothing to write and the pioneer is asked (contract-023 G-2).
+  if [ -n "$where" ]; then
+    suggest="Suggest an action — usually to record it blocked: $where, with blocked_reason, blocked_waiting_for and blocked_since beside it, so the rest of the lifecycle runs on and what is stuck stays visible (M-32) — and ask whether to do that or something they name instead."
+  else
+    suggest="This task has no blocked state of its own, so there is nothing to write down: say plainly what stops it, suggest what you would do, and ask the pioneer how to proceed (M-32)."
+  fi
+  reason="this is the third turn running with the same kit task and nothing has changed - $det - which is a fault, not a backlog — the task cannot be cleared the way it is being tried. Stop trying it. Surface it to the pioneer for steering: name the task, what you have tried, and why it does not complete. $suggest"
   telemetry stop-gate "$(printf '%s' "$reason" | cut -c1-72)"
 else
   telemetry stop-gate "$det"

@@ -6,7 +6,11 @@
 # hold on the first review batch.
 # Prints one line per hook — its exit code and whether it printed JSON, text or nothing — then the tail of the
 # copy's telemetry, then a verdict. Exit 0 when every hook behaved: exit code 0 and JSON-or-nothing, except
-# close-batch.sh and reveal-key.sh, whose right answer with no batch is "No batch file" and exit 1.
+# close-batch.sh, reveal-key.sh and seal-key.sh, whose right answer with no batch is a refusal and exit 1, and
+# mark-done.sh, whose right answer with no argument is its usage line and exit 2.
+# EVERY script under hooks/ but the library is run here. The one that records an agent starting was added to the
+# kit without being added to this list, and nothing noticed; walk-007 now holds the list to the folder
+# (contract-023 UC-14).
 ROOT="$PWD"; [ -d "$ROOT/.claude/skills/meta-mechanisms/hooks" ] || { echo "hooks-selftest: run from the project's root (no .claude/skills/meta-mechanisms/hooks here)"; exit 2; }
 T="$(mktemp -d)"; trap 'rm -rf "$T"' EXIT
 mkdir -p "$T/.claude"; cp -R "$ROOT/.claude/skills" "$T/.claude/skills"; rm -f "$T/.claude/skills/meta-ledger/telemetry.log" "$T/.claude/skills/meta-ledger/.session-started"
@@ -28,6 +32,7 @@ c="\"cwd\":\"$T\""
 run session-start.sh 0 "{$c,\"source\":\"selftest\"}"
 run prompt-submit.sh 0 "{$c,\"prompt\":\"add a feature\"}"
 run stop-gate.sh     0 "{$c,\"stop_hook_active\":false,\"last_assistant_message\":\"Done.\"}"
+run agent-launch.sh  0 "{$c,\"tool_name\":\"Agent\",\"tool_input\":{\"subagent_type\":\"kit-verifier\"}}"
 run subagent-stop.sh 0 "{$c,\"agent_type\":\"kit-verifier\"}"
 run post-read.sh     0 "{$c,\"tool_name\":\"Read\",\"tool_input\":{\"file_path\":\"$T/.claude/skills/meta-map/MAP.md\"}}"
 run owner-check.sh   0 "{$c,\"tool_name\":\"Edit\",\"tool_input\":{\"file_path\":\"$T/.claude/skills/meta-casebook/CASEBOOK.yaml\"}}"
@@ -36,6 +41,8 @@ run deny-paths.sh    0 "{$c,\"tool_input\":{\"file_path\":\"src/x.cs\"}}" "kit-s
 run write-scope.sh   0 "{$c,\"tool_input\":{\"file_path\":\"src/x.cs\"}}" "meta-ledger/LEDGER.yaml"
 run close-batch.sh   1 "" B-000
 run reveal-key.sh    1 "" B-000
+run seal-key.sh      1 "" B-000
+run mark-done.sh     2 ""
 echo "telemetry written in the copy (the project's own is untouched):"
 tail -n 4 "$T/.claude/skills/meta-ledger/telemetry.log" 2>/dev/null | sed 's/^/  /' || echo "  (none)"
 grep -q '|loaded|meta-map/MAP.md' "$T/.claude/skills/meta-ledger/telemetry.log" 2>/dev/null || { echo "WRONG: no loaded line — telemetry is not recording reads"; bad=1; }

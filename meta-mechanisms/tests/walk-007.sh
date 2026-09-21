@@ -93,7 +93,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.30" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.30" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
+grep -q "^  version: 0.31" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.31" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -107,7 +107,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant fo
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.30" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.30 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.31" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.31 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -284,7 +284,7 @@ grep -q -F 'The agent regards how it presents its output to the pioneer and adap
 
 echo "=== contract-015: promises that hold without the agent remembering ==="
 X15="$SRC/meta-mechanisms/tests/walk.expected"
-n=$(grep -c . "$X15"); p=$(sed -n '37,47p' "$X15" | grep -c -E '/|\\'); d=$(grep -c -E '[A-Za-z]:[/\\]|/tmp/|Users' "$X15"); [ "$n" = 65 ] && [ "$p" = 0 ] && [ "$d" = 0 ] && ok "165 the travelling walk has 65 states; the eleven that print a derived word carry no path or slash, and no line anywhere carries a machine path or drive letter (T-3, realigned by contract-019)" || bad "165 travelling walk" "lines=$n platform-marks=$p machine-paths=$d"
+n=$(grep -c . "$X15"); p=$(sed -n '37,47p' "$X15" | grep -c -E '/|\\'); d=$(grep -c -E '[A-Za-z]:[/\\]|/tmp/|Users' "$X15"); [ "$n" = 78 ] && [ "$p" = 0 ] && [ "$d" = 0 ] && ok "165 the travelling walk has 78 states; the eleven that print a derived word carry no path or slash, and no line anywhere carries a machine path or drive letter (T-3, realigned by contract-019 and again by contract-023, which added thirteen)" || bad "165 travelling walk" "lines=$n platform-marks=$p machine-paths=$d"
 e=$(awk '/^  - contract_id: contract-015$/{f=1} f&&/^    transcript:/{print $2; exit}' "$SRC/meta-contract-before-execution/CONTRACT-LOG.yaml")
 case "$e" in */*|"") t=0 ;; *) t=1 ;; esac
 [ "$t" = 1 ] && grep -q -F 'find it with Glob on `~/.claude/projects/*/<id>.jsonl`' "$SRC/agents/kit-session-auditor.md" && grep -q -F 'the id alone, which the session-start hook names, never a path' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q -F 'session-start hook names, never a path' "$SRC/templates/CONTRACT-LOG.template.yaml" && ok "166 the session id's road is written end to end: hook, entry, gate, auditor - and this contract's own entry records an id, no path (T-2)" || bad "166 session id" "entry transcript=$e"
@@ -598,7 +598,7 @@ grep -q -F 'Those three asks, and nothing else.' "$CS" \
 W22=$(mktemp); bash "$SRC/meta-mechanisms/checks/waiting-on-you.sh" "$SRC" > "$W22" 2>/dev/null
 head -1 "$W22" | grep -q '^waiting on the pioneer: ' \
   && grep -q -F 'waiting-on-you.sh' "$SRC/meta-mechanisms/hooks/session-start.sh" \
-  && grep -q -F 'Say nothing about how many items a review batch holds' "$SRC/meta-mechanisms/hooks/session-start.sh" \
+  && grep -q -F 'Say nothing about how many items are due for review or which they are' "$SRC/meta-mechanisms/hooks/session-start.sh" \
   && ! grep -q -F 'the pioneer asks' "$SRC/meta-mechanisms/checks/waiting-on-you.sh" \
   && ok "204 the list of what waits on the pioneer runs over this repository's own records, and the session-start hook hands the agent the task of putting it to them - so nothing waits on their asking (T-3)" || bad "204 the waiting list" "$(head -1 "$W22")"
 rm -f "$W22"
@@ -616,5 +616,230 @@ grep -q -F '## When a new stop earns its place' "$CS" \
   && grep -q -F 'a flag that only informs is not a flag' "$CS" \
   && grep -q -F 'that is the standard missing a rule, not a stop that belongs' "$CS" \
   && ok "206 the rule a new stop must meet is written where contracts are drawn, with the negative beside it (T-5)" || bad "206 the rule" "-"
+echo "=== contract-023: the obvious repairs - each tested from the side it was hidden from ==="
+HK="$SRC/meta-mechanisms/hooks"; CK="$SRC/meta-mechanisms/checks"
+# mkp23 DIR — a project with the real hooks and checks in it, a sitting begun, and nothing due
+mkp23() {
+  local P="$1" K="$1/.claude/skills"; rm -rf "$P"
+  mkdir -p "$K/meta-mechanisms/hooks" "$K/meta-mechanisms/checks" "$K/meta-manifest" "$K/meta-contract-before-execution" "$K/meta-ledger/batches" \
+           "$K/meta-correction-log" "$K/meta-casebook/reconstruction" "$K/meta-drift-eventlog" "$K/meta-map" "$K/meta-founding-contract" "$P/.claude/kit-sealed"
+  cp "$HK"/*.sh "$K/meta-mechanisms/hooks/"; cp "$CK"/waiting-on-you.sh "$K/meta-mechanisms/checks/"
+  printf 'kit_type: project\nnodes: []\n' > "$K/meta-manifest/MANIFEST.yaml"
+  printf 'contracts: []\n' > "$K/meta-contract-before-execution/CONTRACT-LOG.yaml"; printf 'observations: []\n' > "$K/meta-ledger/LEDGER.yaml"
+  printf 'corrections: []\n' > "$K/meta-correction-log/CORRECTIONS.yaml"; printf 'precedents: []\n' > "$K/meta-casebook/CASEBOOK.yaml"
+  printf 'entries: []\n' > "$K/meta-drift-eventlog/DRIFTLOG.yaml"; printf 'M-01 | x | must | INTENT.md | ratified\n' > "$K/meta-map/MAP.md"
+  printf 'founding\n' > "$K/meta-founding-contract/FOUNDING.md"; : > "$K/meta-ledger/.session-started"
+}
+# hook23 DIR SCRIPT JSON [ARGS...] — run one real hook inside the project, as the program would
+hook23() { local P="$1" s="$2" j="$3"; shift 3; ( cd "$P" && printf '%s' "$j" | CLAUDE_PROJECT_DIR="$P" bash "$P/.claude/skills/meta-mechanisms/hooks/$s" "$@" 2>&1 ); }
+fp23() { ( cd "$1" && . "$1/.claude/skills/meta-mechanisms/hooks/lib.sh" >/dev/null 2>&1; set_root "$1"; record_fingerprint ); }
+# scope23 AGENTFILE SCRIPT — the arguments an agent's own file passes to one of its guards, one per line
+scope23() { awk -v s="$2" '{ i = index($0, s); if (!i) next; t = substr($0, i + length(s)); n = split(t, a, "\\\\\""); for (j = 2; j <= n; j++) if (a[j] ~ /[A-Za-z]/) print a[j] }' "$1"; }
+T23=$(mktemp -d); P23="$T23/p"
+
+# T-2: the sealing script
+mkp23 "$P23"; K23="$P23/.claude/skills"
+printf '# Review batch B-001\n\n## I-1\nDecision:\n\n## I-2\nDecision:\n' > "$K23/meta-ledger/batches/B-001.md"
+seal() { ( cd "$P23" && bash "$K23/meta-mechanisms/hooks/seal-key.sh" "$@" 2>&1 ); }
+r1=$(printf 'I-1: K-001\n' | seal B-001); r2=$(printf 'I-1: K-001\nI-2: K-002\n' | seal batch-one); r3=$(printf 'I-1: K-001\nI-2: K-002\n' | seal B-009)
+r4=$(printf 'I-1: K-001\nI-2: K-002\n' | seal B-001); r5=$(printf 'I-1: K-001\nI-2: K-002\n' | seal B-001)
+case "$r1" in *"seal-key refused: the key names 1 item line(s) and the batch file carries 2 item(s)"*) a=y;; *) a=n;; esac
+case "$r2" in *"is not a batch id of the form B-NNN"*) b=y;; *) b=n;; esac
+case "$r3" in *"there is no batch file at"*) c=y;; *) c=n;; esac
+case "$r4" in "Sealed B-001: 2 item(s)."*) d=y;; *) d=n;; esac
+case "$r5" in *"already has a sealed key, and a key is never overwritten or opened"*) e=y;; *) e=n;; esac
+case "$r4$r5" in *"K-001"*|*"K-002"*) f=n;; *) f=y;; esac
+[ "$a$b$c$d$e$f" = yyyyyy ] && [ "$(grep -c . "$P23/.claude/kit-sealed/B-001.key")" = 2 ] && bash "$CK/G6-refusals.sh" "$SRC" >/dev/null 2>&1 \
+  && ok "207 the sealing script refuses a short key, a wrong id, a missing batch and a second key, seals a whole one, never prints a key, and every refusal it can make is registered with its next step (T-2)" \
+  || bad "207 the sealing script" "short=$a id=$b nobatch=$c sealed=$d second=$e silent=$f"
+
+# T-4: only the kit's agents are watched; every real edit moves the fingerprint; the fingerprint covers every write scope
+mkp23 "$P23"; c23="\"cwd\":\"$P23\""
+printf 'corrections:\n  - corr_id: C-1\n    clerked: false\n' > "$K23/meta-correction-log/CORRECTIONS.yaml"
+hook23 "$P23" agent-launch.sh "{$c23,\"tool_name\":\"Agent\",\"tool_input\":{\"subagent_type\":\"Explore\"}}" >/dev/null
+# while the project's own helper is still running, the kit's queue is not held for it...
+g0=$(hook23 "$P23" stop-gate.sh "{$c23,\"stop_hook_active\":false,\"last_assistant_message\":\"Done.\"}")
+hook23 "$P23" subagent-stop.sh "{$c23,\"agent_type\":\"Explore\"}" >/dev/null
+# ...and once it has stopped, having written no kit record, it is not read as a kit agent that failed
+g=$(hook23 "$P23" stop-gate.sh "{$c23,\"stop_hook_active\":false,\"last_assistant_message\":\"Done.\"}")
+case "$g0" in *"not yet clerked"*) x0=y;; *) x0=n;; esac
+case "$g" in *"not yet clerked"*) case "$g" in *"stopped without writing"*) x=n;; *) x=y;; esac;; *) x=n;; esac
+[ "$x0" = y ] || x="n (the queue was held while it ran)"
+moves() { local before after; before=$(fp23 "$P23"); eval "$1"; after=$(fp23 "$P23"); [ "$before" != "$after" ]; }
+printf 'observations:\n  - obs_id: O-1\n    consolidated: false\n    merged_into: null\ncandidates:\n  - cand_id: K-1\n    restatements: 1\n' > "$K23/meta-ledger/LEDGER.yaml"
+printf 'contracts:\n  - contract_id: c-1\n    status: implemented\n    verification_state: none\n' > "$K23/meta-contract-before-execution/CONTRACT-LOG.yaml"
+printf '# Review batch B-002\n\n## I-1\nDecision:\n' > "$K23/meta-ledger/batches/B-002.md"
+m=""
+moves ':' && m="${m}noop-moved "
+moves "sed -i -e 's/consolidated: false/consolidated: true/' -e 's/restatements: 1/restatements: 2/' '$K23/meta-ledger/LEDGER.yaml'" || m="${m}merge-in-place "
+moves "printf '# predictions\n' > '$K23/meta-casebook/reconstruction/RT-001.predictions.md'" || m="${m}predictions "
+moves "printf 'I-1: K-001\n' | ( cd '$P23' && bash '$K23/meta-mechanisms/hooks/seal-key.sh' B-002 ) >/dev/null 2>&1" || m="${m}key "
+moves "printf 'exit 0\n' > '$K23/meta-mechanisms/checks/P-001.sh'" || m="${m}check "
+moves "sed -i 's/verification_state: none/verification_state: reported/' '$K23/meta-contract-before-execution/CONTRACT-LOG.yaml'" || m="${m}verification "
+moves "printf 'clerked: true\n' >> '$K23/meta-correction-log/CORRECTIONS.yaml'" || m="${m}corrections "
+moves "printf 'precedents:\n  - prec_id: P-001\n' > '$K23/meta-casebook/CASEBOOK.yaml'" || m="${m}casebook "
+[ "$x" = y ] && [ -z "$m" ] && ok "208 a project's own helper agent neither holds the kit's queue while it runs nor is read as a kit agent that failed when it stops, and every edit a kit agent really makes - a merge in place, a predictions file, a key, a check, a verdict, a clerked correction, a precedent - changes the fingerprint, where doing nothing does not (T-4)" \
+  || bad "208 the watch and the fingerprint" "other-agent-ignored=$x not-detected: $m"
+paths23=$( ( cd "$P23" && . "$K23/meta-mechanisms/hooks/lib.sh" >/dev/null 2>&1; set_root "$P23"; fingerprint_paths ) )
+miss=""; nfrag=0
+for af in "$SRC"/agents/kit-*.md; do
+  while IFS= read -r frag; do
+    [ -n "$frag" ] || continue; nfrag=$((nfrag+1))
+    printf '%s\n' "$paths23" | grep -q -F -- "$frag" || miss="$miss ${af##*/}:$frag"
+  done <<EOF
+$(scope23 "$af" "write-scope.sh")
+EOF
+done
+[ "$nfrag" -ge 12 ] && [ -z "$miss" ] && ok "209 every place a kit agent's own file lets it write is a place the fingerprint reads - $nfrag scope pieces parsed from the eight agent files, none uncovered (T-4)" \
+  || bad "209 fingerprint coverage" "pieces=$nfrag uncovered:$miss"
+
+# T-5: the digest's path is one the file tools can open
+printf '{"type":"user","timestamp":"2026-09-21T10:00:00.000Z","message":{"role":"user","content":"hello"},"origin":{"kind":"human"}}\n' > "$T23/t.jsonl"
+dline=$(TMPDIR= bash "$CK/transcript-digest.sh" "$T23/t.jsonl" 2>/dev/null | head -n1); dpath="${dline#digest written: }"
+case "${OSTYPE:-}" in msys*|cygwin*|win32*) case "$dpath" in [A-Za-z]:/*) sp=y;; *) sp=n;; esac;; *) case "$dpath" in /*) sp=y;; *) sp=n;; esac;; esac
+[ "$sp" = y ] && [ -f "$dpath" ] && ok "210 the digest script prints the path it wrote in the spelling the file tools use - a drive letter on a Windows shell, never the shell's own /tmp - and the file is there (T-5)" \
+  || bad "210 the digest path" "$dline"
+rm -f "$dpath"
+
+# T-6: every path an agent's procedure names, run through that agent's OWN guards as parsed from its file
+# guard23 AGENT deny|write TOOL FIELD VALUE -> allowed | refused
+guard23() {
+  local af="$SRC/agents/$1.md" script args=() a out
+  case "$2" in deny) script=deny-paths.sh;; write) script=write-scope.sh;; esac
+  while IFS= read -r a; do [ -n "$a" ] && args+=("$a"); done <<EOF
+$(scope23 "$af" "$script")
+EOF
+  out=$(hook23 "$P23" "$script" "{\"cwd\":\"$P23\",\"tool_name\":\"$3\",\"tool_input\":{\"$4\":\"$5\"}}" "${args[@]}")
+  case "$out" in *'"permissionDecision":"deny"'*) echo refused;; *) echo allowed;; esac
+}
+S=".claude/skills"; wrong=""
+expect23() { local got; got=$(guard23 "$1" "$2" "$3" "$4" "$5"); [ "$got" = "$6" ] || wrong="$wrong [$1 $3 $5: $got, wanted $6]"; }
+expect23 kit-batch-assembler deny  Bash  command   "bash $S/meta-mechanisms/hooks/seal-key.sh B-001" allowed
+expect23 kit-batch-assembler write Write file_path "$S/meta-ledger/batches/B-001.md"                 allowed
+expect23 kit-batch-assembler write Edit  file_path "$S/meta-ledger/LEDGER.yaml"                      allowed
+expect23 kit-batch-assembler write Write file_path ".claude/kit-sealed/B-001.key"                    refused
+expect23 kit-batch-assembler deny  Read  file_path ".claude/kit-sealed/B-001.key"                    refused
+expect23 kit-case-clerk      write Write file_path "$S/meta-mechanisms/checks/P-001.sh"              allowed
+expect23 kit-case-clerk      write Edit  file_path "$S/meta-casebook/CASEBOOK.yaml"                  allowed
+expect23 kit-case-clerk      write Edit  file_path "$S/meta-correction-log/CORRECTIONS.yaml"         allowed
+expect23 kit-case-clerk      write Edit  file_path "$S/meta-ledger/LEDGER.yaml"                      allowed
+expect23 kit-case-clerk      deny  Bash  command   "bash $S/meta-mechanisms/checks/records-index.sh"  allowed
+expect23 kit-case-clerk      deny  Read  file_path "$S/meta-ledger/batches/B-001.md"                 refused
+expect23 kit-consolidator    write Edit  file_path "$S/meta-ledger/LEDGER.yaml"                      allowed
+expect23 kit-consolidator    write Edit  file_path "$S/meta-ledger/SKILL.md"                         refused
+expect23 kit-consolidator    deny  Read  file_path "$S/meta-ledger/telemetry.log"                    allowed
+expect23 kit-consolidator    deny  Read  file_path "$S/meta-ledger/batches/B-001.md"                 refused
+expect23 kit-map-steward     write Edit  file_path "$S/meta-ledger/LEDGER.yaml"                      allowed
+expect23 kit-map-steward     write Edit  file_path "$S/meta-map/MAP.md"                              refused
+expect23 kit-map-steward     deny  Read  file_path "$S/meta-ledger/telemetry.log"                    allowed
+expect23 kit-recorder        deny  Grep  path      "$S/meta-ledger/LEDGER.yaml"                      allowed
+expect23 kit-recorder        deny  Read  file_path "$S/templates/LEDGER.template.yaml"               allowed
+expect23 kit-recorder        write Edit  file_path "$S/meta-ledger/LEDGER.yaml"                      allowed
+expect23 kit-recorder        deny  Read  file_path "$S/meta-ledger/batches/B-001.md"                 refused
+expect23 kit-reconstructor   deny  Read  file_path "$S/meta-ledger/SKILL.md"                         allowed
+expect23 kit-reconstructor   deny  Read  file_path "$S/meta-correction-log/SKILL.md"                 allowed
+expect23 kit-reconstructor   deny  Read  file_path "$S/meta-casebook/CASEBOOK.yaml"                  allowed
+expect23 kit-reconstructor   deny  Read  file_path "$S/meta-ledger/LEDGER.yaml"                      refused
+expect23 kit-reconstructor   deny  Read  file_path "$S/meta-correction-log/CORRECTIONS.yaml"         refused
+expect23 kit-reconstructor   deny  Read  file_path "$S/meta-contract-before-execution/CONTRACT-LOG.yaml" refused
+expect23 kit-reconstructor   write Write file_path "$S/meta-casebook/reconstruction/RT-001.predictions.md" allowed
+expect23 kit-reconstructor   write Write file_path "$S/meta-casebook/CASEBOOK.yaml"                  refused
+expect23 kit-session-auditor deny  Read  file_path "/home/x/.claude/projects/p/abc.jsonl"            allowed
+expect23 kit-session-auditor deny  Read  file_path "$S/meta-ledger/batches/B-001.md"                 refused
+expect23 kit-session-auditor write Edit  file_path "$S/meta-contract-before-execution/CONTRACT-LOG.yaml" allowed
+expect23 kit-session-auditor write Edit  file_path "$S/meta-antidrift/SKILL.md"                      refused
+expect23 kit-verifier        deny  Read  file_path "$S/meta-ledger/SKILL.md"                         allowed
+expect23 kit-verifier        deny  Read  file_path "$S/meta-ledger/LEDGER.yaml"                      refused
+expect23 kit-verifier        deny  Bash  command   "bash meta-mechanisms/tests/walk.sh"              allowed
+expect23 kit-verifier        write Edit  file_path "$S/meta-contract-before-execution/CONTRACT-LOG.yaml" allowed
+expect23 kit-verifier        write Edit  file_path "src/app.ts"                                      refused
+[ -z "$wrong" ] && ok "211 thirty-nine paths the eight agents are told to read, write or stay out of, each run through that agent's own guards as its own file declares them: told-to is allowed, blind-to is refused - the assembler may run the sealing script and may not write the sealed folder; the reconstructor may read the skill that describes a record and not the record (T-6)" \
+  || bad "211 an agent's procedure against its own guards" "$wrong"
+
+# T-8: three readers, one rule
+due23() { # DIR -> gate / session-start / waiting list, each y or n
+  local P="$1" g s w c="\"cwd\":\"$1\""
+  g=$(hook23 "$P" stop-gate.sh "{$c,\"stop_hook_active\":false,\"last_assistant_message\":\"Done.\"}"); case "$g" in *"Pioneer-owned items are waiting"*) g=y;; *) g=n;; esac
+  s=$(hook23 "$P" session-start.sh "{$c,\"source\":\"resume\"}"); case "$s" in *"Pioneer-owned items are waiting"*) s=y;; *) s=n;; esac
+  w=$(bash "$P/.claude/skills/meta-mechanisms/checks/waiting-on-you.sh" "$P/.claude/skills"); case "$w" in *"a review of what would change the standard is waiting"*) w=y;; *) w=n;; esac
+  printf '%s%s%s' "$g" "$s" "$w"
+}
+cand23() { local i; printf 'observations: []\ncandidates:\n'; for i in $(seq 1 "$1"); do printf '  - cand_id: K-%s\n    review_due: true\n' "$i"; done; }
+res=""; digits=""
+mkp23 "$P23"; cand23 1 > "$K23/meta-ledger/LEDGER.yaml";                                                    res="$res one-candidate=$(due23 "$P23")"
+mkp23 "$P23"; cand23 3 > "$K23/meta-ledger/LEDGER.yaml";                                                    res="$res three=$(due23 "$P23")"
+w3=$(bash "$K23/meta-mechanisms/checks/waiting-on-you.sh" "$K23" | grep 'a review of'); case "$w3" in *[0-9]*) digits="a digit in: $w3";; esac
+mkp23 "$P23"; printf 'precedents: []\nscenarios:\n  - card_id: S-1\n    pioneer_ranking: pending\n' > "$K23/meta-casebook/CASEBOOK.yaml"; res="$res card=$(due23 "$P23")"
+mkp23 "$P23"; printf 'precedents:\n  - prec_id: P-1\n    conflict: P-2\n  - prec_id: P-2\n    conflict: P-1\n' > "$K23/meta-casebook/CASEBOOK.yaml"; res="$res conflict=$(due23 "$P23")"
+mkp23 "$P23"; printf 'observations: []\nmap_proposals:\n  - prop_id: MP-1\n    state: pending\n' > "$K23/meta-ledger/LEDGER.yaml";  res="$res proposal=$(due23 "$P23")"
+mkp23 "$P23"; printf 'entries:\n  - drift_id: drift-1\n    status: mitigated\n' > "$K23/meta-drift-eventlog/DRIFTLOG.yaml";       res="$res drift=$(due23 "$P23")"
+mkp23 "$P23"; printf 'ratification: deferred\nM-01 | x | must | INTENT.md | proposed\n' > "$K23/meta-map/MAP.md";                  res="$res deferred=$(due23 "$P23")"
+mkp23 "$P23"; printf 'M-01 | x | must | INTENT.md | proposed\n' > "$K23/meta-map/MAP.md";                                          res="$res unratified=$(due23 "$P23")"
+want=" one-candidate=nnn three=yyy card=yyy conflict=yyy proposal=yyy drift=yyy deferred=nnn unratified=yyy"
+[ "$res" = "$want" ] && [ -z "$digits" ] && grep -q -F 'Say nothing about how many items are due for review' "$HK/session-start.sh" && ! grep -q -F 'how many items a review batch holds' "$HK/session-start.sh" \
+  && ok "212 the gate, the session-start list and the waiting list give the same answer on eight fixtures - one due candidate is not a review, three are, and one card, one conflict, one map proposal, one drift resolution or one unratified entry is, unless the ratification was put off - the waiting list names no number, and session-start hides how many items are due, not how many a batch holds (T-8)" \
+  || bad "212 three readers, one rule" "got:$res | wanted:$want | $digits"
+
+# T-9: retired wordings, and the migration check on reports
+G23="$T23/g3"; mkdir -p "$G23/meta-mechanisms/checks" "$G23/meta-foundation" "$G23/meta-map" "$G23/agents" "$G23/templates"
+for d in "$SRC"/meta-*/; do n="${d%/}"; n="${n##*/}"; [ -f "$d/SKILL.md" ] && { mkdir -p "$G23/$n"; cp "$d/SKILL.md" "$G23/$n/SKILL.md"; }; done
+cp "$SRC/meta-foundation/INTENT.md" "$G23/meta-foundation/"; cp "$SRC/meta-map/MAP.md" "$G23/meta-map/"; cp "$SRC"/agents/*.md "$G23/agents/"; cp "$SRC"/templates/* "$G23/templates/"; cp "$SRC/README.md" "$G23/"
+cp "$CK/G3-retired.sh" "$CK/retired-phrases.txt" "$G23/meta-mechanisms/checks/"
+bash "$G23/meta-mechanisms/checks/G3-retired.sh" "$G23" >/dev/null 2>&1; clean=$?
+printf '\nWhile a review batch is open the ledger and casebook are closed to this session; say that instead.\n' >> "$G23/meta-contract-before-execution/SKILL.md"
+back=$(bash "$G23/meta-mechanisms/checks/G3-retired.sh" "$G23" 2>&1); backrc=$?
+R23="$T23/g2"; mkdir -p "$R23/meta-contract-before-execution" "$R23/meta-drift-eventlog" "$R23/meta-correction-log" "$R23/meta-ledger" "$R23/meta-manifest" "$R23/templates"
+printf 'entries: []\n' > "$R23/meta-drift-eventlog/DRIFTLOG.yaml"; printf 'corrections: []\n' > "$R23/meta-correction-log/CORRECTIONS.yaml"; printf 'observations: []\n' > "$R23/meta-ledger/LEDGER.yaml"
+printf 'kit_identity:\n  kit_type: project\n  workspace: []\nnodes: []\ncoverage_map: []\n' > "$R23/meta-manifest/MANIFEST.yaml"; printf 'nodes: []\ncoverage_map: []\n' > "$R23/templates/MANIFEST.template.yaml"
+printf 'contracts:\n  - contract_id: report-001\n    feature: a written analysis\n  - contract_id: c-2\n    type: analysis-report\n    feature: another, under an older id\n' > "$R23/meta-contract-before-execution/CONTRACT-LOG.yaml"
+bash "$CK/G2-migration.sh" "$R23" >/dev/null 2>&1; reports=$?
+printf 'contracts:\n  - contract_id: contract-001\n    status: implemented\n    verification_state: none\n    audited: false\n    disappointment: x\n    red_test: null\n    cost: null\n' > "$R23/meta-contract-before-execution/CONTRACT-LOG.yaml"
+nopm=$(bash "$CK/G2-migration.sh" "$R23" 2>&1); nopmrc=$?
+[ "$clean" = 0 ] && [ "$backrc" = 1 ] && case "$back" in *"the ledger and casebook are closed to this session"*) true;; *) false;; esac && [ "$reports" = 0 ] && [ "$nopmrc" = 1 ] && case "$nopm" in *"carries premortem 0 times"*) true;; *) false;; esac \
+  && ok "213 no wording this contract retired still stands, and putting one sentence back is caught by name; a report entry written as the rule requires passes the migration check, and a contract with no pre-mortem still fails it (T-9)" \
+  || bad "213 retired wordings and the migration check" "clean=$clean back=$backrc reports=$reports no-premortem=$nopmrc"
+
+# T-10: the inventory, the self-test and the template, each held to the folder it describes
+held23() { # ROOT -> the names that are missing, empty when all is held
+  local R="$1" f n out=""
+  for f in "$R"/meta-mechanisms/hooks/*.sh; do n="${f##*/}"; [ "$n" = lib.sh ] && continue
+    grep -q -F -- "$n" "$R/meta-mechanisms/checks/hooks-selftest.sh" || out="$out selftest:$n"
+    grep -q -F -- "\`hooks/$n\`" "$R/meta-mechanisms/SKILL.md" || out="$out inventory:hooks/$n"; done
+  for f in "$R"/meta-mechanisms/checks/*.sh; do n="${f##*/}"; case "$n" in P-*.sh) continue;; esac
+    grep -q -F -- "\`checks/$n\`" "$R/meta-mechanisms/SKILL.md" || out="$out inventory:checks/$n"; done
+  for f in "$R"/meta-*/SKILL.md; do n="${f#$R/}"; grep -q -F -- "skill_file: $n" "$R/templates/MANIFEST.template.yaml" || out="$out template:$n"; done
+  printf '%s' "$out"
+}
+h1=$(held23 "$SRC")
+H23="$T23/held"; mkdir -p "$H23/meta-mechanisms/hooks" "$H23/meta-mechanisms/checks" "$H23/templates" "$H23/meta-understanding"
+cp "$HK"/*.sh "$H23/meta-mechanisms/hooks/"; cp "$CK"/*.sh "$H23/meta-mechanisms/checks/"; cp "$SRC/meta-understanding/SKILL.md" "$H23/meta-understanding/"
+grep -v 'agent-launch.sh' "$CK/hooks-selftest.sh" > "$H23/meta-mechanisms/checks/hooks-selftest.sh"
+grep -v '`checks/waiting-on-you.sh`' "$SRC/meta-mechanisms/SKILL.md" > "$H23/meta-mechanisms/SKILL.md"
+grep -v 'meta-understanding/SKILL.md' "$SRC/templates/MANIFEST.template.yaml" > "$H23/templates/MANIFEST.template.yaml"
+h2=$(held23 "$H23")
+[ -z "$h1" ] && case "$h2" in *"selftest:agent-launch.sh"*"inventory:checks/waiting-on-you.sh"*"template:meta-understanding/SKILL.md"*) true;; *) false;; esac \
+  && ok "214 the self-test runs every hook, every hook and check script has its row in the inventory, and every shipped skill has its node in the template manifest - and on a copy with one of each taken out, all three are named as missing (T-10)" \
+  || bad "214 held to the folder" "here:[$h1] on the broken copy:[$h2]"
+
+# T-11: a project's own registry survives an upgrade, and the refusal check reads it
+U23="$T23/u"; REL23="$U23/rel"; PRJ23="$U23/p"; mkdir -p "$REL23/meta-mechanisms/checks" "$REL23/meta-bootstrap" "$REL23/templates" "$REL23/agents" "$REL23/meta-map"
+cp "$CK/install.sh" "$REL23/meta-mechanisms/checks/"; cp "$SRC/meta-bootstrap/SKILL.md" "$REL23/meta-bootstrap/"; cp "$SRC/templates/settings.template.json" "$REL23/templates/"; printf 'the map skill\n' > "$REL23/meta-map/SKILL.md"
+mkdir -p "$PRJ23/.claude/skills/templates" "$PRJ23/.claude/skills/meta-mechanisms/checks" "$PRJ23/.claude/skills/meta-mechanisms/hooks" "$PRJ23/.claude/skills/meta-casebook" "$PRJ23/.claude/skills/meta-map" "$PRJ23/.claude/skills/meta-bootstrap" "$PRJ23/.claude/agents"
+cp "$REL23/templates/settings.template.json" "$PRJ23/.claude/skills/templates/"; cp "$REL23/templates/settings.template.json" "$PRJ23/.claude/settings.json"
+printf 'precedents: []\n' > "$PRJ23/.claude/skills/meta-casebook/CASEBOOK.yaml"; printf 'old\n' > "$PRJ23/.claude/skills/meta-map/SKILL.md"
+printf '<!-- kit-block:start -->\nold block\n<!-- kit-block:end -->\n' > "$PRJ23/CLAUDE.md"
+cp "$CK/G6-refusals.sh" "$CK/refusal-nextsteps.txt" "$PRJ23/.claude/skills/meta-mechanisms/checks/"
+printf '#!/usr/bin/env bash\necho "own-check refused: the log line has no request id"\n' > "$PRJ23/.claude/skills/meta-mechanisms/checks/own-check.sh"
+printf 'own-check refused: the log line has no request id\n-> add the request id to the log call the check names.\n' > "$PRJ23/.claude/skills/meta-mechanisms/checks/refusal-nextsteps.project.txt"
+printf 'take meta-map/SKILL.md\nstale meta-mechanisms/checks/refusal-nextsteps.project.txt\n' > "$U23/plan"
+ri=$(cd "$PRJ23" && bash "$REL23/meta-mechanisms/checks/install.sh" upgrade "$U23/plan" 2>&1); rirc=$?
+bash "$PRJ23/.claude/skills/meta-mechanisms/checks/G6-refusals.sh" "$PRJ23/.claude/skills" >/dev/null 2>&1; with=$?
+mv "$PRJ23/.claude/skills/meta-mechanisms/checks/refusal-nextsteps.project.txt" "$U23/aside.txt"
+bash "$PRJ23/.claude/skills/meta-mechanisms/checks/G6-refusals.sh" "$PRJ23/.claude/skills" >/dev/null 2>&1; without=$?
+[ "$rirc" = 0 ] && [ -f "$U23/aside.txt" ] && case "$ri" in *"spared"*"refusal-nextsteps.project.txt"*"project's own file"*) true;; *) false;; esac && [ "$with" = 0 ] && [ "$without" = 1 ] \
+  && grep -q -F 'A file named `*.project.*` inside the kit' "$SRC/meta-bootstrap/SKILL.md" && grep -q -F '*.project.*' "$SRC/meta-bootstrap/not-shipped.txt" \
+  && ok "215 a project's own registry, put on an upgrade's stale list, is spared and named; the refusal check passes with a refusal registered only there and fails without it; the rule is one sentence in the bootstrap skill, and no release carries such a file (T-11)" \
+  || bad "215 what is the project's own" "install=$rirc with=$with without=$without :: $(printf '%s' "$ri" | head -n 3 | tr '\n' ' ')"
+rm -rf "$T23"
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

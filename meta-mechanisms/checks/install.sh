@@ -31,6 +31,8 @@
 #     runs again with --skip-claude-md.
 #   * removing a `P-NNN.sh` whose precedent is in this project's casebook: that is the project's own check, not the
 #     base kit's evidence, and it is never stale (contract-018 UC-2). It is spared and named; nothing else changes.
+#   * removing a file named *.project.* — the name the kit reserves for what a project adds beside a kit file, such
+#     as its own refusal registry. No release carries one, so it is never stale (contract-023 UC-16). Spared and named.
 set -u
 mode=""; plan=""; wsfile=""; skip_settings=0; skip_claude=0
 while [ $# -gt 0 ]; do
@@ -69,10 +71,19 @@ if [ "$mode" = upgrade ]; then
   done < "$plan"
 fi
 
-# ---- the project's own precedent checks are never stale (UC-2) ------------------------------------------------------
+# ---- what is the project's own is never stale (contract-018 UC-2, contract-023 UC-16) -------------------------------
+# Two kinds of file sit inside the kit's folders and are not the kit's: a precedent check the case clerk wrote for a
+# precedent in this project's casebook, and any file named *.project.* — the name the kit reserves for what a
+# project adds beside a kit file (its own refusal registry, today). Both are absent from the staged kit by design,
+# so the stale rule would list them; both are spared and named, and nothing else about the run changes.
 CASE="$K/meta-casebook/CASEBOOK.yaml"
 keep_stales=()
 for p in ${stales+"${stales[@]}"}; do
+  case "$(basename "$p")" in
+    *.project.*)
+      spared+=("$p is this project's own file — a name ending .project.<type> is never the kit's — not stale, not removed")
+      continue ;;
+  esac
   case "$p" in
     *meta-mechanisms/checks/P-*.sh|checks/P-*.sh|*/P-*.sh)
       id="$(basename "$p" .sh)"

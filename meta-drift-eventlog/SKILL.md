@@ -11,7 +11,7 @@ description: Use when an audit marks an aspect ABSENT, a skill deviation is unau
 
 ## What This Skill Does
 
-Persists drift incidents the session's audit and the pioneer surface. A score lives in the audit that wrote it and in the chat transcript and dies when the session closes. This skill captures the durable record — every flagged incident with concrete evidence, the in-session reaction, and the lifecycle of any elevation that absorbed the learning.
+Persists drift incidents the session's audit and the pioneer surface. A score lives in the one audit that wrote it, and says nothing about the session after. This skill captures the durable record — every flagged incident with concrete evidence, the in-session reaction, and the lifecycle of any elevation that absorbed the learning.
 
 The log answers questions that no single session can:
 - *Has this aspect drifted before?*
@@ -67,7 +67,7 @@ Every entry requires:
   related_drifts: []                   # cluster pointers to similar drift_ids
 ```
 
-**Agent vs human aspects in entries.** Agent aspects drift when the agent fails them (e.g. continued past a named trigger). Human aspects drift when the human fails them (e.g. watched antidrift scores degrade across multiple outputs without calling for re-orientation). Both are valid entries. The agent proposes either kind; the human approves either kind. Human-side entries are typically surfaced by the human or surfaced post-hoc during a `meta-antidrift-expand` pass.
+**Agent vs human aspects in entries.** Agent aspects drift when the agent fails them (e.g. continued past a named trigger). Human aspects drift when the human fails them (e.g. read the agent's closing answers drift across several outputs without calling for re-orientation). Both are valid entries. The agent proposes either kind; the human approves either kind. Human-side entries are typically surfaced by the human or surfaced post-hoc during a `meta-antidrift-expand` pass.
 
 Optional `aspect: meta` is for drifts about the meta layer itself — for example, a skill failing to surface its own breach, or the eventlog schema being insufficient to capture a real incident. These trigger separate skill-builder consideration.
 
@@ -146,7 +146,7 @@ This mirrors how `gap_queue: []` resets per project — the structure inherits, 
 
 ## Cross-References With Other Skills
 
-- **`meta-antidrift`** produces the per-output score block that frequently triggers new entries. The two skills together cover ephemeral (antidrift) and persistent (eventlog) views of the same phenomenon.
+- **`meta-antidrift`** holds the five aspects and the trigger shapes that kit-session-auditor scores a session by, from outside; an aspect it marks ABSENT is what most often opens an entry here. The agent no longer scores itself at the close of an output — it answers the four closing questions, which are the pioneer's to read (`meta-understanding`). The audit is the view of one session; this log is the view across them.
 - **`meta-antidrift-expand`** mines prior entries during deep-dive analysis. The expand skill's "Drift Onset Point" section becomes recurrence-aware via this log.
 - **`meta-skill-builder`** consumes entries that elevated to skill or memory updates — the `elevation` field is the back-reference from incident to absorbed-learning.
 - **`meta-manifest`** carries the kit topology including this node; its `library_entry` field signals when the kit extracts. The drift log itself does not extract.
@@ -157,6 +157,6 @@ This mirrors how `gap_queue: []` resets per project — the structure inherits, 
 
 - It does not evaluate whether a drift was acceptable — the human decides at lifecycle transition
 - It does not auto-elevate entries — every elevation goes through `meta-skill-builder`'s abstraction loop
-- It does not replace `meta-antidrift`'s per-output scoring — it preserves what that scoring detected
+- It does not replace the session audit's scoring under `meta-antidrift`'s rules — it preserves what that scoring detected
 - It does not analyse patterns on its own — `meta-antidrift-expand` reads the log to do analysis
 - It does not require entries for every session — sessions whose audit scored clean produce no log entries, and that silence is itself evidence the discipline held

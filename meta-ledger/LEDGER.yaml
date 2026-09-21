@@ -1467,4 +1467,133 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-082
+    date: 2026-09-21
+    source: ser
+    contract_id: contract-023
+    refs: [UC-7, T-7, agents/kit-recorder.md]
+    statement: |
+      a test that runs the agent with the tool it will really use finds what a test of its text cannot. The
+      recorder's new procedure read correctly and passed every shell test; run for real against a long ledger it
+      numbered an observation 251 where 420 already stood, because the search tool hands back only its first few
+      hundred lines. The defect was in a sentence written within the hour, by the agent that was testing it.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-083
+    date: 2026-09-21
+    source: ser
+    contract_id: contract-023
+    refs: [T-1, meta-mechanisms/SKILL.md]
+    statement: |
+      the ground a test stands on has to be able to fail before the test's passing means anything. In the most
+      permissive mode the program on this machine lets the old key write through, so the one real run of the
+      batch step would have passed with the defect still in place; it could go red only once the test project
+      refused what both observed versions refuse. Seeing a suite fail once does not show that its environment
+      can.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-084
+    date: 2026-09-21
+    source: ser
+    contract_id: contract-023
+    refs: [T-7, meta-mechanisms/hooks/write-scope.sh, C-036]
+    statement: |
+      a path relative to the project is resolved by the model, not by the program, and a session inherits every
+      directory the user's settings grant. A recorder told to write the ledger by its project-relative path wrote
+      into another repository's ledger, and its own write guard let it, because the guard matches a piece of the
+      path and every installed kit has that piece. The kit gives its agents relative paths, and grants extra
+      directories itself for systems that span repositories.
+    level_guess: pattern
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-085
+    date: 2026-09-21
+    source: ser
+    contract_id: contract-023
+    refs: [UC-9, meta-mechanisms/hooks/lib.sh]
+    statement: |
+      a rule that two readers share by repeating it holds for exactly those two. An earlier contract made the gate
+      and the session-start list agree by writing the rule in both; the third reader, written a week later,
+      carried its own version with a different threshold and four searches that could never match. What holds is
+      one function with three callers, and one test that drives all three over the same fixtures.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-086
+    date: 2026-09-21
+    source: ser
+    contract_id: contract-023
+    refs: [UC-2, meta-mechanisms/hooks/stop-gate.sh]
+    statement: |
+      one flag that stands for two facts gets set for the one its author was thinking of. Marking a gate task as
+      the pioneer's meant both "never count this behind another task" and "a repeat of this is waiting, not
+      failing"; the batch step needed the first and was given the second with it, and a jammed assembler was
+      reported as nothing being wrong.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-087
+    date: 2026-09-21
+    source: ser
+    contract_id: contract-023
+    refs: [T-5, meta-mechanisms/checks/transcript-digest.sh]
+    statement: |
+      an able agent repairs what it is handed, and that hides the defect in what was handed over. Given a file
+      path in the shell's own spelling, the model rewrote it to the platform's before calling the tool, so the
+      check passed; only a path it could not translate - the shell's temp folder - showed the failure a less
+      able reader would have met every time.
+    level_guess: pattern
+    stated_confidence: 0.7
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-088
+    date: 2026-09-21
+    source: ser
+    contract_id: contract-023
+    refs: [G-3, T-4, meta-mechanisms/tests/walk-007.sh]
+    statement: |
+      a red test that stays green with the break in place is a finding about the test. The rule that only the
+      kit's own agents are watched was removed, the removal was confirmed, and every state still passed: the
+      state covered a helper agent that had stopped, which a second filter also handles, and not one that was
+      still running, which held the kit's queue. The red test did not only prove the suite can fail - it showed
+      where the suite was looking at the easy half.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []

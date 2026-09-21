@@ -41,22 +41,13 @@ add "$(count_matches '^[[:space:]]+clerked:[[:space:]]*false' "$CORRECTIONS")" "
 add "$(count_matches '^[[:space:]]+status:[[:space:]]*(watching|mitigated)' "$DRIFT")" "Drift entries watching or mitigated" "M-18 stay alert to those aspects"
 add "$(count_matches '^[[:space:]]+stewarded:[[:space:]]*false' "$LEDGER")" "Map misses not yet stewarded" "M-21 kit-map-steward at 3"
 
-# Same items as the stop-gate's step 10, so the two backlog readers never disagree (contract-007 G-5): unratified
-# base entries wait for the install-time ratification pass while MAP.md carries `ratification: deferred`.
-props=0
-if ! grep -q 'ratification: deferred' "$MAPFILE" 2>/dev/null; then
-  props=$(count_matches '\|[[:space:]]*proposed[[:space:]]*$' "$MAPFILE")
-fi
-# The gate opens a batch on three or more due candidates, or on ONE of anything else pioneer-owned.
-# This repeats that rule rather than summing, so the two backlog readers never disagree (contract-007 UC-5).
-due=$(count_matches '^[[:space:]]+review_due:[[:space:]]*true' "$LEDGER")
-others=$(( $(count_matches '^[[:space:]]+state:[[:space:]]*pending' "$LEDGER") \
-          + $(count_matches '^[[:space:]]+pioneer_ranking:[[:space:]]*pending' "$CASEBOOK") \
-          + $(count_matches '^[[:space:]]+conflict:[[:space:]]*P-' "$CASEBOOK") \
-          + $(count_matches '^[[:space:]]+status:[[:space:]]*mitigated' "$DRIFT") \
-          + props ))
+# Whether pioneer-owned items are due is ONE rule, in lib.sh: the stop-gate's step 10 and the waiting list call it
+# too, so the three readers cannot disagree (contract-023 UC-9). Two of them used to repeat the rule to each other
+# (contract-007); the third, written later, did not.
 pending=0
-if [ "${others:-0}" -ge 1 ] || [ "${due:-0}" -ge 3 ]; then pending=1; fi
+# ...and like the gate, it does not send the agent to assemble a batch the ledger records as blocked: that one
+# waits on the pioneer, and the waiting list below says so.
+if ! assembly_is_blocked && pioneer_items_due "$LEDGER" "$CASEBOOK" "$DRIFT" "$MAPFILE"; then pending=1; fi
 add_flag "$pending" "Pioneer-owned items are waiting (candidates, map proposals, unratified entries, unranked cards, precedent conflicts or drift resolutions)" "M-16 kit-batch-assembler assembles the batch"
 
 add "$(nrows "$ct" '$5=="no" && ($3=="none" || $3=="awaiting-evidence" || $3=="reported")')" "Contracts with no bearing" "M-24 surface to the pioneer"
@@ -98,7 +89,7 @@ if [ -f "$woy" ]; then
   wn=$(bash "$woy" "$KIT" 2>/dev/null | head -n1)
   case "$wn" in
     "waiting on the pioneer: nothing"|"") : ;;
-    *) lines="${lines}- Things are waiting on the pioneer -> run bash \".claude/skills/meta-mechanisms/checks/waiting-on-you.sh\" and put the list to them in your own words, oldest first, before other work. Say nothing about how many items a review batch holds or which they are.
+    *) lines="${lines}- Things are waiting on the pioneer -> run bash \".claude/skills/meta-mechanisms/checks/waiting-on-you.sh\" and put the list to them in your own words, oldest first, before other work. Say nothing about how many items are due for review or which they are: a batch shows its own size when it is presented, and a count of what is due would give away which of its items are shown a second time.
 " ;;
   esac
 fi

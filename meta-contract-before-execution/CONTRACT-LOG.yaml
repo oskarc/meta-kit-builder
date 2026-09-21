@@ -4224,3 +4224,193 @@ contracts:
     # what a stop is for. Evidence: meta-mechanisms/tests/results/contract-022-T-1-T-7.md
     cost: {turns: 2, tokens: null, pioneer_minutes: null}    # messages to the pioneer from approval to implemented; the main session's tokens not measured; minutes not asked - the pioneer does not remember them and the field stays null rather than estimated
     work_id: null
+
+  - contract_id: contract-023
+    feature: The obvious repairs - every contradiction the review of 21 September found that has one right answer is removed, the review batch can be assembled for the first time, and each repair is tested from the side it was hidden from
+    type: contract
+    follows: contract-022
+    led_to: []
+    date_proposed: 2026-09-21
+    date_approved: 2026-09-21
+    approval: approved-at-gate     # pioneer: "1 yes" to the direction (2026-09-21)
+    bearing: |
+      Every contradiction the review found that has one right answer is removed now, so a review batch can be
+      assembled for the first time and no part of the kit tells an agent what another part makes false. The bet
+      is that these are repairs and not redesign, and that making them together breeds no new contradiction -
+      so each is tested from the side it was hidden from, and the batch step is run once for real.
+    # Bears against the founding statement's long-term goal - kits that travel and reproduce the same standard:
+    # a standard that can never move in a project, and a kit whose parts contradict each other, travel badly.
+    # Drawn from the review of 2026-09-21 (docs/ROADMAP.md) and the pioneer's words on its hand-back (C-035):
+    # "I dont want us to leave obvious conflicts or errors to later, id like us to handle them."
+    # Precedents: applies P-004 (no step may depend on a command the human runs - the sealing script is run by
+    # the assembler, never the pioneer), P-008 (text written for a reader new to the practice), P-007 (the form).
+    # Distinguished from P-005 (a blind session passes the write to an agent allowed to write there, not to a
+    # helper script): there the writer was kept out by the kit's own design and an agent that could write
+    # existed; here the agent allowed to write is the one refused, by the program underneath, and no agent's
+    # file tools reach the folder - the same agent runs the script, as the key is already opened by one.
+    # Distinguished from P-001 (found shortcomings are retargeting issues, met by a wide survey): each of these
+    # is located to a line with one right answer, the wide survey was the review, and the six directions it
+    # points to stay with the pioneer. P-006 is not engaged: nothing always-loaded grows. No candidate is on
+    # trial or adopted in this repository, so none is cited.
+    tier_1: |
+      The user is a pioneer running the kit in a project, and the agent working for them. Today their standard
+      can never move, because the step that puts decisions in front of them cannot finish: the agent that
+      assembles a review batch is told to write a key the program underneath refuses. The gate then tells
+      their agent that nothing is wrong. And their agent is told things that contradict each other - that the
+      casebook is closed during a batch and that it is open, to say how many items there are and to say nothing
+      about how many.
+      Success: the batch arrives. When something is stuck the gate says so, and there is somewhere to write it
+      down. What the agent reads in one place holds in every other.
+      Without it: one project holds fifty-three learnings with none adopted, across two finished contracts.
+    tier_2: |
+      The batch step can finish, and the gate tells the truth about it:
+      UC-1 A script the assembler runs seals the key. It refuses to overwrite a key, refuses a key that does
+           not cover every item in the batch file, and never prints the key. Decided, and why: the file tools
+           are refused in that folder on both versions of the program seen, for different reasons; the shell is
+           governed by neither; moving the key is refused too.
+      UC-2 The batch step is the agent's, not the pioneer's. A jam there is called a fault on the third turn
+           like any other. It still stays out of the count of tasks waiting behind another (contract-011).
+      UC-3 Every gate task has somewhere to be written down as blocked. Assembling a batch gains a state in
+           the ledger with the same three lines beside it; a map miss takes `blocked` as the other four fields
+           do. Decided, and why: the ruling of 2026-09-20 put the reason on the record beside the state, and
+           these are the two records contract-019 missed.
+      UC-4 Only the kit's own agents are watched. A project's other helper agents start and stop without the
+           gate reading them as failed.
+      UC-5 "Wrote nothing" means nothing changed: judged by content across every place a kit agent may write,
+           in awk alone. Decided, and why: staying in awk means the list of tools a hook may use does not move.
+      UC-6 The auditor is handed a path its tools can open, on Windows as elsewhere.
+      UC-7 The recorder finds the next number by searching, not by reading the whole ledger; it gains the
+           search tool.
+      UC-8 The reconstructor is kept out of records, not out of the skills that describe them.
+      One rule, told once:
+      UC-9 One function decides whether a review is due; the gate, the session-start list and the waiting list
+           all call it. The waiting list's four dead searches go.
+      UC-10 The session-start message hides how many items are due, not how many a batch holds.
+      UC-11 The contract skill says the casebook stays open during a batch, and that a forecast is never scored.
+      UC-12 The migration check leaves report entries alone, as the rule beside it says.
+      UC-13 The retired self-score leaves the five places it stands, and its wordings join the retired list.
+           The foundation changes by exactly these sentences, shown to the pioneer at the gate: "It can make
+           drift visible through antidrift" becomes "It can make drift visible - through the four questions that
+           close every output, and through the audit from outside" (and the second sentence that says the
+           same); "the human watching antidrift scores degrade without naming what they are seeing" becomes
+           "the human reading the agent's closing answers drift from what they intended, output after output,
+           without naming what they are seeing".
+      UC-14 The mechanisms skill names the phrase the hook really uses and keeps no count by hand; its
+           inventory lists every script; the self-test runs every hook; the walk that ships to projects runs
+           the launch and stop hooks instead of writing their lines by hand.
+      UC-15 The template manifest matches the instance: the understanding skill registered, the antidrift node
+           carrying the concern and trigger decided in contract-020, coverage lines on both.
+      UC-16 A project's own additions survive an upgrade. A file named `*.project.*` inside the kit's folders
+           is the project's: no release carries one, no upgrade takes or removes one. The refusal check reads a
+           project registry beside the kit's. Decided, and why: the registry needs a project-owned home today,
+           and one sentence covers every later case.
+      Left out, because each needs a decision of the pioneer's rather than a repair: what the kit says or sets
+           up about permission grants; recording a ledger block while a batch is open; how a block should read
+           when many entries share one task; the six directions; the install and upgrade path, which has not
+           had this review.
+    tier_3: |
+      G-1 (UC-1) only the sealing script writes the key; the assembler's write scope stops naming the sealed
+           folder, so its scope says what it can do. applies P-004. distinguished from P-005: the agent allowed
+           to write is the one the program underneath refuses, and no agent's file tools reach the folder.
+      G-2 (UC-2, UC-3) no gate message tells an agent to make a write that does not exist for that task.
+      G-3 (UC-4, UC-5) launch and stop records are read for kit agents only; the fingerprint covers every path
+           in the union of the agents' write scopes.
+      G-4 (UC-6) the path printed is the path written, in the spelling the file tools use.
+      G-5 (UC-7, UC-8) every path an agent's procedure names passes that agent's own guards.
+      G-6 (UC-9, UC-10) the three readers of "is a review due" cannot disagree, because there is one; no count
+           of due items reaches the pioneer.
+      G-7 (UC-11, UC-13) each replaced sentence's old wording joins the retired list in the same act; the
+           foundation changes by the sentences shown and nothing around them.
+      G-8 (UC-12) a contract entry missing a field still fails the migration check.
+      G-9 (UC-14, UC-15) the inventory, the self-test and the template are each held by a test to the folder
+           they describe.
+      G-10 (UC-16) the rule is one sentence in the bootstrap skill and one case in the install script; the
+           existing exemption for a project's own precedent checks stays.
+      G-11 (all) nothing always-loaded grows; new text is written for a reader new to the practice (applies
+           P-008); every walk and check passes; the version moves to 0.31; the contract is committed alone.
+    disappointment: |
+      The pioneer, 2026-09-21: "same as it says" - the lines drawn with the tests stand for every guarantee,
+      G-1 to G-11.
+    premortem: |
+      "if this causes new conflicts or breaks the workflow." - the pioneer, 2026-09-21.
+    tier_4: |
+      T-1 (G-1) LIVE. A scratch project carries this kit and its own settings, with due items seeded; an
+           unattended session is given only the gate's hand-over. Expected: a batch file exists, a key in the
+           sealed folder covers every item, the batch is registered in the ledger, and the session never read
+           the sealed folder. Fails if the key is missing.
+      T-2 (G-1) The script refuses a second key for the same batch, a key shorter than the batch, and an id
+           that is not a batch id; each refusal names the next step and is registered. Seal then reveal
+           round-trips in the travelling walk.
+      T-3 (G-2) The review's fixture - items due, nothing assembled, three turns: the third message says fault,
+           not "waiting on you". With the block written down the gate announces it once and the queue behind it
+           runs. The same for a blocked map miss.
+      T-4 (G-3) A non-kit agent starts and stops and the gate is silent. For each kit agent, the edit it really
+           makes - a merge in place, a predictions file, a key, a check, a verification block - changes the
+           fingerprint and a no-op does not. The fingerprint's paths cover every write-scope piece parsed from
+           the eight agent files.
+      T-5 (G-4) On this machine the printed digest path starts with a drive letter and the file is there. LIVE:
+           a session with only the read tool opens it.
+      T-6 (G-5) For each of the eight agents, each path its procedure names is run through its own guards as
+           parsed from its file: allowed where it is told to read or write, refused where it is told it is
+           blind.
+      T-7 (G-5) LIVE, red first. Today's recorder runs against a six-thousand-line ledger, then the new one.
+           The new one records the observation under the right number inside its turns. If today's recorder
+           also succeeds, the finding was wrong and is recorded as wrong.
+      T-8 (G-6) Eight fixtures - one due candidate; three; one unranked card; one precedent conflict; one
+           pending map proposal; one mitigated drift entry; unratified entries with the deferral marker and
+           without it. The three readers agree on every one, and there is no digit in the waiting list's line
+           about a review.
+      T-9 (G-7, G-8) The retired-wording check passes, and fails when one old sentence is put back. A bare
+           report entry passes the migration check; a contract entry without a pre-mortem fails it.
+      T-10 (G-9) The self-test runs every hook; every hook and check script has an inventory row; every shipped
+           skill folder has a template node. Removing one makes the state fail.
+      T-11 (G-10) An upgrade fixture with a project registry file on the stale list: the file survives, and the
+           refusal check passes with a refusal registered only there.
+      T-12 (G-11) All three walks pass, all checks pass, and the always-loaded files are byte for byte the size
+           they were.
+      untested: whether the foundation's new sentences land for a pioneer, which is judgement; the permission
+           prompts a real pioneer would meet during T-1, since the live runs bypass them on purpose - that is
+           the question of grants, left out above; behaviour on versions of the program other than the one on
+           this machine.
+      realigned: none at the gate - the pioneer answered "same as it says" and let the drawn lines stand.
+    red_test: {broke: G-3, went_red: T-4, how: "the rule that only the kit's own agents are watched was removed from the library and the removal confirmed - no such line, a different checksum. Every state still passed: the state covered a helper agent that had started and stopped, which a second filter also neutralises, and not one still running, which with the rule gone held the kit's queue. The state was strengthened, and the travelling walk's with it, and then failed as it should - walk-007 state 208, 'other-agent-ignored=n (the queue was held while it ran)'. The rule was put back; the library's checksum matched the one taken before the break to the last byte; the states passed again", date: 2026-09-21}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: f1a80ff7-fa97-4c9a-af1b-c9d531906784
+    observations: [O-082, O-083, O-084, O-085, O-086, O-087, O-088]
+    revisions:
+      - what: "A live test wrote into another repository. The recorder agent in an unattended test session resolved the ledger's project-relative path into a repository the user's global settings make available to every session, and appended a fake observation to its real ledger. The pioneer was told at once; with their word the fifteen lines were removed, and that repository's diff against its last commit was empty afterwards. Every live run after that was isolated - no user-level settings loaded, a guard hook refusing any tool call outside the throwaway folder and seen to refuse before any agent ran, the folder's absolute path in the prompt - and none was refused anything by the guard. The kit's own guards, which let the write through because they match a piece of a path, are unchanged: named on the roadmap, not drawn."
+        authorised_by: "the pioneer, 2026-09-21 (C-036): 'you can copy [the downstream repo] into another folder and test things there, but you cannot write into any other repo. you can repair [the downstream repo]'"
+        date: 2026-09-21
+        tests_changed: []
+      - what: "How T-1 was run. An unattended session can write under a project's .claude folder only in the program's most permissive mode, and in that mode, on this version, the old way of writing the key works too - so a run there could not have failed. The throwaway project therefore carries one extra hook that refuses the file tools in the sealed folder, which is what both observed versions do in every other mode. With the kit as it stood at the last commit the agent, refused by the file tools and then by its own guard, read the guard's source and wrote the key through a shell command built so the guard could not see the folder's name; with the kit as it now stands it sealed the key through the script, first try. The guarantee is unchanged; what the old design forces - a jam or an evasion, depending on the agent - is recorded in the results."
+        authorised_by: "no authorisation sought: how a test was run, recorded so that what it can and cannot show is visible"
+        date: 2026-09-21
+        tests_changed: []
+      - what: "The recorder's new procedure was wrong when first written, and the live test caught it before this entry read implemented: told to take the highest id from a search, it numbered an observation O-251 in a ledger that held 420, because the search tool hands back only its first few hundred lines. It now finds the end of the list and reads the last observation. T-7 is recorded with all three rows: the recorder as it was (nine reads, no edit, nothing recorded on its first run), the first rewrite (wrong number), the recorder now (right number, twice)."
+        authorised_by: "no authorisation sought: a defect in this contract's own work, found by this contract's own test and repaired inside it"
+        date: 2026-09-21
+        tests_changed: []
+      - what: "T-4 was strengthened after the red test stayed green: it now holds that a project's helper agent does not hold the kit's queue while it is still running, as well as that it is not read as failed once it has stopped. The travelling walk's state 66 changed to the same case."
+        authorised_by: "no authorisation sought: a test made stricter before any verification report exists, which is a revision and not drift"
+        date: 2026-09-21
+        tests_changed: [T-4]
+      - what: "Tests of earlier contracts changed, each by a clause of this one. The travelling walk's expected file: one message among its first 65 states (an agent silent twice is now told where its block is written - UC-3), and thirteen states added. walk-007: the state that counts the travelling walk's states (65 to 78), the state that holds the session-start sentence about counts (UC-10), and the two version states. One earlier state failed on the first full run and was NOT changed: it holds that only two mechanisms name the block that closes every output, and a wording this contract had added to the retired list named it too - the list was reworded instead."
+        authorised_by: "the clauses named, and the standing rule on the version ('bump it.', 2026-09-17) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-21
+        tests_changed: []
+      - what: "UC-13 reached further than the five places the contract listed. The same retired self-score also stood in the README ('the agent scores itself on them after every output') and in two more sentences of the drift skill; and UC-15's alignment of the manifests included their coverage lines and one open-gap note that still described the question guard by the retired marker. All corrected, all wordings retired. The foundation changed by the three sentences shown at the gate and nothing else."
+        authorised_by: "the contract's own clauses (UC-13, UC-15) - the extra places are the same repair, listed so the pioneer can see them"
+        date: 2026-09-21
+        tests_changed: []
+      - what: "The version moves to 0.31 (manifest, template base_kit_version, README, the walk's version states); the README gains a Contract-023 bullet, a row for the sealing script and three changed rows."
+        authorised_by: "the standing rule on the version ('bump it.', 2026-09-17) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-21
+        tests_changed: []
+    # Drawn from the review of 2026-09-21 and the pioneer's ruling on it (C-035). Evidence:
+    # meta-mechanisms/tests/results/contract-023-T-1-T-12.md. Found while building and not taken, each named on the
+    # roadmap: the silent-agent message that never ends; a block on a task that covers many entries; an agent writing
+    # into another repository's kit.
+    cost: {turns: 2, tokens: null, pioneer_minutes: null}    # messages to the pioneer from approval to implemented - the report of the write into another repository, and the hand-back; the main session's tokens not measured; the live tests ran as separate unattended sessions whose tokens were not totalled; minutes not asked
+    work_id: null

@@ -112,14 +112,26 @@ still runs no agent, which stays a carried gap below.
 
 ## Next
 
-- **The seal: why the batch step cannot write its key.** The one step of the lifecycle that has never run, across
-  four releases and four reports. **Two statements this bullet carried until 2026-09-21 were wrong, and are
-  corrected here rather than quietly replaced.** It said the cause "cannot be reproduced from the base kit": it
-  was reproduced that day, in a throwaway project, with two short unattended sessions — see the review below.
-  And it said contract-021 "made the failure survivable — it stops the queue once rather than forever": it did
-  not. That contract tagged the batch step as the pioneer's, so a jammed assembler is reported on the third turn
-  as *waiting on you rather than stuck — nothing is wrong with it*, and everything behind it is held. The
-  contract hid the failure it claimed to have contained.
+- **An agent can write into another repository's kit.** Found the hard way, while contract-023 was being built:
+  a test agent told to write the ledger by its project-relative path wrote into a different repository's ledger,
+  one the user's global settings make available to every session. Its own write guard let it — the guard matches a
+  piece of a path, and every installed kit has the same pieces. The kit gives its agents relative paths, and grants
+  extra directories itself for systems that span repositories (contract-010). The write was undone with the
+  pioneer's word, and their ruling stands for the work here — tests run on a copy, nothing is written into another
+  repository — but the kit's own guards are as they were. Nothing is drawn.
+- **What the kit says, or sets up, about permission grants.** On the version probed, every write under a project's
+  `.claude/` folder asks the human for a grant outside the program's most permissive mode, and the kit says nothing
+  about it anywhere. The pioneer is told they never have to invoke the kit; they are not told what they have to
+  approve. A decision, not a repair, so contract-023 left it.
+- **The silent-agent message never ends.** Once the gate says an agent "has now run twice and written nothing", it
+  says so again every turn, even after the session has recorded the block as asked; and it infers the second run
+  from being asked again, not from seeing one. Reproduced during contract-023; not in its scope.
+- **A block on a task that covers many entries** — twelve unconsolidated observations — puts only the first entry
+  to the pioneer in a sitting. Seen, not drawn.
+- **Recording a ledger task blocked while a review batch is open.** The session cannot read the ledger then, so it
+  cannot write the block the gate asks for, and the recorder's job is observations only.
+- **The install and upgrade path has not had the review** that found the nineteen. The bootstrap skill and its five
+  scripts were searched, not read, for contradictions of this kind.
 - **Bound the upgrade section, not the paragraph** — which means splitting install from upgrade in
   `meta-bootstrap`. Named in contract-018 under a number that three later contracts have since taken; it has no
   number until it is drawn.
@@ -146,6 +158,16 @@ founding-contract, the README, the record templates, `merge.sh`, `preflight.sh`,
 project, or in a live session. Nine read on both sides and not run. One reasoned from one side. **Nine of the
 nineteen were introduced by contracts 019 to 022, the four most recent, and every one of them passed its walk and
 its red test.**
+
+### What became of them
+
+**Contract-023, the same day, took every one with a single right answer** — eighteen of the nineteen, by the
+pioneer's ruling that obvious conflicts and errors are handled, not parked. One was left because it needs a
+decision rather than a repair: what the kit says about permission grants (2). One was taken in part: a blocked
+task now has somewhere to be written (6), except a ledger task while a review batch is open. The recorder finding
+(4), only reasoned here, was reproduced first-hand during the build — nine reads, no edit, nothing recorded — and
+repaired. The evidence is `meta-mechanisms/tests/results/contract-023-T-1-T-12.md`.
+What that contract found and did not take is under *Next*, above.
 
 ### What someone is told to do, against what they are able to do
 

@@ -4,7 +4,7 @@ description: Use when the main session must add observations to the ledger while
 model: sonnet
 effort: low
 maxTurns: 8
-tools: Read, Edit
+tools: Read, Grep, Edit
 color: blue
 hooks:
   PreToolUse:
@@ -28,8 +28,8 @@ One or more observations, each dictated in full by the main agent: `source`, `co
 
 ## Procedure
 
-1. Read `.claude/skills/meta-ledger/LEDGER.yaml` and find the highest existing `O-NNN`.
-2. Append each observation to the `observations:` list in the schema `templates/LEDGER.template.yaml` defines, numbering them onward from that id, with `consolidated: false`, and `stewarded: false` when the source is `map-miss` (otherwise `n/a`).
+1. **Find the end of the list, never read the ledger through.** It grows with every contract, you have eight turns, and an earlier version of you spent nine reads on a ledger of a few thousand lines and recorded nothing. One search of `.claude/skills/meta-ledger/LEDGER.yaml` with Grep, line numbers on, for `^candidates:` — the line where the next section opens; the `observations:` list ends just above it. Read the forty lines before that line. **The last `obs_id:` among them is the highest id**, because observations are only ever appended and numbered onward; if none of those lines carries one, read the forty before. Never take the highest id from a search for `obs_id:` — a search hands back only its first few hundred lines, and a version of this procedure that did so numbered an observation O-251 in a ledger that already held four hundred and twenty.
+2. Append each observation after that last one — one Edit, anchored on its closing lines — in the schema `.claude/skills/templates/LEDGER.template.yaml` defines, numbering them onward from that id, with today's `date`, `consolidated: false`, and `stewarded: false` when the source is `map-miss` (otherwise `n/a`). Write first; check afterwards if turns remain.
 3. Copy every field exactly as dictated. If a required field was not given, append the observation with the field absent and name it in your final message — never fill one in, and never round a `stated_confidence`.
 4. Change nothing else in the file: no candidates, no batches, no scores, no existing observation.
 

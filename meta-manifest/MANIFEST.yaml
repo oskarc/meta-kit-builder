@@ -7,7 +7,7 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.30            # the six-layer form after contracts 003–019: tier 4, ownership, the subtraction, upgrade readiness, the upgrade that compares by mechanism, the first real run's gaps closed, a vocabulary for what cannot be done
+  version: 0.31            # the six-layer form after contracts 003–019: tier 4, ownership, the subtraction, upgrade readiness, the upgrade that compares by mechanism, the first real run's gaps closed, a vocabulary for what cannot be done
   parent_kit: null
   workspace: []
   status: active
@@ -298,7 +298,7 @@ nodes:
       - Write scopes match Write and Edit only; the four agents that also hold Bash are kept inside their paths by instruction, not by the mechanism (gap-022).
       - owner-check.sh (contract-004) reads the manifest in both its forms and has passed 16 fixtures, but has not fired in a live session; whether a bypass line means dead weight or mis-routing cannot be told apart until gap-025's schema check exists (O-014).
       - The telemetry blind (contract-005) reads the Grep glob field, not the Glob tool's pattern: a Glob naming telemetry.log with no path is allowed. It returns the filename, never a line of the file, so no count leaks; stated here as the verifier found it, not yet in the node's limits paragraph.
-      - The stop-gate's question guard is a heuristic — cut at the last drift-score marker, look for a "?" in the closing stretch — calibrated to over-defer rather than bury a question (gap-026).
+      - The stop-gate's question guard is a heuristic — cut at the last occurrence of the first of the closing four, look for a "?" in the closing stretch — calibrated to over-defer rather than bury a question (gap-026).
 
   - id: agent-verifier
     concern: Clause-by-clause verification against evidence from outside the builder; blind to the builder's account and to the kit's evidence records
@@ -438,7 +438,8 @@ coverage_map:
   - {concern: Evidence, candidates, re-presented items and maturity instruments, node_id: base-ledger, layer: meta, phase: post-build, status: thin}
   - {concern: Mechanisms — hooks, blind, scopes, seal, telemetry, node_id: base-mechanisms, layer: meta, phase: always, status: thin}
   - {concern: Kit topology, node_id: base-manifest, layer: meta, phase: pre-build, status: thin}
-  - {concern: Post-output drift scoring, node_id: base-antidrift, layer: meta, phase: always, status: mature}
+  - {concern: What every output's framing rests on — the closing four, node_id: base-understanding, layer: meta, phase: always, status: new}
+  - {concern: The five aspects and the trigger shapes the auditor scores by, node_id: base-antidrift, layer: meta, phase: always, status: mature}
   - {concern: Session-level drift analysis, node_id: base-antidrift-expand, layer: meta, phase: post-build, status: thin}
   - {concern: Persistent cross-session drift log, node_id: base-drift-eventlog, layer: meta, phase: always, status: thin}
   - {concern: Type-category extraction & library promotion, node_id: base-extract, layer: meta, phase: post-build, status: thin}

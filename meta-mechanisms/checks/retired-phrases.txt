@@ -69,3 +69,20 @@ the six above
 **Copy the kit** into your project's
 and the settings merge, done by hand with the file tools
 porting any that the baseline shows were evolved here
+# contract-020, listed late by contract-023: the agent stopped scoring itself, and five places went on saying it did
+the session's own score
+per-output score block
+does not replace `meta-antidrift`'s per-output scoring
+antidrift scores degrade
+visible through antidrift
+scores itself on them after every output
+# contract-023: one rule told two ways, and wordings that described what the hooks no longer do
+the ledger and casebook are closed to this session
+the number is scored later
+based the framing score` marker
+drives the stop-gate through 54 states
+a single-segment deny pattern
+Each of the four lifecycle booleans
+the length of every record a kit agent may write
+Seal the key** at `.claude/kit-sealed/B-NNN.key`
+and find the highest existing `O-NNN`.

@@ -89,7 +89,7 @@ Absence looks like: "O-040 to O-042 recorded, confidence 0.8". "applies P-007". 
 
 These sit above all principles, patterns, and implementation rules. They are not invoked for specific tasks — they are either present or absent, and their absence is what allows drift to begin.
 
-The kit can encode much of the agent's discipline. It can make drift visible through antidrift. It cannot stop drift, and it cannot encode the human's judgment on the human's behalf. The aspects below name what each side must hold. They are split between agent and human deliberately — the asymmetry reflects what each can actually do.
+The kit can encode much of the agent's discipline. It can make drift visible — through the four questions that close every output, and through the audit from outside. It cannot stop drift, and it cannot encode the human's judgment on the human's behalf. The aspects below name what each side must hold. They are split between agent and human deliberately — the asymmetry reflects what each can actually do.
 
 ### The Governing Aspects — the Agent
 
@@ -151,11 +151,11 @@ Enough perspective above the work to see what the kit is becoming, to distinguis
 Absence looks like: the kit growing wider without a coherent shape. Learnings absorbed without anyone above them watching the trajectory.
 
 **Re-orient — stop, and reset the frame before continuing**
-When reasoning is drifting in shape the agent cannot recognise from inside, the human says stop. The agent's trained disposition is toward production; the kit can make that drift visible through antidrift, but it cannot halt it. The human halts it. Stopping is not just calling a halt — it is resetting the frame, identifying what the agent was treating as known that should be treated as unknown, and only then continuing. Without this, drift compounds across outputs and the kit absorbs from a compromised state.
+When reasoning is drifting in shape the agent cannot recognise from inside, the human says stop. The agent's trained disposition is toward production; the kit can make that drift visible — through the four questions that close every output, and through the audit from outside — but it cannot halt it. The human halts it. Stopping is not just calling a halt — it is resetting the frame, identifying what the agent was treating as known that should be treated as unknown, and only then continuing. Without this, drift compounds across outputs and the kit absorbs from a compromised state.
 
 This is the first of two irreducible moments of active human work.
 
-Absence looks like: the human watching antidrift scores degrade without naming what they are seeing. Stops issued without re-orientation (the agent told to "stop" without the frame being reset). Drifted work allowed to continue because correction feels disruptive.
+Absence looks like: the human reading the agent's closing answers drift from what they intended, output after output, without naming what they are seeing. Stops issued without re-orientation (the agent told to "stop" without the frame being reset). Drifted work allowed to continue because correction feels disruptive.
 
 **Hold the approval gate — decide what enters the standard**
 The agent proposes; the human elevates. Only the human can tell a reach upward from a recovery from compromised state — the agent has no privileged position to assess the clarity of its own state when it produced a learning. This is judgment the kit cannot encode on the human's behalf.

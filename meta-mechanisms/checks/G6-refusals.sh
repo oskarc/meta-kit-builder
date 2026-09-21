@@ -15,6 +15,12 @@
 # Exit 1 names each unregistered message and the file it is printed from. Registering it means adding it to
 # refusal-nextsteps.txt with the `-> ` line that says what the reader does next — which is the point: a new
 # refusal cannot enter the kit without one.
+#
+# A PROJECT registers its own refusals in refusal-nextsteps.project.txt, beside the kit's registry and in the same
+# format (contract-023 UC-16). The case clerk writes checks of the project's own into this folder, and each one
+# prints a refusal; registered in the kit's file, those lines were replaced at every upgrade and this check went
+# red after each one. A file named *.project.* is the project's: no release carries one and no upgrade takes,
+# merges or removes one (meta-bootstrap → What "the kit" is).
 here="$(cd "$(dirname "$0")" && pwd)"
 list_only=0
 [ "${1:-}" = "--list" ] && { list_only=1; shift; }
@@ -62,20 +68,24 @@ fi
 
 [ -f "$reg" ] || { echo "G6-refusals broken: $reg is missing — it ships beside this script; restore it from the staged kit or from git history"; exit 1; }
 
+# the kit's registry, then the project's own where there is one — read as one list, held to one rule
+preg="$here/refusal-nextsteps.project.txt"
+regs="$(tr -d '\r' < "$reg"; if [ -f "$preg" ]; then echo; tr -d '\r' < "$preg"; fi)"
+
 # a registered message must carry its next step
-unstepped="$(awk '
+unstepped="$(printf '%s\n' "$regs" | awk '
   /^[[:space:]]*(#|$)/ { next }
   /^-> / { last = ""; next }
   { if (last != "") print last; last = $0 }
   END { if (last != "") print last }
-' "$reg" | tr -d '\r')"
+')"
 if [ -n "$unstepped" ]; then
   echo "G6-refusals broken: a registered refusal carries no next step — every message in refusal-nextsteps.txt is followed by a line beginning \"-> \" saying what the reader does next:"
   printf '%s\n' "$unstepped" | sed 's/^/    /'
   exit 1
 fi
 
-regmsgs="$(grep -v -E '^[[:space:]]*(#|->|$)' "$reg" | tr -d '\r')"
+regmsgs="$(printf '%s\n' "$regs" | grep -v -E '^[[:space:]]*(#|->|$)')"
 bad=0
 while IFS=$'\t' read -r file msg; do
   [ -n "$msg" ] || continue
@@ -88,7 +98,7 @@ done <<EOF
 $found
 EOF
 if [ "$bad" = 1 ]; then
-  echo "  next: add each message above to meta-mechanisms/checks/refusal-nextsteps.txt, each followed by a \"-> \" line saying what the reader does next. Where the reader can do nothing themselves, the next step is to ask the pioneer for guidance (contract-019)."
+  echo "  next: add each message above to meta-mechanisms/checks/refusal-nextsteps.txt — in a project, to refusal-nextsteps.project.txt beside it, which no upgrade replaces — each followed by a \"-> \" line saying what the reader does next. Where the reader can do nothing themselves, the next step is to ask the pioneer for guidance (contract-019)."
   exit 1
 fi
 exit 0

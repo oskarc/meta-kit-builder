@@ -1163,6 +1163,45 @@ corrections:
       around what to do with them; the first widened the view before fixing, this one refuses to let the fixing
       wait where no view is needed.
 
+  - corr_id: C-036
+    date: 2026-09-21
+    contract_id: contract-023
+    moment: M-08
+    grade: option-override
+    intervention: redirected
+    agent_offered: |
+      A recorder agent in one of the agent's unattended test sessions had resolved a project-relative path into
+      another of the pioneer's repositories and appended a fake observation to that project's real ledger; the
+      safety check then stopped the agent from undoing it. The agent reported it and asked two things: who
+      repairs that ledger, and "Whether I may run the remaining live tests at all. If yes, I would run them
+      without your user settings loaded, with absolute paths, and not in the permissive mode. If no, I finish
+      everything a shell can test and record the live tests as not run."
+    # In pioneer_said the repository's name is replaced in brackets, as in earlier entries: nothing tracked here
+    # names another project (C-015). Every other word is the pioneer's.
+    pioneer_said: |
+      "you can copy [the downstream repo] into another folder and test things there, but you cannot write into
+      any other repo.
+      you can repair [the downstream repo]"
+    reason_given: |
+      none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      From the pioneer's own words, not asked separately: tests that need a real project run on a copy of it in
+      another folder, and nothing is ever written into any repository but this one.
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      The agent offered two options, both about how carefully to run the tests; the pioneer wrote a third, about
+      where: on a copy. It is a boundary, not a technique - the agent's options would have lowered the chance of
+      writing into a real project, and the pioneer's removes the target. The repair was authorised in the same
+      message and made: the fifteen lines were removed and that repository's diff against its last commit was
+      empty afterwards.
+
 
 trajectory:
   updated: 2026-09-13

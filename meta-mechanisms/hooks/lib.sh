@@ -7,7 +7,8 @@
 # hand-over has been repeating. That is evidence the hooks already wrote and nobody read.
 #
 # State is read through FLAT MARKER KEYS in the instance files (verification_state:, audited:, transcript:,
-# consolidated:, stewarded:, review_due:, clerked:, decided:, revealed:, and the blocked_* keys beside them).
+# consolidated:, stewarded:, review_due:, clerked:, decided:, revealed:, the ledger's top-level assembly:, and the
+# blocked_* keys beside them).
 # Two rules keep that parsing honest:
 #   * a marker is only read at the entry's own indentation, so an enumerated value quoted inside a tier
 #     block or a revision note is prose, not state;
@@ -218,12 +219,36 @@ blocked_list() {
   ' "$1"
 }
 
+# assembly_blocked — since|reason|waiting_for when the ledger says a review batch cannot be assembled; nothing
+# otherwise. Assembling a batch is the one gate task with no entry of its own until it has succeeded, so its state
+# is the ledger's: `assembly: blocked` at the top level, with the three blocked_* lines beside it at the same
+# column (contract-023 UC-3). Entry-level blocked_* keys are deeper and are never read here.
+assembly_blocked() {
+  [ -f "$LEDGER" ] || return 0
+  awk '
+    function val(s, k) { sub("^" k ":[[:space:]]*", "", s); sub(/[[:space:]]*#.*$/, "", s); sub(/[[:space:]]+$/, "", s); gsub(/\|/, "/", s); return s }
+    /^assembly:[[:space:]]*blocked[[:space:]]*(#.*)?$/ { b=1 }
+    /^blocked_since:[[:space:]]*[^[:space:]]/       { since=val($0, "blocked_since") }
+    /^blocked_reason:[[:space:]]*[^[:space:]]/      { reason=val($0, "blocked_reason") }
+    /^blocked_waiting_for:[[:space:]]*[^[:space:]]/ { waiting=val($0, "blocked_waiting_for") }
+    END { if (b) print since "|" reason "|" waiting }
+  ' "$LEDGER"
+}
+assembly_is_blocked() { [ -n "$(assembly_blocked)" ]; }
+
 # blocked_all — every blocked task in the project, one per line: file_label|id|state_key|since|reason|waiting_for
+# Six states since contract-023: the four contract-019 gave, a map miss the steward could not take, and the
+# assembling of a batch. A gate task with no line here has no blocked state, and the gate never says it has.
 blocked_all() {
+  local a
   blocked_list "$CONTRACTS"   contract_id audited      | sed 's/^/contract|/;s/|/|audited|/2'
   blocked_list "$CORRECTIONS" corr_id     clerked      | sed 's/^/correction|/;s/|/|clerked|/2'
   blocked_list "$LEDGER"      obs_id      consolidated | sed 's/^/observation|/;s/|/|consolidated|/2'
   blocked_list "$LEDGER"      batch_id    revealed     | sed 's/^/batch|/;s/|/|revealed|/2'
+  blocked_list "$LEDGER"      obs_id      stewarded    | sed 's/^/map miss|/;s/|/|stewarded|/2'
+  a=$(assembly_blocked)
+  if [ -n "$a" ]; then printf 'review batch|assembly|assembly|%s\n' "$a"; fi
+  return 0
 }
 
 # announced_this_sitting KEY — true when KEY was already put to the pioneer since the last session start.
@@ -249,20 +274,37 @@ repeated_handovers() {
   END { print run+0 }' "$TELEMETRY"
 }
 
-# nlines FILE — lines in FILE, 0 when missing. The cheapest change-detector the portability list allows:
-# an agent that writes to a YAML record adds lines to it.
-nlines() {
-  [ -f "$1" ] || { echo 0; return; }
-  local n; n=$(grep -c '' "$1" 2>/dev/null); echo "${n:-0}"
+# fingerprint_paths — every place a kit agent may write, one path or folder per line. The list is the union of
+# the write scopes the agents declare in their own files, plus the sealed folder the assembler reaches through
+# seal-key.sh; walk-007 holds it to the agent files, so a new scope cannot be added without it (contract-023 G-3).
+fingerprint_paths() {
+  printf '%s\n' "$LEDGER" "$CORRECTIONS" "$CONTRACTS" "$CASEBOOK" "$DRIFT" \
+    "$KIT/meta-ledger/batches/" "$SEALED/" "$KIT/meta-casebook/reconstruction/" "$KIT/meta-mechanisms/checks/"
 }
 
-# record_fingerprint — the length of every record a kit agent may write, as one field.
+# record_fingerprint — one number standing for the CONTENT of everything a kit agent may write.
 # Taken when an agent is launched and again when it stops: unchanged means it wrote nothing, which is what
 # happens when an agent exhausts its turns — no report, no partial result, silence with the work done and lost
-# (contract-021 UC-1).
+# (contract-021 UC-1). It was line counts until contract-023: an agent that edits in place — a consolidator merging
+# into a candidate that exists — adds no line, and the reconstructor writes a file that was never counted, so both
+# read as silence and were told to start again. The names are hashed with the text, so a new empty file shows too.
+# awk alone, byte by byte, because the portability list holds no checksum tool; it runs when an agent starts and
+# stops, never per turn.
 record_fingerprint() {
-  printf '%s.%s.%s.%s.%s' "$(nlines "$LEDGER")" "$(nlines "$CORRECTIONS")" "$(nlines "$CONTRACTS")" \
-    "$(nlines "$CASEBOOK")" "$(nlines "$DRIFT")"
+  local p f files=()
+  while IFS= read -r p; do
+    case "$p" in
+      */) for f in "$p"*; do [ -f "$f" ] && files+=("$f"); done ;;
+      *)  [ -f "$p" ] && files+=("$p") ;;
+    esac
+  done <<EOF
+$(fingerprint_paths)
+EOF
+  [ "${#files[@]}" -gt 0 ] || { printf '0'; return; }
+  { printf '%s\n' "${files[@]##*/}"; cat "${files[@]}"; } | LC_ALL=C awk '
+    BEGIN { for (i = 1; i < 256; i++) ord[sprintf("%c", i)] = i }
+    { n = length($0); for (i = 1; i <= n; i++) h = (h * 31 + ord[substr($0, i, 1)]) % 2147483647; h = (h * 31 + 10) % 2147483647 }
+    END { printf "%d", h }'
 }
 
 # agent_flight — what the telemetry says about the last agent launch, as one word:
@@ -273,11 +315,16 @@ record_fingerprint() {
 #   none      no agent has been launched in this sitting
 # The lease is what a durable workflow engine calls a visibility timeout: a hold that expires, so a worker that
 # dies silently cannot keep a task forever.
+# ONLY THE KIT'S OWN AGENTS are read here — a type beginning `kit-` (contract-023 UC-4). The launch hook fires for
+# every agent a project has, and a helper that searches code or writes a test never touches a kit record, so by
+# this measure it always "wrote nothing": before the filter the gate told the session to resume it, and then to
+# record it blocked. The lines are still written for every agent; they are evidence of what ran.
 AGENT_LEASE=3
 agent_flight() {
   [ -f "$TELEMETRY" ] || { echo none; return; }
   awk -F'|' -v lease="$AGENT_LEASE" '
     $2=="session-start" && ($3=="startup" || $3=="resume") { type=""; launched=""; stopped=""; gates=0; next }
+    ($2=="agent-launch" || $2=="subagent") && $3 !~ /^kit-/ { next }
     $2=="agent-launch" { split($3, a, ":"); type=a[1]; launched=a[2]; stopped=""; gates=0; next }
     $2=="subagent"     { if (type != "") { split($3, b, ":"); stopped=(b[2]=="" ? "?" : b[2]) } next }
     $2=="stop-gate" || $2=="stop-gate-fault" { if (type != "" && stopped == "") gates++ ; next }
@@ -290,20 +337,57 @@ agent_flight() {
   ' "$TELEMETRY"
 }
 
-# agent_last_type — the agent the last launch names
+# agent_last_type — the kit agent the last launch names
 agent_last_type() {
   [ -f "$TELEMETRY" ] || return 0
-  awk -F'|' '$2=="agent-launch" { split($3, a, ":"); t=a[1] } END { print t }' "$TELEMETRY"
+  awk -F'|' '$2=="agent-launch" && $3 ~ /^kit-/ { split($3, a, ":"); t=a[1] } END { print t }' "$TELEMETRY"
 }
 
 # agent_resumed — true when that agent has already been given one resume since it was launched
 agent_resumed() {
   [ -f "$TELEMETRY" ] || return 1
   awk -F'|' '
-    $2=="agent-launch" { seen=0; next }
+    $2=="agent-launch" && $3 ~ /^kit-/ { seen=0; next }
     $2=="agent-resume" { seen=1 }
     END { exit !seen }
   ' "$TELEMETRY"
+}
+
+# agent_block_where TYPE — where a kit agent's task is written down as blocked, in words the gate can hand over;
+# empty when its task has no blocked state. The gate never tells a session to make a write that does not exist
+# for the task in hand (contract-023 G-2).
+agent_block_where() {
+  case "$1" in
+    kit-session-auditor) printf '%s' "audited: blocked on that contract's entry in CONTRACT-LOG.yaml" ;;
+    kit-consolidator)    printf '%s' "consolidated: blocked on each observation it could not take, in LEDGER.yaml" ;;
+    kit-case-clerk)      printf '%s' "clerked: blocked on each correction it could not take, in CORRECTIONS.yaml" ;;
+    kit-map-steward)     printf '%s' "stewarded: blocked on each map miss it could not take, in LEDGER.yaml" ;;
+    kit-batch-assembler) printf '%s' "assembly: blocked at the top level of LEDGER.yaml, beside observations: and candidates:" ;;
+    *) : ;;
+  esac
+}
+
+# pioneer_items_due LEDGER CASEBOOK DRIFT MAPFILE — true when items only the pioneer can decide are waiting for a
+# review batch. THE ONE RULE (contract-023 UC-9): three or more due candidates, or one of anything else — a pending
+# map proposal, an unranked card, a precedent conflict, a drift entry awaiting resolution, an unratified map entry
+# unless the map carries `ratification: deferred`. The gate, the session-start list and the waiting list all call
+# this. Contract-007 made two readers agree by repeating the rule in both; a third was then written that did not
+# (contract-022), which is what repeating a rule buys. It prints nothing: how many items are due is never named,
+# because with a batch's size visible that count would give away how many of its items are shown a second time.
+pioneer_items_due() {
+  local due pend cards conflicts resolutions props=0
+  due=$(count_matches '^[[:space:]]+review_due:[[:space:]]*true' "$1")
+  pend=$(count_matches '^[[:space:]]+state:[[:space:]]*pending' "$1")
+  cards=$(count_matches '^[[:space:]]+pioneer_ranking:[[:space:]]*pending' "$2")
+  conflicts=$(count_matches '^[[:space:]]+conflict:[[:space:]]*P-' "$2")
+  resolutions=$(count_matches '^[[:space:]]+status:[[:space:]]*mitigated' "$3")
+  # Unratified base entries wait for the install-time ratification pass; until it has run or been declined, they
+  # do not open batches of their own (meta-bootstrap Step 7).
+  if ! grep -q 'ratification: deferred' "$4" 2>/dev/null; then
+    props=$(count_matches '\|[[:space:]]*proposed[[:space:]]*$' "$4")
+  fi
+  [ "${due:-0}" -ge 3 ] || [ "${pend:-0}" -ge 1 ] || [ "${cards:-0}" -ge 1 ] \
+    || [ "${conflicts:-0}" -ge 1 ] || [ "${resolutions:-0}" -ge 1 ] || [ "${props:-0}" -ge 1 ]
 }
 
 # late_test_revisions — ids of reported contracts with a revision that changes Tier 4 tests dated AFTER the

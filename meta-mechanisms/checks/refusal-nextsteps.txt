@@ -123,3 +123,21 @@ release refused: the shipping folders have uncommitted changes. A release is bui
 records-index refused: unknown selection \"<>\" — pass observations, corrections, or all
 -> pass one of the three selections the script names; with no second argument it prints all of them.
 
+
+seal-key refused: <> is not a batch id of the form B-NNN — pass the id of the batch file just written
+-> pass the batch id exactly as the batch file's name carries it, B-NNN.
+
+seal-key refused: there is no batch file at <> — write the batch file first, then seal its key
+-> write the batch file first (the assembling procedure's step before sealing), then run the sealing again.
+
+seal-key refused: <> already has a sealed key, and a key is never overwritten or opened — if this batch id was taken by an earlier run, assemble under the next id and say so in the final message
+-> take the next batch id and assemble under it; never open or replace the key that is there, and say in the final message that the id was taken.
+
+seal-key refused: line <> of the key is not an item id, a colon and a source (I-n: source) — send one line per item, exactly as the assembling procedure gives them
+-> send the key again with every line in the form the assembling procedure gives: the item id, a colon, the source.
+
+seal-key refused: the key names <> item line(s) and the batch file carries <> item(s) — every item in the batch needs exactly one line, and no line may name an item the batch does not have
+-> make the key name every item heading in the batch file once and nothing else, then seal again.
+
+seal-key refused: the sealed folder could not be written at <> — stop and say so in the final message; the session records the batch step blocked and puts it to the pioneer (meta-mechanisms → Blocked tasks)
+-> the agent stops and reports it; the session writes assembly: blocked in the ledger with its reason and asks the pioneer how to proceed (meta-mechanisms → Blocked tasks).

@@ -58,6 +58,6 @@ The form checks in one line, the aspects you marked ABSENT, the ids you wrote, a
 ## Never
 
 - score or characterise the pioneer's aspects or conduct
-- soften an ABSENT, or read the session's own score before writing yours
+- soften an ABSENT
 - propose fixes
 - read review batches or sealed keys

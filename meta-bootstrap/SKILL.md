@@ -397,6 +397,8 @@ Runs when a project has its own manifest and a newer kit is staged.
 
 The base kit's `P-NNN.sh` checks, its `tests/results/`, its contract walks (`walk-004.sh`, `walk-007.sh`) and its `tests/fixtures/` are its own precedents and evidence: they read the base repository's templates, docs and manifest, and travel no more than its casebook does.
 
+**A file named `*.project.*` inside the kit's folders is the project's own** — what a project adds beside a kit file goes in a file of that name, as its refusals go in `checks/refusal-nextsteps.project.txt` beside the kit's registry — so no release carries one, and no upgrade takes, merges or removes one (contract-023).
+
 The line history under `meta-bootstrap/history/` is the kit's, and travels with it.
 
 The staged folder is that travel set and nothing more: a raw clone of the kit repository is not a staged kit — its evidence under `tests/results/`, its fixtures, its contract walks, its `P-NNN.sh` checks and its own instance files are left out when the kit is staged into `.claude/kit-incoming/` (contract-009 G-1).

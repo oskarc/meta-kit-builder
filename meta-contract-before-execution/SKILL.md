@@ -88,7 +88,7 @@ Before drawing the tiers — and before locking a spec — retrieve casebook pre
 
 **In the draw the pioneer reads, a precedent or a candidate is named by what it says** — "you ruled that acceptance tests come after the guardrails (P-007)" — the holding first, in words, the id after. The short forms above are the log's. An id alone sends the pioneer to a file only the agent has read (C-019; `meta-foundation` → The Agent's Role).
 
-With no casebook entries yet, say so in one line and move on. While a review batch is open the ledger and casebook are closed to this session; say that instead, and draw the contract without them.
+With no casebook entries yet, say so in one line and move on. While a review batch is open the ledger is closed to this session and the casebook is not — it is left open on purpose, so that a contract drawn while a batch waits still gets its precedent check. Make the check as usual, and say in one line that trial and adopted candidates could not be read.
 
 ---
 
@@ -319,7 +319,7 @@ For each judgment call, novel decision, or gap encountered during implementation
 - **What was encountered** — the decision the kit didn't cover, or covered insufficiently.
 - **Evidence** — the specific component, decision or structure where it showed up.
 - **Level guess** — `principle` (a transferable rule about *why*), `pattern` (a reusable structural decision for a recognisable context), `implementation` (a mechanical, stack-specific rule), `product-detail` (can't be stated without this product), or `map` (the knowledge existed but didn't load — write it as `source: map-miss`, `stewarded: false`).
-- **`stated_confidence`** — your probability, written now and never revised, that this becomes a candidate the pioneer adopts and that holds through its next three independent uses. Expect your instinct to say 0.8–0.9 for most things; the number is scored later, and a spread that tracks reality is worth more than a confident one.
+- **`stated_confidence`** — your probability, written now and never revised, that this becomes a candidate the pioneer adopts and that holds through its next three independent uses. Expect your instinct to say 0.8–0.9 for most things; the number is kept as the forecast it was and is never scored or used as a gate (meta-ledger → Observations), and a spread that tracks reality is worth more than a confident one.
 - **`loaded_candidates`** — every candidate id that was in your context: cited in this contract or read during the work. An observation you make about your own work counts as loaded evidence, whatever else is true.
 - **`prompted: false`** — an observation nobody asked you for.
 - `consolidated: false`.

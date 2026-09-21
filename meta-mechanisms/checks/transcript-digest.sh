@@ -31,10 +31,24 @@ if [ ! -f "$src" ]; then
   [ -n "$found" ] || { echo "digest refused: no transcript found for \"$src\" — pass the path to the .jsonl file, or check the session id on the contract entry. If the transcript is genuinely gone, record the audit blocked on the contract entry with that reason and put it to the pioneer (meta-mechanisms → Blocked tasks)"; exit 1; }
   src="$found"
 fi
+# native_path PATH — the spelling the file tools use. The digest is made for an agent with no shell
+# (kit-session-auditor), and on a Windows shell a path like /tmp/x or /c/x is the shell's own: the file tools
+# cannot open it. The first version of this script printed exactly that, so the auditor was handed a file it
+# could not read (contract-023 UC-6).
+native_path() {
+  case "${OSTYPE:-}" in
+    msys*|cygwin*|win32*) if command -v cygpath >/dev/null 2>&1; then cygpath -m "$1"; return; fi ;;
+  esac
+  printf '%s' "$1"
+}
 out="${2:-}"
 if [ -z "$out" ]; then
   base=$(basename "$src"); base="${base%.jsonl}"
-  out="${TMPDIR:-/tmp}/kit-digest-$base.txt"
+  # the platform's temp folder where the environment names one, brought to one spelling; /tmp otherwise
+  tmpdir="${TMPDIR:-${TMP:-${TEMP:-/tmp}}}"
+  tmpdir="$(printf '%s' "$tmpdir" | sed -e 's#\\#/#g' -e 's#/*$##')"
+  [ -d "$tmpdir" ] || tmpdir=/tmp
+  out="$tmpdir/kit-digest-$base.txt"
 fi
 awk -v OFS=' | ' '
   function first(field,   m, s) {            # the FIRST occurrence of "field":"..." on the line (top level)
@@ -109,5 +123,5 @@ awk -v OFS=' | ' '
 ' "$src" > "$out"
 rows=$(grep -c . "$out" || true)
 turns=$(grep -c '| human |' "$out" || true)
-printf 'digest written: %s\n%s rows (%s of them the pioneer'"'"'s own turns) from %s\n' "$out" "$rows" "$turns" "$src"
+printf 'digest written: %s\n%s rows (%s of them the pioneer'"'"'s own turns) from %s\n' "$(native_path "$out")" "$rows" "$turns" "$(native_path "$src")"
 printf 'Each row keeps its line number in the transcript: read that line for an exact quote.\n'

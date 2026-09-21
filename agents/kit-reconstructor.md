@@ -11,7 +11,7 @@ hooks:
     - matcher: "Read|Grep|Glob|Bash"
       hooks:
         - type: command
-          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/deny-paths.sh\" \"meta-correction-log/\" \"meta-ledger/\" \"meta-contract-before-execution/CONTRACT-LOG.yaml\" \"meta-drift-eventlog/DRIFTLOG.yaml\" \"meta-learning/LEARNINGLOG.yaml\" \"kit-sealed/\" \"/.claude/projects/\"'"
+          command: "bash -c 'r=\"$PWD\"; while [ -n \"$r\" ] && [ ! -f \"$r/.claude/skills/meta-mechanisms/hooks/lib.sh\" ]; do case \"$r\" in */*) r=\"${r%/*}\";; *) r=\"\";; esac; done; [ -n \"$r\" ] || r=\"${CLAUDE_PROJECT_DIR}\"; exec bash \"$r/.claude/skills/meta-mechanisms/hooks/deny-paths.sh\" \"meta-correction-log/CORRECTIONS.yaml\" \"meta-ledger/LEDGER.yaml\" \"meta-ledger/batches/\" \"meta-ledger/telemetry.log\" \"meta-contract-before-execution/CONTRACT-LOG.yaml\" \"meta-drift-eventlog/DRIFTLOG.yaml\" \"meta-learning/LEARNINGLOG.yaml\" \"kit-sealed/\" \"/.claude/projects/\"'"
     - matcher: "Edit|Write"
       hooks:
         - type: command
@@ -27,7 +27,7 @@ A test id `RT-NNN`, and the input file `.claude/skills/meta-casebook/reconstruct
 ## Procedure
 
 1. Read the input file.
-2. Read the kit's nodes under `.claude/skills/` and `.claude/skills/meta-casebook/CASEBOOK.yaml`, skipping the precedents the input excludes.
+2. Read the kit's nodes under `.claude/skills/` and `.claude/skills/meta-casebook/CASEBOOK.yaml`, skipping the precedents the input excludes. Every skill is open to you, including the ones that describe the records you may not read: you are kept out of records, never out of the rules about them.
 3. For each item, predict the pioneer's decision: which option, or whether they accepted the proposal or corrected it, and how. Cite what carried the prediction: a node section, a precedent id, the founding statement.
 4. When nothing in the kit bears on the item, write `kit silent`. Do not guess from style, wording or what seems likely. A silent item is scored as a miss, and it is the most useful result you can report.
 5. Write `.claude/skills/meta-casebook/reconstruction/RT-NNN.predictions.md`: one section per item with the prediction, what carried it, and your confidence.
