@@ -113,15 +113,142 @@ still runs no agent, which stays a carried gap below.
 ## Next
 
 - **The seal: why the batch step cannot write its key.** The one step of the lifecycle that has never run, across
-  three releases and three reports. The kit's own hooks permit the write and the project setting that guards the
-  path is a read rule, so the cause is in how the permission behaves at runtime, which cannot be reproduced from
-  the base kit. Contract-021 made the failure survivable — it stops the queue once rather than forever — and left
-  the cause here.
+  four releases and four reports. **Two statements this bullet carried until 2026-09-21 were wrong, and are
+  corrected here rather than quietly replaced.** It said the cause "cannot be reproduced from the base kit": it
+  was reproduced that day, in a throwaway project, with two short unattended sessions — see the review below.
+  And it said contract-021 "made the failure survivable — it stops the queue once rather than forever": it did
+  not. That contract tagged the batch step as the pioneer's, so a jammed assembler is reported on the third turn
+  as *waiting on you rather than stuck — nothing is wrong with it*, and everything behind it is held. The
+  contract hid the failure it claimed to have contained.
 - **Bound the upgrade section, not the paragraph** — which means splitting install from upgrade in
-  `meta-bootstrap`. Named in contract-018, which called it contract-019; the vocabulary of failure took that
-  number and the closing four took contract-020, so this is contract-021.
+  `meta-bootstrap`. Named in contract-018 under a number that three later contracts have since taken; it has no
+  number until it is drawn.
 - **Promote "every figure that reaches the pioneer comes from a command"** out of the upgrade procedure and
   into the foundation, where it governs every number the agent shows.
+
+## Review of 2026-09-21 — where one part of the kit contradicts another
+
+**Why it was done.** A downstream report argued that the seal survived four releases because it lives in the
+one layer the kit's tests cannot reach: every test here is a shell script, and the permission rules of the
+program the kit runs inside do not govern a shell. The pioneer asked for the other places of the same kind, and
+for a long-term answer. Nothing below is drawn as a contract.
+
+**What was read, and what was not.** Read in full: the eight agent files, all fourteen hooks, the settings
+template, `install.sh`, the six `G` checks and the four `P` checks, the hooks self-test, `waiting-on-you.sh`, and
+eight skills — mechanisms, ledger, skill-builder, contract-before-execution, casebook, learning, correction-log
+and foundation. Read in part: `transcript-digest.sh`, `records-index.sh`, the fixture set-up of `walk.sh`.
+**Only searched** — for named tools, statements about permissions, and leftovers of the retired self-score:
+bootstrap, contract-artifact, extract, manifest, map, understanding, antidrift, antidrift-expand, drift-eventlog,
+founding-contract, the README, the record templates, `merge.sh`, `preflight.sh`, `residue.sh`, `rollback.sh`,
+`roots.sh`. So the install and upgrade path has not had this review, and the list below is a floor, not a count.
+
+**The tally.** Nineteen. Nine seen first-hand that day — by running the real hooks and checks against a throwaway
+project, or in a live session. Nine read on both sides and not run. One reasoned from one side. **Nine of the
+nineteen were introduced by contracts 019 to 022, the four most recent, and every one of them passed its walk and
+its red test.**
+
+### What someone is told to do, against what they are able to do
+
+1. **The sealed key cannot be written** *(seen first-hand)*. The assembler is told to write it and its own guard
+   allows it. In a live session the write was refused because the program treats that folder as a sensitive
+   location and asks the human; with nobody to ask, it refuses. That is not the refusal the downstream project
+   reported, and here the read rule alone did **not** stop a new file being written into a read-denied folder — so
+   the behaviour differs between versions of the program. A script run through the shell wrote the key without
+   obstruction, which is how the key is already opened.
+2. **Every write into the kit's folder asks for the human's grant, and the kit never says so** *(seen
+   first-hand)*. Writing a batch file under the kit's folder was held for approval even with writes pre-approved.
+   The kit says the pioneer never has to invoke it, and nowhere says what they have to approve: no text in the
+   repository mentions permission modes or allow rules.
+3. **The auditor is handed a path it cannot open** *(seen first-hand; contract-019)*. On Windows the digest script
+   reports its output under the shell's own spelling of the temp folder; the auditor has no shell and its file tool
+   cannot resolve it. `lib.sh` already names that folder as the one with no spelling the two sides share.
+4. **The recorder was left out of the fix for agents that run out of turns** *(reasoned)*. Read and Edit only,
+   eight turns, and it must read the whole ledger to find the next number. The index given to the consolidator
+   and the clerk cannot be run by it.
+5. **The reconstructor is told to read every skill and is kept out of two** *(read on both sides)*. Its guard names
+   whole folders where the verifier's names single files. The refusal is polite; the cost is small.
+6. **A blocked task has nowhere to be written for half the queue** *(read on both sides)*. The blocked state exists
+   on four fields. Assembling a batch has no record until a batch exists, and a map miss takes only yes or no —
+   yet the gate's fault message says to set "the state key on that record". While a batch is open the session
+   cannot write a block into the ledger at all.
+
+### One rule, told two ways
+
+7. **The list of what waits on the pioneer disagrees with the gate** *(seen first-hand; contract-022)*. Four of its
+   searches use a plus sign that plain `grep` reads literally, so it never sees unranked cards, precedent
+   conflicts, pending map proposals or drift resolutions. And it reports a review waiting at one due candidate
+   where the gate opens a batch at three. Its walk state used the one search that works.
+8. **"Say nothing about how many items a review batch holds" against "Tell the pioneer how many items there
+   are"** *(read on both sides; contract-022)*. The rule being protected hides how many items are due in the
+   records, not how many a batch holds; the session-start message states it about the wrong thing.
+9. **The contract skill says the casebook is closed during a batch; four other places keep it open** *(read on
+   both sides; dated 2026-09-13)*. It was left open on purpose, so a contract drawn mid-batch still gets its
+   precedent check. An agent following the contract skill skips a check the auditor then fails it for.
+10. **The migration check demands fields the rules say a report entry never carries** *(seen first-hand)*. Known
+    from downstream and run again: an entry written exactly as the rule requires fails the check, and the way
+    forward the refusal offers points the wrong way.
+11. **A forecast is "scored later" in the contract skill and "never scored" in the ledger skill** *(read on both
+    sides)*.
+12. **The retired self-score still stands in five places, including the foundation** *(read on both sides;
+    contract-020)*. The foundation still describes the pioneer's part as watching scores degrade; the four closing
+    questions replaced them and the foundation does not mention them. None of the old wording was added to the
+    retired-phrases list.
+13. **A garbled marker phrase and a stale figure in the mechanisms skill** *(read on both sides; contracts 020 and
+    021)*. It names a phrase the hook does not use, and gives the travelling walk 54 states where it has 65.
+14. **The newest hook is missing from the self-test, the travelling walk and the inventory** *(read on both sides;
+    contracts 021 and 022)*. The self-test says it runs every hook and does not run the one that records an agent
+    starting; the only walk that ships writes those lines by hand instead of running the hook.
+
+### A rule written for one case, quietly covering others
+
+15. **A jammed batch step is reported as "waiting on you — nothing is wrong"** *(seen first-hand; contract-021)*.
+    See the corrected bullet above.
+16. **The launch record counts every agent, not only the kit's** *(seen first-hand; contract-021)*. A project that
+    uses any other helper agent is told it "stopped without writing anything" and to resume it.
+17. **"Wrote nothing" is judged by the line counts of five records** *(seen first-hand; contract-021)*. A
+    consolidator that merges in place changes no count and is told it failed; the reconstructor writes a file that
+    is not one of the five, so it always reads as failed.
+
+### Files the kit owns that a project is meant to add to
+
+18. **A project's own refusals are wiped at every upgrade** *(read on both sides; first reported downstream)*. The
+    registry is one kit file, replaced whole.
+19. **The understanding skill ships registered in no template** *(seen first-hand)*. The completeness check reads
+    in one direction only.
+
+### What two live sessions established about the program underneath
+
+Version 2.1.170 of the command-line program; a throwaway project carrying the kit's own permission rule and a hook
+that wrote down everything it was sent. Held: the sealed folder cannot be read with the file tools at any depth;
+hooks inside an agent are told which agent they are in; guards declared in an agent's own file fire; the launching
+tool and its field are named as the kit's matcher expects; the end-of-turn hook receives the last message and can
+continue the turn. New: a refused read never reaches the hooks; a small model resolved a project-relative path to
+the user's home folder (one observation). **Not probed:** whether an agent's turn limit is honoured, whether a
+finished agent can be resumed, whether an agent may read transcripts outside the project, whether the always-loaded
+files really load, how stable the transcript's shape is.
+
+### What it points to — nothing drawn yet
+
+The kit verifies clause by clause, and these are failures between clauses. Each contract's tests asked whether the
+new rule does what it says; none asked what else now passes through the point that was changed — although the
+practice already says a test is drawn from the lay of the land after the work, not from the text the agent means
+to write.
+
+1. **Keep the map of who may touch what as a record in the kit** — actors, records, read and write, and which
+   layer enforces each — read before any shared point is changed, and against which the agent files and the
+   settings are compared. Today it can only be recovered by reading the whole repository.
+2. **Name the program underneath as a dependency.** A written list of what the kit assumes of it, observed
+   first-hand: a live run before a release here, and a short rehearsal of real tool calls at the end of an
+   install, in the pioneer's own program and permission mode.
+3. **At the contract gate, ask what else passes through** — judgement, not a mechanism. The guardrails name every
+   actor that touches the changed point, and one test is drawn from a neighbour's side.
+4. **A proving ground.** No hook has ever fired in this repository, because it is the base; every lifecycle
+   failure so far was found by a pioneer downstream. One real project where a release runs the whole loop with
+   real agents before anyone else meets it.
+5. **Pay for shared points.** The gate, the shared library, the settings and the agents' scopes are where rules
+   collide; a contract that touches one carries the heavier burden, and one that removes or merges is worth as
+   much as one that adds.
+6. **One rule for what an upgrade may replace.** Anything a project is meant to add to lives in a file of its own.
 
 ## Research — where this has been solved already
 
@@ -244,8 +371,9 @@ Each is its own decision, and none is blocked by the others:
   whether the next action changes a file — which is in one skill and not in the map.
 - **The contract artifact skill and the contract skill disagree on when a contract is published** — before
   approval by one, on approval by the other.
-- **The spec lock names a tool an agent may not have.** It requires the question tool for its blocking decisions;
-  a subagent has none, and the step degrades silently into prose.
+- ~~**The spec lock names a tool an agent may not have.**~~ Closed by contract-022: the lock now says to put the
+  choices in whatever way the session allows, and never to name one tool as the only way. Left here struck rather
+  than deleted, because this list said it was open for a day after it was not.
 - **The manifest is YAML-shaped but not valid YAML.** 61 lines would fail a strict read, because an unquoted value
   that begins with a word and a colon parses as a mapping key. Nothing in the kit reads it with a YAML parser —
   the hooks use awk and the portability rule forbids anything else — so it has never mattered. It would matter

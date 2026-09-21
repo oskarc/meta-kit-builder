@@ -1126,6 +1126,43 @@ corrections:
       as fixed because the pioneer wrote it, and defended it on that ground to an independent reader; the pioneer
       released it the moment it cost the instrument something. Authorship is not a reason to keep a sentence.
 
+  - corr_id: C-035
+    date: 2026-09-21
+    contract_id: null
+    moment: M-25
+    grade: scope
+    intervention: redirected
+    agent_offered: |
+      Handing back a review that had found nineteen places where one part of the kit contradicts another, the
+      agent asked two things: "Should the key and the mis-tagged batch step be drawn now as one small repair?
+      Those two are what stop the downstream standard from ever moving." - and - "Your steer on the six
+      directions before I draw anything larger." The other seventeen were written into the roadmap and left
+      there.
+    pioneer_said: |
+      "I dont want us to leave obvious conflicts or errors to later, id like us to handle them."
+    reason_given: |
+      none given
+    noticed: |
+      From the pioneer's own words, not asked separately: obvious conflicts and errors were being left to later.
+    would_have_been_right: |
+      From the same sentence, not asked separately: handle them - all the ones that are obvious, now, not the two
+      the agent had ranked as most urgent.
+    seen_before: |
+      not asked - the message that answers this correction carries a contract's gate, and a fourth kind of
+      question beside the gate's three is what the practice ruled out the day before
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      The agent had sorted its own findings by urgency and offered the pioneer the top two, treating the rest as
+      a backlog to be steered. The pioneer sorts differently: by whether the right answer is already plain. A
+      contradiction with one right answer is not a decision waiting on anyone, so parking it is not caution, it
+      is a known error left standing in a standard other people install. Note for the casebook: this is the
+      second time a set of findings has been handed back and the pioneer has moved the line the agent drew
+      around what to do with them; the first widened the view before fixing, this one refuses to let the fixing
+      wait where no view is needed.
+
 
 trajectory:
   updated: 2026-09-13
