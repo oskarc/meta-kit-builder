@@ -93,7 +93,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.29" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.29" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
+grep -q "^  version: 0.30" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.30" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -107,7 +107,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant fo
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.29" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.29 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.30" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.30 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -580,5 +580,41 @@ grep -q -F 'settings.template.json" "$FX/.claude/settings.json' "$SRC/meta-mecha
   && grep -q -F 'kit-sealed' "$SRC/meta-mechanisms/tests/walk.sh" \
   && grep -q -F 'agents/*.md "$FX/.claude/agents/' "$SRC/meta-mechanisms/tests/walk.sh" \
   && ok "201 the lifecycle fixture is built as a real project - settings, a seal and agents - which no test the kit owned had ever carried (T-7, UC-7)" || bad "201 the fixture" "-"
+echo "=== contract-022: one question at a time ==="
+CS="$SRC/meta-contract-before-execution/SKILL.md"
+# the bearing leads, is separable, and the gate is still one stop
+grep -q -F 'It is served alone, and first.' "$CS" \
+  && grep -q -F 'everything below is derived from it, so stopping there costs nothing' "$CS" \
+  && grep -q -F 'not a second stop' "$CS" && grep -q -F 'the gate is still one stop (contract-011)' "$CS" \
+  && ok "202 the bearing is served alone and first, marked as the thing everything else derives from, and the gate is still one stop (T-1)" || bad "202 the bearing" "-"
+# three asks at the gate and no others; the load-bearing choice goes to the lock
+grep -q -F 'Those three asks, and nothing else.' "$CS" \
+  && grep -q -F 'belongs in the spec lock, **before** the tiers exist' "$CS" \
+  && grep -q -F 'naming it in Tier 2 as decided-and-why is how it is shown' "$CS" \
+  && ! grep -q -F '**`AskUserQuestion` for 3-4 blocking decisions**' "$CS" \
+  && grep -q -F 'Never name a specific tool as the only way' "$CS" \
+  && ok "203 the gate asks the direction, the lines and the pre-mortem and nothing else; a load-bearing choice goes to the lock before the tiers, put however the session allows rather than through one named tool (T-2)" || bad "203 the gate's asks" "-"
+# what waits on the pioneer, from this repository's own records
+W22=$(mktemp); bash "$SRC/meta-mechanisms/checks/waiting-on-you.sh" "$SRC" > "$W22" 2>/dev/null
+head -1 "$W22" | grep -q '^waiting on the pioneer: ' \
+  && grep -q -F 'waiting-on-you.sh' "$SRC/meta-mechanisms/hooks/session-start.sh" \
+  && grep -q -F 'Say nothing about how many items a review batch holds' "$SRC/meta-mechanisms/hooks/session-start.sh" \
+  && ! grep -q -F 'the pioneer asks' "$SRC/meta-mechanisms/checks/waiting-on-you.sh" \
+  && ok "204 the list of what waits on the pioneer runs over this repository's own records, and the session-start hook hands the agent the task of putting it to them - so nothing waits on their asking (T-3)" || bad "204 the waiting list" "$(head -1 "$W22")"
+rm -f "$W22"
+# a batch shows as one line, no count, no kinds
+F22=$(mktemp -d); mkdir -p "$F22/meta-contract-before-execution" "$F22/meta-ledger" "$F22/meta-correction-log" "$F22/meta-casebook" "$F22/meta-drift-eventlog" "$F22/meta-map"
+printf 'contracts: []\n' > "$F22/meta-contract-before-execution/CONTRACT-LOG.yaml"
+printf 'observations:\n  - obs_id: O-1\n    review_due: true\n  - obs_id: O-2\n    review_due: true\n  - obs_id: O-3\n    review_due: true\n  - obs_id: O-4\n    review_due: true\ncandidates: []\n' > "$F22/meta-ledger/LEDGER.yaml"
+printf 'corrections: []\n' > "$F22/meta-correction-log/CORRECTIONS.yaml"; printf 'precedents: []\n' > "$F22/meta-casebook/CASEBOOK.yaml"
+printf 'entries: []\n' > "$F22/meta-drift-eventlog/DRIFTLOG.yaml"; printf 'M-01 | x\n' > "$F22/meta-map/MAP.md"
+b22=$(bash "$SRC/meta-mechanisms/checks/waiting-on-you.sh" "$F22" | tail -n +2)
+[ "$(printf '%s\n' "$b22" | grep -c .)" = 1 ] && case "$b22" in *"would change the standard is waiting"*) case "$b22" in *[0-9]*) bad "205 the batch line names a number" "$b22";; *) ok "205 four items would be in the batch and the line says only that one is waiting - no count, no kinds, so the re-presented items cannot be counted out (T-4)";; esac;; *) bad "205 the batch line" "$b22";; esac || bad "205 the batch line count" "$(printf '%s\n' "$b22" | grep -c .) line(s)"
+rm -rf "$F22"
+# the rule for a new stop
+grep -q -F '## When a new stop earns its place' "$CS" \
+  && grep -q -F 'a flag that only informs is not a flag' "$CS" \
+  && grep -q -F 'that is the standard missing a rule, not a stop that belongs' "$CS" \
+  && ok "206 the rule a new stop must meet is written where contracts are drawn, with the negative beside it (T-5)" || bad "206 the rule" "-"
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]

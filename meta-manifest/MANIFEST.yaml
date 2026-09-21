@@ -7,7 +7,7 @@ kit_identity:
   kit_name: base-building-kit
   kit_type: base
   category: base
-  version: 0.29            # the six-layer form after contracts 003–019: tier 4, ownership, the subtraction, upgrade readiness, the upgrade that compares by mechanism, the first real run's gaps closed, a vocabulary for what cannot be done
+  version: 0.30            # the six-layer form after contracts 003–019: tier 4, ownership, the subtraction, upgrade readiness, the upgrade that compares by mechanism, the first real run's gaps closed, a vocabulary for what cannot be done
   parent_kit: null
   workspace: []
   status: active

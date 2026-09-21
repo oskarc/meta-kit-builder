@@ -4110,3 +4110,117 @@ contracts:
     # downstream project's fifth, read and verified against this repository before the contract was drawn.
     cost: {turns: 2, tokens: null, pioneer_minutes: null}    # messages to the pioneer from approval to implemented; the main session's tokens not measured; minutes not asked - the pioneer does not remember them and the field stays null rather than estimated
     work_id: null
+
+  - contract_id: contract-022
+    feature: One question at a time - the bearing is served alone and can be rejected on its own, design choices leave the gate for the spec lock, and what waits on the pioneer reaches them at the start of a sitting without their asking
+    type: contract
+    follows: contract-021
+    led_to: []
+    date_proposed: 2026-09-21
+    date_approved: 2026-09-21
+    approval: approved-at-gate     # pioneer: "The contract is approved" (2026-09-21)
+    bearing: |
+      The pioneer is asked one kind of question at a time, at the point where changing course is still cheap,
+      and never has to ask what is waiting on them. The bet: the load that matters is not how much the agent
+      writes, but how many different kinds of decision arrive in one message.
+    # Bears against paragraph five of the founding statement (the practice guides the pioneer). Drawn from the
+    # pioneer's own framing: "the agent serving the ball so that the pioneer easily can make the right decision
+    # and limit information overload so that the pioneer rests at a point of tension where they add the most" -
+    # and their observation that they can still fail, which costs wasted work, a longer path and the quality
+    # the long-term goal can reach. The survey was the workflow drawn with every stop marked, published
+    # 2026-09-21. Precedents: applies P-004 (no step may depend on a command the human runs - which decides
+    # that the waiting list can never be something the pioneer asks for), P-008 (written so someone new can
+    # follow it), P-001 (survey wide first); bound by contract-011 on two counts - the gate is one stop, and
+    # pioneer-owned items are never counted; distinguished from P-006 (nothing here grows the always-loaded
+    # layer).
+    tier_1: |
+      The user is the pioneer. Today the gate hands them three different kinds of attention in one message: a
+      direction to judge, tests to disappoint, and - three times in the week this was drawn - design choices to
+      pick between. That is the most expensive decision in the practice, served under the heaviest load. And
+      nothing tells them what is queued on their decision: they learned of fifty-one waiting standards by
+      asking, in a practice whose own promise is that they never have to prompt it.
+      Success: the bearing is the first thing they read and can be rejected on its own, before they have spent
+      attention on a plan derived from it. The gate asks the direction, the disappointment lines and the
+      pre-mortem - nothing else. Load-bearing choices are put before the tiers exist; the rest the agent decides
+      and shows its reasoning for, so the pioneer can overturn them. And at the start of a sitting they see the
+      short list of what waits on them, oldest first.
+      Without it the most expensive decision keeps being made under the most load, and work queues on them
+      invisibly until they think to ask.
+    tier_2: |
+      UC-1 The bearing is served alone. Every drawn contract leads with the bearing and one line saying that
+           everything below is derived from it and that stopping there costs nothing. The gate remains one stop.
+      UC-2 Design choices leave the gate. A load-bearing choice goes to the spec lock, before the tiers exist.
+           Anything not load-bearing the agent decides, showing its reasoning where the pioneer can overturn it.
+           The gate carries three asks and no others.
+      UC-3 The spec lock stops naming a tool it may not have. It says to put the choices in whatever way the
+           session allows, each with what it costs - a subagent has no question tool and the step degraded in
+           silence.
+      UC-4 What waits on the pioneer, unasked. A script reads the records and lists what is queued on their
+           decision, oldest first, one line each; the session-start hook hands the agent the task of putting it
+           to them at the start of a sitting. A review batch appears as a single line with no count and nothing
+           of its contents (contract-011).
+      UC-5 The rule for a new stop is written where contracts are drawn: it must be expensive to reverse after
+           that point, the agent must genuinely be unable to make it, and it must fit in under a page with the
+           choices named - and a flag that only informs is not a flag.
+      Two choices the agent made rather than putting to the pioneer, with the reasoning shown, since this
+           contract argues for exactly that: the list appears at the start of a sitting only, not whenever the
+           queue changes, because more often is the stream the pioneer is guarding against and P-004 forbids it
+           being on request; and the script produces the material while the agent puts it in words, because a
+           script cannot translate.
+      Not included, named so nothing is lost: the guide, which the pioneer has said is updated once this is
+           implemented; and what the workflow should do when the pioneer does not answer at all.
+    tier_3: |
+      G-1 (UC-1) the gate stays one stop, and the bearing is first, separable, and marked as the thing
+           everything else derives from.
+      G-2 (UC-2, UC-3) the gate asks the direction, the disappointment lines and the pre-mortem, and nothing
+           else; a load-bearing choice is put before the tiers, by whatever means the session has.
+      G-3 (UC-4) the list reaches the pioneer without their asking (applies P-004), oldest first, one line
+           each, and never counts or reveals what is in a batch (contract-011).
+      G-4 (UC-5) the rule is written where a contract is drawn, so the next agent adding a stop has to meet it.
+      G-5 (all) bash, sed, awk, grep, tr, date and git; the always-loaded layer does not grow; every walk and
+           check passes; the contract is committed alone.
+    disappointment: |
+      The pioneer, 2026-09-21: "Disappointment is as stated." - the lines given with the draw stand for every
+      guarantee, G-1 to G-5.
+    premortem: |
+      "Pre mortem is if the contract and other work get confusing to either pioneer or agent." - the pioneer,
+      2026-09-21.
+    tier_4: |
+      T-1 (G-1) The contract skill states that the bearing leads and is separable and that the gate is still
+           one stop; a contract drawn in this repository shows that shape.
+      T-2 (G-2) The skill's gate section names exactly three asks; the spec-lock section holds the load-bearing
+           choices and names no specific tool.
+      T-3 (G-3) The script run over this repository's own records lists what waits, oldest first, one line
+           each, with a batch shown as one line carrying no count - and the session-start hook names the task,
+           so nothing waits on the pioneer asking.
+      T-4 (G-3) A fixture whose batch is due: the list says a batch waits and nothing about how many items or
+           which.
+      T-5 (G-4) The three tests and the negative stand in the contract skill.
+      T-6 (G-5) All walks and checks pass; the commit holds only this contract's paths.
+      T-7 (all) An independent agent, given a small task and only the kit's text, draws a contract that leads
+           with the bearing and asks nothing at the gate but the three - without being told this contract
+           exists.
+      untested: whether the list lowers the pioneer's load rather than adding a line they skim, which only use
+           will show; and whether three asks at the gate is the right number, which is what the practice has
+           grown rather than what anyone measured.
+      realigned: none at the gate - the pioneer gave the pre-mortem and let the drawn lines stand, and approved
+           the contract as drawn.
+    red_test: {broke: G-3, went_red: T-4, how: "the waiting list was changed to name how many items a review batch holds; walk-007 state 205 failed, quoting the line it produced - 'a review of what would change the standard is waiting for you: 4 items'; restored, 172 states pass again. The first attempt at this red test did not break the file at all - the edit stopped on an assertion and the walk passed, which looked identical to a passing red test until the broken file was read", date: 2026-09-21}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: f1a80ff7-fa97-4c9a-af1b-c9d531906784
+    observations: [O-079, O-080, O-081]
+    revisions:
+      - what: "T-7 - an independent agent drawing a contract from the text alone - is deferred rather than claimed. It tests whether text written minutes earlier changes behaviour, and running it in the session that wrote the text proves less than it appears to, because the phrasing is still in the writer's head. Named in the results record as deferred with what it needs: a session that has not seen this contract."
+        authorised_by: "no authorisation sought: a test the contract names is not claimed as passed. Recorded so the gap is visible rather than quietly absent."
+        date: 2026-09-21
+        tests_changed: []
+      - what: "The version moves to 0.30 (manifest, template base_kit_version, README, the walk's version states) and the README gains a Contract-022 bullet and a row for the new script. No test of an earlier contract changed - the first contract in some time where nothing earlier had to move."
+        authorised_by: "the standing rule on the version ('bump it.', 2026-09-17) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-21
+        tests_changed: []
+    # Drawn from the workflow drawn with every stop marked, published 2026-09-21, and the pioneer's framing of
+    # what a stop is for. Evidence: meta-mechanisms/tests/results/contract-022-T-1-T-7.md
+    cost: {turns: 2, tokens: null, pioneer_minutes: null}    # messages to the pioneer from approval to implemented; the main session's tokens not measured; minutes not asked - the pioneer does not remember them and the field stays null rather than estimated
+    work_id: null

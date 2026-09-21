@@ -39,7 +39,7 @@ The spec lock turn does this, in order:
 1. **Concept recap** — restate what's locked from prior conversation in two or three sentences. This grounds the spec proposal in agreed context.
 2. **Precedent check** — retrieve precedents for this moment (see The Precedent Check below). A design decided before, on matching facts, is decided.
 3. **Full spec proposal** — present the feature's design at concept level: the headline mechanic, the structure (modules / sections / sub-features), the magnitudes/numbers, the user-facing surface. Use tables when the spec spans many enumerable items; use narrative when the spec is a single mechanism.
-4. **`AskUserQuestion` for 3-4 blocking decisions** — every spec has a few load-bearing choices the user must make. Ask these explicitly via the question tool, with options the user can pick from rather than synthesizing the answer themselves. Mark the option you recommend.
+4. **Put the 3-4 blocking decisions to the pioneer** — every spec has a few load-bearing choices the pioneer must make. Put them explicitly, in whatever way this session allows: a question tool where one exists, otherwise the choices written out, each with what it costs and what it forecloses. Mark the option you recommend. Never name a specific tool as the only way — an agent running without it would degrade this step in silence (contract-022).
 5. **User verdict captured inline** — when answers come back, restate the resulting locked spec in one block. This is the artifact the next turn (the tiers) builds against. **Every answer that departs from your recommended option, or writes its own, is a correction** — record it verbatim before continuing (`grade: option-override`, M-07). Those departures are the most precise record of the pioneer's judgement the lock produces.
 6. **THEN the tiers on execution.** With the spec locked, Tier 1 becomes "what the user experiences when this lands"; Tier 2 becomes "what the system must support to deliver that experience"; Tier 3 becomes "how we build it"; Tier 4 becomes "how we would know it held." The tiers are purely about *how*, not *what*.
 
@@ -64,6 +64,11 @@ Every Tier 1 / 2 / 3 / 4 entry must be derivable from the locked spec. If a Tier
 - **It must be capable of being wrong.** A bearing that cannot be disagreed with cannot steer. It states a change of state, never a list of work. "This contract adds X, Y and Z" is a manifest, not a bearing.
 - **It must expose its bet.** The pull is to phrase it so it sounds obviously right; a maximally agreeable bearing is not neutral, it is inert. Whatever the contract is wagering belongs on the first line.
 - **If the bearing and the tiers disagree, the bearing wins** and the tiers are wrong. It is not a preface.
+- **It is served alone, and first.** The drawn contract opens with the bearing and one line saying that
+  everything below is derived from it, so stopping there costs nothing. It is the most expensive thing in the
+  contract to get wrong and the cheapest to judge — two sentences against four tiers — and a pioneer who reads
+  it buried at the top of a long message is already reading a plan before they have judged its direction. This
+  is presentation, not a second stop: the gate is still one stop (contract-011).
 - **Foundational and feature contracts bear differently.** A foundational contract's bearing says what becomes *governable* — what stops being renegotiated case by case. A feature contract's bearing says what becomes *possible*. Judging the first by the second's measure is the characteristic misreading; see `meta-founding-contract/SKILL.md`.
 
 If the agent finds that the bearing it is about to draw sits outside the founding statement as written, that is a finding to surface, and a useful one (M-24). Proposing that the statement change so the contract fits is not the agent's move — amending is a pioneer act.
@@ -146,9 +151,28 @@ The verifier runs Tier 4 first and judges from prose only what Tier 4 leaves unt
 
 ---
 
+## When a new stop earns its place
+
+Every stop spends the pioneer's attention, and the attention spent on a weak one is taken from the ones that
+matter. Before adding any point at which the work stops and asks them something, all three must hold:
+
+1. **It is expensive or impossible to reverse after this point.** If the work can absorb being wrong here, it
+   can wait for a moment when more is known. A stop placed after production is a review, not a decision.
+2. **The agent genuinely cannot make it.** It needs judgement the standard does not yet hold. If the standard
+   holds it, the agent decides and shows the reasoning — and if the agent keeps needing the pioneer for the
+   same thing, that is the standard missing a rule, not a stop that belongs.
+3. **It can be served in under a page**, with the choices named and what each one costs. A decision that
+   cannot be put that briefly is not ready to be asked; making it briefer is the agent's work, and doing it is
+   most of the value of asking.
+
+And the negative: **a flag that only informs is not a flag.** A count, a progress note, a figure that changed
+— those belong in a closing line, never in something that stops the work and waits.
+
 ## The Approval Gate
 
 After presenting the bearing and Tiers 1–4 — Tier 4 drafted, as the tier says — stop once: ask for the disappointment lines per guarantee, the pre-mortem below, and the approval, in one reply; realign the drafted tests to the lines before recording the entry (contract-012). Do not proceed on silence.
+
+**Those three asks, and nothing else.** A design choice put here arrives beside a direction to judge and tests to disappoint, and those are three different kinds of attention in one message — the most expensive decision in the practice, served under the heaviest load (contract-022). A choice that is genuinely load-bearing belongs in the spec lock, **before** the tiers exist, where it is answered while nothing has been derived from it yet. A choice that is not load-bearing is the agent's to make, with the reasoning shown where the pioneer can overturn it; naming it in Tier 2 as decided-and-why is how it is shown. If a choice surfaces after the tiers are drawn and it is load-bearing, the spec lock was skipped — go back to it rather than smuggling the question into the gate.
 
 **Where the reply gives the pre-mortem and the approval and no line for a guarantee, the pre-mortem's words stand as that guarantee's line.** Record it so on the entry — that none was given and that the pre-mortem stands — and do not ask again. The pioneer's default, 2026-09-19: *"that is fine, the pioneer still has the opportunity to realign at that point."* A line the pioneer does give always wins (contract-015).
 

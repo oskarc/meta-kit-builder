@@ -91,6 +91,18 @@ if [ -f "$ROOT/.claude/kit-upgrade.lock" ]; then
 "
 fi
 
+# What is queued on the PIONEER's decision, at the start of a sitting and never because they asked for it
+# (contract-022 UC-4, P-004). The script says what waits; the agent says it in their words.
+woy="$KIT/meta-mechanisms/checks/waiting-on-you.sh"
+if [ -f "$woy" ]; then
+  wn=$(bash "$woy" "$KIT" 2>/dev/null | head -n1)
+  case "$wn" in
+    "waiting on the pioneer: nothing"|"") : ;;
+    *) lines="${lines}- Things are waiting on the pioneer -> run bash \".claude/skills/meta-mechanisms/checks/waiting-on-you.sh\" and put the list to them in your own words, oldest first, before other work. Say nothing about how many items a review batch holds or which they are.
+" ;;
+  esac
+fi
+
 if [ -z "$lines" ]; then
   body="Kit backlog (session-start hook): clear."
 else

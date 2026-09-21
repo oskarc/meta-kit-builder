@@ -1409,4 +1409,62 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-079
+    date: 2026-09-21
+    source: ser
+    contract_id: contract-022
+    refs: [UC-2, meta-contract-before-execution/SKILL.md]
+    statement: |
+      a stop that carries more than one kind of question costs more than the questions do separately. The gate
+      asked for a direction, for the lines that decide the tests, and - three times in one week - for a choice
+      between design options, all in the message where being wrong costs most. The practice already had the
+      right place for the third: a spec lock, before the tiers exist, where nothing has been derived from the
+      answer yet. The agent skipped it every time because asking at the gate was one fewer stop, which is the
+      wrong economy - fewer stops is not the same as less load.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-080
+    date: 2026-09-21
+    source: ser
+    contract_id: contract-022
+    refs: [UC-1, meta-contract-before-execution/SKILL.md]
+    statement: |
+      the cheapest correction should be the easiest one to make, and it was the hardest. A bearing is two
+      sentences and a wrong one wastes the whole contract; four tiers are an hour of drawing and a wrong one
+      costs a redraw. The bearing arrived at the top of a long message, so by the time the pioneer reached a
+      judgement about direction they were already reading a plan. Ordering is not presentation: what is read
+      first is what gets judged on its own.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-081
+    date: 2026-09-21
+    source: ser
+    contract_id: contract-022
+    refs: [T-4, meta-mechanisms/checks/waiting-on-you.sh]
+    statement: |
+      a red test that does not go red has proved nothing, and it fails silently. The break meant to make the
+      batch line name a count never reached the file - the edit asserted and stopped - and the walk that ran
+      afterwards passed, which read exactly like a passing red test. Only checking the broken file showed it
+      had never been broken. A red test needs its own evidence that the break landed, not just that the suite
+      ran.
+    level_guess: pattern
+    stated_confidence: 0.85
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []
