@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Workflow Challenged</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#F3F1EC; --surface:#FFFFFF; --sunken:#E9E6DF; --ink:#1B1C1A; --muted:#5B5E57; --faint:#8B8E86; --rule:#CFCCC3; --accent:#2E6B6F; --accent-wash:#DDEBEB;
+    --verified:#3C6E47; --verified-wash:#E4EDE6; --corrected:#8A6320; --corrected-wash:#F3EBD9; --open:#9A3A2C; --open-wash:#F5E3DF;
+    --display:"Newsreader",Georgia,serif; --body:"Source Sans 3",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F; --accent:#7FB8BB; --accent-wash:#1B2B2C;
+    --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18; } }
+  :root[data-theme="dark"]{
+    --ground:#171816; --surface:#1F211E; --sunken:#121311; --ink:#E7E6E1; --muted:#A5A79F; --faint:#767A72; --rule:#34372F; --accent:#7FB8BB; --accent-wash:#1B2B2C;
+    --verified:#8CC49A; --verified-wash:#1D2A20; --corrected:#D6B066; --corrected-wash:#2B2415; --open:#E08A7A; --open-wash:#2E1C18; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;padding-block:0 96px;padding-inline:20px}
+  .wrap{max-width:800px;margin:0 auto}
+  header{padding:56px 0 24px;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:12px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  h1{font-family:var(--display);font-size:clamp(34px,6vw,50px);line-height:1.05;font-weight:600;margin:0;text-wrap:balance}
+  .standfirst{font-size:19px;color:var(--muted);margin:0;max-width:64ch}
+  .tally{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:20px}
+  .tally div{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+  .tally .n{font-family:var(--mono);font-size:24px;font-variant-numeric:tabular-nums}
+  .tally .l{font-size:13px;color:var(--muted);line-height:1.3}
+  section{padding-top:44px}
+  h2{font-family:var(--display);font-size:27px;font-weight:600;margin:0 0 8px;text-wrap:balance;line-height:1.15}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  p{margin:0 0 14px;max-width:68ch}
+  code{font-family:var(--mono);font-size:.86em;background:var(--sunken);padding:1px 5px;border-radius:2px}
+  .claim{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--rule);padding:12px 16px;margin-bottom:8px}
+  .claim.v{border-left-color:var(--verified)} .claim.c{border-left-color:var(--corrected)} .claim.o{border-left-color:var(--open)} .claim.j{border-left-color:var(--faint)}
+  .claim h3{font-size:16.5px;font-weight:600;margin:5px 0 4px;line-height:1.4}
+  .claim p{margin:0 0 6px;font-size:15.5px;color:var(--muted);max-width:74ch} .claim p:last-child{margin-bottom:0}
+  .chip{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;font-weight:600;white-space:nowrap}
+  .chip.v{background:var(--verified-wash);color:var(--verified)} .chip.c{background:var(--corrected-wash);color:var(--corrected)} .chip.o{background:var(--open-wash);color:var(--open)} .chip.j{background:var(--sunken);color:var(--muted)}
+  .src{font-size:13.5px;color:var(--faint)}
+  .tbl{overflow-x:auto;margin:14px 0 6px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:640px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--ink)}
+  tbody tr:last-child td{border-bottom:none}
+  td.num{font-family:var(--mono);color:var(--faint);width:2.2em}
+  ul{margin:0 0 14px;padding-left:22px;max-width:68ch} li{margin-bottom:6px}
+  blockquote{margin:0 0 14px;padding:10px 16px;border-left:3px solid var(--accent);background:var(--surface);font-size:15.5px;max-width:70ch}
+  figure{margin:18px 0 8px}
+  .fig{overflow-x:auto;background:var(--surface);border:1px solid var(--rule);padding:10px}
+  .fig svg{display:block;min-width:900px;width:100%;height:auto;color:var(--ink)}
+  figcaption{font-size:14px;color:var(--muted);margin-top:8px;max-width:72ch}
+  svg .bx{fill:var(--surface);stroke:var(--ink);stroke-width:1.2}
+  svg .bx-strong{fill:var(--accent-wash);stroke:var(--accent);stroke-width:1.6}
+  svg .bx-idle{fill:var(--sunken);stroke:var(--rule);stroke-width:1.2}
+  svg .t{font-family:var(--body);font-size:13px;font-weight:600;fill:var(--ink)}
+  svg .s{font-family:var(--body);font-size:11.5px;fill:var(--muted)}
+  svg .m{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+  svg .mi{font-family:var(--mono);font-size:11px;fill:var(--faint)}
+  svg .la{font-family:var(--body);font-size:12px;fill:var(--accent);font-weight:600}
+  svg .lo{font-family:var(--body);font-size:12px;fill:var(--open);font-weight:600}
+  svg .lm{font-family:var(--body);font-size:12px;fill:var(--muted)}
+  svg .ar-a{stroke:var(--accent);fill:none} svg .ar-m{stroke:var(--faint);fill:none} svg .ar-o{stroke:var(--open);fill:none}
+  svg .hd-a{fill:var(--accent)} svg .hd-m{fill:var(--faint)} svg .hd-o{fill:var(--open)}
+  .skel td{font-size:13.5px;line-height:1.35}
+  .skel td.same{color:var(--faint);font-style:italic}
+  .skel td.chg{background:var(--accent-wash);color:var(--ink)}
+  .skel th.opt, .skel td.opt{font-weight:600;white-space:nowrap}
+  .foot{margin-top:52px;padding-top:14px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--muted)}
+  .foot p{max-width:none}
+</style>
+</head>
+<body><div class="wrap">
+
+<header>
+  <div class="eyebrow">report-006 · analysis report · base building kit · 2026-09-22</div>
+  <h1>The workflow, challenged</h1>
+  <p class="standfirst">Every skill and agent in the kit was read again in full, its records were counted by command, the downstream project's two days of running it were re-read, and twelve pages of outside practice were read first-hand — one of them tested live. The front of the workflow has carried everything that ever changed the standard. The back of it has never carried anything, in any project. And several of the kit's heaviest parts are hand-built versions of things that already exist.</p>
+  <div class="tally">
+    <div><span class="n">15</span><span class="l">parts of the workflow examined</span></div>
+    <div><span class="n">4</span><span class="l">holding, with evidence that they work</span></div>
+    <div><span class="n">3</span><span class="l">never run to their end, anywhere</span></div>
+    <div><span class="n">8</span><span class="l">weak</span></div>
+    <div><span class="n">9</span><span class="l">where a better-solved answer exists</span></div>
+    <div><span class="n">5</span><span class="l">things that are the kit's own</span></div>
+    <div><span class="n">5</span><span class="l">earlier claims corrected</span></div>
+    <div><span class="n">0</span><span class="l">built — nothing in the kit was changed</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="kicker">what was done</div>
+  <h2>Guesses written down first, then everything read, then one test</h2>
+  <p>Ten guesses about where the workflow is weak were written down before any evidence was gathered, so that the evidence could contradict them; two of them did not survive as written, and are the first corrections below. Then: all eighteen skills, the three always-loaded files, the eight agents, the roadmap and the fifth report, read in full; this repository's records counted by command; the downstream project's report on two days of running the kit re-read in full; the earlier research synthesis re-read. Outside the kit, each page was fetched and read, not remembered: the documentation of the program the kit runs inside (plugins, plugin testing, skills, memory), GitHub's Spec Kit, Kiro's specs and steering, Devin's knowledge feature, Nygard on decision records, Thoughtworks on fitness functions, Spotify on golden paths. One live test was run, in a throwaway folder that could not reach any other repository.</p>
+  <p>What was not re-read this pass: the hook and check scripts line by line (their shape is taken from the mechanisms skill, which was), the guide page, and reports one to four.</p>
+</section>
+
+<section>
+  <div class="kicker">corrected first</div>
+  <h2>Five claims that did not survive being checked</h2>
+  <p>Four are mine, from this pass's own working notes. The fifth is the kit's.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Claimed</th><th>What the check showed</th></tr></thead>
+    <tbody>
+      <tr><td>A kit shipped as a plugin could not keep its agents blind, because the program does not let a plugin's agent carry its own guard.</td><td><span class="chip c">corrected</span> Half right. In the live test the agent's own guard never fired — the documented limit holds. But the plugin's guard fired <em>inside</em> the agent and was handed the agent's name. One guard that looks at which agent is calling can do what eight separate guards do today.</td></tr>
+      <tr><td>The rule for counting independent evidence asks for more evidence than one pioneer can produce.</td><td><span class="chip c">corrected</span> The kit already removed its computed threshold (the contract called "the subtraction") and now asks for a single sighting. What starves the route is what flows into it: 78 of the 88 observations in this ledger are the agent's own reflections, which by the kit's own rule can never move a learning forward alone.</td></tr>
+      <tr><td>28 corrections still waiting for the clerk show that route failing.</td><td><span class="chip c">corrected</span> No hook has ever fired in this repository: it is the base, and its lifecycle is switched off by design. The count says "never exercised here", not "fails". Downstream the clerk ran and wrote 24 precedents.</td></tr>
+      <tr><td>What the work costs the pioneer has never been measured.</td><td><span class="chip c">corrected</span> Seven of the 23 contracts carry the minutes the pioneer reported, from 5 to 180. None has since 19 September, and the main session's token cost has never been recorded.</td></tr>
+      <tr><td>The kit's own rule: every approved contract is also published as a page and stored in the repository.</td><td><span class="chip c">corrected</span> All five reports were. Of the 23 contracts, none was. I drew the last six and never noticed; nobody missed the pages. Either the rule is drift nobody caught, or it is a rule that does not earn its place — the evidence supports both readings, and which one is the pioneer's call.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="kicker">the mechanism, drawn</div>
+  <h2>Where the work has actually travelled</h2>
+  <figure>
+    <div class="fig">
+    <svg viewBox="0 0 1080 470" role="img" aria-label="The kit's workflow drawn as a loop. The top row - a request, the gate, the build, the records - carried all 23 contracts. The bottom row, the lifecycle that should carry learnings back into the standard, has carried almost nothing, and its closing step, adopting a learning into a skill, has never been travelled in any project. Two shortcuts did carry something: corrections became the next contract, and precedents bind at the gate.">
+      <defs>
+        <marker id="ha" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path class="hd-a" d="M0,0 L9,4.5 L0,9 z"/></marker>
+        <marker id="hm" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path class="hd-m" d="M0,0 L8,4 L0,8 z"/></marker>
+        <marker id="ho" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto"><path class="hd-o" d="M0,0 L9,4.5 L0,9 z"/></marker>
+      </defs>
+
+      <!-- the return arc over the top -->
+      <path class="ar-a" stroke-width="3" d="M951,70 L951,30 L123,30 L123,62" marker-end="url(#ha)"/>
+      <text class="la" x="537" y="21" text-anchor="middle">a correction becomes the next contract — 15 of the 23 contracts name one</text>
+
+      <!-- top row -->
+      <rect class="bx-strong" x="18" y="70" width="210" height="74"/>
+      <text class="t" x="123" y="95" text-anchor="middle">A request</text>
+      <text class="s" x="123" y="113" text-anchor="middle">the pioneer asks; or a correction,</text>
+      <text class="s" x="123" y="128" text-anchor="middle">a review, a downstream report</text>
+
+      <rect class="bx-strong" x="294" y="70" width="210" height="74"/>
+      <text class="t" x="399" y="95" text-anchor="middle">The gate</text>
+      <text class="s" x="399" y="113" text-anchor="middle">direction first, the plan, tests,</text>
+      <text class="s" x="399" y="128" text-anchor="middle">"what went wrong?", approval</text>
+
+      <rect class="bx-strong" x="570" y="70" width="210" height="74"/>
+      <text class="t" x="675" y="95" text-anchor="middle">The build</text>
+      <text class="s" x="675" y="113" text-anchor="middle">one test seen to fail on purpose;</text>
+      <text class="s" x="675" y="128" text-anchor="middle">live tests with real agents</text>
+
+      <rect class="bx-strong" x="846" y="70" width="210" height="74"/>
+      <text class="t" x="951" y="95" text-anchor="middle">The records</text>
+      <text class="s" x="951" y="113" text-anchor="middle">36 corrections, word for word</text>
+      <text class="s" x="951" y="128" text-anchor="middle">88 observations</text>
+
+      <path class="ar-a" stroke-width="4" d="M228,107 L286,107" marker-end="url(#ha)"/>
+      <path class="ar-a" stroke-width="4" d="M504,107 L562,107" marker-end="url(#ha)"/>
+      <path class="ar-a" stroke-width="4" d="M780,107 L838,107" marker-end="url(#ha)"/>
+      <text class="m" x="257" y="98" text-anchor="middle">23</text>
+      <text class="m" x="533" y="98" text-anchor="middle">23</text>
+      <text class="m" x="809" y="98" text-anchor="middle">23</text>
+
+      <!-- hand-down on the right -->
+      <path class="ar-m" stroke-width="1.4" d="M1002,144 L1002,322" marker-end="url(#hm)"/>
+      <text class="lm" x="992" y="226" text-anchor="end">handed to the lifecycle,</text>
+      <text class="lm" x="992" y="242" text-anchor="end">one chore at the end of a turn</text>
+
+      <!-- precedents bind at the gate -->
+      <path class="ar-a" stroke-width="3" d="M474,330 L474,152" marker-end="url(#ha)"/>
+      <text class="la" x="486" y="226">precedents bind at the gate</text>
+      <text class="la" x="486" y="242">— cited 2 to 29 times each</text>
+
+      <!-- the closing step, never travelled -->
+      <path class="ar-o" stroke-width="2.4" stroke-dasharray="7 6" d="M210,330 L210,152" marker-end="url(#ho)"/>
+      <text class="lo" x="222" y="226">the step that closes the loop:</text>
+      <text class="lo" x="222" y="242">never travelled, in any project</text>
+
+      <!-- bottom row, right to left -->
+      <rect class="bx-idle" x="944" y="330" width="116" height="64"/>
+      <text class="t" x="1002" y="356" text-anchor="middle">Audit</text>
+      <text class="mi" x="1002" y="376" text-anchor="middle">0 here</text>
+
+      <rect class="bx" x="812" y="330" width="116" height="64"/>
+      <text class="t" x="870" y="356" text-anchor="middle">Verify</text>
+      <text class="m" x="870" y="376" text-anchor="middle">9 contracts</text>
+
+      <rect class="bx-idle" x="680" y="330" width="116" height="64"/>
+      <text class="t" x="738" y="356" text-anchor="middle">Consolidate</text>
+      <text class="mi" x="738" y="376" text-anchor="middle">0 learnings held</text>
+
+      <rect class="bx-idle" x="548" y="330" width="116" height="64"/>
+      <text class="t" x="606" y="356" text-anchor="middle">Learning diff</text>
+      <text class="mi" x="606" y="376" text-anchor="middle">0</text>
+
+      <rect class="bx" x="416" y="330" width="116" height="64"/>
+      <text class="t" x="474" y="356" text-anchor="middle">Clerk</text>
+      <text class="m" x="474" y="376" text-anchor="middle">8 precedents</text>
+
+      <rect class="bx-idle" x="284" y="330" width="116" height="64"/>
+      <text class="t" x="342" y="356" text-anchor="middle">Review batch</text>
+      <text class="mi" x="342" y="376" text-anchor="middle">0</text>
+
+      <rect class="bx-idle" x="152" y="330" width="116" height="64"/>
+      <text class="t" x="210" y="356" text-anchor="middle">Adopt into a skill</text>
+      <text class="mi" x="210" y="376" text-anchor="middle">0</text>
+
+      <rect class="bx-idle" x="20" y="330" width="116" height="64"/>
+      <text class="t" x="78" y="356" text-anchor="middle">Extract</text>
+      <text class="mi" x="78" y="376" text-anchor="middle">0</text>
+
+      <path class="ar-m" stroke-width="1.3" d="M944,362 L934,362" marker-end="url(#hm)"/>
+      <path class="ar-m" stroke-width="1.3" d="M812,362 L802,362" marker-end="url(#hm)"/>
+      <path class="ar-m" stroke-width="1.3" d="M680,362 L670,362" marker-end="url(#hm)"/>
+      <path class="ar-m" stroke-width="1.3" d="M548,362 L538,362" marker-end="url(#hm)"/>
+      <path class="ar-m" stroke-width="1.3" d="M416,362 L406,362" marker-end="url(#hm)"/>
+      <path class="ar-o" stroke-width="1.6" stroke-dasharray="3 3" d="M284,362 L274,362" marker-end="url(#ho)"/>
+      <path class="ar-m" stroke-width="1.3" stroke-dasharray="3 3" d="M152,362 L142,362" marker-end="url(#hm)"/>
+
+      <!-- notes under the bottom row -->
+      <text class="s" x="1002" y="414" text-anchor="middle">never run here;</text>
+      <text class="s" x="1002" y="429" text-anchor="middle">ran downstream</text>
+      <text class="s" x="870" y="414" text-anchor="middle">its findings became</text>
+      <text class="s" x="870" y="429" text-anchor="middle">two contracts</text>
+      <text class="s" x="738" y="414" text-anchor="middle">downstream: 51 held,</text>
+      <text class="s" x="738" y="429" text-anchor="middle">7 ready, 0 adopted</text>
+      <text class="s" x="474" y="414" text-anchor="middle">once here, by hand;</text>
+      <text class="s" x="474" y="429" text-anchor="middle">24 downstream</text>
+      <text class="s" x="342" y="414" text-anchor="middle">could not be built</text>
+      <text class="s" x="342" y="429" text-anchor="middle">for four releases</text>
+      <text class="s" x="144" y="414" text-anchor="middle">"byte-identical to the day</text>
+      <text class="s" x="144" y="429" text-anchor="middle">it was installed"</text>
+    </svg>
+    </div>
+    <figcaption>The workflow as a loop. Filled boxes and heavy arrows carried work; grey boxes never did in this repository. The dashed red arrow is the absent edge: no learning has ever travelled from a review batch into a skill, here or downstream. What did come back is the two heavy arrows that skip the bottom row.</figcaption>
+  </figure>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>Everything that changed the standard here came through the front gate.</h3><p>23 contracts in eleven days, all through the gate. By a word search of each contract's own entry: 15 name a recorded correction, 9 name the downstream project, 7 name one of the five review reports. None came from the ledger, which holds no learning to come from.</p><p class="src">Source: the contract log and the ledger, counted by command. The word search is a match on each entry's text, not a reading of each.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>The back half of the learning loop has never completed, in any project.</h3><p>Here: no audit, no held learning, no review batch, no learning diff — expected, since the base never runs its own lifecycle. Downstream it ran further than ever before and, in that project's own words, "empties into a room with no door": 51 learnings held, 7 ready for the pioneer, no batch, nothing adopted, the standard "byte-identical to the day it was installed".</p><p class="src">Source: this repository's records; the downstream report, as it states them.</p></div>
+
+  <div class="claim o"><span class="chip o">open</span><h3>Whether the back half works once it can run.</h3><p>It could not: for four releases the batch step was told to write a file the program underneath refuses. That was repaired in the release pushed on 21 September, and the pioneer is testing it now. The loop has not yet had a fair run, so this report calls it unproven and not failed.</p></div>
+
+  <div class="claim j"><span class="chip j">judgement</span><h3>Even running perfectly, the route is thin by the way it is built.</h3><p>A held learning is loaded nowhere, so no contract cites it, so the verifier can never confirm it. What can move it is an audit finding, a learning diff, or the pioneer saying the same thing again — and each needs an agent to judge that two differently worded sentences are one claim. The agent's own reflections, 78 of 88 here, cannot move at all. And the pioneer's own new statement waits for a second sighting before the kit asks them about it — while the precedent written from the very same words binds at once. The machinery's weight sits on the input the kit trusts least, and delays the input it trusts most.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>Three fast lanes already exist, and they carried everything.</h3><p>A precedent binds the moment the clerk writes it: the eight here are cited between 2 and 29 times each in later contracts. A correction becomes a contract the same day or the next. And outside the kit altogether, the program's own memory took seven of the pioneer's corrections as standing guidance on the day each was given — no lamplighting, plain findings, no local references, never write into another repository among them. That last lane is written by the agent with nobody's approval, lives on one machine outside the repository, and does not travel; it is evidence that prompt adoption is useful, not a route the kit should trust as it stands.</p><p class="src">Source: the casebook and contract log by command; the memory folder listed; the program's documentation: "notes Claude writes itself based on your corrections and preferences" · "Auto memory is machine-local."</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>What the loop has been learning about is the practice, not the product.</h3><p>Downstream, 23 of 24 precedents cannot be turned into a check because they are about how the agent and the pioneer work together, and the eight corrections that became proposals for the standard were, in that report's own reading, breaches of rules the skills already state — adherence evidence, filed as new learning. The founding statement names something else as the standard: patterns, logging, error handling. In the evidence I have, no project has yet produced one such rule through the kit.</p><p class="src">Source: the downstream report; the founding statement. Limit: I have seen reports from one downstream project only.</p></div>
+</section>
+
+<section>
+  <div class="kicker">the fifteen parts</div>
+  <h2>What holds, what has never run, what is weak</h2>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>Part of the workflow</th><th>What the evidence says</th><th>State</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>The gate before any build: direction first, the plan, tests, "it shipped and was a mistake — what went wrong?", approval</td><td>All 23 contracts went through it. Every realignment on record happened there, most of them from that one question.</td><td><span class="chip v">holding</span></td></tr>
+      <tr><td class="num">2</td><td>Corrections kept word for word, and the precedents drawn from them that bind later work</td><td>36 corrections; 8 precedents, the most-used record in the kit.</td><td><span class="chip v">holding</span></td></tr>
+      <tr><td class="num">3</td><td>Checking from outside the builder: the verifier, the test seen to fail, agents given only the text, live tests</td><td>The verifier's findings became two contracts. In the last contract the deliberate break showed a test looking at the easy half, and a live test caught a procedure written an hour earlier numbering a record wrongly. Limit the kit states itself: every checker is the builder's own model family.</td><td><span class="chip v">holding</span></td></tr>
+      <tr><td class="num">4</td><td>Whole-kit reviews, and a downstream project's reports coming back upstream</td><td>Found the nineteen contradictions; nine downstream findings fixed within two days. The most productive fault-finder on record — and not a step of the workflow at all. It happens when the pioneer asks.</td><td><span class="chip v">holding</span></td></tr>
+      <tr><td class="num">5</td><td>Observations, held learnings, the review batch, adoption into a skill</td><td>Never completed anywhere. See the figure.</td><td><span class="chip o">never run</span></td></tr>
+      <tr><td class="num">6</td><td>The blind, the sealed key, and showing the pioneer an old decision again unmarked</td><td>Starts at a project's fourth batch. No project has reached its first. Eleven of the 23 contracts mention it, six of them at length, and it caused the four-release jam; the kit itself says it is "not a security boundary".</td><td><span class="chip o">never run</span></td></tr>
+      <tr><td class="num">7</td><td>The map: a table from situations to skills, always loaded, with a steward and firing records to tune it</td><td>31 entries, every one still "proposed". The steward has never run and the firing records have never been read. Whether it earns its 7 KB in every turn is unknown.</td><td><span class="chip o">never run</span></td></tr>
+      <tr><td class="num">8</td><td>The lifecycle's chores scheduled inside the pioneer's working conversation</td><td>Three of the last five contracts were largely repairs to this scheduling: chores that could not end, agents that died silently, a helper agent holding the queue, two agents on one file.</td><td><span class="chip c">weak</span></td></tr>
+      <tr><td class="num">9</td><td>Agents doing clerk's work by hand-editing long records</td><td>Downstream, four agents ran out of turns eight times with the work done and nothing written; what exhausted them was reading records. Here a scribe made nine reads and no edit. The kit's own rule says mechanical work becomes a script.</td><td><span class="chip c">weak</span></td></tr>
+      <tr><td class="num">10</td><td>Install and upgrade</td><td>8 of 23 contracts. More than half of the install skill's 77 KB is the upgrade procedure; 766 of 1,449 lines of check scripts serve install and upgrade only.</td><td><span class="chip c">weak</span></td></tr>
+      <tr><td class="num">11</td><td>Records: one growing file per kind, read by hand-written text matching</td><td>The contract log is 400 KB after eleven days, about 17 KB a contract. An index script exists because agents could not read the records. The manifest is not valid in its own format, and nothing checks a record against the keys the hooks read.</td><td><span class="chip c">weak</span></td></tr>
+      <tr><td class="num">12</td><td>The first day in a new project</td><td>A project receives eighteen skills about the practice and not one line of product standard. The standard "starts empty and is discovered through use", through one channel only: corrections during work.</td><td><span class="chip c">weak</span></td></tr>
+      <tr><td class="num">13</td><td>One weight of contract for every change</td><td>The last contract carried eighteen repairs in one, to make the ceremony bearable. The per-guarantee question is mostly answered "same as it says"; the single "what went wrong?" question is what realigns.</td><td><span class="chip c">weak</span></td></tr>
+      <tr><td class="num">14</td><td>From a project's own plan to a contract</td><td>Downstream, a phase read "implemented" for two days with three gaps no clause had named, until the pioneer asked what the roadmap said. The kit has a place for what a project <em>is</em> and none for what it <em>plans</em>.</td><td><span class="chip c">weak</span></td></tr>
+      <tr><td class="num">15</td><td>Knowing what the practice costs the pioneer</td><td>Minutes on 7 of 23 contracts, none since 19 September; tokens never. 17 interventions in two days downstream; 36 corrections in eleven days here.</td><td><span class="chip c">weak</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="src">Measured by command in this repository: of the kit's 405 KB of skill and agent text, 35% serves parts 1 to 4. The grouping is mine; the byte counts are not.</p>
+</section>
+
+<section>
+  <div class="kicker">hand-built here, carried elsewhere</div>
+  <h2>Nine places where the problem already has a better answer</h2>
+
+  <div class="claim v"><span class="chip v">verified · tested live</span><h3>Getting the kit into a project and keeping it current — the program the kit runs inside already does this.</h3><p>It ships plugins: a versioned bundle of skills, agents, hooks and scripts, kept outside the project and updated by the program. The kit's upgrade procedure is long because kit text and project records share folders and because a project may edit the kit's own skills — which the pioneer's standing ruling says a project is not meant to do. A plugin makes that ruling true by construction: the kit's text is simply not the project's to edit, and an upgrade is the program replacing a folder. The fifth report already named the shared folders as the root cause and parked it; what is new is that the carrier exists and was tested.</p><p>Seen first-hand, in a throwaway folder: a plugin loaded for one session with nothing installed; its start-of-session hook put always-loaded text into the session from a file inside the plugin; its skill and its agent were listed and used under the plugin's name; its hooks fired inside its agent and were told which agent was calling. Limits, also seen: the agent's own guard never fired, so the kit's eight per-agent guards would have to become one; and the storage folder a plugin is given sits in the user's home, shared by every project, so a project's records cannot live there.</p><p class="src">Source: the plugin documentation ("versioned releases, reusable across projects"; "plugin-shipped agents don't support hooks, mcpServers, or permissionMode"); one live test on one version and one machine. Not tried: installing or updating through a marketplace.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>Records — everyone else keeps one file per entry.</h3><p>Decision records: "We will keep ADRs in the project repository under doc/arch/adr-NNN.md", "numbered sequentially and monotonically. Numbers will not be reused", each "one or two pages long". A reader then opens one small file, changes show up cleanly in version control, "commit each contract alone" comes free, and no index script is needed. The hooks' search for a status would become a search across a folder.</p><p class="src">Source: Nygard. I believed Spec Kit and Kiro also keep a folder per feature; their pages, as fetched, do not say where the files live, so they are not cited for this.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>A learning reaching the standard — the working form elsewhere is: suggest, let the person edit, save.</h3><p>Devin: "Devin will automatically suggest Knowledge to remember based on your feedback in chat. Edit the suggested Knowledge before saving, or dismiss." The program's own memory does it with no approval at all. Nobody ships held evidence, blind batches or old decisions shown again. The kit's reasons for caution are real for the <em>agent's</em> proposals — a rule in context confirms itself. They do not apply to the pioneer's own words, which is where the kit's rules already make an exception and its machinery does not.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>The first day — the program seeds a project's conventions from its code, and asks the person to correct them.</h3><p>"Claude analyzes your codebase and creates a file with build commands, test instructions, and project conventions it discovers"; the newer flow "fills in gaps via follow-up questions, and presents a reviewable proposal before writing any files." Rules can be scoped to file types, one topic per file. Spotify's golden path is the same idea for whole projects: "the 'opinionated and supported' path", so that engineers "have fewer decisions to make". In an existing codebase the unwritten standard is already in the pioneer's best files. Reading those and asking "is this the rule?" is also a way to draw corrections out on day one — which is the kit's own best instrument, pointed at the product for once.</p><p class="src">Caution from the kit's own research: context an agent writes unreviewed makes work worse. Seeding only helps if every line ends up the pioneer's.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>The map — the program already lists every skill's "use when" line in every turn.</h3><p>Skills can also be limited to file patterns, and a built-in report shows "what each of your skills costs and how often it gets used". Today four places must agree for one skill to be found: its description, its header line, its map entry, and its manifest node. The kit's research-backed reason for <em>forcing</em> the agent to name the situation each turn stands. It is the separate table that duplicates what is already there.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>One weight for every change — others scale the ceremony.</h3><p>Decision records are kept only for "architecturally significant" decisions and run "one or two pages". Kiro has one kind of spec for a feature and another for fixing a bug. The parts of the gate with evidence behind them are the cheap ones: the direction in two sentences, the precedent check, the one hard question, the test seen to fail.</p></div>
+
+  <div class="claim v"><span class="chip v">verified</span><h3>From plan to work — Spec Kit and Kiro keep the chain in the repository.</h3><p>Requirements with acceptance criteria, then a design, then a task list the agent works down. The kit draws each contract's first tier fresh, and nothing holds a contract against the project's own plan.</p></div>
+
+  <div class="claim v"><span class="chip v">verified · not available here</span><h3>Testing the kit with real agents — the program's newer versions ship exactly the proving ground the roadmap asks for.</h3><p>"For each run of a case, Claude Code starts a fresh, isolated non-interactive session with only your plugin loaded"; three runs with the plugin and three without, because "a high score on its own doesn't tell you the plugin helped"; writes confined to the run's folder; nothing personal loaded. My own live tests were one sample each, hand-isolated, and one of them wrote into another repository before I isolated them. This tool needs the kit to be a plugin, and is not in the version installed on this machine.</p></div>
+
+  <div class="claim o"><span class="chip o">open — not read this round</span><h3>Chores inside the conversation — ordinary practice runs them somewhere else.</h3><p>The kit's agents are designed to know nothing of the working session, yet they are scheduled by it, one chore per turn, in the pioneer's own context. Build pipelines and background jobs are the ordinary answer, and the thing I used to test the last contract — kit agents run unattended in their own sessions — is already that, in embryo. I did not read outside sources on this for this report, and an unattended session with every permission is exactly what went wrong on 21 September.</p></div>
+</section>
+
+<section>
+  <div class="kicker">verified as lineage</div>
+  <h2>Five things that are the kit's own</h2>
+  <p>Each has cousins elsewhere; none of the cousins does what the kit's version does, and four of the five are where the evidence of value is.</p>
+  <ul>
+    <li><strong>Precedents that bind, with their facts kept, and a duty to say how the facts differ.</strong> Decision records keep the decision; they do not bind the next one. The kit's own research found binding is the part that works.</li>
+    <li><strong>The direction served alone in two sentences, the question "it shipped and was a mistake — what went wrong?", and one test seen to fail.</strong> Spec Kit and Kiro have specs and reviews; neither has these three.</li>
+    <li><strong>The pioneer's correction recorded word for word, with three questions about the incident.</strong> Others record the lesson; the kit records the judgement.</li>
+    <li><strong>How the pioneer is met</strong> — nothing reaches them that they must translate, one question at a time, and the four closing questions. No counterpart found.</li>
+    <li><strong>Honest records as a habit</strong> — what was not checked, figures only from commands, "this cannot be done" said aloud. Found in no tool read.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="kicker">options, as differences</div>
+  <h2>Five moves against one skeleton</h2>
+  <p>The top row is the workflow as it stands. Each row below changes only the shaded cells. They combine; none is drawn as a contract.</p>
+  <div class="tbl"><table class="skel">
+    <thead><tr><th class="opt"></th><th>How the kit arrives</th><th>Where records live</th><th>The gate</th><th>Who runs the chores</th><th>How a learning reaches the standard</th><th>How the product standard starts</th></tr></thead>
+    <tbody>
+      <tr><td class="opt">As it stands</td><td>copied into the project's folders; upgraded by a long procedure</td><td>beside the kit's text; one growing file per kind</td><td>one weight for every change</td><td>the working conversation, one chore per turn</td><td>held, evidenced, batched, revealed, adopted</td><td>empty; discovered through corrections</td></tr>
+      <tr><td class="opt">A · Run it once</td><td class="same">as now</td><td class="same">as now</td><td class="same">as now</td><td class="same">as now</td><td class="chg">unchanged — but taken through one whole cycle in a real project, with what to look for written down first</td><td class="same">as now</td></tr>
+      <tr><td class="opt">B · Two speeds</td><td class="same">as now</td><td class="same">as now</td><td class="chg">a light form for small repairs: direction, what changes, one test, approval</td><td class="chg">copying, counting and sealing become scripts; agents keep the judging</td><td class="chg">the pioneer's own words and verified diffs are put to them at once, as a batch of one; the agent's reflections stay as notes; the blind, the seal and re-showing are parked until a project reaches its fourth batch</td><td class="same">as now</td></tr>
+      <tr><td class="opt">C · Program apart from records</td><td class="chg">a plugin, versioned and updated by the program</td><td class="chg">a plain folder of the project's own, one file per entry</td><td class="same">as now</td><td class="chg">one guard that looks at which agent is calling</td><td class="same">as now</td><td class="same">as now</td></tr>
+      <tr><td class="opt">D · Seed the standard</td><td class="same">as now</td><td class="same">as now</td><td class="same">as now</td><td class="same">as now</td><td class="same">as now</td><td class="chg">the agent reads the project's best files, states the rules it sees, the pioneer corrects; each confirmed rule lands as text, and as a check where a script can decide it</td></tr>
+      <tr><td class="opt">E · Chores outside</td><td class="same">as now</td><td class="same">as now</td><td class="same">as now</td><td class="chg">a separate unattended pass; the working session hears only what waits on the pioneer</td><td class="same">as now</td><td class="same">as now</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>What it removes</th><th>What it costs</th><th>What it risks or closes off</th><th>What stands behind it</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A</strong></td><td>Nothing. It removes a doubt: whether the back half works.</td><td>Little — it is already under way.</td><td>More jams, and so more repair contracts: 8 of the 23 so far were that.</td><td>Fairness. The loop has not had one clean run.</td></tr>
+      <tr><td><strong>B</strong></td><td>Most of the surface where the lifecycle jams; the wait between the pioneer saying something and the kit asking them about it.</td><td>Medium. Mostly subtraction; the rules already allow a batch of one.</td><td>Gives up the protection against the agent's own proposals confirming themselves — which, as built, almost none of them get far enough to need.</td><td>The figure above; the downstream report; how every other tool read does it.</td></tr>
+      <tr><td><strong>C</strong></td><td>Most of the upgrade procedure, its seven scripts, the template rule, the merges of skill text, and the refusals that come from writing records inside the program's protected folder.</td><td>High. A migration for every installed project; the downstream project has edited kit skills.</td><td>Ties the kit to a feature newer than some installs. Seen on one version, one machine. Installing through a marketplace untried.</td><td>The fifth report's root cause; the live test; the pioneer's ruling that kit skills are not a project's to edit.</td></tr>
+      <tr><td><strong>D</strong></td><td>The empty first day; the gap between what the founding statement names and what the loop has been learning about.</td><td>Medium. One new skill and no new mechanism.</td><td>Agent-written rules do harm unless the pioneer truly owns each line. It must be statement first and pioneer-corrected, never drafted and rubber-stamped.</td><td>The founding statement; the program's own seeding flow; golden paths.</td></tr>
+      <tr><td><strong>E</strong></td><td>The interleaving of chores with the pioneer's work; the queue, the hold and the silent-agent handling in the end-of-turn gate.</td><td>Medium to high.</td><td>Unattended sessions with every permission — the incident of 21 September — and spending the pioneer does not see.</td><td>The repair pattern of three of the last five contracts; my own test harness. The outside half was not read.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="kicker">what was not answered</div>
+  <h2>Seven things this pass could not close</h2>
+  <ul>
+    <li><strong>Whether the back half of the loop works when it runs.</strong> No completed cycle exists anywhere to look at.</li>
+    <li><strong>Whether the map earns its place.</strong> It has never been evaluated; only a comparison with and without it would say.</li>
+    <li><strong>Whether a plugin-carried kit survives real installing and updating,</strong> on other versions and systems. One sample each, one machine. The plugin testing tool is not in the installed version and was not tried.</li>
+    <li><strong>What the practice costs the pioneer.</strong> The record stops on 19 September.</li>
+    <li><strong>Whether another pioneer or another project would show the same picture.</strong> One upstream, one downstream.</li>
+    <li><strong>Not read:</strong> BMAD, OpenSpec, Tessl, agent-os, Cursor's rules and memories, Copilot's instructions; tracing requirements to work as a discipline of its own; outside sources on running chores outside the conversation. One thing I expected to find and did not: Kiro's page does not say its steering files are generated from the codebase, so this report does not cite it for that.</li>
+    <li><strong>Who is judging.</strong> The same model family as every agent in the kit, and I built the last six contracts. Fetched pages came back through a summarising reader; quotations were asked for word for word and were not checked a second time against the raw page, except the two pages saved whole.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="kicker">recommendation · judgement</div>
+  <h2>An order, not a pick</h2>
+  <p><strong>A first, and it is already happening</strong> — but with a line drawn in advance. Before the first full cycle in the project now being tested, write down what would count against the back half: a first batch made mostly of the pioneer's own words coming back late, or of breaches of rules already written. If that is what arrives, it is the evidence for B, and B is mostly subtraction.</p>
+  <p><strong>Then D</strong>, because it is the only move aimed at what the founding statement says the kit is for, and it needs no new mechanism — it needs the gate, the correction record and the clerk, which are the parts that hold.</p>
+  <p><strong>C is the largest saving and the largest move.</strong> Eight contracts went into carrying the kit into projects by hand. I would decide it on purpose, after a small trial that goes one step beyond the live test — the kit's real hooks and one real agent loaded as a plugin in a throwaway project — and not drift into a ninth repair of the installer. <strong>E</strong> only if the end-of-turn gate keeps needing repairs.</p>
+  <p>What none of these touches: downstream, twelve of seventeen failures had no shape a script could test, and the pioneer's ruling on them was "a stronger adherence to the practice, not a new contract or a new solution." The only thing this report offers there is room. Two thirds of the kit's text serves parts that have never run to their end or that exist elsewhere, and every page of procedure competes for the agent's attention with the few rules that matter. A smaller kit is easier to adhere to.</p>
+</section>
+
+<div class="foot">
+  <p>Sources, read 21–22 September 2026: the kit's eighteen skills, three always-loaded files and eight agents, in full; the contract log, corrections, ledger, casebook and learning log, by command; the downstream project's report on two days of running the kit; the cross-round research synthesis of 14 September; the program's documentation on plugins, the plugin reference, plugin testing, skills and memory; GitHub Spec Kit; Kiro on specs and steering; Devin on knowledge; Nygard, "Documenting Architecture Decisions"; Thoughtworks, "Fitness function-driven development"; Spotify on golden paths. One live test on Claude Code 2.1.170, isolated, its guard seen to refuse before the test ran. Not a contract. Nothing in the kit was changed.</p>
+</div>
+
+</div></body>
+</html>

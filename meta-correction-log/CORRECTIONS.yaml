@@ -1202,6 +1202,70 @@ corrections:
       message and made: the fifteen lines were removed and that repository's diff against its last commit was
       empty afterwards.
 
+  - corr_id: C-037
+    date: 2026-09-22
+    contract_id: report-006
+    moment: M-25
+    grade: decline
+    intervention: reviewed-after
+    agent_offered: |
+      Report-006 put five moves to the pioneer and recommended an order. The third move: "C. Program apart from
+      records. The kit travels as a plugin. Records live in a plain folder of the project's own, one file per
+      entry." The recommendation said C "should be decided on purpose after a small trial".
+    pioneer_said: |
+      "i dont like the idea of making this a plugin."
+    reason_given: |
+      none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      The three questions were not asked because the pioneer moved in the same message to a task meant to show
+      the agent where its understanding is short, and said they think they know the issue. The agent is not to
+      raise the plugin route again unless the pioneer does.
+
+  - corr_id: C-038
+    date: 2026-09-22
+    contract_id: report-006
+    moment: M-25
+    grade: frame-reset
+    intervention: reviewed-after
+    agent_offered: |
+      Report-006 as a whole - fifteen parts of the workflow graded holding, never run or weak; nine places where a
+      better-solved answer was said to exist elsewhere; five options; a recommended order - and the breakdown of
+      its reasoning the agent gave when the pioneer asked to be able to follow it.
+    pioneer_said: |
+      "I dont think your research actually found anything valid, i think you produced something because i asked
+      you to produce something.
+
+      the reasoning doesnt hold the required level.
+
+      I think i know what the issue is but i have another task for you"
+    reason_given: |
+      none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      A reset of what the agent was treating as known: that the report's findings and options rested on valid
+      research. The pioneer did not say what the issue is; they set a task instead - a story of what this
+      repository is, its goals, approach and route, written by the agent from its own understanding, to see how
+      well Naur's theory has been translated for it. The report stays published and registered as it is; nothing
+      in it is to be acted on until the pioneer says what they saw.
 
 trajectory:
   updated: 2026-09-13

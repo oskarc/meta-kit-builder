@@ -4414,3 +4414,66 @@ contracts:
     # into another repository's kit.
     cost: {turns: 2, tokens: null, pioneer_minutes: null}    # messages to the pioneer from approval to implemented - the report of the write into another repository, and the hand-back; the main session's tokens not measured; the live tests ran as separate unattended sessions whose tokens were not totalled; minutes not asked
     work_id: null
+
+  - contract_id: report-006
+    type: analysis-report
+    feature: the workflow challenged - every skill and agent read again in full, the records counted by command, the downstream project's two days of running the kit re-read, twelve pages of outside practice read first-hand and one of them tested live; which parts hold, which have never run to their end, which are weak, and where the problem already has a better answer
+    date_proposed: 2026-09-22
+    date_approved: 2026-09-22
+    approval: n/a - analysis report, asked for by the pioneer ("Lets do another review and challenge the workflow, think wide and deep, try to figure out which parts are weaker and if we are trying to invent something that already has been solved in a better way.")
+    bearing: |
+      Not a contract. Ten guesses about where the workflow is weak were written down before any evidence was
+      gathered, so the evidence could contradict them; two did not survive as written. Nothing in the kit was changed.
+    tier_1: |
+      Not a contract. Fifteen parts of the workflow examined. Four hold, with evidence: the gate before any build,
+      corrections kept word for word with the precedents that bind, checking from outside the builder, and whole-kit
+      reviews with a downstream project's reports coming back upstream - the last of which is not a step of the
+      workflow at all. Three have never run to their end in any project: the route from observation to adoption
+      into a skill (here no audit, no held learning, no batch, no learning diff; downstream 51 held, 7 ready, none
+      adopted), the blind and the seal with re-shown decisions (it starts at a fourth batch; no project has reached
+      a first), and the map's own upkeep (31 entries, all still proposed). Eight are weak: chores scheduled inside the
+      working conversation, agents doing clerk's work, install and upgrade (8 of 23 contracts, more than half of the
+      install skill, 766 of 1,449 check lines), one growing file per kind of record (the contract log is 400 KB
+      after eleven days), the empty first day, one weight of contract for every change, no tie from a project's plan
+      to a contract, and the pioneer's cost unrecorded since 19 September. All 23 contracts came through the gate;
+      15 name a recorded correction, 9 the downstream project, 7 a review report, none the ledger. Of the kit's
+      405 KB of skill and agent text, 35% serves the four parts that hold - the grouping is the agent's, the byte
+      counts are not. Five claims were corrected, four of them the agent's own from this pass, the fifth the kit's:
+      every contract is to be published as a page and stored, and of 23 none was.
+    tier_2: |
+      Nine places where the problem already has a better answer, each read first-hand. The program the kit runs
+      inside ships plugins - a versioned bundle of skills, agents, hooks and scripts kept outside the project -
+      and one live test, isolated, its guard seen to refuse before it ran, showed: a plugin loads for one session
+      with nothing installed; its session-start hook puts always-loaded text into the session from a file inside
+      the plugin; its skill and agent are listed and used under the plugin's name; its hooks fire inside its agent
+      and are told which agent is calling; the agent's own guard never fires; and the storage folder a plugin is
+      given sits in the user's home, shared by every project. Decision records are kept one file per decision.
+      Elsewhere a learning reaches the standard by suggest, edit, save. The program seeds a project's conventions
+      from its code and asks the person to correct them. It already lists every skill's use-when line each turn.
+      Others scale the ceremony to the change, and keep the chain from requirement to task in the repository. The
+      program's newer versions ship isolated, repeated test runs with and without a plugin, which the installed
+      version lacks. Running chores outside the conversation is ordinary practice, not read for this report. Two
+      things believed and not confirmed by the pages as fetched are said so in the report and not cited.
+    tier_3: |
+      Recommendation, marked as judgement - an order, not a pick. First let the repaired release complete one whole
+      cycle in a real project, with what would count against the back half written down beforehand. Then seed the
+      product standard from a project's own best files, pioneer-corrected, because it is the only move aimed at
+      what the founding statement names and it needs no new mechanism. Decide on purpose, after a small trial,
+      whether the kit's program moves onto the host's own carrier with the records in a plain folder of the
+      project's own; do not drift into a ninth repair of the installer. Move the chores out of the conversation only
+      if the end-of-turn gate keeps needing repairs. None of this touches the failures that had no shape a script
+      could test; what it offers there is a smaller kit, which is easier to adhere to.
+    disappointment: n/a - analysis report
+    premortem: n/a - analysis report
+    red_test: n/a - analysis report
+    status: published
+    verification_state: none
+    audited: false
+    observations: []
+    revisions: []
+    cost: {turns: 1, tokens: null, pioneer_minutes: null}    # one message to the pioneer, the hand-over; three short unattended test sessions whose tokens were not totalled; the main session's tokens not measured; minutes not asked
+    work_id: null
+    led_to: []
+    file: docs/reports/report-006-the-workflow-challenged.html
+    artifact: https://claude.ai/artifact/5WM2xERdWGZHfPSnfq5GdL
+
