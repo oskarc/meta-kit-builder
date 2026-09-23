@@ -120,8 +120,8 @@ release refused: no kit_identity.version in the committed manifest — the versi
 release refused: the shipping folders have uncommitted changes. A release is built from a commit, so what ships is what is recorded — commit first.
 -> commit the shipping folders first; what ships is what is recorded.
 
-records-index refused: unknown selection \"<>\" — pass observations, corrections, or all
--> pass one of the three selections the script names; with no second argument it prints all of them.
+records-index refused: unknown selection \"<>\" — pass observations, corrections, candidates, or all
+-> pass one of the four selections the script names; with no second argument it prints all of them.
 
 
 seal-key refused: <> is not a batch id of the form B-NNN — pass the id of the batch file just written
@@ -141,3 +141,41 @@ seal-key refused: the key names <> item line(s) and the batch file carries <> it
 
 seal-key refused: the sealed folder could not be written at <> — stop and say so in the final message; the session records the batch step blocked and puts it to the pioneer (meta-mechanisms → Blocked tasks)
 -> the agent stops and reports it; the session writes assembly: blocked in the ledger with its reason and asks the pioneer how to proceed (meta-mechanisms → Blocked tasks).
+
+G7-batch refused: no batch file at \"<>\" — pass the path of the batch file to hold
+-> pass the batch file's path as the first argument.
+
+G7-batch refused: <> items in <> — one sitting carries at most <>; leave the rest for the next batch, oldest first
+-> drop items from the end of the order until six remain; they are picked up by the next batch.
+
+G7-batch refused: no items in <> — a batch file holds at least one ## I-n item
+-> write at least one item, or do not assemble a batch when nothing is due.
+
+G7-batch refused: <> words in <> — a batch stays under <>; shorten the items or carry fewer
+-> shorten the evidence and the preamble, or carry fewer items; the statement and any quoted passage stay word for word.
+
+G7-batch refused: <> has no \"How to read these items\" preamble — write one before the first item, for a reader who has never seen a batch
+-> write the preamble the ledger skill describes: at most five sentences, before the first item.
+
+G7-batch refused: the preamble of <> runs to <> sentences — at most <>: what a batch is, what a card and a candidate are, that each item says why it is here and what is asked
+-> cut the preamble to those five things; terms are explained once, in a sentence each.
+
+G7-batch refused: item %s in %s has no **Kind:** line — open every item with its kind and a one-clause gloss\n
+
+-> write the kind line from the item's form in the ledger skill.
+
+G7-batch refused: item %s in %s has no **Why you are seeing this:** line — say what became true that put it in front of the reader\n
+
+-> write the condition that made the item due, as the item's form gives it.
+
+G7-batch refused: item %s in %s has no **What is asked:** line — list every decision the kind allows, each with what it does\n
+
+-> copy the what-is-asked line from the item's form, with every decision the kind allows.
+
+G7-batch refused: item %s in %s asks for a read or a reason against, and it is not a candidate — those two lines belong to candidates only\n
+
+-> remove the two lines from the item; only a candidate's form carries them.
+
+G7-batch refused: item %s in %s is a candidate without Verdict before evidence: and Against: — a candidate carries both\n
+
+-> add both lines, empty, under the statement, as the candidate form shows.

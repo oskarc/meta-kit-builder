@@ -18,7 +18,7 @@ kit_identity:
   category: __CATEGORY__
   version: 0.1
   parent_kit: base-building-kit
-  base_kit_version: 0.31
+  base_kit_version: 0.32
   library_kit: __LIBRARY_KIT__
   workspace: []              # the other repositories this system is made of: [{name, path, role}], path relative to this one; filled at install from the Step 2 orientation (contract-010)
   status: active

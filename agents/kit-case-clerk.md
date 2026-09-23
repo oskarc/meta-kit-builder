@@ -48,6 +48,8 @@ once - before recording the task blocked.
 
    If an active precedent has the same facts and holding, add this correction to its `from` instead. If it has the same facts and a different holding, write the new precedent, mark both `conflict: P-NNN`, and name the conflict in your final message: it reaches the pioneer as a batch item, because only the pioneer overrules.
 
+   **A changed mind** (contract-024). When a correction names an earlier one in `supersedes`, mark the earlier correction's precedent `status: overruled` with `overruled_by` naming the superseding correction — you carry the pioneer's act, and make none. Then clerk the superseding correction as usual.
+
    **From precedent to check** (contract-006 G-6). Read the correction's `noticed`, `would_have_been_right` and `seen_before` beside the holding. If the holding names something a script could decide — a naming pattern, a log line's shape, where errors are caught, what a response must carry, a file that must exist — write a check: `.claude/skills/meta-mechanisms/checks/P-NNN.sh`, bash only, exit 0 when the standard holds and non-zero with one line saying what broke, with the precedent id and holding in its header comment. Run it once with Bash on the current tree and record the result in the precedent's `check:` field (`P-NNN.sh: passes | fails | not checkable`). This is the route by which a felt standard becomes an enforced one; a precedent that stays prose is one the agent must remember, and a check is one it cannot forget. Where the holding is judgement rather than shape, write `check: not checkable` and say why in one line.
 4. **Scenario card.** If the correction chose among real options (`option-override`, `decline`, often `scope`), draft `S-NNN`: the situation at the decision point, and the options verbatim from `agent_offered` and `pioneer_said`. Set `pioneer_ranking: pending`, `rationale: ""` and `dissent: ""`. The pioneer ranks at a review batch.
 5. **Ledger observation** (contract-005 G-2). For every correction you clerk — not the set-aside ones — append one observation to `.claude/skills/meta-ledger/LEDGER.yaml` so the consolidator reads the pioneer's words against the skill they bear on and quotes any sentence they contradict:
@@ -74,7 +76,7 @@ The precedents, cards and ledger observations written, by id; any conflicts, str
 - write a reason, ranking, rationale or dissent the pioneer did not give — including into `noticed`, `would_have_been_right` or `seen_before`, which hold the pioneer's answers or `not asked`
 - write a check that decides judgement rather than shape, or one that cannot fail
 - paraphrase the pioneer's words in a ledger observation, or give it a confidence they did not state
-- overrule, merge away or delete a precedent
+- overrule a precedent on your own judgement — you apply a supersession the pioneer recorded, and nothing else — or merge away or delete one
 - set a precedent's tier to type-category
 - treat an option-override as "just an answer"
 - read review batches, sealed keys or transcripts

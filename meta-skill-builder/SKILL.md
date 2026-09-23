@@ -23,8 +23,8 @@ Tell the pioneer how many items there are.
 
 For each item, in order:
 
-1. **Statement first.** Show the item's kind and its statement — not the proposed disposition, not the evidence. Ask for the pioneer's read in one line, and record it under `Verdict before evidence:`. Deciding before seeing a recommendation reduces over-reliance on its framing; the agreement between that first read and the final decision is information.
-   Then ask one thing more, and only this: **"Assume this is wrong. Why?"** Record the answer under `Against:`. The question is one-sided on purpose: asking for reasons against improves calibration, asking for reasons for does nothing, and asking for both does nothing either — so never phrase it as "arguments for and against" (contract-006 G-6).
+1. **Statement first.** Show the item's kind and its statement — not the proposed disposition, not the evidence. **For a candidate, and for candidates only** (contract-024): ask for the pioneer's read in one line, and record it under `Verdict before evidence:`. Deciding before seeing a recommendation reduces over-reliance on its framing; the agreement between that first read and the final decision is information.
+   Then, still for candidates only, ask one thing more: **"Assume this is wrong. Why?"** Record the answer under `Against:`. The question is one-sided on purpose: asking for reasons against improves calibration, asking for reasons for does nothing, and asking for both does nothing either — so never phrase it as "arguments for and against" (contract-006 G-6). A card, a map line, a precedent or a drift resolution carries no proposal of the agent's to anchor the pioneer, so neither question is asked of it — its form has no line for them.
 2. **Then the rest of the item.** The file carries it in plain words — why it is in front of them, the proposed disposition, the evidence, what stands behind it, and what is asked with what each answer does. Give those lines as written, and the statement, the evidence and any quoted passage word for word: translation adds, it never replaces, and the choices offered are exactly the file's (`meta-foundation` → The Agent's Role). For candidates, run Step 0 and Step 1 of the abstraction loop below — briefly, with evidence.
 3. **The decision**, by kind:
 
@@ -33,7 +33,7 @@ For each item, in order:
 | candidate | `trial` · `adopt` · `caution` · `decline` · `hold` · `revise` — and when the item quotes a passage under `Contradicts:`: `update` · `retire` · `add` | for trial, adopt or caution: **the level and tier the pioneer decides** |
 | map proposal | `ratify` · `decline` · `revise` | — |
 | map entry (unratified) | `ratify` · `decline` · `revise` | — |
-| scenario card | a ranking, with rationale and any dissent · `decline` | — |
+| scenario card | a ranking, with rationale and any dissent · `defer` · `decline` | — |
 | precedent | `overrule` · `keep` · `reconcile` | which holding stands, in the pioneer's words |
 | drift resolution | `resolve` · `keep-watching` | — |
 
@@ -51,7 +51,8 @@ When every item carries a decision, run `bash .claude/skills/meta-mechanisms/hoo
    - **Candidates** — write the `decision` block (`batch`, `item`, `verdict_before`, `decision`, `level_decided`, `tier_decided`, `reason`, `date`), set the stage (`trial`, `adopt`, `caution`, `declined`) and **clear `review_due`**. `hold` keeps the stage, clears `review_due`, and becomes due again only on a new independent sighting after the decision date. `revise` sets the candidate `declined`, and records the pioneer's rewritten claim as a new observation (`source: pioneer`, `prompted: true`) — it is also a correction of the agent's claim (M-07, grade `detail`). **`update`, `retire` and `add`** — the three exits for a candidate that quotes a passage it contradicts — set `stage: adopt` with `applied_as`, and are applied **at the quoted passage only**: `update` replaces that sentence with the claim; `retire` removes it — or, when the sentence was the skill's reason to exist, retires the node (M-22, meta-manifest → Status vocabulary); `add` writes the claim beside it and leaves the contradiction visible for the next reader. Never a rewrite of the node around it: a whole-document rewrite drops the clauses that discriminate, which is how the map lost three of them.
    - **Map proposals** — `state: ratified` and the line applied to `MAP.md` with status `ratified` (M-22); `declined`; or back to `pending` carrying the pioneer's wording for the steward to redraft.
    - **Map entries** — set the status column in `MAP.md` to `ratified` or `declined`. A declined entry keeps its line so it is not proposed again without new evidence.
-   - **Scenario cards** — write the ranking, rationale and dissent to `CASEBOOK.yaml`, or `pioneer_ranking: declined`.
+   - **Scenario cards** — write the ranking, rationale and dissent to `CASEBOOK.yaml`, or `pioneer_ranking: declined`; `defer` writes `pioneer_ranking: deferred` and `deferred_on` with the date — the card is counted by no reader as waiting, and the assembler carries it again once a later batch has been revealed (contract-024).
+   - **Every reason and rationale is a block scalar** (`reason: |`), never on the key's line: it is the pioneer's prose, and a colon in ordinary speech once made a ledger unreadable (contract-024).
    - **Precedents** — `overrule` writes `status: overruled` and `overruled_by`; `keep` clears the `conflict:` markers and records which holding stands; `reconcile` writes a new precedent distinguishing the two and clears the markers.
    - **Drift resolutions** — `resolve` writes `status: resolved`; `keep-watching` stamps the review date on the entry.
    - **Learning log** — for every decided candidate whose evidence includes a `source: learning` observation, back-fill that entry's `elevation_proposal.human_decision` with the decision the pioneer took.

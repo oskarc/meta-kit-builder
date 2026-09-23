@@ -65,7 +65,8 @@
 #       last_moved: YYYY-MM-DD
 #       decision: null                     # {batch, item, verdict_before, decision, level_decided,
 #                                          #  tier_decided, reason, date, applied_as} — the pioneer's level and
-#                                          #  tier; applied_as: update | retire | add for a contradicting item
+#                                          #  tier; applied_as: update | retire | add for a contradicting item;
+#                                          #  reason is a block scalar — the pioneer's prose may hold a colon
 #       outcome: null                      # {resolved: YYYY-MM-DD, held: true | false | unobserved} — a declined
 #                                          # or faded candidate is unobserved; nothing is scored from this
 #

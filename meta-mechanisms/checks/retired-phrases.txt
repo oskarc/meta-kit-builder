@@ -86,3 +86,7 @@ Each of the four lifecycle booleans
 the length of every record a kit agent may write
 Seal the key** at `.claude/kit-sealed/B-NNN.key`
 and find the highest existing `O-NNN`.
+**no cap**: the cards are the casebook's best instrument and are never rationed
+candidates with `review_due: true` (at most 8)
+- overrule, merge away or delete a precedent
+| a ranking · decline |

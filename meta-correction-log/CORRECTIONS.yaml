@@ -1267,6 +1267,96 @@ corrections:
       well Naur's theory has been translated for it. The report stays published and registered as it is; nothing
       in it is to be acted on until the pioneer says what they saw.
 
+  - corr_id: C-039
+    date: 2026-09-23
+    contract_id: null
+    moment: M-04
+    grade: scope
+    intervention: redirected
+    agent_offered: |
+      Six repairs the downstream report on its first review batch recommends, listed as what could be drawn:
+      1 re-check the quoted passage at assembly with an exit for a passage that is gone; 2 a way to defer a
+      card; 3 the export question asked at assembly for every kind; 4 an index of candidates by target; 5 a
+      form per item kind and one rule on who gets the two opening questions; 6 three texts - an override is
+      not an error, how a superseding correction reaches its precedent, decision reasons as block scalars.
+    pioneer_said: |
+      "2,4,5,6 but not 1,3. You can draw the contract"
+    reason_given: |
+      none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      The pioneer narrowed the six to four before the contract was drawn. Not asked why 1 and 3 were left out;
+      the draw does not carry them and does not argue for them.
+
+  - corr_id: C-040
+    date: 2026-09-23
+    contract_id: null
+    moment: M-04
+    grade: detail
+    intervention: redirected
+    agent_offered: |
+      The first draw of contract-024: bearing, four precedents each glossed, eight use cases, five guardrails,
+      seven tests, each written out in full sentences - about 1,400 words.
+    pioneer_said: |
+      "be more concise"
+    reason_given: |
+      none given
+    noticed: |
+      not asked
+    would_have_been_right: |
+      not asked
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      A correction of the draw's length, not its content; the contract was redrawn shorter with the same
+      clauses.
+
+  - corr_id: C-041
+    date: 2026-09-23
+    contract_id: contract-024
+    moment: M-04
+    grade: tier-redraw
+    intervention: redirected
+    agent_offered: |
+      Contract-024 as redrawn concisely: a form per item kind, each opening with the kind glossed, why you are
+      seeing this, and what is asked; the two opening questions for candidates only; a defer for cards; a
+      candidate index; three texts. No bound on how much one batch puts to the pioneer - the assembler's caps
+      allowed up to eighteen items and the first downstream batch carried twenty.
+    pioneer_said: |
+      "the contract is approved, but id like to sharpen one this: The kit should present to a pioneer in a way
+      that assumes no prior knowledge of the practice, it should tell the pioneer why it is seeing something,
+      and it should tell it concise, it cannot be 2000 words and ask 12-15 things. that is information
+      overload."
+    reason_given: |
+      "that is information overload."
+    noticed: |
+      not asked
+    would_have_been_right: |
+      From the pioneer's own words, not asked separately: a presentation that assumes no prior knowledge, says
+      why the item is in front of them, and is short - not two thousand words asking twelve to fifteen things.
+    seen_before: |
+      not asked
+    supersedes: []
+    recorded_by: main-agent
+    clerked: false
+    precedent: pending-clerk
+    clerk_note: |
+      A tier correction within an approved direction: the contract gained a bound on what one batch puts to the
+      pioneer and a rule, in the foundation, on how the kit presents to a pioneer with no prior knowledge.
+
 trajectory:
   updated: 2026-09-13
   # Recomputed by kit-case-clerk from C-001 to C-008. contract_id null groups corrections recorded with no

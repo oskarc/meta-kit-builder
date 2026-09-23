@@ -111,12 +111,14 @@ A candidate shows its counts — helpful and harmful, by reading — and the pio
 | candidate | `review_due: true` | trial · adopt · caution · decline · hold · revise (+ level and tier); with a `contradicts` passage: update · retire · add · decline |
 | map proposal | `map_proposals` in `state: pending` | ratify · decline · revise |
 | map entry | `proposed` lines in MAP.md | ratify · decline · revise |
-| scenario card | `pioneer_ranking: pending` in CASEBOOK.yaml | a ranking · decline |
+| scenario card | `pioneer_ranking: pending` in CASEBOOK.yaml | a ranking · defer · decline |
 | precedent | a `conflict:` pair, or three or more `distinguished_by` | overrule · keep · reconcile |
 | drift resolution | DRIFTLOG entries in `status: mitigated` | resolve · keep-watching |
 | re-presented candidate | a candidate the pioneer already decided, shown again as if new (from the fourth batch on; at most two) | the same decisions as a candidate |
 
 **Re-presented items** (contract-006 G-3) replace the planted canaries an earlier version carried. A re-presented item is a real candidate the pioneer decided at an earlier batch, shown again with nothing to mark it; the sealed key records which items they are and what was decided before. After the reveal the pioneer is shown their earlier decision beside the new one. What is recorded is the pair — prior, now, and whether they agree — per item, on the batch. **It is never pooled into a rate**: a rate over items of different kinds and difficulty measures the mix of items, not the judge. The first three batches carry none, because early feedback on a new task is where feedback does harm. Real declined items were chosen over planted flaws because hand-seeded faults are known not to stand in for real ones, and because the kit has real decided items and does not need to invent any.
+
+**One sitting is bounded** (contract-024). The pioneer's words on the first batch a project ever held, twenty items long: *"it cannot be 2000 words and ask 12-15 things. that is information overload."* A batch carries **at most six items** — taken in the order the table above lists the kinds, oldest first within a kind, the rest waiting for the next batch — and its file stays **under 1,200 words**. `checks/G7-batch.sh` holds a batch file to that, to the preamble below, and to the three lines every item carries; the assembler runs it before sealing and never registers a file it refused.
 
 Items are shuffled, renumbered `I-1…I-n`, and **carry no ledger ids**: the sealed key is the only mapping from an item to its source.
 
@@ -126,20 +128,22 @@ Items are shuffled, renumbered `I-1…I-n`, and **carry no ledger ids**: the sea
 
 **Revealed** with `reveal-key.sh B-NNN` (M-17). Then the main agent applies decisions to items that were not re-presented, clears their `review_due`, writes the `represented` record on the batch — per item: candidate id, prior decision, decision now, `consistent: true|false` — shows the pioneer their earlier decision beside the new one without comment, and **sets `revealed: true`** — until it does, the stop-gate hands the reveal back every turn. A re-presented item's new decision is recorded and not applied; the earlier decision stands unless the pioneer says otherwise in that turn.
 
-**Every kind has a terminal value**, so a decided item never returns: a declined map entry is written `declined` in MAP.md's status column, a declined card carries `pioneer_ranking: declined`, a kept or reconciled precedent has its `conflict:` cleared, and a resolved drift entry moves to `status: resolved`. An `update`, `retire` or `add` on a contradicting candidate sets `stage: adopt` with `applied_as`, and the edit is made **at the quoted passage only** — never a rewrite of the node. Without those, the assembler would re-present the same items forever and the backlog could never clear.
+**Every kind has a terminal value**, so a decided item never returns: a declined map entry is written `declined` in MAP.md's status column, a declined card carries `pioneer_ranking: declined` and a deferred one `pioneer_ranking: deferred` with `deferred_on` — counted by no reader, and carried again by the assembler once a later batch has been revealed, so it sits out one batch (contract-024) — a kept or reconciled precedent has its `conflict:` cleared, and a resolved drift entry moves to `status: resolved`. An `update`, `retire` or `add` on a contradicting candidate sets `stage: adopt` with `applied_as`, and the edit is made **at the quoted passage only** — never a rewrite of the node. Without those, the assembler would re-present the same items forever and the backlog could never clear.
 
-Batch item format:
+**One form per kind** (contract-024). Every item opens with its kind and a one-clause gloss, says *why you are seeing this* as a condition, and closes with *what is asked* — every decision the kind allows, each with what it does to the record. The forms are the pioneer's, drawn at that first batch for a reader who is not them; the assembler writes each item in its kind's form and nothing else. Only a candidate carries `Verdict before evidence:` and `Against:` — the two opening questions exist to keep the agent's proposed disposition from anchoring the pioneer, and no other kind carries a proposal to anchor against.
+
+Candidate:
 
 ```
 ## I-3
 **Kind:** candidate — a learning that may belong in the standard
-**Statement:** … (as recorded, word for word)
+**Statement:** … (as recorded, word for word; a dispute recorded against it stays visible beneath it)
 Verdict before evidence:
+Against:
 **Proposed:** adopt — pattern · type-category · target: meta-contract-before-execution
 **Evidence:** … (what was seen, where, and by what kind of reading — in words; never an observation's or a correction's id)
 **Why you are seeing this:** it has been confirmed once from a different reading since it was first noted, and nothing has spoken against it — the point at which the kit asks whether to try it.
 **What stands behind it:** certainty low — it began as the agent's own reflection (self-generated) and has been seen in one contract only (single-contract). Confirmations: 1 from a different reading, 2 from the same reading, none against. The observer's forecast that you would adopt it: 0.80 — a recorded guess, never scored. Nothing is asked of you about these figures; they are here so you can weigh how much stands behind the claim.
-Against: (the pioneer's answer to "assume this is wrong — why?", one line, recorded before the decision)
 **Contradicts:** meta-contract-before-execution/SKILL.md → "A blanket 'looks good' is not a per-clause confirmation." (omit the line when contradicts is empty)
 **What is asked:** one of — trial: applied where it bears and tracked, not yet written into a skill · adopt: written into the target skill · caution: written into the target's anti-patterns · decline: refused, kept on record · hold: comes back only when new evidence from a different reading arrives · revise: your wording replaces it, and the old one is declined. (With a quoted passage the ask is instead — update: the quoted sentence is rewritten so the claim holds · retire: the quoted sentence is removed and nothing is put in its place · add: the claim is written in at that passage and the quoted sentence stays · decline: refused, kept on record, the skill left as it is. Each edit is made at that passage only.)
 Decision:
@@ -147,16 +151,68 @@ Level and tier (for trial, adopt or caution):
 Reason:
 ```
 
+Scenario card:
+
+```
+## I-n
+**Kind:** scenario card — a hard case with options to rank
+**The situation, at the moment of the decision** (the moment in play, named in words): … (what was in front of the agent, in plain words; no id stands alone)
+**The options as they stood:**
+- **A.** … (the option, in the words it was actually put or taken in)
+- **B.** … (the other)
+**Why you are seeing this:** the case clerk drafted this card from a recorded correction, at a point where more than one option was real; a card carries no ranking until you give one, and until then it is not the casebook's guidance for anything.
+**What is asked:** one of — a ranking of the options, best first, written as [B, A]: it becomes the casebook's guidance for cases like it · defer: set aside, back after the next batch · decline: the card is set aside for good.
+Decision:
+Reason:
+Dissent, if more than one answer was defensible:
+```
+
+Map proposal, and map entry:
+
+```
+## I-n
+**Kind:** map proposal — a change to what the always-loaded map loads, and when   (or: map entry — a drafted line of the map that is not yet the pioneer's)
+**The line, in words:** … (the moment it names, when it fires, what it loads, what it is not for — never the raw pipe-separated row)
+**Why you are seeing this:** the map steward found this entry firing on situations it does not fit / never firing / missing, from the misses and the firing record it read   (or: it was drafted with the kit and is not yet the pioneer's)
+**What is asked:** one of — ratify: the map is changed as proposed (or: the line becomes yours as written) · decline: kept on record, not proposed again · revise: redrafted from your wording.
+Decision:
+Reason:
+```
+
+Precedent:
+
+```
+## I-n
+**Kind:** precedent — two past rulings that disagree, or one set aside three times
+**The rulings, word for word:** … (each holding with the facts it decided on; the distinctions, where strain is the reason)
+**Why you are seeing this:** contracts that meet these cannot cite them cleanly: … (which — a conflict written by the clerk, or three distinctions)
+**What is asked:** one of — overrule: the named ruling stops deciding · keep: it stands, the conflict is cleared · reconcile: you say which holding stands, in your words, and a new precedent carries it.
+Decision:
+Reason:
+```
+
+Drift resolution:
+
+```
+## I-n
+**Kind:** drift resolution — a recorded drift whose fix has been in place
+**The drift, as recorded:** … (what happened, the fix, and the medium it was encoded in; the recurrence count under the record's own meaning)
+**Why you are seeing this:** its fix has been in place since … and nothing has recurred since, or it has recurred … times — you decide whether the silence is enough.
+**What is asked:** one of — resolve: closed · keep-watching: stays open and counted, and comes back only when something changes.
+Decision:
+Reason:
+```
+
 The proposed disposition sits **below** the verdict line: the pioneer's first read is of the statement alone, so the agent's recommendation cannot anchor it. *Why you are seeing this* sits below it too, because it tells how the evidence stands.
 
-**Every item is written for a reader who has not seen the ledger** (contract-014; `meta-foundation` → The Agent's Role). The kind is named in plain words, the statement and any quoted passage stay word for word, every code is followed by what it means, and two lines are never omitted — *Why you are seeing this* and *What is asked*, which lists exactly the decisions the kind allows, no more and no fewer, each with what it does. The plain words sit beside the record's; they never replace it. **A figure is copied as the record gives it, under the record's own meaning of the field** — a count is never re-derived, rounded or put as a different count (a drift entry's `recurrence_count: 2` is "it has recurred twice since it was first recorded", never "it happened twice"); where the meaning of a field is not certain, the field's name and value are given as they stand. Terms that recur — a different reading, the same reading, the certainty word, the observer's forecast — are explained once, under *How to read these items* at the top of the batch file, so each item stays short.
+**Every item is written for a reader who has not seen the ledger** (contract-014; `meta-foundation` → The Agent's Role). The kind is named in plain words, the statement and any quoted passage stay word for word, every code is followed by what it means, and two lines are never omitted — *Why you are seeing this* and *What is asked*, which lists exactly the decisions the kind allows, no more and no fewer, each with what it does. The plain words sit beside the record's; they never replace it. **A figure is copied as the record gives it, under the record's own meaning of the field** — a count is never re-derived, rounded or put as a different count (a drift entry's `recurrence_count: 2` is "it has recurred twice since it was first recorded", never "it happened twice"); where the meaning of a field is not certain, the field's name and value are given as they stand. Terms that recur — a different reading, the same reading, the certainty word, the observer's forecast — are explained once, under *How to read these items* at the top of the batch file, so each item stays short. **That preamble is at most five sentences and assumes no prior knowledge of the practice**: what a batch is, what a card and a candidate are, that each item says why it is here and what is asked (contract-024).
 
 | Kind | In plain words | Why it arrives | What each decision does |
 |---|---|---|---|
 | candidate | a learning that may belong in the standard | it gathered the evidence *Stages* names, or it is the pioneer's own correction contradicting a skill | as in the format above |
 | map proposal | a change to what the always-loaded map loads, and when | the map steward found an entry misfiring, never firing, or missing | ratify: the map is changed as proposed · decline: kept on record, not proposed again · revise: redrafted from the pioneer's wording |
 | map entry | a drafted line of the map that is not the pioneer's yet | it is still `proposed` | ratify: it becomes theirs as written · decline: marked declined, stops loading · revise: their wording replaces it |
-| scenario card | a hard case with options to rank | the case clerk wrote it from a correction | a ranking: becomes the casebook's guidance for cases like it · decline: the card is set aside |
+| scenario card | a hard case with options to rank | the case clerk wrote it from a correction | a ranking: becomes the casebook's guidance for cases like it · defer: set aside, back after the next batch · decline: the card is set aside for good |
 | precedent | two past rulings that disagree, or one set aside three times | contracts that meet it cannot cite it cleanly | overrule: the ruling stops deciding · keep: it stands, the conflict is cleared · reconcile: the pioneer says which holding stands, in their words |
 | drift resolution | a recorded drift whose fix has been in place | its status reached `mitigated` | resolve: closed · keep-watching: stays open and counted |
 

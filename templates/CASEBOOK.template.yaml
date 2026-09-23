@@ -40,9 +40,10 @@
 #       options:
 #         - key: A
 #           text: [option]
-#       pioneer_ranking: pending            # or [B, A, C] — only from the pioneer
+#       pioneer_ranking: pending            # or [B, A, C] — only from the pioneer; declined; or deferred, with
+#       deferred_on: YYYY-MM-DD             # the date, beside it — the card sits out one batch (contract-024)
 #       rationale: |
-#         [the pioneer's, verbatim]
+#         [the pioneer's, verbatim — always a block scalar: their prose may hold a colon]
 #       dissent: |
 #         [a minority view the pioneer gave, or: none]
 #

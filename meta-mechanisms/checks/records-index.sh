@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# records-index.sh [<kit root>] [observations|corrections|all] — contract-021 UC-2.
+# records-index.sh [<kit root>] [observations|corrections|candidates|all] — contract-021 UC-2, contract-024 UC-2.
 #
 # Four kit agents ran out of turns eight times in two days downstream, every one of them with the work done and
 # nothing written. The cost was not the work: one consolidation merged sixteen observations inside its budget and
@@ -10,7 +10,12 @@
 # enough to read whole, each line keeping the LINE NUMBER in the record so the agent opens the record only at the
 # item it is working on.
 #
-# A line is:  <line> | <id> | <date> | <what it is> | <the first words>
+# The third selection came a release later (contract-024): the index covered the cheap half. What exhausted the
+# consolidator next was answering "does a candidate already make this claim, at this target" by reading every
+# candidate in the ledger. So `candidates` lists every candidate that is still live — not declined, not faded —
+# grouped by target, so all the claims aimed at one skill sit together and the question is one read of the index.
+#
+# A line is:  <line> | <id> | <date or target> | <what it is> | <the first words>
 # Usage from an agent: read this, act on an item, open the record at that line for the item in full.
 # Portable: bash, sed, awk, grep, tr, date. No jq.
 here="$(cd "$(dirname "$0")" && pwd)"
@@ -54,13 +59,54 @@ index_of() {   # FILE ID_KEY MARKER_KEY FIELD_A FIELD_B TEXT_KEY LABEL
   ' "$f"
 }
 
+# every candidate whose stage is not declined or faded, one line each, grouped by target (the sort key comes
+# first and is cut away, so the lines read like the other two sections)
+index_candidates() {
+  [ -f "$L" ] || { echo "candidates held: (no record at ${L#$kit/})"; return; }
+  local rows
+  rows="$(awk '
+    function flush() {
+      if (id != "" && stage != "declined" && stage != "faded") { print target "\t" ln " | " id " | " target " | " stage " | " substr(txt, 1, 90) }
+      id=""; stage="assess"; target="-"; txt=""; intext=0
+    }
+    /^[[:space:]]*#/ { next }
+    /^[[:space:]]*-[[:space:]]+cand_id:[[:space:]]*[^[:space:]]/ {
+      flush(); id=$3; sub(/[[:space:]]*#.*$/, "", id); ln=NR; keyind=index($0, "-") + 2; next
+    }
+    /^[[:space:]]*-[[:space:]]+[a-z_]+_id:/ { flush(); next }
+    /^[a-z_]+:/ { flush(); next }
+    {
+      if (id == "") next
+      line = $0; sub(/[[:space:]]*#.*$/, "", line)
+      if (match(line, /[^ ]/) == keyind) {
+        intext = 0
+        if (line ~ /^[[:space:]]+stage:[[:space:]]*[^[:space:]]/)  { stage=line;  sub(/^[[:space:]]+stage:[[:space:]]*/, "", stage) }
+        if (line ~ /^[[:space:]]+target:[[:space:]]*[^[:space:]]/) { target=line; sub(/^[[:space:]]+target:[[:space:]]*/, "", target) }
+        if (line ~ /^[[:space:]]+statement:/) { intext=1; t=line; sub(/^[[:space:]]+statement:[[:space:]]*\|?[[:space:]]*/, "", t); if (t != "") txt = t }
+        next
+      }
+      if (intext && txt == "") { t=line; sub(/^[[:space:]]+/, "", t); gsub(/\|/, "/", t); txt=t }
+    }
+    END { flush() }
+  ' "$L" | LC_ALL=C sort -t "$(printf '\t')" -k1,1 -s | cut -f2-)"
+  if [ -n "$rows" ]; then
+    echo "candidates held: $(printf '%s\n' "$rows" | wc -l | tr -d ' ')"
+    printf '%s\n' "$rows"
+  else
+    echo "candidates held: 0"
+  fi
+}
+
 case "$what" in
   observations) index_of "$L" obs_id consolidated date source statement "observations to consolidate" ;;
   corrections)  index_of "$C" corr_id clerked date grade pioneer_said "corrections to clerk" ;;
+  candidates)   index_candidates ;;
   all)
     index_of "$L" obs_id consolidated date source statement "observations to consolidate"
     echo
     index_of "$C" corr_id clerked date grade pioneer_said "corrections to clerk"
+    echo
+    index_candidates
     ;;
-  *) echo "records-index refused: unknown selection \"$what\" — pass observations, corrections, or all"; exit 1 ;;
+  *) echo "records-index refused: unknown selection \"$what\" — pass observations, corrections, candidates, or all"; exit 1 ;;
 esac

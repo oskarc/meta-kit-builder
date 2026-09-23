@@ -1596,4 +1596,58 @@ observations:
     merged_into: null
     stewarded: n/a
 
+  - obs_id: O-089
+    date: 2026-09-23
+    source: ser
+    contract_id: contract-024
+    refs: [UC-9, G-6, C-041]
+    statement: |
+      a bound the pioneer states in words - "not two thousand words asking twelve to fifteen things" - becomes a
+      rule only when a script holds a file to a number. Six items and twelve hundred words were the numbers chosen
+      from their words, and the first live batch written under them came out at 1,171 words: the bound is where
+      the agent will write to, so the number is the rule.
+    level_guess: pattern
+    stated_confidence: 0.75
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-090
+    date: 2026-09-23
+    source: ser
+    contract_id: contract-024
+    refs: [UC-1, T-4]
+    statement: |
+      a decision that only one kind of item can take is a rule the pioneer cannot apply across a batch. Cards had
+      no way to be set aside because they carry no evidence to hold for; giving them a defer that returns on its
+      own after one batch let the pioneer's own ruling - hold everything weak - reach every kind without inventing
+      a strength for cards.
+    level_guess: pattern
+    stated_confidence: 0.7
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
+  - obs_id: O-091
+    date: 2026-09-23
+    source: ser
+    contract_id: contract-024
+    refs: [T-5, agents/kit-case-clerk.md]
+    statement: |
+      an agent told to write the ledger by a project-relative path resolved it one folder above the project once,
+      was refused by the test guard, and then used the right path. The kit's own write guard would have let the
+      first attempt through, because it matches a piece of a path. The same thing the roadmap already names,
+      seen a second time.
+    level_guess: pattern
+    stated_confidence: 0.8
+    loaded_candidates: []
+    prompted: false
+    consolidated: false
+    merged_into: null
+    stewarded: n/a
+
 candidates: []

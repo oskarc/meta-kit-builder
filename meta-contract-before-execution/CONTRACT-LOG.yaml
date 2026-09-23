@@ -4477,3 +4477,118 @@ contracts:
     file: docs/reports/report-006-the-workflow-challenged.html
     artifact: https://claude.ai/artifact/5WM2xERdWGZHfPSnfq5GdL
 
+  - contract_id: contract-024
+    feature: The review batch fits the pioneer who reads it - one form per kind of item written for a reader new to the practice, a batch bounded to six items and 1,200 words by a check, a card that can be deferred, the two opening questions asked of candidates only, live candidates indexed by target, a changed mind carried to its precedent, an override said not to be an error, and reasons written as block scalars
+    type: contract
+    follows: report-007
+    led_to: []
+    date_proposed: 2026-09-23
+    date_approved: 2026-09-23
+    approval: approved-at-gate     # pioneer: "the contract is approved, but id like to sharpen one this: ..." (2026-09-23, C-041 - the sharpening is folded in as UC-9, UC-10, G-6, T-8)
+    bearing: |
+      A review batch is written for a reader who was not in the room, one form per kind, and the pioneer can answer
+      it with the words they have; a weak card can be set aside, and the agent behind the sheet reads an index, not
+      the ledger. The bet: the first batch's five corrections were the batch's shape, not the pioneer's patience.
+    tier_1: |
+      You at a batch, and a pioneer who is not you at their first: every item the same shape, weak items can wait,
+      a reason with a colon cannot break the record, no "read" asked of an item that has no proposal, one sitting
+      never puts more than a handful of decisions, and the assembler no longer exhausts itself. Drawn from the
+      downstream report on the first review batch any project held (report-007, 0.31): twenty items, five
+      corrections drawn by the review itself, a ruling that could not be applied to cards, a colon that broke the
+      ledger, eleven agents out of budget. The pioneer chose repairs 2, 4, 5 and 6 of the six the report offered and
+      declined 1 and 3 (C-039); the sharpening on presentation came at the gate (C-041).
+    tier_2: |
+      UC-1 Cards gain defer: pioneer_ranking: deferred with deferred_on, counted by no reader as waiting, carried
+           again by the assembler once a later batch has been revealed (it sits out one batch). Decided, not asked:
+           defer over a strength signal - a card has no evidence to score, and a return on the pioneer's word would
+           be a human-triggered step (P-004).
+      UC-2 The records index gains a candidates selection: one line per live candidate (not declined, not faded),
+           grouped by target; the consolidator reads it before deciding whether a claim already exists; all prints
+           three sections.
+      UC-3 One form per kind in the ledger skill - candidate as before, scenario card as the pioneer's Form A, map
+           proposal and map entry, precedent, drift resolution - each opening with the kind glossed, then why you
+           are seeing this as a condition, then what is asked with every decision the kind allows; the preamble
+           says what a card and a candidate are.
+      UC-4 The two opening questions (the read before the evidence, and "assume this is wrong - why?") are for
+           candidates only; the skill-builder, the ledger skill and the assembler say so alike. Decided, not asked:
+           they exist to stop the agent's proposal anchoring the pioneer, and only a candidate carries one.
+      UC-5 The correction log says an override is not an error.
+      UC-6 A superseding correction: the clerk marks the earlier correction's precedent overruled, overruled_by the
+           correction - carrying the pioneer's act, never making one; its "never overrule" becomes "never on its
+           own judgement".
+      UC-7 Reasons and rationales are block scalars; the templates and the reveal say so.
+      UC-8 Version 0.32.
+      UC-9 One sitting is bounded (C-041): a batch carries at most six items, taken in the order the kinds table
+           lists them, oldest first, the rest waiting for the next batch; its file stays under 1,200 words; the
+           preamble is at most five sentences and assumes no prior knowledge of the practice. A check,
+           G7-batch.sh, holds a batch file to all of that and to the three lines per item, and the assembler runs
+           it before sealing - a mechanism, not a reminder. No kind is uncapped any more.
+      UC-10 The rule is stated where every presentation reads it: the foundation's Translate for the pioneer
+           carries the pioneer's three conditions - assume no prior knowledge, say why it is in front of them, keep
+           it short - in their words; the intent file carries the clause within its size allowance.
+    tier_3: |
+      G-1 (UC-1) every reader counts pending cards only, through the shared function; the assembler returns a
+          deferred card after the next reveal; the skill-builder's reveal writes it; the casebook skill and
+          template name it.
+      G-2 (UC-2) bash, sed and awk; line numbers kept; declined and faded left out; all prints three sections.
+      G-3 (UC-3, UC-4) every kind in the table has a form with the three lines and the table's exact decisions;
+          the two questions stand in the candidate form only; the assembler points at the forms.
+      G-4 (UC-5, UC-6, UC-7) edits at the quoted passages only; the old wordings retired.
+      G-5 (all) walks and checks pass; the always-loaded files change by the one clause UC-10 names and nothing
+          else.
+      G-6 (UC-9, UC-10) the cap, the word bound, the preamble bound and the three lines per item live in one
+          script the walk and the assembler both run.
+    disappointment: |
+      None given per guarantee. The pioneer's sharpening at the gate stands as the line for G-3 and G-6, in their
+      words: "The kit should present to a pioneer in a way that assumes no prior knowledge of the practice, it
+      should tell the pioneer why it is seeing something, and it should tell it concise, it cannot be 2000 words
+      and ask 12-15 things. that is information overload." For G-1, G-2, G-4 and G-5: none given; the same words
+      stand.
+    premortem: |
+      Not given. The pioneer approved with the sharpening and no pre-mortem; recorded as such and not asked again.
+    tier_4: |
+      T-1 (G-1) Fixture: one deferred card beside one pending - session-start, the gate and the waiting list all
+          say one item waits; both deferred - all three say nothing does. The return after one batch is tested
+          live in T-4.
+      T-2 (G-2) Six candidates, three targets, two declined or faded: four lines grouped by target, each line
+          number opening the ledger at that candidate; all prints three sections.
+      T-3 (G-3) A script over the ledger skill: every kind has one form, three lines each, the decisions match the
+          table word for word, "Verdict before evidence" only in the candidate form; "candidates only" in the
+          skill-builder and the assembler.
+      T-4 (G-1, G-3, G-6) The assembler, live and isolated: on eight due items and a card deferred at the last
+          batch - six items, each in its form, no deferred card, the preamble present, "More items wait" said
+          without a number; on one due candidate with two batches revealed since the deferral - the deferred card
+          is back.
+      T-5 (G-4) The clerk, live, on three corrections where the third supersedes the first: that precedent
+          overruled by the third, nothing else changed.
+      T-6 (G-4) The override sentence present; the replaced wordings retired and the retired check passing; a
+          colon inside a block-scalar reason and rationale leaves the candidate indexed and the pending card
+          counted.
+      T-7 (G-5) All walks, all checks, version 0.32 everywhere.
+      T-8 (G-6) A twenty-item file over 2,000 words is refused naming both counts; a six-item file under the bound
+          holds; a card asked the two questions and an item without its why line are each named.
+      untested: none; T-6 tests the presence of a sentence, and T-4 and T-5 are one live sample each. T-1's second
+          half - the return after one batch - is agent behaviour and is tested only in T-4.
+      realigned: none - no per-guarantee line was given; the sharpening moved UC-9, UC-10, G-6 and T-8 into the
+          contract before it was recorded.
+    red_test: {broke: G-6, went_red: T-8, how: "the item cap was taken out of the batch check and the removal confirmed - a different checksum; walk-007 state 220 failed as it should, 'big=1/n' - the twenty-item file was refused for its words alone and no longer for its count. The line was put back; the checksum matched the one taken before the break; the state passed again", date: 2026-09-23}
+    status: implemented
+    verification_state: none
+    audited: false
+    transcript: f1a80ff7-fa97-4c9a-af1b-c9d531906784
+    observations: [O-089, O-090, O-091]
+    revisions:
+      - what: "State 216 of walk-007 was written with its own expectation wrong - it required the waiting list to say something other than 'nothing' once both cards were deferred, which is the opposite of the guarantee - and failed on its first run; the expectation was corrected and the state passed. The hooks were right throughout."
+        authorised_by: "no authorisation sought: a defect in this contract's own test, found by running it, repaired inside it"
+        date: 2026-09-23
+        tests_changed: [T-1]
+      - what: "The assembler's rewritten writing step dropped two phrases contract-014 holds it to - that an observation or a correction is given by what it says and never by its ledger id, and that the plain words never replace or shorten the record's - and walk-007 state 160, contract-014's own state, failed. Both phrases were put back into the step. A neighbour's test found it, which is what the practice says a test is for."
+        authorised_by: "no authorisation sought: a repair of this contract's own work, caught by an earlier contract's test before this entry read implemented"
+        date: 2026-09-23
+        tests_changed: []
+      - what: "The version moves to 0.32 (manifest, template base_kit_version, README, the walk's version states); the README gains a Contract-024 bullet and a row for the batch check."
+        authorised_by: "the standing rule on the version ('bump it.', 2026-09-17) - recorded for the pioneer to confirm or refuse"
+        date: 2026-09-23
+        tests_changed: []
+    cost: {turns: 3, tokens: null, pioneer_minutes: null}    # messages to the pioneer from approval to implemented - the redraw with the sharpening, and two progress lines; three unattended sessions' tokens not totalled; the main session's not measured; minutes not asked
+    work_id: null

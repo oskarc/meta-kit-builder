@@ -93,7 +93,7 @@ printf '{"tool_name":"Edit","tool_input":{"file_path":"%s"}}' "$K/meta-foundatio
 grep -q '|bypass|' "$K/meta-ledger/telemetry.log" && bad "104 INTENT.md edit must not produce a bypass" "$(grep bypass "$K/meta-ledger/telemetry.log")" || ok "104 editing an import-loaded file writes no bypass"
 
 echo "=== T-1 / T-8: version and text consistency ==="
-grep -q "^  version: 0.31" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.31" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
+grep -q "^  version: 0.32" "$SRC/meta-manifest/MANIFEST.yaml" && grep -q "^  base_kit_version: 0.32" "$SRC/templates/MANIFEST.template.yaml" && ok "105 both manifests read 0.26" || bad "105 version" "-"
 grep -q 'closed-by-follow-up' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'approved-at-gate' "$SRC/templates/CONTRACT-LOG.template.yaml" && grep -q 'closed-by-follow-up' "$SRC/meta-contract-before-execution/SKILL.md" && grep -q 'approved-at-gate' "$SRC/meta-contract-before-execution/SKILL.md" && ok "106 enumerations in template and node" || bad "106 enumerations" "-"
 n=0; for id in M-03 M-08 M-09 M-10 M-23 M-28 M-29; do l=$(grep "^$id " "$SRC/meta-map/MAP.md" | awk -F' \\| ' '{print $7}'); case "$l" in *": "*|*" then "*|*"; unauthorised"*|*"cite the id"*|*"flag it"*) n=$((n+1)); echo "      $id load: $l";; esac; done
 [ "$n" = 0 ] && ok "107 the seven map entries carry file + heading only" || bad "107 map pointers" "$n entries still carry guidance"
@@ -107,7 +107,7 @@ n=$(grep -c -i -E 'canary|brier|wilson|catch rate|lower.bound|v0\.14|dominant fo
 miss=""; for p in $(grep -o '`[a-zA-Z0-9_./-]*/[a-zA-Z0-9_./-]*`' "$SRC/README.md" | tr -d '`' | grep -E '^(meta-|agents/|templates/|docs/)' | grep -v 'NNN\|meta-manifest/INSTALLED\|meta-ledger/batches\|meta-mechanisms/checks/$' | sort -u); do [ -e "$SRC/$p" ] || miss="$miss $p"; done
 [ -z "$miss" ] && ok "112b every path the README names exists on disk" || bad "112b README names missing paths" "$miss"
 h=$(grep -c '^## \|^### ' "$SRC/README.md"); r=$(grep -c '^| [0-9]* | ' "$SRC/docs/readme-review.md"); [ "$r" -ge 19 ] && ok "112c readme-review.md has a row per section of the old README ($r rows; new README has $h headings)" || bad "112c review rows" "$r"
-grep -q "v0.31" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.31 and narrates 003–006" || bad "112d status" "-"
+grep -q "v0.32" "$SRC/README.md" && grep -q "Contract-003" "$SRC/README.md" && grep -q "Contract-006" "$SRC/README.md" && ok "112d README status reads v0.31 and narrates 003–006" || bad "112d status" "-"
 
 echo "=== contract-008 T-2: the migration check ==="
 G2="$SRC/meta-mechanisms/checks/G2-migration.sh"; RT="$SRC/meta-mechanisms/checks/roots.sh"
@@ -841,5 +841,99 @@ bash "$PRJ23/.claude/skills/meta-mechanisms/checks/G6-refusals.sh" "$PRJ23/.clau
   && ok "215 a project's own registry, put on an upgrade's stale list, is spared and named; the refusal check passes with a refusal registered only there and fails without it; the rule is one sentence in the bootstrap skill, and no release carries such a file (T-11)" \
   || bad "215 what is the project's own" "install=$rirc with=$with without=$without :: $(printf '%s' "$ri" | head -n 3 | tr '\n' ' ')"
 rm -rf "$T23"
+
+# ===== contract-024: the review batch fits the pioneer who reads it =====
+T24="$(mktemp -d)"
+gate24(){ printf '{"stop_hook_active":false,"last_assistant_message":"done."}' | CLAUDE_PROJECT_DIR="$FX" bash "$H/stop-gate.sh"; }
+
+# T-1 (G-1): a deferred card is counted by no reader; a pending one by all three
+mk; printf 'precedents: []\nscenarios:\n  - card_id: S-1\n    pioneer_ranking: deferred\n    deferred_on: 2026-09-22\n    rationale: |\n      none yet: the pioneer set it aside\n  - card_id: S-2\n    pioneer_ranking: pending\n' > "$K/meta-casebook/CASEBOOK.yaml"
+r1=$(ss); g1=$(gate24); w1=$(bash "$CK/waiting-on-you.sh" "$K")
+sed -i 's/pioneer_ranking: pending/pioneer_ranking: deferred/' "$K/meta-casebook/CASEBOOK.yaml"
+r2=$(ss); g2=$(gate24); w2=$(bash "$CK/waiting-on-you.sh" "$K")
+case "$r1" in *"Pioneer-owned"*) a1=y;; *) a1=n;; esac; case "$g1" in *"Pioneer-owned items are waiting"*) b1=y;; *) b1=n;; esac; case "$w1" in *"a review of what would change the standard is waiting"*) c1=y;; *) c1=n;; esac
+case "$r2" in *"Pioneer-owned"*) a2=y;; *) a2=n;; esac; case "$g2" in *"Pioneer-owned items are waiting"*) b2=y;; *) b2=n;; esac; case "$w2" in *"waiting on the pioneer: nothing"*) c2=y;; *) c2=n;; esac
+[ "$a1$b1$c1" = yyy ] && [ "$a2$b2$c2" = nny ] \
+  && ok "216 one pending card beside a deferred one: session-start, the gate and the waiting list all say one item waits; both deferred: all three say nothing does" \
+  || bad "216 a deferred card is counted by no reader" "pending: start=$a1 gate=$b1 list=$c1 · deferred: start=$a2 gate=$b2 list=$c2"
+
+# T-2 (G-2): the index lists live candidates by target, with line numbers that open the ledger at the candidate
+mk
+cand24(){ printf '  - cand_id: K-%s\n    created: 2026-09-1%s\n    statement: |\n      %s\n    level: pattern\n    tier: undecided\n    target: %s\n    stage: %s\n    contradicts: []\n    review_due: false\n    stated_confidence: 0.7\n    decision: null\n' "$1" "$2" "$3" "$4" "$5"; }
+{ printf 'observations: []\n\ncandidates:\n'
+  cand24 001 1 "an observation is a pointer, not a record" meta-ledger assess
+  cand24 002 2 "a test drawn from the land can fail in the useful way" meta-contract-before-execution trial
+  cand24 003 3 "the ledger should be loaded whole" meta-ledger declined
+  cand24 004 4 "a map entry names its sibling or it misroutes" meta-map adopt
+  cand24 005 5 "every guardrail needs two tests" meta-contract-before-execution faded
+  cand24 006 6 "candidates by target answer whether a claim exists" meta-ledger assess
+  printf '\nbatches: []\n'; } > "$K/meta-ledger/LEDGER.yaml"
+ix=$(bash "$CK/records-index.sh" "$K" candidates)
+order=$(printf '%s\n' "$ix" | sed -n '2,$p' | awk -F' [|] ' '{print $2}' | tr '\n' ' ')
+lnok=y; while IFS= read -r row; do ln=${row%% *}; id=$(printf '%s' "$row" | awk -F' [|] ' '{print $2}'); sed -n "${ln}p" "$K/meta-ledger/LEDGER.yaml" | grep -q "cand_id: $id" || lnok=n; done < <(printf '%s\n' "$ix" | sed -n '2,$p')
+sections=$(bash "$CK/records-index.sh" "$K" all | grep -c -E '^(observations to consolidate|corrections to clerk|candidates held):')
+case "$ix" in "candidates held: 4"*) hd=y;; *) hd=n;; esac
+[ "$hd" = y ] && [ "$order" = "K-002 K-001 K-006 K-004 " ] && [ "$lnok" = y ] && [ "$sections" = 3 ] \
+  && ok "217 six candidates, two of them declined or faded: four lines grouped by target, each line number opening the ledger at that candidate; all prints three sections" \
+  || bad "217 the candidate index" "header=$hd order=[$order] lines=$lnok sections=$sections"
+
+# T-3 (G-3): one form per kind, the three lines on each, the two questions on the candidate form only
+LS="$SRC/meta-ledger/SKILL.md"
+forms=$(awk '/^\*\*One form per kind\*\*/{f=1} /^The proposed disposition sits/{f=0} f' "$LS")
+form24(){ printf '%s\n' "$forms" | awk -v k="$1" '$0 ~ ("^\\*\\*Kind:\\*\\* " k){f=1} f&&/^```$/{exit} f'; }
+fok=y; why=0
+for kind in candidate "scenario card" "map proposal" precedent "drift resolution"; do
+  b=$(form24 "$kind"); [ -n "$b" ] || fok=n
+  printf '%s\n' "$b" | grep -q '^\*\*Why you are seeing this:\*\*' || fok=n
+  printf '%s\n' "$b" | grep -q '^\*\*What is asked:\*\*' || fok=n
+done
+dec24(){ b=$(form24 "$1" | grep '^\*\*What is asked:\*\*'); for w in $2; do printf '%s\n' "$b" | grep -q -- "$w" || fok=n; done; }
+dec24 candidate "trial: adopt: caution: decline: hold: revise: update: retire: add:"
+dec24 "scenario card" "ranking defer: decline:"
+dec24 "map proposal" "ratify: decline: revise:"
+dec24 precedent "overrule: keep: reconcile:"
+dec24 "drift resolution" "resolve: keep-watching:"
+v=$(printf '%s\n' "$forms" | grep -c '^Verdict before evidence:'); ag=$(printf '%s\n' "$forms" | grep -c '^Against:')
+vc=$(form24 candidate | grep -c '^Verdict before evidence:')
+grep -q 'for candidates only' "$SRC/meta-skill-builder/SKILL.md" && sb=y || sb=n
+grep -q 'Only a candidate carries `Verdict before evidence:`' "$SRC/agents/kit-batch-assembler.md" && as=y || as=n
+grep -q 'a ranking · defer · decline' "$LS" && grep -q '`defer` · `decline`' "$SRC/meta-skill-builder/SKILL.md" && df=y || df=n
+[ "$fok" = y ] && [ "$v" = 1 ] && [ "$ag" = 1 ] && [ "$vc" = 1 ] && [ "$sb$as$df" = yyy ] \
+  && ok "218 every kind in the table has a form with its three lines and the table's decisions; the two opening questions stand in the candidate form only, and the skill-builder and the assembler both say candidates only; cards can be deferred in both tables" \
+  || bad "218 one form per kind" "forms=$fok verdict=$v against=$ag in-candidate=$vc skill-builder=$sb assembler=$as defer=$df"
+
+# T-6 (G-4): the three texts, and a colon inside a block scalar that the readers still read past
+grep -q 'An override is not an error' "$SRC/meta-correction-log/SKILL.md" && ov=y || ov=n
+grep -q 'A changed mind' "$SRC/agents/kit-case-clerk.md" && grep -q 'overrule a precedent on your own judgement' "$SRC/agents/kit-case-clerk.md" && cm=y || cm=n
+rt=y; for ph in 'the cards are the casebook'"'"'s best instrument and are never rationed' 'candidates with `review_due: true` (at most 8)' '- overrule, merge away or delete a precedent'; do grep -q -F -- "$ph" "$CK/retired-phrases.txt" || rt=n; done
+mk; { printf 'observations: []\n\ncandidates:\n'; cand24 001 1 "a claim" meta-ledger adopt; } > "$K/meta-ledger/LEDGER.yaml"
+sed -i 's/^    decision: null$/    decision:\n      batch: B-001\n      decision: adopt\n      reason: |\n        pioneer ruling: only rule on items with high certainty\n      date: 2026-09-22/' "$K/meta-ledger/LEDGER.yaml"
+printf 'precedents: []\nscenarios:\n  - card_id: S-1\n    pioneer_ranking: [B, A]\n    rationale: |\n      the reason: B holds the line\n  - card_id: S-2\n    pioneer_ranking: pending\n' > "$K/meta-casebook/CASEBOOK.yaml"
+ix=$(bash "$CK/records-index.sh" "$K" candidates); w=$(bash "$CK/waiting-on-you.sh" "$K")
+case "$ix" in "candidates held: 1"*"K-001 | meta-ledger | adopt"*) cs=y;; *) cs=n;; esac; case "$w" in *"waiting on the pioneer: 1"*) cw=y;; *) cw=n;; esac
+[ "$ov$cm$rt$cs$cw" = yyyyy ] \
+  && ok "219 the override sentence stands, the clerk carries a changed mind, three wordings are retired; a colon inside a block-scalar reason and rationale leaves the candidate indexed and the pending card counted" \
+  || bad "219 the three texts" "override=$ov clerk=$cm retired=$rt index=$cs waiting=$cw"
+
+# T-8 (G-6): the batch check holds a file to one sitting
+pre24='# Review batch B-001 — 2026-09-23\n\nHow to read these items. A review batch is the kit asking you to decide what enters the standard. A candidate is a learning that may belong in the standard; a scenario card is a hard case with options to rank. Each item says why it is in front of you and what is asked. Nothing is asked of you about the figures.\n\n'
+ci24(){ printf '## I-%s\n**Kind:** candidate — a learning that may belong in the standard\n**Statement:** a claim, as recorded\nVerdict before evidence:\nAgainst:\n**Proposed:** trial — pattern · target: meta-ledger\n**Evidence:** seen once by the same reading\n**Why you are seeing this:** confirmed once from a different reading\n**What is asked:** one of — trial · adopt · caution · decline · hold · revise\nDecision:\nReason:\n\n' "$1"; }
+sc24(){ printf '## I-%s\n**Kind:** scenario card — a hard case with options to rank\n**The situation:** a handler can fail in three places\n**The options as they stood:**\n- **A.** catch at each call site\n- **B.** one boundary handler\n%s**Why you are seeing this:** the clerk drafted it from a correction\n**What is asked:** one of — a ranking · defer · decline\nDecision:\nReason:\n\n' "$1" "$2"; }
+{ printf "$pre24"; ci24 1; sc24 2 ""; ci24 3; sc24 4 ""; ci24 5; sc24 6 ""; } > "$T24/good.md"
+{ printf "$pre24"; for i in $(seq 1 20); do ci24 $i | sed "s/^\*\*Evidence:\*\* .*/&, $(printf 'and again %.0s' $(seq 1 60))/"; done; } > "$T24/big.md"
+{ printf "$pre24"; ci24 1; sc24 2 'Verdict before evidence:\nAgainst:\n'; ci24 3 | grep -v '^\*\*Why you are seeing this'; } > "$T24/badform.md"
+o1=$(bash "$CK/G7-batch.sh" "$T24/good.md"); r1=$?; o2=$(bash "$CK/G7-batch.sh" "$T24/big.md"); r2=$?; o3=$(bash "$CK/G7-batch.sh" "$T24/badform.md"); r3=$?
+wb=$(wc -w < "$T24/big.md" | tr -d ' ')
+case "$o1" in *"6 item(s)"*) p1=y;; *) p1=n;; esac
+case "$o2" in *"20 items"*"at most 6"*) p2=y;; *) p2=n;; esac; case "$o2" in *"$wb words"*) p2w=y;; *) p2w=n;; esac
+case "$o3" in *"item I-2"*"not a candidate"*) p3=y;; *) p3=n;; esac; case "$o3" in *"item I-3"*"Why you are seeing this"*) p3w=y;; *) p3w=n;; esac
+[ "$r1" = 0 ] && [ "$r2" = 1 ] && [ "$r3" = 1 ] && [ "$p1$p2$p2w$p3$p3w" = yyyyy ] && [ "$wb" -gt 2000 ] \
+  && ok "220 a six-item file under the bound holds; a twenty-item file of $wb words is refused naming both counts; a card asked the two questions and an item without its why line are each named" \
+  || bad "220 the batch check" "good=$r1/$p1 big=$r2/$p2/$p2w($wb) badform=$r3/$p3/$p3w"
+
+# the rows the check needs to be found by
+grep -q 'checks/G7-batch.sh' "$SRC/meta-mechanisms/SKILL.md" && grep -q 'checks/G7-batch.sh' "$SRC/README.md" && grep -q 'G7-batch' "$CK/refusal-nextsteps.txt" \
+  && ok "221 the batch check has its inventory row, its README row and its refusals registered" || bad "221 the batch check's rows" "-"
+rm -rf "$T24"
 echo; echo "contract-007 walk: $pass passed, $fail failed"; rm -rf "$FX"
 [ "$fail" = 0 ]
